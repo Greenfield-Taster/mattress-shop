@@ -1,0 +1,341 @@
+// ===================================
+// AUTH PAGES STYLES (Login/Register)
+// ===================================
+
+@use "../variables" as *;
+@use "sass:color";
+
+.auth {
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  display: flex;
+  align-items: center;
+  padding: $spacing-3xl 0;
+  background: linear-gradient(135deg, $color-primary-lightest 0%, $color-primary-light 50%, $color-primary 100%);
+  
+  &__container {
+    @include container;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+  }
+  
+  &__card {
+    background: $color-neutral-lightest;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow-xl;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    
+    @media (min-width: $breakpoint-md) {
+      max-width: 800px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  &__banner {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+    padding: $spacing-3xl $spacing-2xl;
+    color: $color-text-light;
+    text-align: center;
+    display: none;
+    
+    @media (min-width: $breakpoint-md) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    &-title {
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      margin-bottom: $spacing-base;
+    }
+    
+    &-subtitle {
+      opacity: 0.9;
+      line-height: $line-height-relaxed;
+      margin-bottom: $spacing-xl;
+    }
+    
+    &-features {
+      list-style: none;
+      text-align: left;
+      
+      li {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        margin-bottom: $spacing-base;
+        opacity: 0.9;
+        
+        &::before {
+          content: '✓';
+          background: $color-accent-mint;
+          color: $color-text-primary;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-bold;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+  
+  &__form {
+    padding: $spacing-3xl $spacing-2xl;
+    
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-4xl $spacing-2xl;
+    }
+    
+    &-header {
+      text-align: center;
+      margin-bottom: $spacing-2xl;
+      
+      h1 {
+        font-size: $font-size-2xl;
+        font-weight: $font-weight-bold;
+        color: $color-text-primary;
+        margin-bottom: $spacing-sm;
+        
+        @media (min-width: $breakpoint-md) {
+          font-size: $font-size-3xl;
+        }
+      }
+      
+      p {
+        color: $color-text-secondary;
+        margin-bottom: 0;
+      }
+    }
+    
+    .form-group {
+      margin-bottom: $spacing-lg;
+    }
+    
+    &-actions {
+      margin-top: $spacing-xl;
+      
+      .btn {
+        width: 100%;
+        margin-bottom: $spacing-base;
+      }
+    }
+    
+    &-divider {
+      position: relative;
+      text-align: center;
+      margin: $spacing-xl 0;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: $color-neutral-medium;
+      }
+      
+      span {
+        background: $color-neutral-lightest;
+        padding: 0 $spacing-base;
+        color: $color-text-secondary;
+        font-size: $font-size-sm;
+      }
+    }
+    
+    &-social {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+      
+      @media (min-width: $breakpoint-sm) {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .btn-social {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        padding: $spacing-base;
+        border: 1px solid $color-neutral-medium;
+        background: $color-neutral-lightest;
+        color: $color-text-primary;
+        text-decoration: none;
+        border-radius: $border-radius-md;
+        font-weight: $font-weight-medium;
+        transition: all $transition-normal;
+        
+        &:hover {
+          border-color: $color-primary;
+          background: $color-primary-lightest;
+          text-decoration: none;
+        }
+        
+        &.google {
+          &:hover {
+            border-color: #db4437;
+            background: color.adjust(#db4437, $lightness: 45%);
+          }
+        }
+        
+        &.facebook {
+          &:hover {
+            border-color: #3b5998;
+            background: color.adjust(#3b5998, $lightness: 45%);
+          }
+        }
+      }
+    }
+    
+    &-footer {
+      text-align: center;
+      margin-top: $spacing-xl;
+      padding-top: $spacing-xl;
+      border-top: 1px solid $color-neutral-light;
+      
+      p {
+        color: $color-text-secondary;
+        margin-bottom: 0;
+        
+        a {
+          color: $color-primary-dark;
+          font-weight: $font-weight-medium;
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // Password strength indicator
+  &__password-strength {
+    margin-top: $spacing-sm;
+    
+    &-bar {
+      height: 4px;
+      background: $color-neutral-light;
+      border-radius: $border-radius-sm;
+      overflow: hidden;
+      margin-bottom: $spacing-xs;
+      
+      .strength-fill {
+        height: 100%;
+        transition: all $transition-normal;
+        border-radius: $border-radius-sm;
+        
+        &.weak {
+          width: 25%;
+          background: $color-error;
+        }
+        
+        &.fair {
+          width: 50%;
+          background: $color-warning;
+        }
+        
+        &.good {
+          width: 75%;
+          background: $color-accent-mint;
+        }
+        
+        &.strong {
+          width: 100%;
+          background: $color-success;
+        }
+      }
+    }
+    
+    &-text {
+      font-size: $font-size-xs;
+      
+      &.weak { color: $color-error; }
+      &.fair { color: $color-warning; }
+      &.good { color: $color-accent-mint; }
+      &.strong { color: $color-success; }
+    }
+  }
+  
+  // Remember me checkbox
+  &__remember {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: $spacing-lg 0;
+    
+    .form-checkbox {
+      margin: 0;
+    }
+    
+    .forgot-password {
+      color: $color-primary-dark;
+      font-size: $font-size-sm;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  // Error message
+  &__error {
+    background: color.adjust($color-error, $lightness: 40%);
+    color: $color-error;
+    padding: $spacing-base;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-sm;
+    border: 1px solid color.adjust($color-error, $lightness: 20%);
+  }
+  
+  // Success message
+  &__success {
+    background: color.adjust($color-success, $lightness: 40%);
+    color: $color-success;
+    padding: $spacing-base;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-sm;
+    border: 1px solid color.adjust($color-success, $lightness: 20%);
+  }
+}
+
+// Forgot password specific styles
+.forgot-password {
+  .auth__form-header {
+    margin-bottom: $spacing-xl;
+    
+    p {
+      margin-top: $spacing-base;
+    }
+  }
+  
+  .back-to-login {
+    text-align: center;
+    margin-top: $spacing-lg;
+    
+    a {
+      color: $color-primary-dark;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,0 +1,235 @@
+// Primary Color Palette (Pastel Blue Theme)
+$color-primary-lightest: #eaeff8; // Свіжий Перспективний Синій
+$color-primary-lighter: #e1e8fa; // Селаго
+$color-primary-light: #d5e1fb; // Георгіївська хмара (світла)
+$color-primary: #c7d7fd; // Георгіївська хмара (основна)
+$color-primary-medium: #bed1fb; // Шахтар
+$color-primary-dark: #b2c9ff; // Небесно-Бузковий
+$color-primary-darker: #a4bdfa; // Малібу
+
+// Accent & Contrast Colors
+$color-accent-coral: #ff6b6b; // Коралово-червоний (кнопки, акції)
+$color-accent-mint: #4ecdc4; // М'ятний (м'які акценти)
+
+// Text Colors
+$color-text-primary: #2c3e50; // Основний текст (темно-сірий з синім)
+$color-text-secondary: #5a6c7d; // Вторинний текст (сірий)
+$color-text-light: #ffffff; // Білий текст (на темних фонах)
+
+// Status & Message Colors
+$color-success: #27ae60; // Успіх, в наявності
+$color-warning: #f39c12; // Попередження, обмежена кількість
+$color-error: #e74c3c; // Помилка, немає в наявності
+
+// Neutral Colors
+$color-neutral-lightest: #ffffff; // Білий (основний фон)
+$color-neutral-light: #f8f9fa; // Світло-сірий (фон секцій)
+$color-neutral-medium: #e9ecef; // Сірий (рамки)
+$color-neutral-dark: #6c757d; // Темно-сірий
+
+// ===================================
+// TYPOGRAPHY
+// ===================================
+
+// Font Families
+$font-family-primary: "Inter", "Segoe UI", "Roboto", sans-serif;
+$font-family-secondary: "Poppins", "Segoe UI", sans-serif;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Font Sizes
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+$font-size-2xl: 1.5rem; // 24px
+$font-size-3xl: 1.875rem; // 30px
+$font-size-4xl: 2.25rem; // 36px
+$font-size-5xl: 3rem; // 48px
+
+// Line Heights
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+// ===================================
+// SPACING & SIZES
+// ===================================
+
+// Spacing Scale (rem-based)
+$spacing-xs: 0.25rem; // 4px
+$spacing-sm: 0.5rem; // 8px
+$spacing-md: 0.75rem; // 12px
+$spacing-base: 1rem; // 16px
+$spacing-lg: 1.5rem; // 24px
+$spacing-xl: 2rem; // 32px
+$spacing-2xl: 2.5rem; // 40px
+$spacing-3xl: 3rem; // 48px
+$spacing-4xl: 4rem; // 64px
+$spacing-5xl: 5rem; // 80px
+$spacing-6xl: 6rem; // 96px
+
+// Container Sizes
+$container-sm: 640px;
+$container-md: 768px;
+$container-lg: 1024px;
+$container-xl: 1280px;
+$container-2xl: 1536px;
+
+// ===================================
+// LAYOUT & GRID
+// ===================================
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Grid
+$grid-columns: 12;
+$grid-gutter: $spacing-lg;
+
+// Header & Footer
+$header-height: 80px;
+$footer-height: 200px;
+
+// ===================================
+// BORDER & RADIUS
+// ===================================
+
+// Border Radius
+$border-radius-sm: 0.25rem; // 4px
+$border-radius-md: 0.5rem; // 8px
+$border-radius-lg: 0.75rem; // 12px
+$border-radius-xl: 1rem; // 16px
+$border-radius-2xl: 1.5rem; // 24px
+$border-radius-full: 9999px; // Повністю заокруглений
+
+// Border Widths
+$border-width-thin: 1px;
+$border-width-medium: 2px;
+$border-width-thick: 4px;
+
+// ===================================
+// SHADOWS & EFFECTS
+// ===================================
+
+// Box Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Transitions
+$transition-fast: 0.15s ease-in-out;
+$transition-normal: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out;
+
+// ===================================
+// Z-INDEX SCALE
+// ===================================
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// ===================================
+// COMPONENT SPECIFIC
+// ===================================
+
+// Buttons
+$button-height-sm: 32px;
+$button-height-md: 40px;
+$button-height-lg: 48px;
+$button-padding-x: $spacing-lg;
+$button-padding-y: $spacing-md;
+
+// Form Elements
+$input-height: 44px;
+$input-padding-x: $spacing-base;
+$input-border-color: $color-neutral-medium;
+$input-focus-color: $color-primary;
+
+// Cards
+$card-padding: $spacing-xl;
+$card-border-radius: $border-radius-lg;
+$card-shadow: $shadow-md;
+
+// ===================================
+// MIXINS (for common patterns)
+// ===================================
+
+// Центрування flex
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Центрування flex з напрямком
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+// Responsive container
+@mixin container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-base;
+
+  @media (min-width: $breakpoint-sm) {
+    max-width: $container-sm;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    max-width: $container-md;
+    padding: 0 $spacing-lg;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    max-width: $container-lg;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    max-width: $container-xl;
+  }
+
+  @media (min-width: $breakpoint-2xl) {
+    max-width: $container-2xl;
+  }
+}
+
+// Button base styles
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: $border-radius-md;
+  font-family: $font-family-primary;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
