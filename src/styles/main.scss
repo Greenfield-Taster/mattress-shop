@@ -9,11 +9,14 @@
 @use "./components/button";
 @use "./components/card";
 @use "./components/input";
+@use "./components/modal";
+@use "./components/forms";
 @use "./pages/home";
 @use "./pages/catalog";
 @use "./pages/product";
 @use "./pages/cart";
 @use "./pages/auth";
+@use "./pages/about";
 
 // ===================================
 // GLOBAL RESET & BASE STYLES

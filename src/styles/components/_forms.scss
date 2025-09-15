@@ -1,0 +1,181 @@
+// ===================================
+// AUTH FORMS STYLES
+// ===================================
+
+@use "../variables" as *;
+
+.auth-form {
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: $spacing-lg;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-base;
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-label {
+  display: block;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.form-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  height: $input-height;
+  padding: 0 $spacing-base 0 $spacing-4xl;
+  border: 2px solid $color-neutral-medium;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-family: $font-family-primary;
+  transition: all $transition-normal;
+  background-color: $color-neutral-lightest;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba(199, 215, 253, 0.1);
+  }
+  
+  &.form-input-error {
+    border-color: $color-error;
+    
+    &:focus {
+      border-color: $color-error;
+      box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+    }
+  }
+  
+  &::placeholder {
+    color: $color-text-secondary;
+  }
+}
+
+.form-input-icon {
+  position: absolute;
+  left: $spacing-base;
+  color: $color-text-secondary;
+  z-index: 1;
+}
+
+.form-input-toggle {
+  position: absolute;
+  right: $spacing-base;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-text-secondary;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: color $transition-normal;
+  
+  &:hover {
+    color: $color-text-primary;
+  }
+}
+
+.form-error {
+  display: block;
+  color: $color-error;
+  font-size: $font-size-sm;
+  margin-top: $spacing-xs;
+  font-weight: $font-weight-medium;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    
+    &:checked + .form-checkbox-checkmark {
+      background-color: $color-primary;
+      border-color: $color-primary;
+      
+      &::after {
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+      }
+    }
+  }
+}
+
+.form-checkbox-checkmark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 2px solid $color-neutral-medium;
+  border-radius: $border-radius-sm;
+  background-color: $color-neutral-lightest;
+  transition: all $transition-normal;
+  flex-shrink: 0;
+  margin-top: 2px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    opacity: 0;
+    transform: rotate(45deg) scale(0.5);
+    transition: all $transition-normal;
+  }
+}
+
+.auth-form-footer {
+  margin-top: $spacing-xl;
+  text-align: center;
+  
+  .auth-link {
+    color: $color-primary-dark;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: color $transition-normal;
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    
+    &:hover {
+      color: $color-primary-darker;
+      text-decoration: underline;
+    }
+  }
+  
+  .auth-switch {
+    margin-top: $spacing-base;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}

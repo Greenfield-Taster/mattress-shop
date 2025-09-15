@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { Grid, List, Heart, Scale, ShoppingCart, Search } from 'lucide-react';
 
 const Catalog = () => {
   const { size } = useParams();
@@ -167,13 +168,13 @@ const Catalog = () => {
                 className={viewMode === 'grid' ? 'active' : ''}
                 onClick={() => setViewMode('grid')}
               >
-                ⊞
+                <Grid size={16} />
               </button>
               <button 
                 className={viewMode === 'list' ? 'active' : ''}
                 onClick={() => setViewMode('list')}
               >
-                ☰
+                <List size={16} />
               </button>
             </div>
           </div>
@@ -184,7 +185,7 @@ const Catalog = () => {
           <div className={`catalog__grid ${viewMode}-view`}>
             {filteredProducts.map((product) => (
               <div key={product.id} className="product-card">
-                <div className="card__image-container">
+                <Link to={`/product/${product.id}`} className="card__image-container">
                   <img 
                     src={product.image} 
                     alt={product.name}
@@ -197,13 +198,13 @@ const Catalog = () => {
                   )}
                   <div className="product-card__actions">
                     <button className="product-card__action-btn" title="В закладки">
-                      ♡
+                      <Heart size={16} />
                     </button>
                     <button className="product-card__action-btn" title="Порівняти">
-                      ⚖
+                      <Scale size={16} />
                     </button>
                   </div>
-                </div>
+                </Link>
                 <div className="card__content">
                   <div className="product-card__rating">
                     <div className="product-card__rating-stars">
@@ -232,7 +233,14 @@ const Catalog = () => {
                       className={`btn btn-primary ${!product.inStock ? 'btn-disabled' : ''}`}
                       disabled={!product.inStock}
                     >
-                      {product.inStock ? 'Купити' : 'Немає в наявності'}
+                      {product.inStock ? (
+                        <>
+                          <ShoppingCart size={16} />
+                          Купити
+                        </>
+                      ) : (
+                        'Немає в наявності'
+                      )}
                     </button>
                   </div>
                 </div>
@@ -241,7 +249,9 @@ const Catalog = () => {
           </div>
         ) : (
           <div className="catalog__empty">
-            <div className="catalog__empty-icon">🔍</div>
+            <div className="catalog__empty-icon">
+              <Search size={64} style={{ color: '#c7d7fd' }} />
+            </div>
             <h3 className="catalog__empty-title">Товари не знайдені</h3>
             <p className="catalog__empty-description">
               Спробуйте змінити параметри фільтрації або перегляньте інші категорії

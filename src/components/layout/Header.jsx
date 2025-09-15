@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { ShoppingCart, Menu, X, User, UserPlus } from 'lucide-react';
+import Modal from '../ui/Modal';
+import LoginForm from '../ui/LoginForm';
+import RegisterForm from '../ui/RegisterForm';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartCount] = useState(0); // TODO: connect to cart state
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const location = useLocation();
 
   const isActiveLink = (path) => {
@@ -12,6 +18,16 @@ const Header = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleSwitchToRegister = () => {
+    setIsLoginModalOpen(false);
+    setIsRegisterModalOpen(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setIsRegisterModalOpen(false);
+    setIsLoginModalOpen(true);
   };
 
   return (
@@ -54,7 +70,7 @@ const Header = () => {
         <div className="header__actions">
           {/* Cart */}
           <Link to="/cart" className="header__cart">
-            <span>🛒</span>
+            <ShoppingCart size={20} />
             {cartCount > 0 && (
               <span className="header__cart__badge">{cartCount}</span>
             )}
@@ -62,12 +78,20 @@ const Header = () => {
 
           {/* Auth links - desktop only */}
           <div className="header__auth hidden-mobile">
-            <Link to="/login" className="btn btn-ghost btn-sm">
+            <button 
+              onClick={() => setIsLoginModalOpen(true)}
+              className="btn btn-ghost btn-sm"
+            >
+              <User size={16} />
               Вхід
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-sm">
+            </button>
+            <button 
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="btn btn-primary btn-sm"
+            >
+              <UserPlus size={16} />
               Реєстрація
-            </Link>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -76,7 +100,7 @@ const Header = () => {
             onClick={toggleMobileMenu}
             aria-label="Відкрити меню"
           >
-            <span>{isMobileMenuOpen ? '✕' : '☰'}</span>
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
@@ -112,24 +136,51 @@ const Header = () => {
               Контакти
             </Link>
             <div style={{ borderTop: '1px solid #e5e5e5', paddingTop: '1rem', marginTop: '1rem' }}>
-              <Link 
-                to="/login" 
+              <button 
                 className="header__nav-link"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsLoginModalOpen(true);
+                }}
               >
                 Вхід
-              </Link>
-              <Link 
-                to="/register" 
+              </button>
+              <button 
                 className="header__nav-link"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsRegisterModalOpen(true);
+                }}
               >
                 Реєстрація
-              </Link>
+              </button>
             </div>
           </nav>
         </div>
       </div>
+
+      {/* Auth Modals */}
+      <Modal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)}
+        title="Вхід в акаунт"
+      >
+        <LoginForm 
+          onClose={() => setIsLoginModalOpen(false)}
+          onSwitchToRegister={handleSwitchToRegister}
+        />
+      </Modal>
+
+      <Modal 
+        isOpen={isRegisterModalOpen} 
+        onClose={() => setIsRegisterModalOpen(false)}
+        title="Реєстрація"
+      >
+        <RegisterForm 
+          onClose={() => setIsRegisterModalOpen(false)}
+          onSwitchToLogin={handleSwitchToLogin}
+        />
+      </Modal>
     </header>
   );
 };

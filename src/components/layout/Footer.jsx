@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Send, Phone, MapPin, Mail, Clock } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,10 +19,18 @@ const Footer = () => {
               Якість, комфорт та доступні ціни.
             </p>
             <div className="footer__brand-social">
-              <a href="#" aria-label="Facebook">📘</a>
-              <a href="#" aria-label="Instagram">📷</a>
-              <a href="#" aria-label="Telegram">✈️</a>
-              <a href="#" aria-label="Viber">📞</a>
+              <a href="#" aria-label="Facebook">
+                <Facebook size={20} />
+              </a>
+              <a href="#" aria-label="Instagram">
+                <Instagram size={20} />
+              </a>
+              <a href="#" aria-label="Telegram">
+                <Send size={20} />
+              </a>
+              <a href="#" aria-label="Viber">
+                <Phone size={20} />
+              </a>
             </div>
           </div>
 
@@ -54,16 +63,16 @@ const Footer = () => {
             <h3 className="footer__section-title">Контакти</h3>
             <ul className="footer__section-links">
               <li>
-                <span style={{ color: '#FFFFFF' }}>📍</span> Київ, Україна
+                <MapPin size={16} style={{ color: '#FFFFFF' }} /> Київ, Україна
               </li>
               <li>
-                <span style={{ color: '#FFFFFF' }}>📞</span> +380 (xx) xxx-xx-xx
+                <Phone size={16} style={{ color: '#FFFFFF' }} /> +380 (xx) xxx-xx-xx
               </li>
               <li>
-                <span style={{ color: '#FFFFFF' }}>✉️</span> info@matressshop.ua
+                <Mail size={16} style={{ color: '#FFFFFF' }} /> info@matressshop.ua
               </li>
               <li>
-                <span style={{ color: '#FFFFFF' }}>🕐</span> Пн-Пт: 9:00 - 18:00
+                <Clock size={16} style={{ color: '#FFFFFF' }} /> Пн-Пт: 9:00 - 18:00
               </li>
             </ul>
           </div>

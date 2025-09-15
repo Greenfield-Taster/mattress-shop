@@ -73,6 +73,25 @@
     }
   }
   
+  button.header__nav-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    transition: color $transition-normal;
+    position: relative;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    
+    &:hover {
+      color: $color-primary-dark;
+      text-decoration: none;
+    }
+  }
+  
   &__actions {
     display: flex;
     align-items: center;

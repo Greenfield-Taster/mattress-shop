@@ -3,6 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
+import About from "./pages/About";
+import Contacts from "./pages/Contacts";
+import NotFound from "./pages/NotFound";
 
 import "./styles/main.scss";
 
@@ -11,38 +16,31 @@ function App() {
     <Router basename="/mattress-shop">
       <Layout>
         <Routes>
-          {/* Home page */}
           <Route path="/" element={<Home />} />
 
-          {/* Catalog routes */}
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/:size" element={<Catalog />} />
 
-          {/* Product page */}
           <Route
             path="/product/:id"
-            element={<div>Product Page - Coming Soon</div>}
+            element={<Product />}
           />
 
-          {/* Cart */}
-          <Route path="/cart" element={<div>Cart Page - Coming Soon</div>} />
+          <Route path="/cart" element={<Cart />} />
 
-          {/* Auth */}
           <Route path="/login" element={<div>Login Page - Coming Soon</div>} />
           <Route
             path="/register"
             element={<div>Register Page - Coming Soon</div>}
           />
 
-          {/* Other pages */}
-          <Route path="/about" element={<div>About Page - Coming Soon</div>} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/contacts"
-            element={<div>Contacts Page - Coming Soon</div>}
+            element={<Contacts />}
           />
 
-          {/* 404 */}
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </Router>

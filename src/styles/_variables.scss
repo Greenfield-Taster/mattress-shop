@@ -32,8 +32,8 @@ $color-neutral-dark: #6c757d; // Темно-сірий
 // ===================================
 
 // Font Families
-$font-family-primary: "Inter", "Segoe UI", "Roboto", sans-serif;
-$font-family-secondary: "Poppins", "Segoe UI", sans-serif;
+$font-family-primary: "Outfit", "Inter", "Segoe UI", "Roboto", sans-serif;
+$font-family-secondary: "Outfit", "Poppins", "Segoe UI", sans-serif;
 
 // Font Weights
 $font-weight-light: 300;
@@ -220,6 +220,7 @@ $card-shadow: $shadow-md;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: $spacing-sm;
   border: none;
   border-radius: $border-radius-md;
   font-family: $font-family-primary;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Bed, Home as HomeIcon, Building2, Star, Shield, Truck, MessageCircle } from 'lucide-react';
 
 const Home = () => {
   const mattressSizes = [
@@ -8,7 +9,7 @@ const Home = () => {
       title: 'Односпальні',
       description: 'Ідеально підходять для дітей та підлітків',
       dimensions: '80x190 см, 90x200 см',
-      icon: '🛏️',
+      icon: Bed,
       link: '/catalog/single'
     },
     {
@@ -16,7 +17,7 @@ const Home = () => {
       title: 'Полуторні',
       description: 'Комфорт для однієї людини з додатковим простором',
       dimensions: '120x200 см, 140x200 см',
-      icon: '🛌',
+      icon: HomeIcon,
       link: '/catalog/double'
     },
     {
@@ -24,7 +25,7 @@ const Home = () => {
       title: 'Двоспальні',
       description: 'Простір та комфорт для двох',
       dimensions: '160x200 см, 180x200 см',
-      icon: '🏨',
+      icon: Building2,
       link: '/catalog/king'
     }
   ];
@@ -34,25 +35,25 @@ const Home = () => {
       id: 1,
       title: 'Якість',
       description: 'Тільки перевірені виробники',
-      icon: '⭐'
+      icon: Star
     },
     {
       id: 2,
       title: 'Гарантія',
       description: 'До 10 років гарантії',
-      icon: '🛡️'
+      icon: Shield
     },
     {
       id: 3,
       title: 'Доставка',
       description: 'Безкоштовна доставка по Києву',
-      icon: '🚚'
+      icon: Truck
     },
     {
       id: 4,
       title: 'Консультація',
       description: 'Допоможемо обрати ідеальний матрас',
-      icon: '💬'
+      icon: MessageCircle
     }
   ];
 
@@ -85,7 +86,7 @@ const Home = () => {
                 className="home__size-card"
               >
                 <div className="home__size-card__icon">
-                  {size.icon}
+                  <size.icon size={32} />
                 </div>
                 <h3 className="home__size-card__title">
                   {size.title}
@@ -112,7 +113,7 @@ const Home = () => {
             {features.map((feature) => (
               <div key={feature.id} className="home__feature">
                 <div className="home__feature__icon">
-                  {feature.icon}
+                  <feature.icon size={24} />
                 </div>
                 <h3 className="home__feature__title">
                   {feature.title}
