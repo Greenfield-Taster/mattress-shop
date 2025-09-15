@@ -1,99 +1,147 @@
-// ===================================
-// PRODUCT PAGE STYLES
-// ===================================
-
 @use "../variables" as *;
 
 .product {
-  padding: $spacing-xl 0;
-  
+  padding: $spacing-base 0;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-xl 0;
+  }
+
   &__breadcrumbs {
-    margin-bottom: $spacing-base;
-    font-size: $font-size-sm;
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-xs;
     color: $color-text-secondary;
-    
+
+    @media (min-width: $breakpoint-md) {
+      margin-bottom: $spacing-base;
+      font-size: $font-size-sm;
+    }
+
     a {
       color: $color-text-secondary;
-      
+
       &:hover {
         color: $color-primary-dark;
       }
     }
-    
+
     span {
       margin: 0 $spacing-sm;
     }
   }
-  
+
   &__back-btn {
     @include button-base;
     background: none;
     color: $color-text-secondary;
-    padding: $spacing-sm $spacing-base;
-    margin-bottom: $spacing-xl;
-    
+    padding: $spacing-xs $spacing-sm;
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-sm $spacing-base;
+      margin-bottom: $spacing-xl;
+      font-size: $font-size-base;
+    }
+
     &:hover {
       background-color: $color-neutral-light;
       color: $color-text-primary;
     }
   }
-  
+
   &__content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $spacing-3xl;
-    margin-bottom: $spacing-5xl;
-    
+    gap: $spacing-lg;
+    margin-bottom: $spacing-3xl;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-xl;
+      margin-bottom: $spacing-4xl;
+    }
+
     @media (min-width: $breakpoint-lg) {
       grid-template-columns: 1fr 1fr;
+      gap: $spacing-3xl;
+      margin-bottom: $spacing-5xl;
     }
   }
-  
+
   // Images
   &__images {
     &-main {
       position: relative;
-      margin-bottom: $spacing-lg;
-      border-radius: $border-radius-lg;
+      margin-bottom: $spacing-base;
+      border-radius: $border-radius-md;
       overflow: hidden;
-      
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-lg;
+        border-radius: $border-radius-lg;
+      }
+
       img {
         width: 100%;
-        height: 400px;
+        height: 250px;
         object-fit: cover;
-        
+
+        @media (min-width: $breakpoint-sm) {
+          height: 300px;
+        }
+
         @media (min-width: $breakpoint-md) {
+          height: 400px;
+        }
+
+        @media (min-width: $breakpoint-lg) {
           height: 500px;
         }
       }
     }
-    
+
     &-badge {
       position: absolute;
-      top: $spacing-base;
-      left: $spacing-base;
+      top: $spacing-sm;
+      left: $spacing-sm;
       background-color: $color-accent-coral;
       color: $color-text-light;
       padding: $spacing-xs $spacing-sm;
-      border-radius: $border-radius-md;
-      font-size: $font-size-sm;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-xs;
       font-weight: $font-weight-bold;
+
+      @media (min-width: $breakpoint-md) {
+        top: $spacing-base;
+        left: $spacing-base;
+        border-radius: $border-radius-md;
+        font-size: $font-size-sm;
+      }
     }
-    
+
     &-thumbs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: $spacing-sm;
-      
+      gap: $spacing-xs;
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-sm;
+      }
+
       img {
         width: 100%;
-        height: 80px;
+        height: 60px;
         object-fit: cover;
-        border-radius: $border-radius-md;
+        border-radius: $border-radius-sm;
         cursor: pointer;
         border: 2px solid transparent;
         transition: border-color $transition-normal;
-        
+
+        @media (min-width: $breakpoint-md) {
+          height: 80px;
+          border-radius: $border-radius-md;
+        }
+
         &.active,
         &:hover {
           border-color: $color-primary;
@@ -101,411 +149,856 @@
       }
     }
   }
-  
+
   // Product Info
   &__info {
     &-header {
-      margin-bottom: $spacing-xl;
+      margin-bottom: $spacing-lg;
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-xl;
+      }
     }
-    
+
     &-title {
-      font-size: $font-size-3xl;
-      margin-bottom: $spacing-base;
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-sm;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-2xl;
+        margin-bottom: $spacing-base;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        font-size: $font-size-3xl;
+      }
     }
-    
+
     &-rating {
       display: flex;
       align-items: center;
-      gap: $spacing-base;
+      gap: $spacing-sm;
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-base;
+      }
     }
-    
+
     &-price {
-      margin-bottom: $spacing-xl;
+      margin-bottom: $spacing-lg;
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-xl;
+      }
     }
-    
+
     &-features {
       display: flex;
       flex-wrap: wrap;
-      gap: $spacing-sm;
-      margin-bottom: $spacing-xl;
+      gap: $spacing-xs;
+      margin-bottom: $spacing-lg;
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-sm;
+        margin-bottom: $spacing-xl;
+      }
     }
-    
+
     &-sizes,
     &-quantity {
-      margin-bottom: $spacing-xl;
-      
+      margin-bottom: $spacing-lg;
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-xl;
+      }
+
       h3 {
-        margin-bottom: $spacing-base;
-        font-size: $font-size-lg;
+        margin-bottom: $spacing-sm;
+        font-size: $font-size-base;
+
+        @media (min-width: $breakpoint-md) {
+          margin-bottom: $spacing-base;
+          font-size: $font-size-lg;
+        }
       }
     }
-    
+
     &-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: $spacing-base;
-      margin-bottom: $spacing-lg;
-      
-      @media (max-width: $breakpoint-sm) {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-base;
+
+      @media (min-width: $breakpoint-sm) {
+        grid-template-columns: 1fr 1fr;
+        gap: $spacing-base;
+        margin-bottom: $spacing-lg;
       }
     }
-    
+
     &-extra {
       display: flex;
-      gap: $spacing-base;
-      margin-bottom: $spacing-xl;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-lg;
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-base;
+        margin-bottom: $spacing-xl;
+      }
     }
   }
-  
+
   &__rating-stars {
     display: flex;
     align-items: center;
-    gap: $spacing-xs;
-    
+    gap: 2px;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-xs;
+    }
+
     .star-filled {
       color: $color-warning;
       fill: currentColor;
     }
-    
+
     .star-empty {
       color: $color-neutral-medium;
     }
   }
-  
+
   &__rating-value {
     font-weight: $font-weight-semibold;
-    margin-left: $spacing-sm;
+    margin-left: $spacing-xs;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      margin-left: $spacing-sm;
+      font-size: $font-size-base;
+    }
   }
-  
+
   &__rating-reviews {
     color: $color-text-secondary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xxs;
+
+    @media (min-width: $product-mobile-sm) {
+      font-size: $font-size-xs;
+    }
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-sm;
+    }
   }
-  
+
   &__price-old {
     text-decoration: line-through;
     color: $color-text-secondary;
-    margin-right: $spacing-base;
-    font-size: $font-size-lg;
+    margin-right: $spacing-sm;
+    font-size: $font-size-base;
+
+    @media (min-width: $breakpoint-md) {
+      margin-right: $spacing-base;
+      font-size: $font-size-lg;
+    }
   }
-  
+
   &__price-current {
-    font-size: $font-size-3xl;
+    font-size: $font-size-xl;
     font-weight: $font-weight-bold;
     color: $color-accent-coral;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-2xl;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: $font-size-3xl;
+    }
   }
-  
+
   &__feature-tag {
     background-color: $color-primary-light;
     color: $color-text-primary;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $border-radius-md;
-    font-size: $font-size-sm;
+    padding: 2px 4px;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-xxs;
     font-weight: $font-weight-medium;
+
+    @media (min-width: $product-mobile-sm) {
+      padding: 4px $spacing-xs;
+      font-size: $font-size-xs;
+    }
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-md;
+      font-size: $font-size-sm;
+    }
   }
-  
+
   &__sizes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: $spacing-sm;
+    display: flex;
+    gap: $spacing-xs;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: $spacing-xs;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (min-width: $breakpoint-sm) {
+      gap: $spacing-sm;
+    }
+
+    @media (min-width: $breakpoint-md) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: $spacing-sm;
+      overflow: visible;
+    }
   }
-  
+
   &__size-option {
     cursor: pointer;
-    
+    min-width: 100px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+
+    @media (min-width: $breakpoint-md) {
+      min-width: auto;
+    }
+
     input[type="radio"] {
       display: none;
     }
-    
+
     &.selected .product__size-content {
       border-color: $color-primary;
       background-color: $color-primary-lightest;
     }
   }
-  
+
   &__size-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: $spacing-base;
+    padding: $spacing-xs;
     border: 2px solid $color-neutral-medium;
-    border-radius: $border-radius-md;
+    border-radius: $border-radius-sm;
     transition: all $transition-normal;
-    
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-sm;
+      border-radius: $border-radius-md;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      padding: $spacing-base;
+    }
+
     &:hover {
       border-color: $color-primary;
     }
   }
-  
+
   &__size-name {
     font-weight: $font-weight-medium;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 0;
+    font-size: $font-size-xs;
+    text-align: center;
+
+    @media (min-width: $breakpoint-md) {
+      margin-bottom: $spacing-xs;
+      font-size: $font-size-sm;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: $font-size-base;
+    }
   }
-  
+
   &__size-price {
     font-size: $font-size-sm;
     color: $color-text-secondary;
   }
-  
+
   &__quantity-controls {
     display: flex;
     align-items: center;
-    gap: $spacing-base;
+    justify-content: center;
+    gap: $spacing-sm;
+
+    @media (min-width: $breakpoint-md) {
+      justify-content: flex-start;
+      gap: $spacing-base;
+    }
   }
-  
+
   &__quantity-btn {
     @include button-base;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border: 1px solid $color-neutral-medium;
     background-color: $color-neutral-lightest;
-    
+
+    @media (min-width: $breakpoint-md) {
+      width: 40px;
+      height: 40px;
+    }
+
     &:hover:not(:disabled) {
       background-color: $color-primary-light;
       border-color: $color-primary;
     }
-    
+
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
   }
-  
+
   &__quantity-value {
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     font-weight: $font-weight-semibold;
-    min-width: 40px;
+    min-width: 36px;
     text-align: center;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-lg;
+      min-width: 40px;
+    }
   }
-  
+
   &__extra-btn {
     @include button-base;
     background: none;
     border: 1px solid $color-neutral-medium;
     color: $color-text-secondary;
-    padding: $spacing-sm $spacing-base;
-    
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-sm $spacing-base;
+      font-size: $font-size-base;
+    }
+
     &:hover {
       background-color: $color-primary-light;
       border-color: $color-primary;
       color: $color-text-primary;
     }
   }
-  
+
   &__delivery-info {
-    background-color: $color-neutral-light;
-    border-radius: $border-radius-lg;
-    padding: $spacing-lg;
+    background: linear-gradient(
+      135deg,
+      $color-primary-lightest 0%,
+      $color-neutral-light 100%
+    );
+    border-radius: $border-radius-md;
+    padding: $spacing-base;
+    border-left: 4px solid $color-primary;
+    position: relative;
+
+    @media (min-width: $breakpoint-md) {
+      border-radius: $border-radius-lg;
+      padding: $spacing-lg;
+    }
   }
-  
+
+  &__delivery-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-primary-dark;
+    margin: 0 0 $spacing-sm 0;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-base;
+      margin: 0 0 $spacing-base 0;
+    }
+  }
+
   &__delivery-item {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
-    margin-bottom: $spacing-sm;
-    
+    gap: $spacing-xs;
+    margin-bottom: $spacing-xs;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-sm;
+      margin-bottom: $spacing-sm;
+      font-size: $font-size-base;
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
-    
+
     svg {
       color: $color-success;
     }
   }
-  
+
   // Tabs
   &__tabs {
-    margin-bottom: $spacing-5xl;
+    margin-bottom: $spacing-2xl;
+
+    @media (min-width: $breakpoint-md) {
+      margin-bottom: $spacing-4xl;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      margin-bottom: $spacing-5xl;
+    }
   }
-  
+
+  &__tabs-hint {
+    text-align: center;
+    margin-bottom: $spacing-base;
+
+    span {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      font-weight: $font-weight-medium;
+      background-color: $color-primary-lightest;
+      padding: $spacing-xs $spacing-base;
+      border-radius: $border-radius-md;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-base;
+        padding: $spacing-sm $spacing-lg;
+      }
+    }
+  }
+
   &__tabs-nav {
     display: flex;
     border-bottom: 1px solid $color-neutral-medium;
-    margin-bottom: $spacing-xl;
+    margin-bottom: $spacing-base;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE/Edge
+
+    &::-webkit-scrollbar {
+      display: none; // Webkit browsers
+    }
+
+    @media (min-width: $breakpoint-md) {
+      margin-bottom: $spacing-xl;
+    }
   }
-  
+
   &__tab-btn {
     background: none;
     border: none;
-    padding: $spacing-lg $spacing-xl;
-    font-size: $font-size-base;
+    padding: $spacing-sm $spacing-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-text-secondary;
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: all $transition-normal;
     white-space: nowrap;
-    
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-lg $spacing-xl;
+      font-size: $font-size-base;
+    }
+
     &:hover {
       color: $color-text-primary;
     }
-    
+
     &.active {
       color: $color-primary-dark;
       border-bottom-color: $color-accent-coral;
     }
   }
-  
+
   &__tab-panel {
     line-height: $line-height-relaxed;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-base;
+    }
   }
-  
+
   &__specs-table {
     width: 100%;
     border-collapse: collapse;
-    
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-base;
+    }
+
     td {
-      padding: $spacing-base $spacing-lg;
+      padding: $spacing-sm $spacing-base;
       border-bottom: 1px solid $color-neutral-light;
-      
+
+      @media (min-width: $breakpoint-md) {
+        padding: $spacing-base $spacing-lg;
+      }
+
       &:first-child {
         font-weight: $font-weight-medium;
         color: $color-text-secondary;
-        width: 30%;
+        width: 40%;
+
+        @media (min-width: $breakpoint-md) {
+          width: 30%;
+        }
       }
     }
   }
-  
+
   &__delivery-options {
     display: grid;
-    gap: $spacing-base;
+    gap: $spacing-sm;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-base;
+    }
   }
-  
+
   &__delivery-option {
-    padding: $spacing-base;
+    padding: $spacing-sm;
     background-color: $color-neutral-light;
-    border-radius: $border-radius-md;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-base;
+      border-radius: $border-radius-md;
+      font-size: $font-size-base;
+    }
   }
-  
+
   // Reviews
   &__reviews {
     display: grid;
-    gap: $spacing-xl;
+    gap: $spacing-base;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-xl;
+    }
   }
-  
+
   &__review {
-    padding: $spacing-lg;
+    padding: $spacing-base;
     border: 1px solid $color-neutral-medium;
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-md;
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-lg;
+      border-radius: $border-radius-lg;
+    }
   }
-  
+
   &__review-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: $spacing-base;
-    
-    @media (max-width: $breakpoint-sm) {
-      flex-direction: column;
+    margin-bottom: $spacing-sm;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+      margin-bottom: $spacing-base;
       gap: $spacing-sm;
     }
   }
-  
+
   &__review-author {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-sm;
+      font-size: $font-size-base;
+    }
   }
-  
+
   &__review-verified {
     background-color: $color-success;
     color: $color-text-light;
-    font-size: $font-size-xs;
-    padding: 2px $spacing-xs;
+    font-size: 10px;
+    padding: 2px 4px;
     border-radius: $border-radius-sm;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-xs;
+      padding: 2px $spacing-xs;
+    }
   }
-  
+
   &__review-meta {
     display: flex;
     align-items: center;
-    gap: $spacing-base;
+    gap: $spacing-sm;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-base;
+    }
   }
-  
+
   &__review-rating {
     display: flex;
-    gap: $spacing-xs;
+    gap: 2px;
+
+    @media (min-width: $breakpoint-md) {
+      gap: $spacing-xs;
+    }
   }
-  
+
   &__review-date {
     color: $color-text-secondary;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-sm;
+    }
   }
-  
+
   &__review-text {
     line-height: $line-height-relaxed;
     margin: 0;
+    font-size: $font-size-sm;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-base;
+    }
   }
-  
+
   // Similar Products
   &__similar {
     &-title {
       text-align: center;
-      margin-bottom: $spacing-3xl;
+      margin-bottom: $spacing-lg;
+      font-size: $font-size-xl;
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-2xl;
+        font-size: $font-size-2xl;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        margin-bottom: $spacing-3xl;
+        font-size: $font-size-3xl;
+      }
     }
-    
+
     &-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: $spacing-xl;
+      display: flex;
+      gap: $spacing-sm;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: $color-primary-light $color-neutral-light;
+      padding-bottom: $spacing-sm;
+
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $color-neutral-light;
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $color-primary-light;
+        border-radius: 3px;
+
+        &:hover {
+          background: $color-primary;
+        }
+      }
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-base;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: $spacing-xl;
+        overflow: visible;
+      }
     }
-    
+
     &-card {
       text-decoration: none;
       color: inherit;
       background: $color-neutral-lightest;
-      border-radius: $border-radius-lg;
+      border-radius: $border-radius-md;
       overflow: hidden;
-      box-shadow: $shadow-md;
+      box-shadow: $shadow-sm;
       transition: all $transition-normal;
-      
+      display: flex;
+      flex-direction: column;
+      min-width: 160px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+
+      @media (min-width: $breakpoint-sm) {
+        min-width: 180px;
+      }
+
+      @media (min-width: $breakpoint-md) {
+        min-width: 200px;
+        border-radius: $border-radius-lg;
+        box-shadow: $shadow-md;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        min-width: auto;
+      }
+
       &:hover {
-        transform: translateY(-4px);
+        transform: translateY(-2px);
         box-shadow: $shadow-lg;
         text-decoration: none;
-      }
-      
-      img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-      }
-      
-      h3 {
-        font-size: $font-size-lg;
-        margin: $spacing-base 0;
-        padding: 0 $spacing-base;
+
+        @media (min-width: $breakpoint-md) {
+          transform: translateY(-4px);
+        }
+
+        .product__similar-image img {
+          transform: scale(1.05);
+        }
       }
     }
-    
+
+    &-image {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        transition: transform $transition-normal;
+
+        @media (min-width: $breakpoint-sm) {
+          height: 140px;
+        }
+
+        @media (min-width: $breakpoint-md) {
+          height: 160px;
+        }
+
+        @media (min-width: $breakpoint-lg) {
+          height: 200px;
+        }
+      }
+    }
+
+    &-content {
+      padding: $spacing-xs;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      @media (min-width: $breakpoint-md) {
+        padding: $spacing-sm;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        padding: $spacing-base;
+      }
+
+      h3 {
+        font-size: $font-size-xs;
+        margin: 0 0 $spacing-xs 0;
+        line-height: $line-height-tight;
+
+        @media (min-width: $breakpoint-sm) {
+          font-size: $font-size-sm;
+        }
+
+        @media (min-width: $breakpoint-md) {
+          font-size: $font-size-base;
+          margin: 0 0 $spacing-sm 0;
+        }
+
+        @media (min-width: $breakpoint-lg) {
+          font-size: $font-size-lg;
+        }
+      }
+    }
+
     &-rating {
       display: flex;
       align-items: center;
-      gap: $spacing-sm;
-      padding: 0 $spacing-base;
-      margin-bottom: $spacing-sm;
-      
+      gap: 2px;
+      margin-bottom: $spacing-xs;
+
+      @media (min-width: $breakpoint-md) {
+        gap: $spacing-xs;
+        margin-bottom: $spacing-sm;
+      }
+
       span {
         font-weight: $font-weight-medium;
+        font-size: $font-size-xxs;
+
+        @media (min-width: $breakpoint-sm) {
+          font-size: $font-size-xs;
+        }
+
+        @media (min-width: $breakpoint-md) {
+          font-size: $font-size-sm;
+        }
       }
     }
-    
+
     &-price {
-      font-size: $font-size-xl;
+      font-size: $font-size-sm;
       font-weight: $font-weight-bold;
       color: $color-accent-coral;
-      padding: 0 $spacing-base $spacing-base;
+      margin-top: auto;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-base;
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        font-size: $font-size-xl;
+      }
     }
   }
 }
 
 .product-loading {
-  padding: $spacing-5xl 0;
+  padding: $spacing-2xl 0;
   text-align: center;
-  
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-4xl 0;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    padding: $spacing-5xl 0;
+  }
+
   .loading-spinner {
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     color: $color-text-secondary;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-lg;
+    }
   }
 }

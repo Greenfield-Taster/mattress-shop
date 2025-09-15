@@ -14,14 +14,24 @@
   // Button sizes
   &.btn-sm {
     height: $button-height-sm;
-    padding: ($button-padding-y * 0.75) ($button-padding-x * 0.75);
-    font-size: $font-size-sm;
+    padding: ($button-padding-y * 0.6) ($button-padding-x * 0.6);
+    font-size: $font-size-xs;
+    
+    @media (min-width: $breakpoint-md) {
+      padding: ($button-padding-y * 0.75) ($button-padding-x * 0.75);
+      font-size: $font-size-sm;
+    }
   }
   
   &.btn-lg {
     height: $button-height-lg;
-    padding: ($button-padding-y * 1.25) ($button-padding-x * 1.25);
-    font-size: $font-size-lg;
+    padding: $button-padding-y $button-padding-x;
+    font-size: $font-size-base;
+    
+    @media (min-width: $breakpoint-md) {
+      padding: ($button-padding-y * 1.25) ($button-padding-x * 1.25);
+      font-size: $font-size-lg;
+    }
   }
   
   // Primary button

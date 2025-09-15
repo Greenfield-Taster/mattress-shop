@@ -116,10 +116,18 @@ const Product = () => {
   ];
 
   useEffect(() => {
+    // Scroll to top when component mounts or id changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     setProduct(mockProduct);
     if (mockProduct.sizes.length > 0) {
       setSelectedSize(mockProduct.sizes[0].id);
     }
+    
+    // Reset states when changing products
+    setSelectedImageIndex(0);
+    setQuantity(1);
+    setActiveTab("description");
   }, [id]);
 
   const handleAddToCart = () => {
@@ -140,6 +148,16 @@ const Product = () => {
     }
 
     navigate("/cart");
+  };
+
+  const handleSimilarProductClick = (productId) => {
+    // Reset state when clicking on similar product
+    setSelectedImageIndex(0);
+    setQuantity(1);
+    setActiveTab("description");
+    
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const getSelectedSizePrice = () => {
@@ -330,6 +348,7 @@ const Product = () => {
 
             {/* Delivery info */}
             <div className="product__delivery-info">
+              <h4 className="product__delivery-title">Інформація про доставку</h4>
               <div className="product__delivery-item">
                 <Truck size={18} />
                 <span>Безкоштовна доставка по Києву</span>
@@ -344,6 +363,9 @@ const Product = () => {
 
         {/* Product Tabs */}
         <div className="product__tabs">
+          <div className="product__tabs-hint">
+            <span>Корисна інформація про товар:</span>
+          </div>
           <div className="product__tabs-nav">
             <button
               className={`product__tab-btn ${
@@ -456,14 +478,19 @@ const Product = () => {
                 key={item.id}
                 to={`/product/${item.id}`}
                 className="product__similar-card"
+                onClick={() => handleSimilarProductClick(item.id)}
               >
-                <img src={item.image} alt={item.name} />
-                <h3>{item.name}</h3>
-                <div className="product__similar-rating">
-                  {renderStars(item.rating)}
-                  <span>{item.rating}</span>
+                <div className="product__similar-image">
+                  <img src={item.image} alt={item.name} />
                 </div>
-                <div className="product__similar-price">{item.price} ₴</div>
+                <div className="product__similar-content">
+                  <h3>{item.name}</h3>
+                  <div className="product__similar-rating">
+                    {renderStars(item.rating)}
+                    <span>{item.rating}</span>
+                  </div>
+                  <div className="product__similar-price">{item.price} ₴</div>
+                </div>
               </Link>
             ))}
           </div>

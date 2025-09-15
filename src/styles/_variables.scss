@@ -53,6 +53,10 @@ $font-size-3xl: 1.875rem; // 30px
 $font-size-4xl: 2.25rem; // 36px
 $font-size-5xl: 3rem; // 48px
 
+// Extra small font sizes for mobile
+$font-size-xxs: 0.625rem; // 10px
+$font-size-mobile-sm: 0.8125rem; // 13px
+
 // Line Heights
 $line-height-tight: 1.25;
 $line-height-normal: 1.5;
@@ -92,6 +96,9 @@ $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1280px;
 $breakpoint-2xl: 1536px;
+
+$product-mobile-xs: 360px;
+$product-mobile-sm: 480px;
 
 // Grid
 $grid-columns: 12;
@@ -191,10 +198,11 @@ $card-shadow: $shadow-md;
 @mixin container {
   width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-base;
+  padding: 0 $spacing-sm;
 
   @media (min-width: $breakpoint-sm) {
     max-width: $container-sm;
+    padding: 0 $spacing-base;
   }
 
   @media (min-width: $breakpoint-md) {
