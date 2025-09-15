@@ -1,46 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, Heart, Scale, ShoppingCart, Truck, Shield, ArrowLeft, Plus, Minus } from 'lucide-react';
-import mattressImage from '../assets/images/mattress-photo.png';
+import React, { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import {
+  Star,
+  Heart,
+  Scale,
+  ShoppingCart,
+  Truck,
+  Shield,
+  ArrowLeft,
+  Plus,
+  Minus,
+} from "lucide-react";
+import mattressImage from "../assets/images/mattress-photo.png";
 
 const Product = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState('description');
+  const [activeTab, setActiveTab] = useState("description");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Mock product data
   const mockProduct = {
     id: parseInt(id),
-    name: 'Матрас Premium Dream Memory',
+    name: "Матрас Premium Dream Memory",
     price: 7200,
     oldPrice: 8500,
     rating: 4.8,
     reviewsCount: 156,
     inStock: true,
-    category: 'premium',
-    brand: 'DreamComfort',
-    images: [
-      mattressImage,
-      mattressImage,
-      mattressImage,
-      mattressImage
-    ],
+    category: "premium",
+    brand: "DreamComfort",
+    images: [mattressImage, mattressImage, mattressImage, mattressImage],
     sizes: [
-      { id: 'single', name: '90x200 см', price: 0 },
-      { id: 'double', name: '140x200 см', price: 1200 },
-      { id: 'king', name: '180x200 см', price: 2400 }
+      { id: "single", name: "90x200 см", price: 0 },
+      { id: "double", name: "140x200 см", price: 1200 },
+      { id: "king", name: "180x200 см", price: 2400 },
     ],
     features: [
-      'Memory Foam 5 см',
-      'Ортопедична підтримка',
-      'Гіпоалергенний',
-      'Охолоджуючий ефект',
-      'Безшумний',
-      'Гарантія 10 років'
+      "Memory Foam 5 см",
+      "Ортопедична підтримка",
+      "Гіпоалергенний",
+      "Охолоджуючий ефект",
+      "Безшумний",
+      "Гарантія 10 років",
     ],
     description: `
       Матрас Premium Dream Memory - це ідеальне поєднання комфорту та підтримки для здорового сну. 
@@ -51,63 +56,63 @@ const Product = () => {
       гель допомагає підтримувати комфортну температуру протягом всієї ночі.
     `,
     specifications: {
-      'Висота': '25 см',
-      'Жорсткість': 'Середня',
-      'Матеріал': 'Memory Foam + Pocket Spring',
-      'Чохол': 'Бамбукове волокно',
-      'Вага': '35-45 кг (залежно від розміру)',
-      'Гарантія': '10 років',
-      'Виробник': 'DreamComfort',
-      'Країна': 'Україна'
+      Висота: "25 см",
+      Жорсткість: "Середня",
+      Матеріал: "Memory Foam + Pocket Spring",
+      Чохол: "Бамбукове волокно",
+      Вага: "35-45 кг (залежно від розміру)",
+      Гарантія: "10 років",
+      Виробник: "DreamComfort",
+      Країна: "Україна",
     },
     delivery: {
-      'Київ': 'Безкоштовно, 1-2 дні',
-      'Україна': '150-300 ₴, 3-5 днів',
-      'Піднесення': '50 ₴ за поверх'
+      Київ: "Безкоштовно, 1-2 дні",
+      Україна: "150-300 ₴, 3-5 днів",
+      Піднесення: "50 ₴ за поверх",
     },
     reviews: [
       {
         id: 1,
-        author: 'Марія К.',
+        author: "Марія К.",
         rating: 5,
-        date: '2024-12-10',
-        text: 'Чудовий матрас! Сплю набагато краще, спина не болить вранці.',
-        verified: true
+        date: "2024-12-10",
+        text: "Чудовий матрас! Сплю набагато краще, спина не болить вранці.",
+        verified: true,
       },
       {
         id: 2,
-        author: 'Олексій П.',
+        author: "Олексій П.",
         rating: 4,
-        date: '2024-12-05',
-        text: 'Якість гарна, доставка швидка. Трохи жорсткуватий для мене, але загалом задоволений.',
-        verified: true
-      }
-    ]
+        date: "2024-12-05",
+        text: "Якість гарна, доставка швидка. Трохи жорсткуватий для мене, але загалом задоволений.",
+        verified: true,
+      },
+    ],
   };
 
   // Similar products mock data
   const similarProducts = [
     {
       id: 2,
-      name: 'Матрас Classic Comfort',
+      name: "Матрас Classic Comfort",
       price: 4500,
       image: mattressImage,
-      rating: 4.5
+      rating: 4.5,
     },
     {
       id: 3,
-      name: 'Матрас Luxury Spring',
+      name: "Матрас Luxury Spring",
       price: 9200,
       image: mattressImage,
-      rating: 4.9
+      rating: 4.9,
     },
     {
       id: 4,
-      name: 'Матрас Eco Natural',
+      name: "Матрас Eco Natural",
       price: 6800,
       image: mattressImage,
-      rating: 4.6
-    }
+      rating: 4.6,
+    },
   ];
 
   useEffect(() => {
@@ -119,34 +124,36 @@ const Product = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Оберіть розмір матраса');
+      alert("Оберіть розмір матраса");
       return;
     }
-    
-    alert(`Додано до кошика: ${product.name}, розмір: ${selectedSize}, кількість: ${quantity}`);
+
+    alert(
+      `Додано до кошика: ${product.name}, розмір: ${selectedSize}, кількість: ${quantity}`
+    );
   };
 
   const handleBuyNow = () => {
     if (!selectedSize) {
-      alert('Оберіть розмір матраса');
+      alert("Оберіть розмір матраса");
       return;
     }
-    
-    navigate('/cart');
+
+    navigate("/cart");
   };
 
   const getSelectedSizePrice = () => {
     if (!selectedSize || !product) return product?.price || 0;
-    const size = product.sizes.find(s => s.id === selectedSize);
+    const size = product.sizes.find((s) => s.id === selectedSize);
     return product.price + (size?.price || 0);
   };
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <Star 
-        key={i} 
-        size={16} 
-        className={i < Math.floor(rating) ? 'star-filled' : 'star-empty'} 
+      <Star
+        key={i}
+        size={16}
+        className={i < Math.floor(rating) ? "star-filled" : "star-empty"}
       />
     ));
   };
@@ -174,10 +181,7 @@ const Product = () => {
         </nav>
 
         {/* Back button */}
-        <button 
-          onClick={() => navigate(-1)} 
-          className="product__back-btn"
-        >
+        <button onClick={() => navigate(-1)} className="product__back-btn">
           <ArrowLeft size={16} />
           Назад
         </button>
@@ -186,8 +190,8 @@ const Product = () => {
           {/* Product Images */}
           <div className="product__images">
             <div className="product__images-main">
-              <img 
-                src={product.images[selectedImageIndex]} 
+              <img
+                src={product.images[selectedImageIndex]}
                 alt={product.name}
                 className="product__images-main-img"
               />
@@ -199,11 +203,13 @@ const Product = () => {
             </div>
             <div className="product__images-thumbs">
               {product.images.map((image, index) => (
-                <img 
+                <img
                   key={index}
-                  src={image} 
+                  src={image}
                   alt={`${product.name} ${index + 1}`}
-                  className={`product__images-thumb ${index === selectedImageIndex ? 'active' : ''}`}
+                  className={`product__images-thumb ${
+                    index === selectedImageIndex ? "active" : ""
+                  }`}
                   onClick={() => setSelectedImageIndex(index)}
                 />
               ))}
@@ -217,7 +223,9 @@ const Product = () => {
               <div className="product__info-rating">
                 <div className="product__rating-stars">
                   {renderStars(product.rating)}
-                  <span className="product__rating-value">{product.rating}</span>
+                  <span className="product__rating-value">
+                    {product.rating}
+                  </span>
                 </div>
                 <span className="product__rating-reviews">
                   ({product.reviewsCount} відгуків)
@@ -229,7 +237,9 @@ const Product = () => {
               {product.oldPrice && (
                 <span className="product__price-old">{product.oldPrice} ₴</span>
               )}
-              <span className="product__price-current">{getSelectedSizePrice()} ₴</span>
+              <span className="product__price-current">
+                {getSelectedSizePrice()} ₴
+              </span>
             </div>
 
             {/* Features */}
@@ -246,11 +256,13 @@ const Product = () => {
               <h3>Розмір матраса:</h3>
               <div className="product__sizes-grid">
                 {product.sizes.map((size) => (
-                  <label 
+                  <label
                     key={size.id}
-                    className={`product__size-option ${selectedSize === size.id ? 'selected' : ''}`}
+                    className={`product__size-option ${
+                      selectedSize === size.id ? "selected" : ""
+                    }`}
                   >
-                    <input 
+                    <input
                       type="radio"
                       name="size"
                       value={size.id}
@@ -259,9 +271,6 @@ const Product = () => {
                     />
                     <div className="product__size-content">
                       <span className="product__size-name">{size.name}</span>
-                      {size.price > 0 && (
-                        <span className="product__size-price">+{size.price} ₴</span>
-                      )}
                     </div>
                   </label>
                 ))}
@@ -272,7 +281,7 @@ const Product = () => {
             <div className="product__info-quantity">
               <h3>Кількість:</h3>
               <div className="product__quantity-controls">
-                <button 
+                <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="product__quantity-btn"
                   disabled={quantity <= 1}
@@ -280,7 +289,7 @@ const Product = () => {
                   <Minus size={16} />
                 </button>
                 <span className="product__quantity-value">{quantity}</span>
-                <button 
+                <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="product__quantity-btn"
                 >
@@ -291,7 +300,7 @@ const Product = () => {
 
             {/* Action Buttons */}
             <div className="product__info-actions">
-              <button 
+              <button
                 onClick={handleAddToCart}
                 className="btn btn-outline btn-lg"
                 disabled={!product.inStock}
@@ -299,7 +308,7 @@ const Product = () => {
                 <ShoppingCart size={18} />
                 Додати в кошик
               </button>
-              <button 
+              <button
                 onClick={handleBuyNow}
                 className="btn btn-primary btn-lg"
                 disabled={!product.inStock}
@@ -311,8 +320,7 @@ const Product = () => {
             {/* Additional actions */}
             <div className="product__info-extra">
               <button className="product__extra-btn">
-                <Heart size={18} />
-                В обране
+                <Heart size={18} />В обране
               </button>
               <button className="product__extra-btn">
                 <Scale size={18} />
@@ -337,55 +345,65 @@ const Product = () => {
         {/* Product Tabs */}
         <div className="product__tabs">
           <div className="product__tabs-nav">
-            <button 
-              className={`product__tab-btn ${activeTab === 'description' ? 'active' : ''}`}
-              onClick={() => setActiveTab('description')}
+            <button
+              className={`product__tab-btn ${
+                activeTab === "description" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("description")}
             >
               Опис
             </button>
-            <button 
-              className={`product__tab-btn ${activeTab === 'specifications' ? 'active' : ''}`}
-              onClick={() => setActiveTab('specifications')}
+            <button
+              className={`product__tab-btn ${
+                activeTab === "specifications" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("specifications")}
             >
               Характеристики
             </button>
-            <button 
-              className={`product__tab-btn ${activeTab === 'delivery' ? 'active' : ''}`}
-              onClick={() => setActiveTab('delivery')}
+            <button
+              className={`product__tab-btn ${
+                activeTab === "delivery" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("delivery")}
             >
               Доставка
             </button>
-            <button 
-              className={`product__tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
-              onClick={() => setActiveTab('reviews')}
+            <button
+              className={`product__tab-btn ${
+                activeTab === "reviews" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("reviews")}
             >
               Відгуки ({product.reviews.length})
             </button>
           </div>
 
           <div className="product__tabs-content">
-            {activeTab === 'description' && (
+            {activeTab === "description" && (
               <div className="product__tab-panel">
                 <p>{product.description}</p>
               </div>
             )}
-            
-            {activeTab === 'specifications' && (
+
+            {activeTab === "specifications" && (
               <div className="product__tab-panel">
                 <table className="product__specs-table">
                   <tbody>
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                      <tr key={key}>
-                        <td>{key}</td>
-                        <td>{value}</td>
-                      </tr>
-                    ))}
+                    {Object.entries(product.specifications).map(
+                      ([key, value]) => (
+                        <tr key={key}>
+                          <td>{key}</td>
+                          <td>{value}</td>
+                        </tr>
+                      )
+                    )}
                   </tbody>
                 </table>
               </div>
             )}
 
-            {activeTab === 'delivery' && (
+            {activeTab === "delivery" && (
               <div className="product__tab-panel">
                 <div className="product__delivery-options">
                   {Object.entries(product.delivery).map(([location, info]) => (
@@ -397,7 +415,7 @@ const Product = () => {
               </div>
             )}
 
-            {activeTab === 'reviews' && (
+            {activeTab === "reviews" && (
               <div className="product__tab-panel">
                 <div className="product__reviews">
                   {product.reviews.map((review) => (
@@ -406,14 +424,18 @@ const Product = () => {
                         <div className="product__review-author">
                           <strong>{review.author}</strong>
                           {review.verified && (
-                            <span className="product__review-verified">✓ Підтверджена покупка</span>
+                            <span className="product__review-verified">
+                              ✓ Підтверджена покупка
+                            </span>
                           )}
                         </div>
                         <div className="product__review-meta">
                           <div className="product__review-rating">
                             {renderStars(review.rating)}
                           </div>
-                          <span className="product__review-date">{review.date}</span>
+                          <span className="product__review-date">
+                            {review.date}
+                          </span>
                         </div>
                       </div>
                       <p className="product__review-text">{review.text}</p>
@@ -430,8 +452,8 @@ const Product = () => {
           <h2 className="product__similar-title">Схожі товари</h2>
           <div className="product__similar-grid">
             {similarProducts.map((item) => (
-              <Link 
-                key={item.id} 
+              <Link
+                key={item.id}
                 to={`/product/${item.id}`}
                 className="product__similar-card"
               >
