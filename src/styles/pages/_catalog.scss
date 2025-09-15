@@ -1,67 +1,45 @@
-// ===================================
-// CATALOG PAGE STYLES
-// ===================================
-
 @use "../variables" as *;
 
 .catalog {
-  padding: $spacing-3xl 0;
+  padding: $spacing-2xl 0;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-3xl 0;
+  }
 
   &__header {
-    margin-bottom: $spacing-3xl;
+    margin-bottom: $spacing-2xl;
     text-align: center;
+    padding: $spacing-2xl $spacing-lg;
+    background: $color-primary-lightest;
+    border-radius: $border-radius-lg;
 
     @media (min-width: $breakpoint-md) {
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      margin-bottom: $spacing-3xl;
+      padding: $spacing-3xl $spacing-xl;
     }
 
     &-title {
-      font-size: $font-size-3xl;
+      font-size: $font-size-2xl;
       color: $color-text-primary;
-      margin-bottom: $spacing-base;
+      margin-bottom: $spacing-sm;
 
       @media (min-width: $breakpoint-md) {
+        font-size: $font-size-3xl;
+      }
+
+      @media (min-width: $breakpoint-lg) {
         font-size: $font-size-4xl;
-        margin-bottom: 0;
+        margin-bottom: $spacing-base;
       }
     }
 
     &-subtitle {
       color: $color-text-secondary;
-      font-size: $font-size-lg;
-    }
-  }
-
-  &__filters {
-    background: $color-neutral-lightest;
-    border-radius: $border-radius-lg;
-    padding: $spacing-xl;
-    margin-bottom: $spacing-3xl;
-    box-shadow: $shadow-sm;
-
-    &-title {
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      margin-bottom: $spacing-lg;
-      color: $color-text-primary;
-    }
-
-    &-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: $spacing-lg;
+      font-size: $font-size-base;
 
       @media (min-width: $breakpoint-md) {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-    }
-
-    &-group {
-      .form-label {
-        margin-bottom: $spacing-sm;
+        font-size: $font-size-lg;
       }
     }
   }
@@ -70,7 +48,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-2xl;
+    margin-bottom: $spacing-xl;
     padding: $spacing-base 0;
     border-bottom: 1px solid $color-neutral-medium;
 
@@ -83,10 +61,9 @@
     &-left {
       display: flex;
       align-items: center;
-      gap: $spacing-lg;
 
       @media (max-width: $breakpoint-md) {
-        justify-content: space-between;
+        justify-content: center;
       }
     }
 
@@ -94,6 +71,10 @@
       display: flex;
       align-items: center;
       gap: $spacing-base;
+
+      @media (max-width: $breakpoint-md) {
+        justify-content: space-between;
+      }
     }
   }
 
@@ -107,43 +88,205 @@
     }
   }
 
-  &__sort {
+  &__filters-toggle {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
+    background: $color-primary-light;
+    color: $color-text-primary;
+    border: 1px solid $color-primary;
+    border-radius: $border-radius-md;
+    padding: $spacing-sm $spacing-base;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
 
-    label {
-      font-size: $font-size-sm;
-      color: $color-text-secondary;
-      white-space: nowrap;
+    &:hover {
+      background: $color-primary;
     }
 
-    select {
+    @media (min-width: $breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &__sort select {
+    font-size: $font-size-sm;
+    min-width: 120px;
+
+    @media (min-width: $breakpoint-md) {
       min-width: 150px;
     }
   }
 
-  &__view-toggle {
-    display: flex;
-    border-radius: $border-radius-md;
+  &__filters {
+    background: $color-neutral-lightest;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-index-modal;
+    transform: translateY(100%);
+    transition: transform $transition-normal;
+    max-height: 60vh;
     overflow: hidden;
-    border: 1px solid $color-neutral-medium;
 
-    button {
-      padding: $spacing-sm $spacing-base;
+    @media (min-width: $breakpoint-md) {
+      position: static;
+      transform: none;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-sm;
+      margin-bottom: $spacing-xl;
+      padding: $spacing-lg;
+      max-height: none;
+      overflow: visible;
+    }
+
+    &--open {
+      transform: translateY(0);
+    }
+
+    &-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: $z-index-modal - 1;
+
+      @media (min-width: $breakpoint-md) {
+        display: none;
+      }
+    }
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacing-lg;
+      border-bottom: 1px solid $color-neutral-medium;
+
+      @media (min-width: $breakpoint-md) {
+        display: none;
+      }
+    }
+
+    &-title {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $color-text-primary;
+      margin: 0;
+
+      @media (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-base;
+        display: block;
+      }
+    }
+
+    &-close {
+      background: none;
       border: none;
-      background: $color-neutral-lightest;
       color: $color-text-secondary;
       cursor: pointer;
+      padding: $spacing-sm;
+      border-radius: $border-radius-md;
       transition: all $transition-fast;
 
-      &.active {
-        background: $color-primary;
+      &:hover {
+        background: $color-neutral-light;
         color: $color-text-primary;
       }
 
-      &:hover:not(.active) {
-        background: $color-neutral-light;
+      @media (min-width: $breakpoint-md) {
+        display: none;
+      }
+    }
+
+    &-content {
+      padding: $spacing-lg;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
+      max-height: calc(60vh - 180px);
+      overflow-y: auto;
+
+      @media (min-width: $breakpoint-md) {
+        padding: 0;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $spacing-lg;
+        max-height: none;
+        overflow-y: visible;
+      }
+    }
+
+    &-group {
+      .form-label {
+        margin-bottom: $spacing-sm;
+        font-size: $font-size-sm;
+      }
+
+      .form-input,
+      .form-select {
+        font-size: $font-size-sm;
+        height: 40px;
+
+        @media (min-width: $breakpoint-md) {
+          height: 36px;
+        }
+      }
+
+      // Спеціальні стилі для select в мобільній версії фільтрів
+      @media (max-width: $breakpoint-md) {
+        .form-select {
+          // Стрілка повернута вгору для візуального ефекту
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6c7d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='18,15 12,9 6,15'%3e%3c/polyline%3e%3c/svg%3e");
+          font-size: 16px; // Запобігає зуму на iOS
+          background-size: 14px;
+          background-position: right 10px center;
+          padding-right: 35px;
+
+          &:focus {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c7d7fd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='18,15 12,9 6,15'%3e%3c/polyline%3e%3c/svg%3e");
+          }
+
+          // Стилі для опцій в мобільній версії
+          option {
+            background-color: #ffffff;
+            color: #2c3e50;
+            padding: 10px 12px;
+            font-size: 16px;
+            line-height: 1.4;
+
+            &:checked {
+              background-color: #c7d7fd;
+              color: #2c3e50;
+            }
+
+            &:hover {
+              background-color: #eaeff8;
+            }
+          }
+        }
+      }
+    }
+
+    &-actions {
+      padding: $spacing-base $spacing-lg;
+      border-top: 1px solid $color-neutral-medium;
+      display: flex;
+      justify-content: center;
+
+      @media (min-width: $breakpoint-md) {
+        padding: $spacing-lg 0 0;
+        border-top: none;
+        justify-content: flex-start;
+      }
+
+      .btn {
+        min-width: 120px;
       }
     }
   }
@@ -151,69 +294,32 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $spacing-xl;
+    gap: $spacing-lg;
 
-    &.grid-view {
-      @media (min-width: $breakpoint-md) {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      @media (min-width: $breakpoint-lg) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      @media (min-width: $breakpoint-xl) {
-        grid-template-columns: repeat(4, 1fr);
-      }
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    &.list-view {
-      gap: $spacing-lg;
-
-      .product-card {
-        display: flex;
-        
-        .card__image {
-          width: 200px;
-          height: auto;
-          flex-shrink: 0;
-        }
-        
-        .card__content {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-        
-        .card__footer {
-          margin-top: auto;
-        }
-        
-        @media (max-width: $breakpoint-md) {
-          flex-direction: column;
-          
-          .card__image {
-            width: 100%;
-            height: 200px;
-          }
-        }
-      }
+    @media (min-width: $breakpoint-lg) {
+      grid-template-columns: repeat(3, 1fr);
     }
-  }
 
-  &__pagination {
-    margin-top: $spacing-4xl;
-    display: flex;
-    justify-content: center;
+    @media (min-width: $breakpoint-xl) {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &__empty {
     text-align: center;
-    padding: $spacing-5xl 0;
+    padding: $spacing-4xl 0;
+
+    @media (max-width: $breakpoint-md) {
+      padding: $spacing-3xl 0;
+    }
 
     &-icon {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       background: $color-neutral-light;
       border-radius: $border-radius-full;
       display: flex;
@@ -221,64 +327,31 @@
       justify-content: center;
       margin: 0 auto $spacing-lg;
       color: $color-text-secondary;
-      font-size: $font-size-2xl;
+
+      @media (max-width: $breakpoint-md) {
+        width: 48px;
+        height: 48px;
+      }
     }
 
     &-title {
       font-size: $font-size-xl;
       color: $color-text-primary;
       margin-bottom: $spacing-base;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-lg;
+      }
     }
 
     &-description {
       color: $color-text-secondary;
       margin-bottom: $spacing-xl;
+      font-size: $font-size-sm;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-base;
+      }
     }
-  }
-}
-
-// Pagination component
-.pagination {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid $color-neutral-medium;
-    background: $color-neutral-lightest;
-    color: $color-text-primary;
-    text-decoration: none;
-    border-radius: $border-radius-md;
-    font-weight: $font-weight-medium;
-    transition: all $transition-fast;
-
-    &:hover:not(.active):not(.disabled) {
-      background: $color-primary-light;
-      border-color: $color-primary;
-    }
-
-    &.active {
-      background: $color-primary;
-      border-color: $color-primary;
-      color: $color-text-primary;
-    }
-
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-  }
-
-  &__dots {
-    display: flex;
-    align-items: center;
-    padding: 0 $spacing-sm;
-    color: $color-text-secondary;
   }
 }

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Grid, List, Heart, Scale, ShoppingCart, Search } from "lucide-react";
+import { Heart, Scale, ShoppingCart, Search, Filter, X } from "lucide-react";
 import mattressPhoto from "../assets/images/mattress-photo.png";
 
 const Catalog = () => {
   const { size } = useParams();
-  const [viewMode, setViewMode] = useState("grid");
   const [sortBy, setSortBy] = useState("name");
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     priceMin: "",
     priceMax: "",
@@ -14,7 +14,6 @@ const Catalog = () => {
     material: "",
   });
 
-  // Mock data - в реальному проекті буде з API
   const mockProducts = [
     {
       id: 1,
@@ -27,6 +26,8 @@ const Catalog = () => {
       features: ["Ортопедичний", "Гіпоалергенний"],
       inStock: true,
       size: "single",
+      firmness: "medium",
+      material: "spring",
     },
     {
       id: 2,
@@ -38,6 +39,8 @@ const Catalog = () => {
       features: ["Memoria", "Охолоджуючий"],
       inStock: true,
       size: "double",
+      firmness: "soft",
+      material: "memory",
     },
     {
       id: 3,
@@ -49,31 +52,131 @@ const Catalog = () => {
       features: ["Pocket Spring", "Natura"],
       inStock: false,
       size: "king",
+      firmness: "firm",
+      material: "spring",
+    },
+    {
+      id: 4,
+      name: "Матрас Ultra Comfort",
+      price: 6200,
+      oldPrice: 7000,
+      image: mattressPhoto,
+      rating: 4.7,
+      reviews: 89,
+      features: ["Memory Foam", "Антибактеріальний"],
+      inStock: true,
+      size: "single",
+      firmness: "soft",
+      material: "memory",
+    },
+    {
+      id: 5,
+      name: "Матрас Royal Sleep",
+      price: 12500,
+      image: mattressPhoto,
+      rating: 4.9,
+      reviews: 156,
+      features: ["Latex", "Терморегуляція"],
+      inStock: true,
+      size: "king",
+      firmness: "firm",
+      material: "latex",
+    },
+    {
+      id: 6,
+      name: "Матрас Nature Bio",
+      price: 8900,
+      image: mattressPhoto,
+      rating: 4.6,
+      reviews: 78,
+      features: ["Eco-friendly", "Гіпоалергенний"],
+      inStock: true,
+      size: "double",
+      firmness: "medium",
+      material: "latex",
+    },
+    {
+      id: 7,
+      name: "Матрас Soft Dreams",
+      price: 5400,
+      image: mattressPhoto,
+      rating: 4.4,
+      reviews: 34,
+      features: ["М'який", "Дихаючий"],
+      inStock: true,
+      size: "single",
+      firmness: "soft",
+      material: "memory",
     },
   ];
 
-  const getSizeTitle = (sizeParam) => {
-    const titles = {
-      single: "Односпальні матраси",
-      double: "Полуторні матраси",
-      king: "Двоспальні матраси",
-    };
-    return titles[sizeParam] || "Каталог матрасів";
+  const sizeConfig = {
+    single: {
+      title: "Односпальні матраси",
+      description: "Компактні матраси для дітей та підлітків"
+    },
+    double: {
+      title: "Полуторні матраси", 
+      description: "Комфортні матраси з додатковим простором"
+    },
+    king: {
+      title: "Двоспальні матраси",
+      description: "Просторі матраси для пар"
+    }
   };
 
-  const getSizeDescription = (sizeParam) => {
-    const descriptions = {
-      single: "Компактні матраси для дітей та підлітків",
-      double: "Комфортні матраси з додатковим простором",
-      king: "Просторі матраси для пар",
-    };
-    return descriptions[sizeParam] || "Широкий вибір якісних матрасів";
+  const currentSizeConfig = sizeConfig[size] || {
+    title: "Каталог матрасів",
+    description: "Широкий вибір якісних матрасів"
   };
 
-  const filteredProducts = mockProducts.filter((product) => {
-    if (size && product.size !== size) return false;
-    return true;
-  });
+  // Фільтрація та сортування товарів
+  const filteredAndSortedProducts = useMemo(() => {
+    let result = mockProducts.filter((product) => {
+      // Фільтр по розміру з URL
+      if (size && product.size !== size) return false;
+
+      // Фільтри з форми
+      const { priceMin, priceMax, firmness, material } = filters;
+      
+      if (priceMin && product.price < Number(priceMin)) return false;
+      if (priceMax && product.price > Number(priceMax)) return false;
+      if (firmness && product.firmness !== firmness) return false;
+      if (material && product.material !== material) return false;
+
+      return true;
+    });
+
+    // Сортування
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        case "rating":
+          return b.rating - a.rating;
+        case "name":
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+
+    return result;
+  }, [size, filters, sortBy, mockProducts]);
+
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      priceMin: "",
+      priceMax: "",
+      firmness: "",
+      material: "",
+    });
+  };
 
   return (
     <div className="catalog">
@@ -81,17 +184,53 @@ const Catalog = () => {
         {/* Header */}
         <div className="catalog__header">
           <div>
-            <h1 className="catalog__header-title">{getSizeTitle(size)}</h1>
-            <p className="catalog__header-subtitle">
-              {getSizeDescription(size)}
-            </p>
+            <h1 className="catalog__header-title">{currentSizeConfig.title}</h1>
+            <p className="catalog__header-subtitle">{currentSizeConfig.description}</p>
+          </div>
+        </div>
+
+        {/* Toolbar */}
+        <div className="catalog__toolbar">
+          <div className="catalog__toolbar-left">
+            <div className="catalog__results-count">
+              Знайдено: <strong>{filteredAndSortedProducts.length}</strong> товарів
+            </div>
+          </div>
+          <div className="catalog__toolbar-right">
+            <button 
+              className="catalog__filters-toggle"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter size={16} />
+              Фільтри
+            </button>
+            <div className="catalog__sort">
+              <select
+                className="form-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="name">За назвою</option>
+                <option value="price-asc">За ціною ↑</option>
+                <option value="price-desc">За ціною ↓</option>
+                <option value="rating">За рейтингом</option>
+              </select>
+            </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="catalog__filters">
-          <h3 className="catalog__filters-title">Фільтри</h3>
-          <div className="catalog__filters-row">
+        <div className={`catalog__filters ${showFilters ? 'catalog__filters--open' : ''}`}>
+          <div className="catalog__filters-header">
+            <h3 className="catalog__filters-title">Фільтри</h3>
+            <button 
+              className="catalog__filters-close"
+              onClick={() => setShowFilters(false)}
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <div className="catalog__filters-content">
             <div className="catalog__filters-group">
               <label className="form-label">Ціна від</label>
               <input
@@ -99,9 +238,7 @@ const Catalog = () => {
                 className="form-input"
                 placeholder="0"
                 value={filters.priceMin}
-                onChange={(e) =>
-                  setFilters({ ...filters, priceMin: e.target.value })
-                }
+                onChange={(e) => handleFilterChange('priceMin', e.target.value)}
               />
             </div>
             <div className="catalog__filters-group">
@@ -111,9 +248,7 @@ const Catalog = () => {
                 className="form-input"
                 placeholder="20000"
                 value={filters.priceMax}
-                onChange={(e) =>
-                  setFilters({ ...filters, priceMax: e.target.value })
-                }
+                onChange={(e) => handleFilterChange('priceMax', e.target.value)}
               />
             </div>
             <div className="catalog__filters-group">
@@ -121,9 +256,7 @@ const Catalog = () => {
               <select
                 className="form-select"
                 value={filters.firmness}
-                onChange={(e) =>
-                  setFilters({ ...filters, firmness: e.target.value })
-                }
+                onChange={(e) => handleFilterChange('firmness', e.target.value)}
               >
                 <option value="">Будь-яка</option>
                 <option value="soft">М'який</option>
@@ -136,9 +269,7 @@ const Catalog = () => {
               <select
                 className="form-select"
                 value={filters.material}
-                onChange={(e) =>
-                  setFilters({ ...filters, material: e.target.value })
-                }
+                onChange={(e) => handleFilterChange('material', e.target.value)}
               >
                 <option value="">Будь-який</option>
                 <option value="memory">Memory Foam</option>
@@ -147,50 +278,27 @@ const Catalog = () => {
               </select>
             </div>
           </div>
+          {Object.values(filters).some(value => value) && (
+            <div className="catalog__filters-actions">
+              <button className="btn btn-ghost" onClick={clearFilters}>
+                Скинути фільтри
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Toolbar */}
-        <div className="catalog__toolbar">
-          <div className="catalog__toolbar-left">
-            <div className="catalog__results-count">
-              Знайдено: <strong>{filteredProducts.length}</strong> товарів
-            </div>
-          </div>
-          <div className="catalog__toolbar-right">
-            <div className="catalog__sort">
-              <label>Сортувати:</label>
-              <select
-                className="form-select"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="name">За назвою</option>
-                <option value="price-asc">За ціною (зростання)</option>
-                <option value="price-desc">За ціною (спадання)</option>
-                <option value="rating">За рейтингом</option>
-              </select>
-            </div>
-            <div className="catalog__view-toggle">
-              <button
-                className={viewMode === "grid" ? "active" : ""}
-                onClick={() => setViewMode("grid")}
-              >
-                <Grid size={16} />
-              </button>
-              <button
-                className={viewMode === "list" ? "active" : ""}
-                onClick={() => setViewMode("list")}
-              >
-                <List size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
+        {/* Filters Backdrop */}
+        {showFilters && (
+          <div 
+            className="catalog__filters-backdrop" 
+            onClick={() => setShowFilters(false)} 
+          />
+        )}
 
         {/* Products Grid */}
-        {filteredProducts.length > 0 ? (
-          <div className={`catalog__grid ${viewMode}-view`}>
-            {filteredProducts.map((product) => (
+        {filteredAndSortedProducts.length > 0 ? (
+          <div className="catalog__grid">
+            {filteredAndSortedProducts.map((product) => (
               <Link 
                 key={product.id} 
                 to={`/product/${product.id}`}
@@ -212,7 +320,7 @@ const Catalog = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Логіка додавання в закладки
+                        console.log('Add to favorites:', product.id);
                       }}
                     >
                       <Heart size={16} />
@@ -223,7 +331,7 @@ const Catalog = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Логіка додавання до порівняння
+                        console.log('Add to compare:', product.id);
                       }}
                     >
                       <Scale size={16} />
@@ -259,14 +367,12 @@ const Catalog = () => {
                       </span>
                     </div>
                     <button
-                      className={`btn btn-primary ${
-                        !product.inStock ? "btn-disabled" : ""
-                      }`}
+                      className={`btn btn-primary ${!product.inStock ? "btn-disabled" : ""}`}
                       disabled={!product.inStock}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Логіка додавання в кошик
+                        console.log('Add to cart:', product.id);
                       }}
                     >
                       {product.inStock ? (
@@ -286,43 +392,15 @@ const Catalog = () => {
         ) : (
           <div className="catalog__empty">
             <div className="catalog__empty-icon">
-              <Search size={64} style={{ color: "#c7d7fd" }} />
+              <Search size={64} />
             </div>
             <h3 className="catalog__empty-title">Товари не знайдені</h3>
             <p className="catalog__empty-description">
-              Спробуйте змінити параметри фільтрації або перегляньте інші
-              категорії
+              Спробуйте змінити параметри фільтрації або перегляньте інші категорії
             </p>
-            <a href="/catalog" className="btn btn-primary">
+            <Link to="/catalog" className="btn btn-primary">
               Переглянути всі товари
-            </a>
-          </div>
-        )}
-
-        {/* Pagination */}
-        {filteredProducts.length > 0 && (
-          <div className="catalog__pagination">
-            <div className="pagination">
-              <a href="#" className="pagination__item disabled">
-                ‹
-              </a>
-              <a href="#" className="pagination__item active">
-                1
-              </a>
-              <a href="#" className="pagination__item">
-                2
-              </a>
-              <a href="#" className="pagination__item">
-                3
-              </a>
-              <span className="pagination__dots">...</span>
-              <a href="#" className="pagination__item">
-                10
-              </a>
-              <a href="#" className="pagination__item">
-                ›
-              </a>
-            </div>
+            </Link>
           </div>
         )}
       </div>
