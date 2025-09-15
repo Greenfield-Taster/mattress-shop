@@ -1,49 +1,49 @@
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
 
 const Contacts = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) {
-      newErrors.name = 'Ім\'я обов\'язкове';
+      newErrors.name = "Ім'я обов'язкове";
     }
-    
+
     if (!formData.email) {
-      newErrors.email = 'Email обов\'язковий';
+      newErrors.email = "Email обов'язковий";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Неправильний формат email';
+      newErrors.email = "Неправильний формат email";
     }
-    
+
     if (!formData.message.trim()) {
-      newErrors.message = 'Повідомлення обов\'язкове';
+      newErrors.message = "Повідомлення обов'язкове";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -52,14 +52,16 @@ const Contacts = () => {
     e.preventDefault();
     if (validateForm()) {
       // Тут буде логіка відправки форми
-      console.log('Form submitted:', formData);
-      alert('Дякуємо за ваше повідомлення! Ми зв\'яжемося з вами найближчим часом.');
+      console.log("Form submitted:", formData);
+      alert(
+        "Дякуємо за ваше повідомлення! Ми зв'яжемося з вами найближчим часом."
+      );
       setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
       });
     }
   };
@@ -67,36 +69,24 @@ const Contacts = () => {
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Адреса',
-      details: [
-        'м. Київ, вул. Хрещатик, 25',
-        '2-й поверх, секція 15'
-      ]
+      title: "Адреса",
+      details: ["м. Київ, вул. Хрещатик, 25", "2-й поверх, секція 15"],
     },
     {
       icon: Phone,
-      title: 'Телефони',
-      details: [
-        '+380 (44) 123-45-67',
-        '+380 (63) 987-65-43'
-      ]
+      title: "Телефони",
+      details: ["+380 (44) 123-45-67", "+380 (63) 987-65-43"],
     },
     {
       icon: Mail,
-      title: 'Email',
-      details: [
-        'info@matressshop.ua',
-        'support@matressshop.ua'
-      ]
+      title: "Email",
+      details: ["info@mattressshop.ua", "support@mattressshop.ua"],
     },
     {
       icon: Clock,
-      title: 'Графік роботи',
-      details: [
-        'Пн-Пт: 9:00 - 19:00',
-        'Сб-Нд: 10:00 - 18:00'
-      ]
-    }
+      title: "Графік роботи",
+      details: ["Пн-Пт: 9:00 - 19:00", "Сб-Нд: 10:00 - 18:00"],
+    },
   ];
 
   return (
@@ -106,8 +96,8 @@ const Contacts = () => {
         <section className="contacts__hero">
           <h1 className="contacts__hero-title">Контакти</h1>
           <p className="contacts__hero-subtitle">
-            Зв'яжіться з нами будь-яким зручним способом. Ми завжди готові відповісти 
-            на ваші запитання та допомогти з вибором матраса.
+            Зв'яжіться з нами будь-яким зручним способом. Ми завжди готові
+            відповісти на ваші запитання та допомогти з вибором матраса.
           </p>
         </section>
 
@@ -115,7 +105,7 @@ const Contacts = () => {
           {/* Contact Information */}
           <div className="contacts__info">
             <h2 className="contacts__info-title">Як з нами зв'язатися</h2>
-            
+
             <div className="contacts__info-grid">
               {contactInfo.map((item, index) => (
                 <div key={index} className="contacts__info-item">
@@ -125,7 +115,9 @@ const Contacts = () => {
                   <div className="contacts__info-content">
                     <h3 className="contacts__info-item-title">{item.title}</h3>
                     {item.details.map((detail, idx) => (
-                      <p key={idx} className="contacts__info-detail">{detail}</p>
+                      <p key={idx} className="contacts__info-detail">
+                        {detail}
+                      </p>
                     ))}
                   </div>
                 </div>
@@ -137,7 +129,9 @@ const Contacts = () => {
               <div className="contacts__map-placeholder">
                 <MapPin size={48} />
                 <p>Інтерактивна карта</p>
-                <p className="contacts__map-address">м. Київ, вул. Хрещатик, 25</p>
+                <p className="contacts__map-address">
+                  м. Київ, вул. Хрещатик, 25
+                </p>
               </div>
             </div>
           </div>
@@ -158,10 +152,14 @@ const Contacts = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`form-input ${errors.name ? 'form-input-error' : ''}`}
+                    className={`form-input ${
+                      errors.name ? "form-input-error" : ""
+                    }`}
                     placeholder="Ваше ім'я"
                   />
-                  {errors.name && <span className="form-error">{errors.name}</span>}
+                  {errors.name && (
+                    <span className="form-error">{errors.name}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -171,10 +169,14 @@ const Contacts = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`form-input ${errors.email ? 'form-input-error' : ''}`}
+                    className={`form-input ${
+                      errors.email ? "form-input-error" : ""
+                    }`}
                     placeholder="your@email.com"
                   />
-                  {errors.email && <span className="form-error">{errors.email}</span>}
+                  {errors.email && (
+                    <span className="form-error">{errors.email}</span>
+                  )}
                 </div>
               </div>
 
@@ -216,11 +218,15 @@ const Contacts = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className={`form-textarea ${errors.message ? 'form-input-error' : ''}`}
+                  className={`form-textarea ${
+                    errors.message ? "form-input-error" : ""
+                  }`}
                   placeholder="Опишіть ваше питання або побажання..."
                   rows="5"
                 />
-                {errors.message && <span className="form-error">{errors.message}</span>}
+                {errors.message && (
+                  <span className="form-error">{errors.message}</span>
+                )}
               </div>
 
               <button type="submit" className="btn btn-primary btn-lg">
@@ -237,19 +243,31 @@ const Contacts = () => {
           <div className="contacts__faq-grid">
             <div className="contacts__faq-item">
               <h3>Як довго триває доставка?</h3>
-              <p>По Києву доставка здійснюється протягом 1-2 днів. По Україні - 3-5 робочих днів.</p>
+              <p>
+                По Києву доставка здійснюється протягом 1-2 днів. По Україні -
+                3-5 робочих днів.
+              </p>
             </div>
             <div className="contacts__faq-item">
               <h3>Чи можна протестувати матрас?</h3>
-              <p>Так, у нашому шоу-румі ви можете протестувати будь-який матрас перед покупкою.</p>
+              <p>
+                Так, у нашому шоу-румі ви можете протестувати будь-який матрас
+                перед покупкою.
+              </p>
             </div>
             <div className="contacts__faq-item">
               <h3>Яка гарантія на матраси?</h3>
-              <p>Гарантія залежить від виробника та моделі, зазвичай від 5 до 10 років.</p>
+              <p>
+                Гарантія залежить від виробника та моделі, зазвичай від 5 до 10
+                років.
+              </p>
             </div>
             <div className="contacts__faq-item">
               <h3>Чи можна повернути матрас?</h3>
-              <p>Так, протягом 30 днів після покупки ви можете повернути або обміняти матрас.</p>
+              <p>
+                Так, протягом 30 днів після покупки ви можете повернути або
+                обміняти матрас.
+              </p>
             </div>
           </div>
         </section>
@@ -275,7 +293,7 @@ const Contacts = () => {
               <Mail size={32} />
               <div>
                 <h3>Email</h3>
-                <p>info@matressshop.ua</p>
+                <p>info@mattressshop.ua</p>
               </div>
             </div>
           </div>
