@@ -1,60 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Bed, Home as HomeIcon, Building2, Star, Shield, Truck, MessageCircle } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  Bed,
+  Home as HomeIcon,
+  Building2,
+  Star,
+  Shield,
+  Truck,
+  MessageCircle,
+} from "lucide-react";
 
 const Home = () => {
   const mattressSizes = [
     {
-      id: 'single',
-      title: 'Односпальні',
-      description: 'Ідеально підходять для дітей та підлітків',
-      dimensions: '80x190 см, 90x200 см',
+      id: "single",
+      title: "Односпальні",
+      description: "Ідеально підходять для дітей та підлітків",
+      dimensions: "80x190 см, 90x200 см",
       icon: Bed,
-      link: '/catalog/single'
+      link: "/catalog/single",
     },
     {
-      id: 'double',
-      title: 'Полуторні',
-      description: 'Комфорт для однієї людини з додатковим простором',
-      dimensions: '120x200 см, 140x200 см',
+      id: "double",
+      title: "Полуторні",
+      description: "Комфорт для однієї людини з додатковим простором",
+      dimensions: "120x200 см, 140x200 см",
       icon: HomeIcon,
-      link: '/catalog/double'
+      link: "/catalog/double",
     },
     {
-      id: 'king',
-      title: 'Двоспальні',
-      description: 'Простір та комфорт для двох',
-      dimensions: '160x200 см, 180x200 см',
+      id: "king",
+      title: "Двоспальні",
+      description: "Простір та комфорт для двох",
+      dimensions: "160x200 см, 180x200 см",
       icon: Building2,
-      link: '/catalog/king'
-    }
+      link: "/catalog/king",
+    },
   ];
 
   const features = [
     {
       id: 1,
-      title: 'Якість',
-      description: 'Тільки перевірені виробники',
-      icon: Star
+      title: "Якість",
+      description: "Тільки перевірені виробники",
+      icon: Star,
     },
     {
       id: 2,
-      title: 'Гарантія',
-      description: 'До 10 років гарантії',
-      icon: Shield
+      title: "Гарантія",
+      description: "До 10 років гарантії",
+      icon: Shield,
     },
     {
       id: 3,
-      title: 'Доставка',
-      description: 'Безкоштовна доставка по Києву',
-      icon: Truck
+      title: "Доставка",
+      description: "Безкоштовна доставка по Києву",
+      icon: Truck,
     },
     {
       id: 4,
-      title: 'Консультація',
-      description: 'Допоможемо обрати ідеальний матрас',
-      icon: MessageCircle
-    }
+      title: "Консультація",
+      description: "Допоможемо обрати ідеальний матрас",
+      icon: MessageCircle,
+    },
   ];
 
   return (
@@ -62,12 +70,10 @@ const Home = () => {
       {/* Hero Section */}
       <section className="home__hero">
         <div className="container">
-          <h1 className="home__hero-title">
-            Знайдіть свій ідеальний матрас
-          </h1>
+          <h1 className="home__hero-title">Знайдіть свій ідеальний матрас</h1>
           <p className="home__hero-subtitle">
-            Якісні матраси для комфортного сну. Різні розміри, матеріали та цінові категорії. 
-            Безкоштовна доставка та професійна консультація.
+            Якісні матраси для комфортного сну. Різні розміри, матеріали та
+            цінові категорії.
           </p>
         </div>
       </section>
@@ -75,22 +81,14 @@ const Home = () => {
       {/* Size Selection */}
       <section className="home__sizes">
         <div className="container">
-          <h2 className="home__sizes-title">
-            Оберіть розмір матраса
-          </h2>
+          <h2 className="home__sizes-title">Оберіть розмір матраса</h2>
           <div className="home__sizes-grid">
             {mattressSizes.map((size) => (
-              <Link 
-                key={size.id}
-                to={size.link}
-                className="home__size-card"
-              >
+              <Link key={size.id} to={size.link} className="home__size-card">
                 <div className="home__size-card__icon">
                   <size.icon size={32} />
                 </div>
-                <h3 className="home__size-card__title">
-                  {size.title}
-                </h3>
+                <h3 className="home__size-card__title">{size.title}</h3>
                 <p className="home__size-card__description">
                   {size.description}
                 </p>
@@ -106,18 +104,14 @@ const Home = () => {
       {/* Features */}
       <section className="home__features">
         <div className="container">
-          <h2 className="home__features-title">
-            Чому обирають нас
-          </h2>
+          <h2 className="home__features-title">Чому обирають нас</h2>
           <div className="home__features-grid">
             {features.map((feature) => (
               <div key={feature.id} className="home__feature">
                 <div className="home__feature__icon">
                   <feature.icon size={24} />
                 </div>
-                <h3 className="home__feature__title">
-                  {feature.title}
-                </h3>
+                <h3 className="home__feature__title">{feature.title}</h3>
                 <p className="home__feature__description">
                   {feature.description}
                 </p>

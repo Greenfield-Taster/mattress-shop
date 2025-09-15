@@ -1,32 +1,31 @@
-// ===================================
-// HOME PAGE STYLES
-// ===================================
-
 @use "../variables" as *;
 
 .home {
-  
   // Hero section
   &__hero {
     padding: $spacing-5xl 0;
-    background: linear-gradient(135deg, $color-primary-lightest 0%, $color-primary-light 100%);
+    background: linear-gradient(
+      135deg,
+      $color-primary-lightest 0%,
+      $color-primary-light 100%
+    );
     text-align: center;
-    
+
     @media (min-width: $breakpoint-md) {
       padding: $spacing-6xl 0;
     }
-    
+
     &-title {
       font-size: $font-size-4xl;
       font-weight: $font-weight-bold;
       color: $color-text-primary;
       margin-bottom: $spacing-lg;
-      
+
       @media (min-width: $breakpoint-md) {
         font-size: $font-size-5xl;
       }
     }
-    
+
     &-subtitle {
       font-size: $font-size-lg;
       color: $color-text-secondary;
@@ -35,46 +34,46 @@
       margin-left: auto;
       margin-right: auto;
       line-height: $line-height-relaxed;
-      
+
       @media (min-width: $breakpoint-md) {
         font-size: $font-size-xl;
       }
     }
   }
-  
+
   // Size selection section
   &__sizes {
     padding: $spacing-4xl 0;
-    
+
     @media (min-width: $breakpoint-md) {
       padding: $spacing-5xl 0;
     }
-    
+
     &-title {
       text-align: center;
       font-size: $font-size-3xl;
       margin-bottom: $spacing-3xl;
       color: $color-text-primary;
-      
+
       @media (min-width: $breakpoint-md) {
         font-size: $font-size-4xl;
       }
     }
-    
+
     &-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: $spacing-xl;
       max-width: 900px;
       margin: 0 auto;
-      
+
       @media (min-width: $breakpoint-md) {
         grid-template-columns: repeat(3, 1fr);
         gap: $spacing-2xl;
       }
     }
   }
-  
+
   // Size card
   &__size-card {
     background: $color-neutral-lightest;
@@ -86,18 +85,22 @@
     cursor: pointer;
     border: 2px solid transparent;
     text-decoration: none;
-    
+
     &:hover {
       transform: translateY(-8px);
       box-shadow: $shadow-xl;
       border-color: $color-primary;
       text-decoration: none;
     }
-    
+
     &__icon {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+      background: linear-gradient(
+        135deg,
+        $color-primary 0%,
+        $color-primary-dark 100%
+      );
       border-radius: $border-radius-full;
       display: flex;
       align-items: center;
@@ -105,31 +108,31 @@
       margin: 0 auto $spacing-lg;
       color: $color-text-light;
       font-size: $font-size-2xl;
-      
+
       @media (min-width: $breakpoint-md) {
         width: 100px;
         height: 100px;
         font-size: $font-size-3xl;
       }
     }
-    
+
     &__title {
       font-size: $font-size-xl;
       font-weight: $font-weight-bold;
       color: $color-text-primary;
       margin-bottom: $spacing-base;
-      
+
       @media (min-width: $breakpoint-md) {
         font-size: $font-size-2xl;
       }
     }
-    
+
     &__description {
       color: $color-text-secondary;
       line-height: $line-height-relaxed;
       margin-bottom: $spacing-lg;
     }
-    
+
     &__dimensions {
       font-size: $font-size-sm;
       color: $color-text-secondary;
@@ -140,46 +143,46 @@
       display: inline-block;
     }
   }
-  
+
   // Features section
   &__features {
     background: $color-neutral-light;
     padding: $spacing-4xl 0;
-    
+
     @media (min-width: $breakpoint-md) {
       padding: $spacing-5xl 0;
     }
-    
+
     &-title {
       text-align: center;
       font-size: $font-size-3xl;
       margin-bottom: $spacing-3xl;
       color: $color-text-primary;
-      
+
       @media (min-width: $breakpoint-md) {
         font-size: $font-size-4xl;
       }
     }
-    
+
     &-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: $spacing-2xl;
-      
+
       @media (min-width: $breakpoint-md) {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       @media (min-width: $breakpoint-lg) {
         grid-template-columns: repeat(4, 1fr);
       }
     }
   }
-  
+
   // Feature item
   &__feature {
     text-align: center;
-    
+
     &__icon {
       width: 60px;
       height: 60px;
@@ -192,14 +195,14 @@
       color: $color-text-light;
       font-size: $font-size-xl;
     }
-    
+
     &__title {
       font-size: $font-size-lg;
       font-weight: $font-weight-semibold;
       color: $color-text-primary;
       margin-bottom: $spacing-sm;
     }
-    
+
     &__description {
       color: $color-text-secondary;
       line-height: $line-height-relaxed;
