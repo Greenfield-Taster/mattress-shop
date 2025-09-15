@@ -54,7 +54,7 @@ const Home = () => {
     {
       id: 3,
       title: "Доставка",
-      description: "Безкоштовна доставка по Києву",
+      description: "Швидка доставка по всій Україні",
       icon: Truck,
     },
     {
