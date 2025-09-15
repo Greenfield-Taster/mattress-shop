@@ -9,23 +9,23 @@
   color: $color-text-light;
   padding: $spacing-3xl 0 $spacing-xl;
   margin-top: auto;
-  
+
   &__container {
     @include container;
   }
-  
+
   &__content {
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-2xl;
     margin-bottom: $spacing-2xl;
-    
+
     @media (min-width: $breakpoint-md) {
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: $spacing-3xl;
     }
   }
-  
+
   &__brand {
     &-logo {
       font-size: $font-size-xl;
@@ -33,18 +33,19 @@
       color: $color-text-light;
       margin-bottom: $spacing-base;
     }
-    
+
     &-description {
       color: rgba($color-text-light, 0.8);
       line-height: $line-height-relaxed;
       margin-bottom: $spacing-lg;
       font-size: $font-size-sm;
+      max-width: 400px;
     }
-    
+
     &-social {
       display: flex;
       gap: $spacing-sm;
-      
+
       a {
         display: flex;
         align-items: center;
@@ -56,7 +57,7 @@
         color: $color-text-light;
         text-decoration: none;
         transition: all $transition-normal;
-        
+
         &:hover {
           background-color: $color-accent-coral;
           transform: translateY(-2px);
@@ -64,7 +65,7 @@
       }
     }
   }
-  
+
   &__section {
     &-title {
       font-size: $font-size-base;
@@ -72,18 +73,18 @@
       color: $color-text-light;
       margin-bottom: $spacing-base;
     }
-    
+
     &-links {
       list-style: none;
-      
+
       li {
         margin-bottom: $spacing-xs;
-        
+
         &:last-child {
           margin-bottom: 0;
         }
       }
-      
+
       a {
         color: rgba($color-text-light, 0.8);
         text-decoration: none;
@@ -92,7 +93,7 @@
         display: flex;
         align-items: center;
         gap: $spacing-xs;
-        
+
         &:hover {
           color: $color-text-light;
           text-decoration: none;
@@ -100,37 +101,37 @@
       }
     }
   }
-  
+
   &__bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: $spacing-lg;
     border-top: 1px solid rgba($color-text-light, 0.1);
-    
+
     @media (max-width: $breakpoint-md) {
       flex-direction: column;
       gap: $spacing-base;
       text-align: center;
     }
   }
-  
+
   &__copyright {
     color: rgba($color-text-light, 0.7);
     font-size: $font-size-xs;
   }
-  
+
   &__payment {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    
+
     &-title {
       color: rgba($color-text-light, 0.7);
       font-size: $font-size-xs;
       margin-right: $spacing-xs;
     }
-    
+
     &-icon {
       background-color: rgba($color-text-light, 0.1);
       color: $color-text-light;

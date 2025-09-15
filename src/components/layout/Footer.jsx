@@ -22,7 +22,7 @@ const Footer = () => {
             <div className="footer__brand-logo">MattressShop</div>
             <p className="footer__brand-description">
               Ваш надійний партнер у виборі ідеального матраса для комфортного
-              та здорового сну. Якість, комфорт та доступні ціни.
+              та здорового сну.
             </p>
             <div className="footer__brand-social">
               <a href="#" aria-label="Facebook">
