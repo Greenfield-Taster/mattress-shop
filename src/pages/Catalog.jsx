@@ -17,7 +17,7 @@ const Catalog = () => {
   const mockProducts = [
     {
       id: 1,
-      name: "Матрас Comfort Classic",
+      name: "Матрац Comfort Classic",
       price: 4500,
       oldPrice: 5000,
       image: mattressPhoto,
@@ -31,7 +31,7 @@ const Catalog = () => {
     },
     {
       id: 2,
-      name: "Матрас Premium Dream",
+      name: "Матрац Premium Dream",
       price: 7200,
       image: mattressPhoto,
       rating: 4.8,
@@ -44,7 +44,7 @@ const Catalog = () => {
     },
     {
       id: 3,
-      name: "Матрас Elite Support",
+      name: "Матрац Elite Support",
       price: 9800,
       image: mattressPhoto,
       rating: 4.9,
@@ -57,7 +57,7 @@ const Catalog = () => {
     },
     {
       id: 4,
-      name: "Матрас Ultra Comfort",
+      name: "Матрац Ultra Comfort",
       price: 6200,
       oldPrice: 7000,
       image: mattressPhoto,
@@ -71,7 +71,7 @@ const Catalog = () => {
     },
     {
       id: 5,
-      name: "Матрас Royal Sleep",
+      name: "Матрац Royal Sleep",
       price: 12500,
       image: mattressPhoto,
       rating: 4.9,
@@ -84,7 +84,7 @@ const Catalog = () => {
     },
     {
       id: 6,
-      name: "Матрас Nature Bio",
+      name: "Матрац Nature Bio",
       price: 8900,
       image: mattressPhoto,
       rating: 4.6,
@@ -97,7 +97,7 @@ const Catalog = () => {
     },
     {
       id: 7,
-      name: "Матрас Soft Dreams",
+      name: "Матрац Soft Dreams",
       price: 5400,
       image: mattressPhoto,
       rating: 4.4,
@@ -112,22 +112,22 @@ const Catalog = () => {
 
   const sizeConfig = {
     single: {
-      title: "Односпальні матраси",
-      description: "Компактні матраси для дітей та підлітків"
+      title: "Односпальні матраци",
+      description: "Компактні матраци для дітей та підлітків"
     },
     double: {
-      title: "Полуторні матраси", 
-      description: "Комфортні матраси з додатковим простором"
+      title: "Полуторні матраци", 
+      description: "Комфортні матраци з додатковим простором"
     },
     king: {
-      title: "Двоспальні матраси",
-      description: "Просторі матраси для пар"
+      title: "Двоспальні матраци",
+      description: "Просторі матраци для пар"
     }
   };
 
   const currentSizeConfig = sizeConfig[size] || {
-    title: "Каталог матрасів",
-    description: "Широкий вибір якісних матрасів"
+    title: "Каталог матраців",
+    description: "Широкий вибір якісних матраців"
   };
 
   // Фільтрація та сортування товарів

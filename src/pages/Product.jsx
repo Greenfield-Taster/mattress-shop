@@ -25,7 +25,7 @@ const Product = () => {
   // Mock product data
   const mockProduct = {
     id: parseInt(id),
-    name: "Матрас Premium Dream Memory",
+    name: "Матрац Premium Dream Memory",
     price: 7200,
     oldPrice: 8500,
     rating: 4.8,
@@ -48,7 +48,7 @@ const Product = () => {
       "Гарантія 10 років",
     ],
     description: `
-      Матрас Premium Dream Memory - це ідеальне поєднання комфорту та підтримки для здорового сну. 
+      Матрац Premium Dream Memory - це ідеальне поєднання комфорту та підтримки для здорового сну. 
       Інноваційна пам'ять форми Memory Foam адаптується до контурів вашого тіла, забезпечуючи 
       рівномірний розподіл ваги та зменшення тиску на суглоби.
       
@@ -76,7 +76,7 @@ const Product = () => {
         author: "Марія К.",
         rating: 5,
         date: "2024-12-10",
-        text: "Чудовий матрас! Сплю набагато краще, спина не болить вранці.",
+        text: "Чудовий матрац! Сплю набагато краще, спина не болить вранці.",
         verified: true,
       },
       {
@@ -94,21 +94,21 @@ const Product = () => {
   const similarProducts = [
     {
       id: 2,
-      name: "Матрас Classic Comfort",
+      name: "Матрац Classic Comfort",
       price: 4500,
       image: mattressImage,
       rating: 4.5,
     },
     {
       id: 3,
-      name: "Матрас Luxury Spring",
+      name: "Матрац Luxury Spring",
       price: 9200,
       image: mattressImage,
       rating: 4.9,
     },
     {
       id: 4,
-      name: "Матрас Eco Natural",
+      name: "Матрац Eco Natural",
       price: 6800,
       image: mattressImage,
       rating: 4.6,
@@ -117,13 +117,13 @@ const Product = () => {
 
   useEffect(() => {
     // Scroll to top when component mounts or id changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     setProduct(mockProduct);
     if (mockProduct.sizes.length > 0) {
       setSelectedSize(mockProduct.sizes[0].id);
     }
-    
+
     // Reset states when changing products
     setSelectedImageIndex(0);
     setQuantity(1);
@@ -132,7 +132,7 @@ const Product = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert("Оберіть розмір матраса");
+      alert("Оберіть розмір матраца");
       return;
     }
 
@@ -143,7 +143,7 @@ const Product = () => {
 
   const handleBuyNow = () => {
     if (!selectedSize) {
-      alert("Оберіть розмір матраса");
+      alert("Оберіть розмір матраца");
       return;
     }
 
@@ -155,9 +155,9 @@ const Product = () => {
     setSelectedImageIndex(0);
     setQuantity(1);
     setActiveTab("description");
-    
+
     // Scroll to top smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const getSelectedSizePrice = () => {
@@ -271,7 +271,7 @@ const Product = () => {
 
             {/* Size Selection */}
             <div className="product__info-sizes">
-              <h3>Розмір матраса:</h3>
+              <h3>Розмір матраца:</h3>
               <div className="product__sizes-grid">
                 {product.sizes.map((size) => (
                   <label
@@ -348,7 +348,9 @@ const Product = () => {
 
             {/* Delivery info */}
             <div className="product__delivery-info">
-              <h4 className="product__delivery-title">Інформація про доставку</h4>
+              <h4 className="product__delivery-title">
+                Інформація про доставку
+              </h4>
               <div className="product__delivery-item">
                 <Truck size={18} />
                 <span>Безкоштовна доставка по Києву</span>

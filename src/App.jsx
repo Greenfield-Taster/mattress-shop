@@ -15,7 +15,7 @@ import "./styles/main.scss";
 function App() {
   // Використовуємо basename тільки в продакшні
   const basename = import.meta.env.PROD ? "/mattress-shop" : "";
-  
+
   return (
     <Router basename={basename}>
       <ScrollToTop />
@@ -26,10 +26,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/:size" element={<Catalog />} />
 
-          <Route
-            path="/product/:id"
-            element={<Product />}
-          />
+          <Route path="/product/:id" element={<Product />} />
 
           <Route path="/cart" element={<Cart />} />
 
@@ -40,10 +37,7 @@ function App() {
           />
 
           <Route path="/about" element={<About />} />
-          <Route
-            path="/contacts"
-            element={<Contacts />}
-          />
+          <Route path="/contacts" element={<Contacts />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

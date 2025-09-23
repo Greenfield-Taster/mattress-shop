@@ -1,62 +1,74 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, CreditCard, Truck, Shield } from 'lucide-react';
-import mattressImage from '../assets/images/mattress-photo.png';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ShoppingCart,
+  Plus,
+  Minus,
+  Trash2,
+  ArrowLeft,
+  CreditCard,
+  Truck,
+  Shield,
+} from "lucide-react";
+import mattressImage from "../assets/images/mattress-photo.png";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
-      name: 'Матрас Premium Dream Memory',
+      name: "Матрац Premium Dream Memory",
       price: 7200,
-      size: '140x200 см',
+      size: "140x200 см",
       quantity: 1,
-      image: mattressImage
+      image: mattressImage,
     },
     {
       id: 2,
-      name: 'Матрас Classic Comfort',
+      name: "Матрац Classic Comfort",
       price: 4500,
-      size: '90x200 см',
+      size: "90x200 см",
       quantity: 2,
-      image: mattressImage
-    }
+      image: mattressImage,
+    },
   ]);
 
-  const [promoCode, setPromoCode] = useState('');
+  const [promoCode, setPromoCode] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems(items =>
-      items.map(item =>
+    setCartItems((items) =>
+      items.map((item) =>
         item.id === id ? { ...item, quantity: newQuantity } : item
       )
     );
   };
 
   const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
   const applyPromoCode = () => {
     // Simulation of promo code logic
     const validCodes = {
-      'SAVE10': 0.1,
-      'FIRST20': 0.2,
-      'MATTRESS15': 0.15
+      SAVE10: 0.1,
+      FIRST20: 0.2,
+      MATTRESS15: 0.15,
     };
 
     if (validCodes[promoCode]) {
       setPromoDiscount(validCodes[promoCode]);
-      alert(`Промокод застосовано! Знижка ${(validCodes[promoCode] * 100)}%`);
+      alert(`Промокод застосовано! Знижка ${validCodes[promoCode] * 100}%`);
     } else {
-      alert('Невірний промокод');
+      alert("Невірний промокод");
     }
   };
 
   const getSubtotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   };
 
   const getDeliveryPrice = () => {
@@ -121,29 +133,34 @@ const Cart = () => {
                   <Link to={`/product/${item.id}`} className="cart__item-image">
                     <img src={item.image} alt={item.name} />
                   </Link>
-                  
+
                   <div className="cart__item-info">
-                    <Link to={`/product/${item.id}`} className="cart__item-name">
+                    <Link
+                      to={`/product/${item.id}`}
+                      className="cart__item-name"
+                    >
                       {item.name}
                     </Link>
                     <div className="cart__item-details">
-                      <span className="cart__item-size">Розмір: {item.size}</span>
+                      <span className="cart__item-size">
+                        Розмір: {item.size}
+                      </span>
                     </div>
-                    <div className="cart__item-price">
-                      {item.price} ₴
-                    </div>
+                    <div className="cart__item-price">{item.price} ₴</div>
                   </div>
 
                   <div className="cart__item-quantity">
-                    <button 
+                    <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       className="cart__quantity-btn"
                       disabled={item.quantity <= 1}
                     >
                       <Minus size={16} />
                     </button>
-                    <span className="cart__quantity-value">{item.quantity}</span>
-                    <button 
+                    <span className="cart__quantity-value">
+                      {item.quantity}
+                    </span>
+                    <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       className="cart__quantity-btn"
                     >
@@ -152,10 +169,10 @@ const Cart = () => {
                   </div>
 
                   <div className="cart__item-total">
-                    {(item.price * item.quantity)} ₴
+                    {item.price * item.quantity} ₴
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => removeItem(item.id)}
                     className="cart__item-remove"
                     title="Видалити товар"
@@ -171,19 +188,19 @@ const Cart = () => {
           <div className="cart__summary">
             <div className="cart__summary-card">
               <h3 className="cart__summary-title">Разом до сплати</h3>
-              
+
               {/* Promo Code */}
               <div className="cart__promo">
                 <h4>Промокод</h4>
                 <div className="cart__promo-input">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="Введіть промокод"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     className="form-input"
                   />
-                  <button 
+                  <button
                     onClick={applyPromoCode}
                     className="btn btn-secondary btn-sm"
                   >
@@ -195,10 +212,14 @@ const Cart = () => {
               {/* Price Breakdown */}
               <div className="cart__summary-breakdown">
                 <div className="cart__summary-row">
-                  <span>Товари ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} шт.)</span>
+                  <span>
+                    Товари (
+                    {cartItems.reduce((sum, item) => sum + item.quantity, 0)}{" "}
+                    шт.)
+                  </span>
                   <span>{getSubtotal()} ₴</span>
                 </div>
-                
+
                 <div className="cart__summary-row">
                   <span>Доставка</span>
                   <span>
@@ -212,7 +233,7 @@ const Cart = () => {
 
                 {promoDiscount > 0 && (
                   <div className="cart__summary-row cart__summary-discount">
-                    <span>Знижка ({(promoDiscount * 100)}%)</span>
+                    <span>Знижка ({promoDiscount * 100}%)</span>
                     <span>-{getDiscountAmount()} ₴</span>
                   </div>
                 )}
@@ -234,10 +255,9 @@ const Cart = () => {
                 <div className="cart__delivery-item">
                   <Truck size={16} />
                   <span>
-                    {getDeliveryPrice() === 0 
-                      ? 'Безкоштовна доставка по Києву' 
-                      : 'Доставка по Києву - 200 ₴'
-                    }
+                    {getDeliveryPrice() === 0
+                      ? "Безкоштовна доставка по Києву"
+                      : "Доставка по Києву - 200 ₴"}
                   </span>
                 </div>
                 <div className="cart__delivery-item">
@@ -246,7 +266,8 @@ const Cart = () => {
                 </div>
                 {getSubtotal() < 5000 && (
                   <div className="cart__delivery-note">
-                    Додайте товарів на {5000 - getSubtotal()} ₴ для безкоштовної доставки
+                    Додайте товарів на {5000 - getSubtotal()} ₴ для безкоштовної
+                    доставки
                   </div>
                 )}
               </div>
@@ -259,9 +280,13 @@ const Cart = () => {
           <h2 className="cart__recommendations-title">Рекомендовані товари</h2>
           <div className="cart__recommendations-grid">
             {[1, 2, 3].map((id) => (
-              <Link key={id} to={`/product/${id + 10}`} className="cart__recommendation-card">
+              <Link
+                key={id}
+                to={`/product/${id + 10}`}
+                className="cart__recommendation-card"
+              >
                 <img src={mattressImage} alt="Recommended product" />
-                <h3>Матрас Comfort Plus</h3>
+                <h3>Матрац Comfort Plus</h3>
                 <div className="cart__recommendation-price">5800 ₴</div>
                 <button className="btn btn-outline btn-sm">
                   <ShoppingCart size={14} />

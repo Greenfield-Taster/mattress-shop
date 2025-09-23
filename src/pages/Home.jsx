@@ -22,9 +22,9 @@ const Home = () => {
     },
     {
       id: "double",
-      title: "Полуторні",
+      title: "Півтораспальні",
       description: "Комфорт для однієї людини з додатковим простором",
-      dimensions: "120x200 см, 140x200 см",
+      dimensions: "120x200 см, 140x200 см, 150х200 см",
       icon: HomeIcon,
       link: "/catalog/double",
     },
@@ -32,7 +32,7 @@ const Home = () => {
       id: "king",
       title: "Двоспальні",
       description: "Простір та комфорт для двох",
-      dimensions: "160x200 см, 180x200 см",
+      dimensions: "160x200 см, 180x200 см, 200х200 см",
       icon: Building2,
       link: "/catalog/king",
     },
@@ -60,7 +60,7 @@ const Home = () => {
     {
       id: 4,
       title: "Консультація",
-      description: "Допоможемо обрати ідеальний матрас",
+      description: "Допоможемо обрати ідеальний матрац",
       icon: MessageCircle,
     },
   ];
@@ -70,9 +70,9 @@ const Home = () => {
       {/* Hero Section */}
       <section className="home__hero">
         <div className="container">
-          <h1 className="home__hero-title">Знайдіть свій ідеальний матрас</h1>
+          <h1 className="home__hero-title">Знайдіть свій ідеальний матрац</h1>
           <p className="home__hero-subtitle">
-            Якісні матраси для комфортного сну. Різні розміри, матеріали та
+            Якісні матраци для комфортного сну. Різні розміри, матеріали та
             цінові категорії.
           </p>
         </div>
@@ -81,7 +81,7 @@ const Home = () => {
       {/* Size Selection */}
       <section className="home__sizes">
         <div className="container">
-          <h2 className="home__sizes-title">Оберіть розмір матраса</h2>
+          <h2 className="home__sizes-title">Оберіть розмір матраца</h2>
           <div className="home__sizes-grid">
             {mattressSizes.map((size) => (
               <Link key={size.id} to={size.link} className="home__size-card">

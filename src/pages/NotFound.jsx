@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Home as HomeIcon, Search, ArrowLeft } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Home as HomeIcon, Search, ArrowLeft } from "lucide-react";
 
 const NotFound = () => {
   return (
@@ -13,12 +13,12 @@ const NotFound = () => {
               <Search size={64} />
             </div>
           </div>
-          
+
           <div className="not-found__text">
             <h1 className="not-found__title">Сторінку не знайдено</h1>
             <p className="not-found__description">
-              Вибачте, але сторінка, яку ви шукаєте, не існує. 
-              Можливо, вона була переміщена або видалена.
+              Вибачте, але сторінка, яку ви шукаєте, не існує. Можливо, вона
+              була переміщена або видалена.
             </p>
           </div>
 
@@ -36,9 +36,9 @@ const NotFound = () => {
           <div className="not-found__suggestions">
             <h3>Можливо, вас зацікавить:</h3>
             <div className="not-found__links">
-              <Link to="/catalog/single">Односпальні матраси</Link>
-              <Link to="/catalog/double">Полуторні матраси</Link>
-              <Link to="/catalog/king">Двоспальні матраси</Link>
+              <Link to="/catalog/single">Односпальні матраци</Link>
+              <Link to="/catalog/double">Полуторні матраци</Link>
+              <Link to="/catalog/king">Двоспальні матраци</Link>
               <Link to="/about">Про нас</Link>
               <Link to="/contacts">Контакти</Link>
             </div>
