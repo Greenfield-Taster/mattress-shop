@@ -69,7 +69,7 @@ const Home = () => {
     <div className="home">
       <section className="home__hero">
         <div className="container">
-          <h1 className="home__hero-title">Ваш сон починається тут</h1>
+          <h1 className="home__hero-title">Знайдіть свій ідеальний матрац</h1>
           <p className="home__hero-subtitle">
             Матраци різних розмірів і матеріалів — знайдіть той, що підходить
             саме вам.
