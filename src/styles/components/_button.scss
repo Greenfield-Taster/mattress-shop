@@ -5,39 +5,62 @@
   padding: $button-padding-y $button-padding-x;
   height: $button-height-md;
   font-size: $font-size-base;
+  position: relative;
+  overflow: hidden;
 
-  // Button sizes
+  // Improved ripple effect
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  // Button sizes with better responsive scaling
   &.btn-sm {
     height: $button-height-sm;
-    padding: ($button-padding-y * 0.6) ($button-padding-x * 0.6);
-    font-size: $font-size-xs;
+    padding: clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px);
+    font-size: clamp($font-size-xs, 2vw, $font-size-sm);
 
-    @media (min-width: $breakpoint-md) {
-      padding: ($button-padding-y * 0.75) ($button-padding-x * 0.75);
-      font-size: $font-size-sm;
+    @media (max-width: 480px) {
+      height: 28px;
+      font-size: $font-size-xxs;
     }
   }
 
   &.btn-lg {
     height: $button-height-lg;
-    padding: $button-padding-y $button-padding-x;
-    font-size: $font-size-base;
+    padding: clamp($button-padding-y, 2vw, $button-padding-y * 1.25) clamp($button-padding-x, 4vw, $button-padding-x * 1.25);
+    font-size: clamp($font-size-base, 2.5vw, $font-size-lg);
 
-    @media (min-width: $breakpoint-md) {
-      padding: ($button-padding-y * 1.25) ($button-padding-x * 1.25);
-      font-size: $font-size-lg;
+    @media (max-width: 480px) {
+      height: 40px;
+      padding: 8px 16px;
     }
   }
 
-  // Primary button
+  // Enhanced primary button with gradient
   &.btn-primary {
-    background-color: $color-accent-coral;
+    background: linear-gradient(135deg, $color-accent-coral 0%, #ff7a7a 100%);
     color: $color-text-light;
+    border: none;
+    box-shadow: 0 4px 15px rgba($color-accent-coral, 0.25);
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, $color-accent-coral 90%, black);
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
+      background: linear-gradient(135deg, #ff4444 0%, $color-accent-coral 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-accent-coral, 0.35);
     }
 
     &:active {
@@ -45,94 +68,142 @@
     }
   }
 
-  // Ghost button
-  &.btn-ghost {
-    background-color: transparent;
-    color: $color-text-primary;
-    border: 1px solid $color-neutral-medium;
-
-    &:hover:not(:disabled) {
-      background-color: $color-neutral-light;
-      border-color: $color-neutral-medium;
-    }
-  }
-
-  // Secondary button
+  // Enhanced secondary button
   &.btn-secondary {
-    background-color: $color-primary;
-    color: $color-text-primary;
+    background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary-darker 100%);
+    color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-primary-dark, 0.25);
 
     &:hover:not(:disabled) {
-      background-color: $color-primary-dark;
-      transform: translateY(-1px);
-      box-shadow: $shadow-md;
+      background: linear-gradient(135deg, $color-primary-darker 0%, #3a7bff 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-primary-dark, 0.35);
     }
   }
 
-  // Outline button
+  // Modern outline button
   &.btn-outline {
-    background-color: transparent;
+    background: transparent;
     color: $color-accent-coral;
-    border: $border-width-medium solid $color-accent-coral;
+    border: 2px solid $color-accent-coral;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: $color-accent-coral;
+      transition: width $transition-normal ease-in-out;
+      z-index: -1;
+    }
 
     &:hover:not(:disabled) {
-      background-color: $color-accent-coral;
       color: $color-text-light;
+      
+      &::after {
+        width: 100%;
+      }
     }
   }
 
-  // Ghost button
+  // Ghost button with subtle effects
   &.btn-ghost {
-    background-color: transparent;
+    background: transparent;
     color: $color-text-primary;
+    border: 1px solid rgba($color-neutral-medium, 0.5);
+    backdrop-filter: blur(10px);
 
     &:hover:not(:disabled) {
-      background-color: $color-neutral-light;
+      background: rgba($color-neutral-light, 0.8);
+      border-color: $color-primary-dark;
+      color: $color-primary-dark;
+      transform: translateY(-1px);
     }
   }
 
-  // Success button
+  // Accent buttons with modern gradients
+  &.btn-mint {
+    background: linear-gradient(135deg, $color-accent-mint 0%, #20e5c7 100%);
+    color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-accent-mint, 0.25);
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #20e5c7 0%, $color-accent-mint 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-accent-mint, 0.35);
+    }
+  }
+
+  &.btn-purple {
+    background: linear-gradient(135deg, $color-accent-purple 0%, #a374f7 100%);
+    color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-accent-purple, 0.25);
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #a374f7 0%, #9f66f7 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-accent-purple, 0.35);
+    }
+  }
+
+  // Success, warning, error with improved styling
   &.btn-success {
-    background-color: $color-success;
+    background: linear-gradient(135deg, $color-success 0%, #2ecc71 100%);
     color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-success, 0.25);
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, $color-success 90%, black);
+      background: linear-gradient(135deg, #2ecc71 0%, $color-success 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-success, 0.35);
     }
   }
 
-  // Warning button
   &.btn-warning {
-    background-color: $color-warning;
+    background: linear-gradient(135deg, $color-warning 0%, #e67e22 100%);
     color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-warning, 0.25);
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, $color-warning 90%, black);
+      background: linear-gradient(135deg, #e67e22 0%, $color-warning 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-warning, 0.35);
     }
   }
 
-  // Error button
   &.btn-error {
-    background-color: $color-error;
+    background: linear-gradient(135deg, $color-error 0%, #c0392b 100%);
     color: $color-text-light;
+    box-shadow: 0 4px 15px rgba($color-error, 0.25);
 
     &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, $color-error 90%, black);
+      background: linear-gradient(135deg, #c0392b 0%, $color-error 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color-error, 0.35);
     }
   }
 
-  // Disabled state
+  // Improved disabled state
   &.btn-disabled,
   &:disabled {
-    background-color: $color-neutral-medium;
+    background: $color-neutral-medium;
     color: $color-text-secondary;
     cursor: not-allowed;
     transform: none;
     border-color: $color-neutral-medium;
+    box-shadow: none;
+    opacity: 0.6;
 
     &:hover {
       transform: none;
       box-shadow: none;
+    }
+
+    &::before {
+      display: none;
     }
   }
 
@@ -141,10 +212,11 @@
     width: 100%;
   }
 
-  // Loading state
+  // Enhanced loading state
   &.btn-loading {
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.8;
+    position: relative;
 
     &::after {
       content: "";
@@ -155,30 +227,92 @@
       border-top: 2px solid currentColor;
       border-radius: 50%;
       animation: spin 1s linear infinite;
+      
+      @media (max-width: 480px) {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
+  // Icon buttons
+  &.btn-icon {
+    width: $button-height-md;
+    height: $button-height-md;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.btn-sm {
+      width: $button-height-sm;
+      height: $button-height-sm;
+    }
+
+    &.btn-lg {
+      width: $button-height-lg;
+      height: $button-height-lg;
+    }
+  }
+
+  // Responsive font size adjustments
+  @media (max-width: 480px) {
+    font-size: clamp($font-size-xs, 3vw, $font-size-sm);
+    padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 20px);
+  }
+
+  @media (max-width: 360px) {
+    font-size: $font-size-xs;
+    padding: 6px 12px;
+  }
+}
+
+// Enhanced button group
+.btn-group {
+  display: inline-flex;
+  box-shadow: $shadow-md;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+
+  .btn {
+    border-radius: 0;
+    box-shadow: none;
+
+    &:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    &:hover {
+      z-index: 1;
+      position: relative;
     }
   }
 }
 
-// Button group
-.btn-group {
-  display: inline-flex;
+// Floating action button
+.btn-fab {
+  @include button-base;
+  width: 56px;
+  height: 56px;
+  border-radius: $border-radius-full;
+  position: fixed;
+  bottom: $spacing-2xl;
+  right: $spacing-2xl;
+  z-index: $z-index-fixed;
+  box-shadow: 0 8px 25px rgba($color-accent-coral, 0.3);
+  background: linear-gradient(135deg, $color-accent-coral 0%, #ff7a7a 100%);
+  color: $color-text-light;
+  
+  @media (max-width: 480px) {
+    width: 48px;
+    height: 48px;
+    bottom: $spacing-xl;
+    right: $spacing-xl;
+  }
 
-  .btn {
-    border-radius: 0;
-
-    &:first-child {
-      border-top-left-radius: $border-radius-md;
-      border-bottom-left-radius: $border-radius-md;
-    }
-
-    &:last-child {
-      border-top-right-radius: $border-radius-md;
-      border-bottom-right-radius: $border-radius-md;
-    }
-
-    &:not(:last-child) {
-      border-right: none;
-    }
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba($color-accent-coral, 0.4);
   }
 }
 

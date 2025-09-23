@@ -12,15 +12,24 @@
   border-bottom: 1px solid $color-neutral-medium;
   box-shadow: $shadow-sm;
   transition: all $transition-normal;
-  
+
   &__container {
     @include container;
     height: $header-height;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 480px) {
+      height: 60px;
+      padding: 0 $spacing-base;
+    }
+
+    @media (max-width: 360px) {
+      padding: 0 $spacing-sm;
+    }
   }
-  
+
   &__logo {
     display: flex;
     align-items: center;
@@ -28,51 +37,48 @@
     color: $color-text-primary;
     font-weight: $font-weight-bold;
     font-size: $font-size-xl;
-    
+
+    @media (max-width: 480px) {
+      font-size: $font-size-lg;
+    }
+
+    @media (max-width: 360px) {
+      font-size: $font-size-base;
+    }
+
     &:hover {
       text-decoration: none;
       color: $color-primary-dark;
     }
   }
-  
+
   &__nav {
     display: none;
-    
+
     @media (min-width: $breakpoint-md) {
       display: flex;
       align-items: center;
       gap: $spacing-xl;
     }
   }
-  
+
   &__nav-link {
     color: $color-text-primary;
     font-weight: $font-weight-medium;
     text-decoration: none;
     transition: color $transition-normal;
     position: relative;
-    
+
     &:hover {
       color: $color-primary-dark;
       text-decoration: none;
     }
-    
+
     &.active {
       color: $color-primary-dark;
-      
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background-color: $color-accent-coral;
-        border-radius: $border-radius-full;
-      }
     }
   }
-  
+
   button.header__nav-link {
     background: none;
     border: none;
@@ -85,19 +91,42 @@
     font-family: inherit;
     font-size: inherit;
     padding: 0;
-    
+
     &:hover {
       color: $color-primary-dark;
       text-decoration: none;
     }
   }
-  
+
   &__actions {
     display: flex;
     align-items: center;
-    gap: $spacing-base;
+    gap: $spacing-sm;
+
+    @media (max-width: 480px) {
+      gap: $spacing-xs;
+    }
   }
-  
+
+  &__auth {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
+
+    .btn {
+      white-space: nowrap;
+
+      @media (max-width: $breakpoint-lg) {
+        font-size: $font-size-xs;
+        padding: $spacing-xs $spacing-sm;
+      }
+    }
+  }
+
   &__cart {
     position: relative;
     display: flex;
@@ -111,12 +140,22 @@
     color: $color-text-primary;
     cursor: pointer;
     transition: all $transition-normal;
-    
+
+    @media (max-width: 480px) {
+      width: 36px;
+      height: 36px;
+    }
+
+    @media (max-width: 360px) {
+      width: 32px;
+      height: 32px;
+    }
+
     &:hover {
       background-color: $color-primary;
       transform: translateY(-1px);
     }
-    
+
     &__badge {
       position: absolute;
       top: -4px;
@@ -132,9 +171,17 @@
       align-items: center;
       justify-content: center;
       line-height: 1;
+
+      @media (max-width: 480px) {
+        min-width: 16px;
+        height: 16px;
+        font-size: 10px;
+        top: -3px;
+        right: -3px;
+      }
     }
   }
-  
+
   &__mobile-menu-btn {
     display: flex;
     align-items: center;
@@ -145,12 +192,12 @@
     background: transparent;
     color: $color-text-primary;
     cursor: pointer;
-    
+
     @media (min-width: $breakpoint-md) {
       display: none;
     }
   }
-  
+
   // Mobile menu
   &__mobile-menu {
     position: absolute;
@@ -164,32 +211,82 @@
     opacity: 0;
     visibility: hidden;
     transition: all $transition-normal;
-    
+
     &.open {
       transform: translateY(0);
       opacity: 1;
       visibility: visible;
     }
-    
+
     @media (min-width: $breakpoint-md) {
       display: none;
     }
   }
-  
+
   &__mobile-nav {
     padding: $spacing-lg 0;
-    
+
     .header__nav-link {
       display: block;
       padding: $spacing-base $spacing-lg;
-      border-bottom: 1px solid $color-neutral-light;
-      
-      &:last-child {
-        border-bottom: none;
+      color: $color-text-primary;
+      font-weight: $font-weight-medium;
+      transition: all $transition-normal;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-neutral-light;
+        color: $color-primary-dark;
+      }
+    }
+
+    // Стилі для auth секції в мобільному меню
+    > div {
+      margin-top: $spacing-lg;
+      padding: $spacing-base $spacing-lg;
+      border-top: 1px solid $color-neutral-light;
+
+      .header__nav-link {
+        border: none !important;
+        margin: $spacing-sm 0;
+        padding: $spacing-sm $spacing-base;
+        border-radius: $border-radius-md;
+        font-weight: $font-weight-medium;
+        text-align: center;
+        transition: all $transition-normal;
+
+        &:first-child {
+          background: rgba($color-primary-dark, 0.1);
+          color: $color-primary-dark;
+          margin-bottom: $spacing-base;
+
+          &:hover {
+            background: $color-primary-dark;
+            color: $color-text-light;
+            transform: translateY(-1px);
+          }
+        }
+
+        &:last-child {
+          background: rgba($color-accent-coral, 0.1);
+          color: $color-accent-coral;
+
+          &:hover {
+            background: $color-accent-coral;
+            color: $color-text-light;
+            transform: translateY(-1px);
+          }
+        }
       }
     }
   }
-  
+
   // Scrolled state
   &.scrolled {
     box-shadow: $shadow-md;

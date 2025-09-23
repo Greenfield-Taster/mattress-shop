@@ -1,15 +1,18 @@
-// Primary Color Palette (Pastel Blue Theme)
-$color-primary-lightest: #eaeff8; // Свіжий Перспективний Синій
-$color-primary-lighter: #e1e8fa; // Селаго
-$color-primary-light: #d5e1fb; // Георгіївська хмара (світла)
-$color-primary: #c7d7fd; // Георгіївська хмара (основна)
-$color-primary-medium: #bed1fb; // Шахтар
-$color-primary-dark: #b2c9ff; // Небесно-Бузковий
-$color-primary-darker: #a4bdfa; // Малібу
+// Primary Color Palette (Enhanced Pastel Blue Theme)
+$color-primary-lightest: #e8f2ff; // Свіжий блакитний
+$color-primary-lighter: #dae9ff; // Світло-блакитний
+$color-primary-light: #c3dcff; // Блакитний (світлий)
+$color-primary: #a8cdff; // Основний блакитний
+$color-primary-medium: #8bb9ff; // Середній блакитний
+$color-primary-dark: #6ba3ff; // Темно-блакитний
+$color-primary-darker: #4c8bff; // Глибокий блакитний
 
 // Accent & Contrast Colors
-$color-accent-coral: #ff6b6b; // Коралово-червоний (кнопки, акції)
-$color-accent-mint: #4ecdc4; // М'ятний (м'які акценти)
+$color-accent-coral: #ff5757; // Яскравий коралово-червоний
+$color-accent-coral-dark: #e04e4e; // Темний коралово-червоний
+$color-accent-mint: #00d4aa; // Яскравий м'ятний
+$color-accent-purple: #8b5cf6; // М'який фіолетовий
+$color-accent-pink: #ec4899; // М'який рожевий
 
 // Text Colors
 $color-text-primary: #2c3e50; // Основний текст (темно-сірий з синім)
@@ -91,14 +94,18 @@ $container-2xl: 1536px;
 // ===================================
 
 // Breakpoints
+$breakpoint-xs: 480px; // Extra small devices
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1280px;
 $breakpoint-2xl: 1536px;
 
+// Specific mobile breakpoints
 $product-mobile-xs: 360px;
 $product-mobile-sm: 480px;
+$mobile-portrait: 414px;
+$mobile-landscape: 896px;
 
 // Grid
 $grid-columns: 12;
@@ -198,16 +205,24 @@ $card-shadow: $shadow-md;
 @mixin container {
   width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-sm;
+  padding: 0 $spacing-base;
+
+  @media (max-width: 360px) {
+    padding: 0 $spacing-sm;
+  }
+
+  @media (min-width: $breakpoint-xs) {
+    padding: 0 $spacing-lg;
+  }
 
   @media (min-width: $breakpoint-sm) {
     max-width: $container-sm;
-    padding: 0 $spacing-base;
+    padding: 0 $spacing-lg;
   }
 
   @media (min-width: $breakpoint-md) {
     max-width: $container-md;
-    padding: 0 $spacing-lg;
+    padding: 0 $spacing-xl;
   }
 
   @media (min-width: $breakpoint-lg) {
