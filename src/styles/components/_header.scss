@@ -224,14 +224,17 @@
     border-radius: 12px;
     display: flex;
     align-items: center;
-    justify-content: center; // Центруємо текст
+    justify-content: center;
     gap: v.$sp-8;
     font-size: v.$fs-16;
+    font-weight: v.$weight-medium;
     background: none;
     border: none;
     width: 100%;
     text-align: center;
     cursor: pointer;
+    color: v.$color-text;
+    text-decoration: none;
 
     &:hover {
       background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
@@ -243,9 +246,20 @@
       color: v.$color-primary-ink;
     }
   }
+
+  button.header__nav-link {
+    font-weight: v.$weight-semibold;
+    background: color-mix(in oklab, #{v.$color-primary} 8%, white);
+    border: 1px solid color-mix(in oklab, #{v.$color-primary} 20%, white);
+    color: v.$color-primary-ink;
+
+    &:hover {
+      background: color-mix(in oklab, #{v.$color-primary} 15%, white);
+      border-color: color-mix(in oklab, #{v.$color-primary} 35%, white);
+    }
+  }
 }
 
-/* Mobile responsive adjustments */
 @media (max-width: 520px) {
   .header__container {
     padding-inline: v.$sp-12;

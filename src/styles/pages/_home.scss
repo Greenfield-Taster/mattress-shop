@@ -67,9 +67,19 @@
     ),
     #{v.$color-surface};
   border: 1px solid v.$color-border;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Quick chooser */
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 19px;
+}
+
 .chooser {
   padding: v.$sp-32 0 v.$sp-8;
 }
@@ -85,14 +95,18 @@
   border: 1px solid v.$color-border;
   border-radius: 16px;
   padding: v.$sp-16;
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: v.$sp-12;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn {
+    margin-top: v.$sp-4;
   }
 }
 
@@ -104,8 +118,8 @@
 .card__title {
   margin: 0;
   font-family: v.$font-heading;
-  font-size: v.$fs-18;
-  font-weight: v.$weight-semibold;
+  font-size: v.$fs-20;
+  font-weight: v.$weight-bold;
   color: v.$color-text;
 }
 
@@ -114,13 +128,44 @@
   color: v.$color-text-muted;
   font-size: v.$fs-14;
   line-height: v.$lh-normal;
+  height: 30px;
+
+  @media (max-width: 400px) {
+    height: 40px;
+  }
 }
 
 .card__sizes {
-  margin: 0 0 4px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.size-pill {
   color: v.$color-text;
-  font-size: v.$fs-14;
-  opacity: 0.9;
+  font-size: v.$fs-12;
+  font-weight: v.$weight-medium;
+  background: color-mix(in oklab, #{v.$color-primary} 8%, white);
+  border: 1px solid color-mix(in oklab, #{v.$color-primary} 20%, white);
+  border-radius: 20px;
+  padding: 4px 10px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background: color-mix(in oklab, #{v.$color-primary} 15%, white);
+    border-color: color-mix(in oklab, #{v.$color-primary} 35%, white);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    background: color-mix(in oklab, #{v.$color-primary} 20%, white);
+  }
 }
 
 .btn {
@@ -209,7 +254,7 @@
   .hero__inner {
     grid-template-columns: 1fr;
     gap: v.$sp-24;
-    padding: v.$sp-32 0;
+    padding: v.$sp-24 v.$sp-12;
   }
 
   .hero__art {
@@ -219,6 +264,11 @@
   .chooser__grid {
     grid-template-columns: 1fr;
     gap: v.$sp-12;
+  }
+
+  .card {
+    height: auto;
+    min-height: 200px;
   }
 
   .why__grid {
@@ -233,7 +283,7 @@
   }
 
   .hero__inner {
-    padding: v.$sp-24 0;
+    padding: v.$sp-24 v.$sp-12;
   }
 
   .hero__art {
@@ -244,11 +294,33 @@
     padding: v.$sp-24 0 v.$sp-8;
   }
 
+  .size-pill {
+    font-size: v.$fs-12;
+    padding: 4px 8px;
+    border-radius: 16px;
+  }
+
+  .card__sizes {
+    gap: 4px;
+  }
+
   .why {
     padding: v.$sp-16 0 v.$sp-32;
   }
 
   .why__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .size-pill {
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 14px;
+  }
+
+  .card__sizes {
+    gap: 5px;
   }
 }

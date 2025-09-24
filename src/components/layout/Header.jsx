@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
 import Modal from "../ui/Modal";
@@ -9,6 +9,8 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartCount] = useState(0); // TODO: connect to cart state
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
 
   const location = useLocation();
 
@@ -19,6 +21,35 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !mobileMenuButtonRef.current.contains(event.target)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="header">
@@ -79,6 +110,7 @@ const Header = () => {
           </div>
 
           <button
+            ref={mobileMenuButtonRef}
             className="header__mobile-menu-btn"
             onClick={toggleMobileMenu}
             aria-label="Відкрити меню"
@@ -88,6 +120,7 @@ const Header = () => {
         </div>
 
         <div
+          ref={mobileMenuRef}
           className={`header__mobile-menu ${isMobileMenuOpen ? "open" : ""}`}
         >
           <nav className="header__mobile-nav">

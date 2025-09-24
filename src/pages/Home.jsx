@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Award, Shield, Truck, HelpCircle } from "lucide-react";
+import mattressImage from "../assets/images/variant-1.png";
 import "../styles/pages/_home.scss";
 
 const Home = () => {
@@ -17,7 +18,13 @@ const Home = () => {
               чесні ціни, швидка доставка.
             </p>
           </div>
-          <div className="hero__art" aria-hidden="true" />
+          <div className="hero__art" aria-hidden="true">
+            <img
+              src={mattressImage}
+              alt="Комфортний матрац"
+              className="hero__image"
+            />
+          </div>
         </div>
       </section>
 
@@ -34,7 +41,10 @@ const Home = () => {
                   Ідеально підходять для дітей та підлітків
                 </p>
               </header>
-              <p className="card__sizes">80×190 см, 90×200 см</p>
+              <div className="card__sizes">
+                <div className="size-pill">80×190 см</div>
+                <div className="size-pill">90×200 см</div>
+              </div>
               <Link
                 to="/catalog?type=single"
                 className="btn"
@@ -48,10 +58,14 @@ const Home = () => {
               <header className="card__head">
                 <h3 className="card__title">Півтораспальні</h3>
                 <p className="card__tag">
-                  Комфорт для однієї людини з додатковим простором
+                  Комфорт для одного з додатковим простором
                 </p>
               </header>
-              <p className="card__sizes">120×200 см, 140×200 см, 150×200 см</p>
+              <div className="card__sizes">
+                <div className="size-pill">120×200 см</div>
+                <div className="size-pill">140×200 см</div>
+                <div className="size-pill">150×200 см</div>
+              </div>
               <Link
                 to="/catalog?type=one-and-half"
                 className="btn"
@@ -66,7 +80,11 @@ const Home = () => {
                 <h3 className="card__title">Двоспальні</h3>
                 <p className="card__tag">Простір та комфорт для двох</p>
               </header>
-              <p className="card__sizes">160×200 см, 180×200 см, 200×200 см</p>
+              <div className="card__sizes">
+                <div className="size-pill">160×200 см</div>
+                <div className="size-pill">180×200 см</div>
+                <div className="size-pill">200×200 см</div>
+              </div>
               <Link
                 to="/catalog?type=double"
                 className="btn"
