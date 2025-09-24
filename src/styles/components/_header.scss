@@ -1,296 +1,267 @@
-// ===================================
-// HEADER COMPONENT STYLES
-// ===================================
-
-@use "../variables" as *;
+@use "../variables" as v;
 
 .header {
+  background: v.$color-surface;
+  border-bottom: 1px solid v.$color-border;
   position: sticky;
   top: 0;
-  z-index: $z-index-sticky;
-  background-color: $color-neutral-lightest;
-  border-bottom: 1px solid $color-neutral-medium;
-  box-shadow: $shadow-sm;
-  transition: all $transition-normal;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
 
-  &__container {
-    @include container;
-    height: $header-height;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.header__container {
+  width: min(1120px, 100%);
+  margin-inline: auto;
+  padding-inline: v.$sp-16;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
 
-    @media (max-width: 480px) {
-      height: 60px;
-      padding: 0 $spacing-base;
-    }
+.header__logo {
+  font-family: v.$font-heading;
+  font-size: v.$fs-24;
+  font-weight: v.$weight-bold;
+  color: v.$color-primary-ink;
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-    @media (max-width: 360px) {
-      padding: 0 $spacing-sm;
-    }
+  &:hover {
+    color: v.$color-primary;
   }
+}
 
-  &__logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: $color-text-primary;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-xl;
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-32;
 
-    @media (max-width: 480px) {
-      font-size: $font-size-lg;
-    }
-
-    @media (max-width: 360px) {
-      font-size: $font-size-base;
-    }
-
-    &:hover {
-      text-decoration: none;
-      color: $color-primary-dark;
-    }
-  }
-
-  &__nav {
+  @media (max-width: 768px) {
     display: none;
+  }
+}
 
-    @media (min-width: $breakpoint-md) {
-      display: flex;
-      align-items: center;
-      gap: $spacing-xl;
-    }
+.header__nav-link {
+  font-size: v.$fs-16;
+  font-weight: v.$weight-medium;
+  color: v.$color-text;
+  text-decoration: none;
+  padding: v.$sp-8 v.$sp-12;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    color: v.$color-primary-ink;
+    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
   }
 
-  &__nav-link {
-    color: $color-text-primary;
-    font-weight: $font-weight-medium;
-    text-decoration: none;
-    transition: color $transition-normal;
-    position: relative;
+  &.active {
+    color: v.$color-primary-ink;
+    background: color-mix(in oklab, #{v.$color-primary} 12%, transparent);
+  }
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-16;
+}
+
+.header__cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: v.$color-text;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: v.$color-primary-ink;
+    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+  }
+}
+
+.header__cart__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: v.$color-primary-ink;
+  color: white;
+  font-size: v.$fs-12;
+  font-weight: v.$weight-semibold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.header__auth {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-12;
+}
+
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 10px;
+  font-family: v.$font-ui;
+  font-weight: v.$weight-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$sp-8;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: 1;
+
+  &.btn-sm {
+    padding: v.$sp-8 v.$sp-16;
+    font-size: v.$fs-14;
+    height: 36px;
+  }
+
+  &.btn-primary {
+    background: v.$color-primary-ink;
+    color: white;
 
     &:hover {
-      color: $color-primary-dark;
-      text-decoration: none;
-    }
-
-    &.active {
-      color: $color-primary-dark;
-    }
-  }
-
-  button.header__nav-link {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: $color-text-primary;
-    font-weight: $font-weight-medium;
-    text-decoration: none;
-    transition: color $transition-normal;
-    position: relative;
-    font-family: inherit;
-    font-size: inherit;
-    padding: 0;
-
-    &:hover {
-      color: $color-primary-dark;
-      text-decoration: none;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-
-    @media (max-width: 480px) {
-      gap: $spacing-xs;
-    }
-  }
-
-  &__auth {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-
-    @media (max-width: $breakpoint-md) {
-      display: none;
-    }
-
-    .btn {
-      white-space: nowrap;
-
-      @media (max-width: $breakpoint-lg) {
-        font-size: $font-size-xs;
-        padding: $spacing-xs $spacing-sm;
-      }
-    }
-  }
-
-  &__cart {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: $color-primary-light;
-    border-radius: $border-radius-full;
-    color: $color-text-primary;
-    cursor: pointer;
-    transition: all $transition-normal;
-
-    @media (max-width: 480px) {
-      width: 36px;
-      height: 36px;
-    }
-
-    @media (max-width: 360px) {
-      width: 32px;
-      height: 32px;
-    }
-
-    &:hover {
-      background-color: $color-primary;
+      background: color-mix(in oklab, #{v.$color-primary-ink} 90%, black);
       transform: translateY(-1px);
     }
 
-    &__badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      min-width: 18px;
-      height: 18px;
-      background-color: $color-accent-coral;
-      color: $color-text-light;
-      border-radius: $border-radius-full;
-      font-size: $font-size-xs;
-      font-weight: $font-weight-bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-
-      @media (max-width: 480px) {
-        min-width: 16px;
-        height: 16px;
-        font-size: 10px;
-        top: -3px;
-        right: -3px;
-      }
+    &:active {
+      transform: translateY(0);
     }
   }
 
-  &__mobile-menu-btn {
+  &.btn-ghost {
+    background: transparent;
+    color: v.$color-text;
+    border: 1px solid v.$color-border;
+
+    &:hover {
+      background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+      border-color: v.$color-primary;
+      color: v.$color-primary-ink;
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid color-mix(in oklab, #{v.$color-primary} 50%, white);
+    outline-offset: 2px;
+  }
+}
+
+.header__mobile-menu-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: v.$color-text;
+  cursor: pointer;
+  padding: v.$sp-8;
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+    color: v.$color-primary-ink;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.hidden-mobile {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.header__mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: v.$color-surface;
+  border-bottom: 1px solid v.$color-border;
+  padding: v.$sp-16;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  &.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.header__mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: v.$sp-8;
+
+  .header__nav-link {
+    padding: v.$sp-12 v.$sp-16;
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
+    justify-content: center; // Центруємо текст
+    gap: v.$sp-8;
+    font-size: v.$fs-16;
+    background: none;
     border: none;
-    background: transparent;
-    color: $color-text-primary;
+    width: 100%;
+    text-align: center;
     cursor: pointer;
 
-    @media (min-width: $breakpoint-md) {
-      display: none;
+    &:hover {
+      background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+      color: v.$color-primary-ink;
+    }
+
+    &.active {
+      background: color-mix(in oklab, #{v.$color-primary} 12%, transparent);
+      color: v.$color-primary-ink;
     }
   }
+}
 
-  // Mobile menu
-  &__mobile-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: $color-neutral-lightest;
-    border-bottom: 1px solid $color-neutral-medium;
-    box-shadow: $shadow-lg;
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: all $transition-normal;
-
-    &.open {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
-
-    @media (min-width: $breakpoint-md) {
-      display: none;
-    }
+/* Mobile responsive adjustments */
+@media (max-width: 520px) {
+  .header__container {
+    padding-inline: v.$sp-12;
+    height: 56px;
   }
 
-  &__mobile-nav {
-    padding: $spacing-lg 0;
-
-    .header__nav-link {
-      display: block;
-      padding: $spacing-base $spacing-lg;
-      color: $color-text-primary;
-      font-weight: $font-weight-medium;
-      transition: all $transition-normal;
-      background: none;
-      border: none;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $color-neutral-light;
-        color: $color-primary-dark;
-      }
-    }
-
-    // Стилі для auth секції в мобільному меню
-    > div {
-      margin-top: $spacing-lg;
-      padding: $spacing-base $spacing-lg;
-      border-top: 1px solid $color-neutral-light;
-
-      .header__nav-link {
-        border: none !important;
-        margin: $spacing-sm 0;
-        padding: $spacing-sm $spacing-base;
-        border-radius: $border-radius-md;
-        font-weight: $font-weight-medium;
-        text-align: center;
-        transition: all $transition-normal;
-
-        &:first-child {
-          background: rgba($color-primary-dark, 0.1);
-          color: $color-primary-dark;
-          margin-bottom: $spacing-base;
-
-          &:hover {
-            background: $color-primary-dark;
-            color: $color-text-light;
-            transform: translateY(-1px);
-          }
-        }
-
-        &:last-child {
-          background: rgba($color-accent-coral, 0.1);
-          color: $color-accent-coral;
-
-          &:hover {
-            background: $color-accent-coral;
-            color: $color-text-light;
-            transform: translateY(-1px);
-          }
-        }
-      }
-    }
+  .header__logo {
+    font-size: v.$fs-20;
   }
 
-  // Scrolled state
-  &.scrolled {
-    box-shadow: $shadow-md;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+  .header__cart {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header__mobile-menu {
+    padding: v.$sp-12;
   }
 }

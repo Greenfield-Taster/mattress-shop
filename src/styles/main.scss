@@ -1,18 +1,7 @@
-@use "./variables" as *;
+@use "./variables" as v;
 @use "./components/header";
 @use "./components/footer";
-@use "./components/button";
-@use "./components/card";
-@use "./components/input";
-@use "./components/modal";
-@use "./components/forms";
-@use "./components/select";
 @use "./pages/home";
-@use "./pages/catalog";
-@use "./pages/product";
-@use "./pages/cart";
-@use "./pages/auth";
-@use "./pages/about";
 
 * {
   margin: 0;
@@ -21,175 +10,16 @@
 }
 
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: $font-family-primary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-regular;
-  line-height: $line-height-normal;
-  color: $color-text-primary;
-  background-color: $color-neutral-lightest;
+  font-family: v.$font-ui;
+  font-size: v.$fs-16;
+  font-weight: v.$weight-regular;
+  line-height: v.$lh-normal;
+  color: v.$color-text;
+  background-color: v.$color-bg;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $font-family-secondary;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
-  margin-bottom: $spacing-base;
-  color: $color-text-primary;
-}
-
-h1 {
-  font-size: $font-size-2xl;
-
-  @media (min-width: $breakpoint-md) {
-    font-size: $font-size-3xl;
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    font-size: $font-size-4xl;
-  }
-}
-
-h2 {
-  font-size: $font-size-xl;
-
-  @media (min-width: $breakpoint-md) {
-    font-size: $font-size-2xl;
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    font-size: $font-size-3xl;
-  }
-}
-
-h3 {
-  font-size: $font-size-lg;
-
-  @media (min-width: $breakpoint-md) {
-    font-size: $font-size-xl;
-  }
-}
-
-p {
-  margin-bottom: $spacing-base;
-  line-height: $line-height-relaxed;
-}
-
-a {
-  color: $color-primary-dark;
-  text-decoration: none;
-  transition: color $transition-normal;
-}
-
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main {
-  flex: 1;
-}
-
-.container {
-  @include container;
-}
-
-.flex {
-  display: flex;
-
-  &.flex-center {
-    @include flex-center;
-  }
-
-  &.flex-between {
-    justify-content: space-between;
-  }
-
-  &.items-center {
-    align-items: center;
-  }
-}
-
-.text-center {
-  text-align: center;
-}
-
-.font-semibold {
-  font-weight: $font-weight-semibold;
-}
-
-.text-primary {
-  color: $color-text-primary;
-}
-
-.text-secondary {
-  color: $color-text-secondary;
-}
-
-// ===================================
-// VISIBILITY UTILITIES
-// ===================================
-
-.hidden {
-  display: none;
-}
-
-@media (max-width: $breakpoint-sm) {
-  .hidden-mobile {
-    display: none;
-  }
-}
-
-@media (min-width: $breakpoint-md) {
-  .hidden-desktop {
-    display: none;
-  }
-}
-
-// ===================================
-// RESPONSIVE UTILITIES
-// ===================================
-
-// Responsive text sizes
-.text-responsive-sm {
-  font-size: clamp($font-size-xs, 2vw, $font-size-sm);
-}
-
-.text-responsive-base {
-  font-size: clamp($font-size-sm, 2.5vw, $font-size-base);
-}
-
-.text-responsive-lg {
-  font-size: clamp($font-size-base, 3vw, $font-size-lg);
-}
-
-.text-responsive-xl {
-  font-size: clamp($font-size-lg, 4vw, $font-size-xl);
-}
-
-// Responsive spacing
-.p-responsive {
-  padding: clamp($spacing-base, 3vw, $spacing-2xl);
-}
-
-.py-responsive {
-  padding-top: clamp($spacing-base, 3vw, $spacing-2xl);
-  padding-bottom: clamp($spacing-base, 3vw, $spacing-2xl);
-}
-
-.px-responsive {
-  padding-left: clamp($spacing-base, 3vw, $spacing-2xl);
-  padding-right: clamp($spacing-base, 3vw, $spacing-2xl);
 }

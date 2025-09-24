@@ -113,21 +113,21 @@ const Catalog = () => {
   const sizeConfig = {
     single: {
       title: "Односпальні матраци",
-      description: "Компактні матраци для дітей та підлітків"
+      description: "Компактні матраци для дітей та підлітків",
     },
     double: {
-      title: "Полуторні матраци", 
-      description: "Комфортні матраци з додатковим простором"
+      title: "Півтораспальні матраци",
+      description: "Комфортні матраци з додатковим простором",
     },
     king: {
       title: "Двоспальні матраци",
-      description: "Просторі матраци для пар"
-    }
+      description: "Просторі матраци для пар",
+    },
   };
 
   const currentSizeConfig = sizeConfig[size] || {
     title: "Каталог матраців",
-    description: "Широкий вибір якісних матраців"
+    description: "Широкий вибір якісних матраців",
   };
 
   // Фільтрація та сортування товарів
@@ -138,7 +138,7 @@ const Catalog = () => {
 
       // Фільтри з форми
       const { priceMin, priceMax, firmness, material } = filters;
-      
+
       if (priceMin && product.price < Number(priceMin)) return false;
       if (priceMax && product.price > Number(priceMax)) return false;
       if (firmness && product.firmness !== firmness) return false;
@@ -166,7 +166,7 @@ const Catalog = () => {
   }, [size, filters, sortBy, mockProducts]);
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
@@ -185,7 +185,9 @@ const Catalog = () => {
         <div className="catalog__header">
           <div>
             <h1 className="catalog__header-title">{currentSizeConfig.title}</h1>
-            <p className="catalog__header-subtitle">{currentSizeConfig.description}</p>
+            <p className="catalog__header-subtitle">
+              {currentSizeConfig.description}
+            </p>
           </div>
         </div>
 
@@ -193,11 +195,12 @@ const Catalog = () => {
         <div className="catalog__toolbar">
           <div className="catalog__toolbar-left">
             <div className="catalog__results-count">
-              Знайдено: <strong>{filteredAndSortedProducts.length}</strong> товарів
+              Знайдено: <strong>{filteredAndSortedProducts.length}</strong>{" "}
+              товарів
             </div>
           </div>
           <div className="catalog__toolbar-right">
-            <button 
+            <button
               className="catalog__filters-toggle"
               onClick={() => setShowFilters(!showFilters)}
             >
@@ -220,10 +223,14 @@ const Catalog = () => {
         </div>
 
         {/* Filters */}
-        <div className={`catalog__filters ${showFilters ? 'catalog__filters--open' : ''}`}>
+        <div
+          className={`catalog__filters ${
+            showFilters ? "catalog__filters--open" : ""
+          }`}
+        >
           <div className="catalog__filters-header">
             <h3 className="catalog__filters-title">Фільтри</h3>
-            <button 
+            <button
               className="catalog__filters-close"
               onClick={() => setShowFilters(false)}
             >
@@ -238,7 +245,7 @@ const Catalog = () => {
                 className="form-input"
                 placeholder="0"
                 value={filters.priceMin}
-                onChange={(e) => handleFilterChange('priceMin', e.target.value)}
+                onChange={(e) => handleFilterChange("priceMin", e.target.value)}
               />
             </div>
             <div className="catalog__filters-group">
@@ -248,7 +255,7 @@ const Catalog = () => {
                 className="form-input"
                 placeholder="20000"
                 value={filters.priceMax}
-                onChange={(e) => handleFilterChange('priceMax', e.target.value)}
+                onChange={(e) => handleFilterChange("priceMax", e.target.value)}
               />
             </div>
             <div className="catalog__filters-group">
@@ -256,7 +263,7 @@ const Catalog = () => {
               <select
                 className="form-select"
                 value={filters.firmness}
-                onChange={(e) => handleFilterChange('firmness', e.target.value)}
+                onChange={(e) => handleFilterChange("firmness", e.target.value)}
               >
                 <option value="">Будь-яка</option>
                 <option value="soft">М'який</option>
@@ -269,7 +276,7 @@ const Catalog = () => {
               <select
                 className="form-select"
                 value={filters.material}
-                onChange={(e) => handleFilterChange('material', e.target.value)}
+                onChange={(e) => handleFilterChange("material", e.target.value)}
               >
                 <option value="">Будь-який</option>
                 <option value="memory">Memory Foam</option>
@@ -278,7 +285,7 @@ const Catalog = () => {
               </select>
             </div>
           </div>
-          {Object.values(filters).some(value => value) && (
+          {Object.values(filters).some((value) => value) && (
             <div className="catalog__filters-actions">
               <button className="btn btn-ghost" onClick={clearFilters}>
                 Скинути фільтри
@@ -289,9 +296,9 @@ const Catalog = () => {
 
         {/* Filters Backdrop */}
         {showFilters && (
-          <div 
-            className="catalog__filters-backdrop" 
-            onClick={() => setShowFilters(false)} 
+          <div
+            className="catalog__filters-backdrop"
+            onClick={() => setShowFilters(false)}
           />
         )}
 
@@ -299,8 +306,8 @@ const Catalog = () => {
         {filteredAndSortedProducts.length > 0 ? (
           <div className="catalog__grid">
             {filteredAndSortedProducts.map((product) => (
-              <Link 
-                key={product.id} 
+              <Link
+                key={product.id}
                 to={`/product/${product.id}`}
                 className="product-card"
               >
@@ -320,7 +327,7 @@ const Catalog = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Add to favorites:', product.id);
+                        console.log("Add to favorites:", product.id);
                       }}
                     >
                       <Heart size={16} />
@@ -331,7 +338,7 @@ const Catalog = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Add to compare:', product.id);
+                        console.log("Add to compare:", product.id);
                       }}
                     >
                       <Scale size={16} />
@@ -367,12 +374,14 @@ const Catalog = () => {
                       </span>
                     </div>
                     <button
-                      className={`btn btn-primary ${!product.inStock ? "btn-disabled" : ""}`}
+                      className={`btn btn-primary ${
+                        !product.inStock ? "btn-disabled" : ""
+                      }`}
                       disabled={!product.inStock}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Add to cart:', product.id);
+                        console.log("Add to cart:", product.id);
                       }}
                     >
                       {product.inStock ? (
@@ -396,7 +405,8 @@ const Catalog = () => {
             </div>
             <h3 className="catalog__empty-title">Товари не знайдені</h3>
             <p className="catalog__empty-description">
-              Спробуйте змінити параметри фільтрації або перегляньте інші категорії
+              Спробуйте змінити параметри фільтрації або перегляньте інші
+              категорії
             </p>
             <Link to="/catalog" className="btn btn-primary">
               Переглянути всі товари

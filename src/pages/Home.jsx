@@ -1,122 +1,119 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Bed,
-  Home as HomeIcon,
-  Building2,
-  Star,
-  Shield,
-  Truck,
-  MessageCircle,
-} from "lucide-react";
+import { Award, Shield, Truck, HelpCircle } from "lucide-react";
+import "../styles/pages/_home.scss";
 
 const Home = () => {
-  const mattressSizes = [
-    {
-      id: "single",
-      title: "Односпальні",
-      description: "Ідеально підходять для дітей та підлітків",
-      dimensions: "80x190 см, 90x200 см",
-      icon: Bed,
-      link: "/catalog/single",
-    },
-    {
-      id: "double",
-      title: "Півтораспальні",
-      description: "Комфорт для однієї людини з додатковим простором",
-      dimensions: "120x200 см, 140x200 см, 150х200 см",
-      icon: HomeIcon,
-      link: "/catalog/double",
-    },
-    {
-      id: "king",
-      title: "Двоспальні",
-      description: "Простір та комфорт для двох",
-      dimensions: "160x200 см, 180x200 см, 200х200 см",
-      icon: Building2,
-      link: "/catalog/king",
-    },
-  ];
-
-  const features = [
-    {
-      id: 1,
-      title: "Якість",
-      description: "Тільки перевірені виробники",
-      icon: Star,
-    },
-    {
-      id: 2,
-      title: "Гарантія",
-      description: "До 10 років гарантії",
-      icon: Shield,
-    },
-    {
-      id: 3,
-      title: "Доставка",
-      description: "Швидка доставка по всій Україні",
-      icon: Truck,
-    },
-    {
-      id: 4,
-      title: "Консультація",
-      description: "Допоможемо обрати ідеальний матрац",
-      icon: MessageCircle,
-    },
-  ];
-
   return (
     <div className="home">
-      <section className="home__hero">
-        <div className="container">
-          <h1 className="home__hero-title">Знайдіть свій ідеальний матрац</h1>
-          <p className="home__hero-subtitle">
-            Матраци різних розмірів і матеріалів — знайдіть той, що підходить
-            саме вам.
-          </p>
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="container hero__inner">
+          <div className="hero__copy">
+            <h1 id="hero-title" className="hero__title">
+              Сон, що відновлює. Матраци для кожного дому.
+            </h1>
+            <p className="hero__subtitle">
+              Підберемо комфорт і підтримку під ваш стиль сну. Легкий вибір,
+              чесні ціни, швидка доставка.
+            </p>
+          </div>
+          <div className="hero__art" aria-hidden="true" />
         </div>
       </section>
 
-      {/* Size Selection */}
-      <section className="home__sizes">
+      <section className="chooser" aria-labelledby="chooser-title">
         <div className="container">
-          <h2 className="home__sizes-title">Оберіть розмір матраца</h2>
-          <div className="home__sizes-grid">
-            {mattressSizes.map((size) => (
-              <Link key={size.id} to={size.link} className="home__size-card">
-                <div className="home__size-card__icon">
-                  <size.icon size={32} />
-                </div>
-                <h3 className="home__size-card__title">{size.title}</h3>
-                <p className="home__size-card__description">
-                  {size.description}
+          <h2 id="chooser-title" className="section-title">
+            Обрати швидко
+          </h2>
+          <div className="chooser__grid">
+            <article className="card">
+              <header className="card__head">
+                <h3 className="card__title">Односпальні</h3>
+                <p className="card__tag">
+                  Ідеально підходять для дітей та підлітків
                 </p>
-                <span className="home__size-card__dimensions">
-                  {size.dimensions}
-                </span>
+              </header>
+              <p className="card__sizes">80×190 см, 90×200 см</p>
+              <Link
+                to="/catalog?type=single"
+                className="btn"
+                aria-label="Відкрити фільтри каталогу — односпальні"
+              >
+                Перейти до каталогу
               </Link>
-            ))}
+            </article>
+
+            <article className="card">
+              <header className="card__head">
+                <h3 className="card__title">Півтораспальні</h3>
+                <p className="card__tag">
+                  Комфорт для однієї людини з додатковим простором
+                </p>
+              </header>
+              <p className="card__sizes">120×200 см, 140×200 см, 150×200 см</p>
+              <Link
+                to="/catalog?type=one-and-half"
+                className="btn"
+                aria-label="Відкрити фільтри каталогу — півтораспальні"
+              >
+                Перейти до каталогу
+              </Link>
+            </article>
+
+            <article className="card">
+              <header className="card__head">
+                <h3 className="card__title">Двоспальні</h3>
+                <p className="card__tag">Простір та комфорт для двох</p>
+              </header>
+              <p className="card__sizes">160×200 см, 180×200 см, 200×200 см</p>
+              <Link
+                to="/catalog?type=double"
+                className="btn"
+                aria-label="Відкрити фільтри каталогу — двоспальні"
+              >
+                Перейти до каталогу
+              </Link>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="home__features">
+      <section className="why" aria-labelledby="why-title">
         <div className="container">
-          <h2 className="home__features-title">Чому обирають нас</h2>
-          <div className="home__features-grid">
-            {features.map((feature) => (
-              <div key={feature.id} className="home__feature">
-                <div className="home__feature__icon">
-                  <feature.icon size={24} />
-                </div>
-                <h3 className="home__feature__title">{feature.title}</h3>
-                <p className="home__feature__description">
-                  {feature.description}
-                </p>
+          <h2 id="why-title" className="section-title">
+            Чому обирають нас
+          </h2>
+          <ul className="why__grid">
+            <li className="why__item">
+              <div className="ico" aria-hidden="true">
+                <Award size={28} />
               </div>
-            ))}
-          </div>
+              <h3 className="why__title">Якість</h3>
+              <p className="why__text">Тільки перевірені виробники</p>
+            </li>
+            <li className="why__item">
+              <div className="ico" aria-hidden="true">
+                <Shield size={28} />
+              </div>
+              <h3 className="why__title">Гарантія</h3>
+              <p className="why__text">До 10 років гарантії</p>
+            </li>
+            <li className="why__item">
+              <div className="ico" aria-hidden="true">
+                <Truck size={28} />
+              </div>
+              <h3 className="why__title">Доставка</h3>
+              <p className="why__text">Швидка доставка по всій Україні</p>
+            </li>
+            <li className="why__item">
+              <div className="ico" aria-hidden="true">
+                <HelpCircle size={28} />
+              </div>
+              <h3 className="why__title">Консультація</h3>
+              <p className="why__text">Допоможемо обрати ідеальний матрац</p>
+            </li>
+          </ul>
         </div>
       </section>
     </div>

@@ -1,144 +1,421 @@
-// ===================================
-// FOOTER COMPONENT STYLES
-// ===================================
-
-@use "../variables" as *;
+@use "../variables" as v;
 
 .footer {
-  background-color: $color-text-primary;
-  color: $color-text-light;
-  padding: $spacing-3xl 0 $spacing-xl;
-  margin-top: auto;
+  background: linear-gradient(
+    135deg,
+    #{v.$color-primary-ink} 0%,
+    color-mix(in oklab, #{v.$color-primary-ink} 85%, black) 100%
+  );
+  color: white;
+  position: relative;
+  overflow: hidden;
 
-  &__container {
-    @include container;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 20% 50%,
+      color-mix(in oklab, #{v.$color-primary} 15%, transparent) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+}
+
+.footer__container {
+  width: min(1120px, 100%);
+  margin-inline: auto;
+  padding: v.$sp-64 v.$sp-16 v.$sp-32;
+  position: relative;
+  z-index: 1;
+}
+
+.footer__content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.4fr;
+  gap: v.$sp-48;
+  margin-bottom: v.$sp-48;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: v.$sp-32;
+    margin-bottom: v.$sp-32;
+
+    .footer__section--wide {
+      grid-column: 1 / -1;
+    }
   }
 
-  &__content {
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: v.$sp-32;
+    text-align: center;
+
+    .footer__brand {
+      order: 1; // Brand завжди перший
+    }
+
+    .footer__sections-wrapper {
+      order: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr; // Два section у дві колонки
+      gap: v.$sp-24;
+    }
+
+    .footer__section--wide {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer__sections-wrapper {
+      grid-template-columns: 1fr; // На дуже маленьких - в одну колонку
+    }
+  }
+}
+
+.footer__brand {
+  display: grid;
+  gap: v.$sp-24;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+}
+
+.footer__sections-wrapper {
+  display: contents; // По змовчанню працює як grid items
+
+  @media (max-width: 600px) {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: $spacing-2xl;
-    margin-bottom: $spacing-2xl;
+    gap: v.$sp-24;
+  }
+}
 
-    @media (min-width: $breakpoint-md) {
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: $spacing-3xl;
-    }
+.footer__brand-logo {
+  font-family: v.$font-heading;
+  font-size: v.$fs-32;
+  font-weight: v.$weight-bold;
+  color: white;
+  margin-bottom: v.$sp-4;
+}
+
+.footer__brand-description {
+  color: color-mix(in oklab, white 85%, transparent);
+  font-size: v.$fs-16;
+  line-height: v.$lh-normal;
+  margin: 0;
+}
+
+.footer__brand-social {
+  display: flex;
+  gap: v.$sp-12;
+
+  @media (max-width: 768px) {
+    justify-content: center; // Центруємо соцмережі
+  }
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: color-mix(in oklab, white 10%, transparent);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: color-mix(in oklab, #{v.$color-primary} 40%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 
-  &__brand {
-    &-logo {
-      font-size: $font-size-xl;
-      font-weight: $font-weight-bold;
-      color: $color-text-light;
-      margin-bottom: $spacing-base;
-    }
+  &:active {
+    transform: translateY(0);
+  }
+}
 
-    &-description {
-      color: rgba($color-text-light, 0.8);
-      line-height: $line-height-relaxed;
-      margin-bottom: $spacing-lg;
-      font-size: $font-size-sm;
-      max-width: 400px;
-    }
+.footer__section {
+  display: grid;
+  gap: v.$sp-24;
+  align-content: start;
 
-    &-social {
-      display: flex;
-      gap: $spacing-sm;
+  &--wide {
+    max-width: 400px; // Обмежуємо ширину
 
-      a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background-color: rgba($color-text-light, 0.1);
-        border-radius: $border-radius-full;
-        color: $color-text-light;
-        text-decoration: none;
-        transition: all $transition-normal;
-
-        &:hover {
-          background-color: $color-accent-coral;
-          transform: translateY(-2px);
-        }
-      }
+    @media (max-width: 1024px) {
+      margin: 0 auto; // Центруємо
+      max-width: 100%;
     }
   }
+}
 
-  &__section {
-    &-title {
-      font-size: $font-size-base;
-      font-weight: $font-weight-semibold;
-      color: $color-text-light;
-      margin-bottom: $spacing-base;
-    }
+.footer__section-title {
+  font-family: v.$font-heading;
+  font-size: v.$fs-18;
+  font-weight: v.$weight-semibold;
+  color: white;
+  margin: 0;
+  position: relative;
 
-    &-links {
-      list-style: none;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background: v.$color-primary;
+    border-radius: 2px;
 
-      li {
-        margin-bottom: $spacing-xs;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      a {
-        color: rgba($color-text-light, 0.8);
-        text-decoration: none;
-        font-size: $font-size-sm;
-        transition: color $transition-normal;
-        display: flex;
-        align-items: center;
-        gap: $spacing-xs;
-
-        &:hover {
-          color: $color-text-light;
-          text-decoration: none;
-        }
-      }
+    @media (max-width: 768px) {
+      left: 50%;
+      transform: translateX(-50%); // Центруємо підкреслення
     }
   }
+}
 
-  &__bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: $spacing-lg;
-    border-top: 1px solid rgba($color-text-light, 0.1);
+.footer__section-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: v.$sp-12;
 
-    @media (max-width: $breakpoint-md) {
-      flex-direction: column;
-      gap: $spacing-base;
-      text-align: center;
-    }
-  }
-
-  &__copyright {
-    color: rgba($color-text-light, 0.7);
-    font-size: $font-size-xs;
-  }
-
-  &__payment {
+  li {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: v.$sp-8;
 
-    &-title {
-      color: rgba($color-text-light, 0.7);
-      font-size: $font-size-xs;
-      margin-right: $spacing-xs;
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+
+  a {
+    color: color-mix(in oklab, white 85%, transparent);
+    text-decoration: none;
+    font-size: v.$fs-15;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      color: white;
+      transform: translateX(4px);
     }
 
-    &-icon {
-      background-color: rgba($color-text-light, 0.1);
-      color: $color-text-light;
-      padding: $spacing-xs $spacing-sm;
-      border-radius: $border-radius-sm;
-      font-size: $font-size-xs;
-      font-weight: $font-weight-medium;
+    &::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: v.$color-primary;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+}
+
+.footer__newsletter-description {
+  color: color-mix(in oklab, white 85%, transparent);
+  font-size: v.$fs-14;
+  margin: 0;
+  line-height: v.$lh-normal;
+}
+
+.footer__newsletter {
+  margin: v.$sp-16 0;
+}
+
+.newsletter-input-group {
+  display: flex;
+  background: color-mix(in oklab, white 10%, transparent);
+  border-radius: 12px;
+  padding: v.$sp-4;
+  backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in oklab, white 20%, transparent);
+  transition: all 0.2s ease;
+  max-width: 320px; // Обмежуємо максимальну ширину
+  width: 100%;
+
+  @media (max-width: 768px) {
+    margin: 0 auto; // Центруємо на маленьких екранах
+  }
+
+  &:focus-within {
+    border-color: v.$color-primary;
+    box-shadow: 0 0 0 3px
+      color-mix(in oklab, #{v.$color-primary} 20%, transparent);
+  }
+}
+
+.newsletter-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: v.$sp-12 v.$sp-16;
+  font-size: v.$fs-14;
+  font-family: v.$font-ui;
+
+  &::placeholder {
+    color: color-mix(in oklab, white 60%, transparent);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.newsletter-btn {
+  background: v.$color-primary;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: v.$sp-12;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: color-mix(in oklab, #{v.$color-primary} 90%, white);
+    transform: translateX(2px);
+  }
+
+  &:active {
+    transform: translateX(0);
+  }
+}
+
+.footer__contact-info {
+  display: grid;
+  gap: v.$sp-12;
+
+  @media (max-width: 768px) {
+    justify-items: center; // Центруємо контакти
+  }
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-12;
+  color: color-mix(in oklab, white 85%, transparent);
+  font-size: v.$fs-14;
+
+  svg {
+    color: v.$color-primary;
+    flex-shrink: 0;
+  }
+}
+
+.footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: v.$sp-24;
+  border-top: 1px solid color-mix(in oklab, white 20%, transparent);
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    gap: v.$sp-16;
+    text-align: center;
+  }
+}
+
+.footer__bottom-left {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-24;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: v.$sp-8;
+  }
+}
+
+.footer__copyright {
+  color: color-mix(in oklab, white 70%, transparent);
+  font-size: v.$fs-14;
+}
+
+.footer__bottom-right {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-16;
+}
+
+.footer__payment {
+  display: flex;
+  align-items: center;
+  gap: v.$sp-16;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    gap: v.$sp-8;
+  }
+}
+
+.footer__payment-title {
+  color: color-mix(in oklab, white 70%, transparent);
+  font-size: v.$fs-14;
+  font-weight: v.$weight-medium;
+}
+
+.payment-methods {
+  display: flex;
+  gap: v.$sp-8;
+}
+
+.payment-icon {
+  background: color-mix(in oklab, white 15%, transparent);
+  color: white;
+  padding: v.$sp-8 v.$sp-12;
+  border-radius: 6px;
+  font-size: v.$fs-12;
+  font-weight: v.$weight-semibold;
+  backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in oklab, white 20%, transparent);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: color-mix(in oklab, white 25%, transparent);
+    transform: translateY(-1px);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 520px) {
+  .footer__container {
+    padding: v.$sp-48 v.$sp-12 v.$sp-24;
+  }
+
+  .footer__brand-logo {
+    font-size: v.$fs-24;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
   }
 }
