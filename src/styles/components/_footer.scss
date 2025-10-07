@@ -288,7 +288,7 @@
 // Bottom
 .footer__bottom {
   padding-top: v.$spacing-10;
-  border-top: 1px solid v.$neutral-800;
+  border-top: 1px solid v.$brand-primary-500;
   text-align: center;
 
   @media (max-width: #{v.$breakpoint-md - 1px}) {
