@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
-import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import NotFound from "./pages/NotFound";
 
@@ -23,20 +22,12 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/catalog" element={<Catalog />} />
-          <Route path="/catalog/:size" element={<Catalog />} />
-
           <Route path="/product/:id" element={<Product />} />
-
           <Route path="/cart" element={<Cart />} />
-
-          <Route path="/login" element={<div>Login Page - Coming Soon</div>} />
-          <Route
-            path="/register"
-            element={<div>Register Page - Coming Soon</div>}
-          />
-
-          <Route path="/about" element={<About />} />
           <Route path="/contacts" element={<Contacts />} />
+
+          <Route path="/login" element={<div>Login Page </div>} />
+          <Route path="/register" element={<div>Register Page </div>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

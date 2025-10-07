@@ -1,7 +1,4 @@
 @use "./variables" as v;
-@use "./components/header";
-@use "./components/footer";
-@use "./pages/home";
 
 * {
   margin: 0;
@@ -14,12 +11,6 @@ html {
 }
 
 body {
-  font-family: v.$font-ui;
-  font-size: v.$fs-16;
-  font-weight: v.$weight-regular;
-  line-height: v.$lh-normal;
-  color: v.$color-text;
-  background-color: v.$color-bg;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

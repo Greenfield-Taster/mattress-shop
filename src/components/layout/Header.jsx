@@ -74,14 +74,6 @@ const Header = () => {
             Каталог
           </Link>
           <Link
-            to="/about"
-            className={`header__nav-link ${
-              isActiveLink("/about") ? "active" : ""
-            }`}
-          >
-            Про нас
-          </Link>
-          <Link
             to="/contacts"
             className={`header__nav-link ${
               isActiveLink("/contacts") ? "active" : ""
