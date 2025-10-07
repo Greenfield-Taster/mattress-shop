@@ -1,123 +1,95 @@
 @use "../variables" as v;
 
 .footer {
-  background: linear-gradient(
-    135deg,
-    #{v.$color-primary-ink} 0%,
-    color-mix(in oklab, #{v.$color-primary-ink} 85%, black) 100%
-  );
-  color: white;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      circle at 20% 50%,
-      color-mix(in oklab, #{v.$color-primary} 15%, transparent) 0%,
-      transparent 50%
-    );
-    pointer-events: none;
-  }
+  background: v.$brand-primary-700;
+  color: v.$neutral-200;
+  border-top: 1px solid v.$neutral-800;
+  width: 100%;
 }
 
 .footer__container {
-  width: min(1120px, 100%);
+  width: 100%;
+  max-width: 1920px;
   margin-inline: auto;
-  padding: v.$sp-64 v.$sp-16 v.$sp-32;
-  position: relative;
-  z-index: 1;
+  padding: v.$spacing-24 v.$spacing-20 v.$spacing-8;
+
+  @media (max-width: #{v.$breakpoint-lg - 1px}) {
+    padding: v.$spacing-16 v.$spacing-8 v.$spacing-10;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    padding: v.$spacing-12 v.$spacing-6 v.$spacing-8;
+  }
+
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    padding: v.$spacing-10 v.$spacing-4 v.$spacing-6;
+  }
 }
 
 .footer__content {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1.4fr;
-  gap: v.$sp-48;
-  margin-bottom: v.$sp-48;
+  grid-template-columns: 2fr 1.2fr 1.5fr 1.5fr;
+  gap: v.$spacing-16;
+  margin-bottom: v.$spacing-16;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: v.$sp-32;
-    margin-bottom: v.$sp-32;
-
-    .footer__section--wide {
-      grid-column: 1 / -1;
-    }
+  @media (min-width: v.$breakpoint-xl) {
+    gap: v.$spacing-20;
+    margin-bottom: v.$spacing-20;
   }
 
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    gap: v.$sp-32;
+  @media (max-width: #{v.$breakpoint-lg - 1px}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: v.$spacing-12;
+    margin-bottom: v.$spacing-12;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-10;
     text-align: center;
-
-    .footer__brand {
-      order: 1; // Brand завжди перший
-    }
-
-    .footer__sections-wrapper {
-      order: 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr; // Два section у дві колонки
-      gap: v.$sp-24;
-    }
-
-    .footer__section--wide {
-      order: 3;
-    }
+    margin-bottom: v.$spacing-10;
   }
 
-  @media (max-width: 520px) {
-    .footer__sections-wrapper {
-      grid-template-columns: 1fr; // На дуже маленьких - в одну колонку
-    }
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    gap: v.$spacing-8;
   }
 }
 
+// Brand Section
 .footer__brand {
-  display: grid;
-  gap: v.$sp-24;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+  align-items: center;
+  justify-content: center;
 
-  @media (max-width: 768px) {
-    text-align: center;
-  }
-}
-
-.footer__sections-wrapper {
-  display: contents; // По змовчанню працює як grid items
-
-  @media (max-width: 600px) {
-    display: grid;
-    gap: v.$sp-24;
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    align-items: center;
   }
 }
 
 .footer__brand-logo {
-  font-family: v.$font-heading;
-  font-size: v.$fs-32;
-  font-weight: v.$weight-bold;
-  color: white;
-  margin-bottom: v.$sp-4;
-}
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-4xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$neutral-0;
+  margin-bottom: 0;
 
-.footer__brand-description {
-  color: color-mix(in oklab, white 85%, transparent);
-  font-size: v.$fs-16;
-  line-height: v.$lh-normal;
-  margin: 0;
+  @media (max-width: #{v.$breakpoint-lg - 1px}) {
+    font-size: v.$font-size-3xl;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    font-size: v.$font-size-2xl;
+  }
 }
 
 .footer__brand-social {
   display: flex;
-  gap: v.$sp-12;
+  gap: v.$spacing-4;
 
-  @media (max-width: 768px) {
-    justify-content: center; // Центруємо соцмережі
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    justify-content: center;
   }
 }
 
@@ -125,297 +97,244 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: color-mix(in oklab, white 10%, transparent);
-  border-radius: 12px;
-  color: white;
+  width: 48px;
+  height: 48px;
+  background: v.$neutral-800;
+  border-radius: v.$radius-lg;
+  color: v.$neutral-300;
   text-decoration: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition: all v.$transition-fast v.$transition-timing;
+  border: 1px solid v.$neutral-700;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
 
   &:hover {
-    background: color-mix(in oklab, #{v.$color-primary} 40%, transparent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
+    border-color: v.$brand-primary-500;
   }
 
   &:active {
     transform: translateY(0);
   }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
+// Sections
 .footer__section {
-  display: grid;
-  gap: v.$sp-24;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
 
-  &--wide {
-    max-width: 400px; // Обмежуємо ширину
-
-    @media (max-width: 1024px) {
-      margin: 0 auto; // Центруємо
-      max-width: 100%;
-    }
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    align-items: center;
+    gap: v.$spacing-5;
   }
 }
 
 .footer__section-title {
-  font-family: v.$font-heading;
-  font-size: v.$fs-18;
-  font-weight: v.$weight-semibold;
-  color: white;
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
+  color: v.$neutral-0;
   margin: 0;
-  position: relative;
+  text-transform: uppercase;
+  letter-spacing: v.$letter-spacing-wide;
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 24px;
-    height: 2px;
-    background: v.$color-primary;
-    border-radius: 2px;
-
-    @media (max-width: 768px) {
-      left: 50%;
-      transform: translateX(-50%); // Центруємо підкреслення
-    }
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    font-size: v.$font-size-base;
   }
 }
 
+// Navigation Links
 .footer__section-links {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: v.$sp-12;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-4;
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    align-items: center;
+    gap: v.$spacing-3;
+  }
 
   li {
     display: flex;
-    align-items: center;
-    gap: v.$sp-8;
-
-    @media (max-width: 768px) {
-      justify-content: center;
-    }
   }
 
   a {
-    color: color-mix(in oklab, white 85%, transparent);
+    color: v.$neutral-400;
     text-decoration: none;
-    font-size: v.$fs-15;
-    transition: all 0.2s ease;
-    position: relative;
+    font-size: v.$font-size-base;
+    transition: color v.$transition-fast v.$transition-timing;
+    line-height: v.$line-height-normal;
 
     &:hover {
-      color: white;
-      transform: translateX(4px);
+      color: v.$neutral-0;
     }
 
-    &::before {
-      content: "";
-      position: absolute;
-      left: -8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 4px;
-      background: v.$color-primary;
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    &:hover::before {
-      opacity: 1;
+    @media (max-width: #{v.$breakpoint-md - 1px}) {
+      font-size: v.$font-size-sm;
     }
   }
 }
 
-.footer__newsletter-description {
-  color: color-mix(in oklab, white 85%, transparent);
-  font-size: v.$fs-14;
-  margin: 0;
-  line-height: v.$lh-normal;
-}
-
-.footer__newsletter {
-  margin: v.$sp-16 0;
-}
-
-.newsletter-input-group {
+// Contact List
+.footer__contact-list {
   display: flex;
-  background: color-mix(in oklab, white 10%, transparent);
-  border-radius: 12px;
-  padding: v.$sp-4;
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in oklab, white 20%, transparent);
-  transition: all 0.2s ease;
-  max-width: 320px; // Обмежуємо максимальну ширину
-  width: 100%;
+  flex-direction: column;
+  gap: v.$spacing-4;
 
-  @media (max-width: 768px) {
-    margin: 0 auto; // Центруємо на маленьких екранах
-  }
-
-  &:focus-within {
-    border-color: v.$color-primary;
-    box-shadow: 0 0 0 3px
-      color-mix(in oklab, #{v.$color-primary} 20%, transparent);
-  }
-}
-
-.newsletter-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: white;
-  padding: v.$sp-12 v.$sp-16;
-  font-size: v.$fs-14;
-  font-family: v.$font-ui;
-
-  &::placeholder {
-    color: color-mix(in oklab, white 60%, transparent);
-  }
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.newsletter-btn {
-  background: v.$color-primary;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  padding: v.$sp-12;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: color-mix(in oklab, #{v.$color-primary} 90%, white);
-    transform: translateX(2px);
-  }
-
-  &:active {
-    transform: translateX(0);
-  }
-}
-
-.footer__contact-info {
-  display: grid;
-  gap: v.$sp-12;
-
-  @media (max-width: 768px) {
-    justify-items: center; // Центруємо контакти
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    align-items: center;
+    gap: v.$spacing-3;
   }
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  gap: v.$sp-12;
-  color: color-mix(in oklab, white 85%, transparent);
-  font-size: v.$fs-14;
+  gap: v.$spacing-3;
+  color: v.$neutral-400;
+  font-size: v.$font-size-base;
+  line-height: v.$line-height-normal;
+  text-decoration: none;
+  transition: color v.$transition-fast v.$transition-timing;
 
   svg {
-    color: v.$color-primary;
+    color: v.$brand-primary-400;
     flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: v.$neutral-0;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    justify-content: center;
+    font-size: v.$font-size-sm;
+  }
+
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    font-size: v.$font-size-xs;
+    gap: v.$spacing-2;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 
+// Payment Methods
+.footer__payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-4;
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    align-items: center;
+    gap: v.$spacing-3;
+  }
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+  color: v.$neutral-400;
+  font-size: v.$font-size-base;
+  line-height: v.$line-height-normal;
+
+  svg {
+    color: v.$brand-primary-400;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    justify-content: center;
+    font-size: v.$font-size-sm;
+  }
+
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    font-size: v.$font-size-xs;
+    gap: v.$spacing-2;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+// Bottom
 .footer__bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: v.$sp-24;
-  border-top: 1px solid color-mix(in oklab, white 20%, transparent);
+  padding-top: v.$spacing-10;
+  border-top: 1px solid v.$neutral-800;
+  text-align: center;
 
-  @media (max-width: 768px) {
-    flex-direction: column-reverse;
-    gap: v.$sp-16;
-    text-align: center;
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    padding-top: v.$spacing-8;
   }
-}
 
-.footer__bottom-left {
-  display: flex;
-  align-items: center;
-  gap: v.$sp-24;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: v.$sp-8;
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    padding-top: v.$spacing-6;
   }
 }
 
 .footer__copyright {
-  color: color-mix(in oklab, white 70%, transparent);
-  font-size: v.$fs-14;
-}
+  color: v.$neutral-500;
+  font-size: v.$font-size-base;
+  line-height: v.$line-height-normal;
 
-.footer__bottom-right {
-  display: flex;
-  align-items: center;
-  gap: v.$sp-16;
-}
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    font-size: v.$font-size-sm;
+  }
 
-.footer__payment {
-  display: flex;
-  align-items: center;
-  gap: v.$sp-16;
-
-  @media (max-width: 520px) {
-    flex-direction: column;
-    gap: v.$sp-8;
+  @media (max-width: #{v.$breakpoint-sm - 1px}) {
+    font-size: v.$font-size-xs;
   }
 }
 
-.footer__payment-title {
-  color: color-mix(in oklab, white 70%, transparent);
-  font-size: v.$fs-14;
-  font-weight: v.$weight-medium;
-}
-
-.payment-methods {
-  display: flex;
-  gap: v.$sp-8;
-}
-
-.payment-icon {
-  background: color-mix(in oklab, white 15%, transparent);
-  color: white;
-  padding: v.$sp-8 v.$sp-12;
-  border-radius: 6px;
-  font-size: v.$fs-12;
-  font-weight: v.$weight-semibold;
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in oklab, white 20%, transparent);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: color-mix(in oklab, white 25%, transparent);
-    transform: translateY(-1px);
-  }
-}
-
-/* Mobile adjustments */
-@media (max-width: 520px) {
+// Responsive adjustments for very small screens
+@media (max-width: 360px) {
   .footer__container {
-    padding: v.$sp-48 v.$sp-12 v.$sp-24;
+    padding: v.$spacing-8 v.$spacing-3 v.$spacing-5;
+  }
+
+  .footer__content {
+    gap: v.$spacing-6;
   }
 
   .footer__brand-logo {
-    font-size: v.$fs-24;
+    font-size: v.$font-size-xl;
   }
 
   .social-link {
     width: 40px;
     height: 40px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

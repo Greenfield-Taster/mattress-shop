@@ -55,7 +55,7 @@ const Header = () => {
     <header className="header">
       <div className="header__container">
         <Link to="/" className="header__logo">
-          MattressShop
+          JUST SLEEP
         </Link>
 
         <nav className="header__nav">
@@ -133,15 +133,6 @@ const Header = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Каталог
-            </Link>
-            <Link
-              to="/about"
-              className={`header__nav-link ${
-                isActiveLink("/about") ? "active" : ""
-              }`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Про нас
             </Link>
             <Link
               to="/contacts"

@@ -1,72 +1,87 @@
 @use "../variables" as v;
 
 .header {
-  background: v.$color-surface;
+  background: v.$neutral-0;
   border-bottom: 1px solid v.$color-border;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: v.$z-fixed;
   backdrop-filter: blur(10px);
 }
 
 .header__container {
-  width: min(1120px, 100%);
+  width: 100%;
+  max-width: 1280px;
   margin-inline: auto;
-  padding-inline: v.$sp-16;
+  padding-inline: v.$spacing-4;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
+
+  @media (min-width: v.$breakpoint-md) {
+    padding-inline: v.$spacing-6;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    height: 56px;
+    padding-inline: v.$spacing-3;
+  }
 }
 
 .header__logo {
-  font-family: v.$font-heading;
-  font-size: v.$fs-24;
-  font-weight: v.$weight-bold;
-  color: v.$color-primary-ink;
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$brand-primary-500;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color v.$transition-fast v.$transition-timing;
 
   &:hover {
-    color: v.$color-primary;
+    color: v.$brand-primary-600;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    font-size: v.$font-size-xl;
   }
 }
 
 .header__nav {
   display: flex;
   align-items: center;
-  gap: v.$sp-32;
+  gap: v.$spacing-8;
 
-  @media (max-width: 768px) {
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
     display: none;
   }
 }
 
 .header__nav-link {
-  font-size: v.$fs-16;
-  font-weight: v.$weight-medium;
-  color: v.$color-text;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-secondary;
   text-decoration: none;
-  padding: v.$sp-8 v.$sp-12;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: v.$spacing-2 v.$spacing-3;
+  border-radius: v.$radius-base;
+  transition: all v.$transition-fast v.$transition-timing;
   position: relative;
 
   &:hover {
-    color: v.$color-primary-ink;
-    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+    color: v.$color-text-primary;
+    background: v.$brand-primary-50;
   }
 
   &.active {
-    color: v.$color-primary-ink;
-    background: color-mix(in oklab, #{v.$color-primary} 12%, transparent);
+    color: v.$brand-primary-500;
+    background: v.$brand-primary-50;
+    font-weight: v.$font-weight-semibold;
   }
 }
 
 .header__actions {
   display: flex;
   align-items: center;
-  gap: v.$sp-16;
+  gap: v.$spacing-4;
 }
 
 .header__cart {
@@ -76,14 +91,20 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  color: v.$color-text;
+  border-radius: v.$radius-md;
+  color: v.$color-text-secondary;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all v.$transition-fast v.$transition-timing;
 
   &:hover {
-    color: v.$color-primary-ink;
-    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
+    color: v.$brand-primary-500;
+    background: v.$brand-primary-50;
+    border-radius: v.$radius-full;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -91,75 +112,83 @@
   position: absolute;
   top: -4px;
   right: -4px;
-  background: v.$color-primary-ink;
-  color: white;
-  font-size: v.$fs-12;
-  font-weight: v.$weight-semibold;
+  background: v.$brand-primary-500;
+  color: v.$color-text-inverse;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
   min-width: 20px;
   height: 20px;
-  border-radius: 10px;
+  border-radius: v.$radius-badge;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  padding: 0 v.$spacing-1;
 }
 
 .header__auth {
   display: flex;
   align-items: center;
-  gap: v.$sp-12;
+  gap: v.$spacing-3;
 }
 
 .btn {
   appearance: none;
   border: 0;
-  border-radius: 10px;
-  font-family: v.$font-ui;
-  font-weight: v.$weight-semibold;
+  border-radius: v.$radius-button;
+  font-family: v.$font-family-base;
+  font-weight: v.$font-weight-medium;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: v.$sp-8;
-  transition: all 0.2s ease;
+  gap: v.$spacing-2;
+  transition: all v.$transition-fast v.$transition-timing;
   text-align: center;
   line-height: 1;
 
   &.btn-sm {
-    padding: v.$sp-8 v.$sp-16;
-    font-size: v.$fs-14;
-    height: 36px;
+    padding: v.$spacing-5 v.$spacing-4;
+    font-size: v.$font-size-sm;
+    height: 32px;
   }
 
   &.btn-primary {
-    background: v.$color-primary-ink;
-    color: white;
+    background: v.$brand-primary-500;
+    color: v.$color-text-inverse;
+    box-shadow: v.$shadow-button;
 
-    &:hover {
-      background: color-mix(in oklab, #{v.$color-primary-ink} 90%, black);
-      transform: translateY(-1px);
+    &:hover:not(:disabled) {
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-lg;
     }
 
-    &:active {
+    &:active:not(:disabled) {
       transform: translateY(0);
+      box-shadow: v.$shadow-xs;
     }
   }
 
   &.btn-ghost {
     background: transparent;
-    color: v.$color-text;
+    color: v.$color-text-secondary;
     border: 1px solid v.$color-border;
 
-    &:hover {
-      background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
-      border-color: v.$color-primary;
-      color: v.$color-primary-ink;
+    &:hover:not(:disabled) {
+      background: v.$brand-primary-50;
+      border-color: v.$brand-primary-500;
+      color: v.$brand-primary-500;
     }
   }
 
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   &:focus-visible {
-    outline: 3px solid color-mix(in oklab, #{v.$color-primary} 50%, white);
+    outline: 3px solid rgba(30, 58, 95, 0.3);
     outline-offset: 2px;
   }
 }
@@ -168,27 +197,27 @@
   appearance: none;
   border: 0;
   background: transparent;
-  color: v.$color-text;
+  color: v.$color-text-secondary;
   cursor: pointer;
-  padding: v.$sp-8;
-  border-radius: 8px;
+  padding: v.$spacing-2;
+  border-radius: v.$radius-base;
   display: none;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all v.$transition-fast v.$transition-timing;
 
   &:hover {
-    background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
-    color: v.$color-primary-ink;
+    background: v.$brand-primary-50;
+    color: v.$brand-primary-500;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
     display: flex;
   }
 }
 
 .hidden-mobile {
-  @media (max-width: 768px) {
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
     display: none;
   }
 }
@@ -198,14 +227,14 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: v.$color-surface;
+  background: v.$neutral-0;
   border-bottom: 1px solid v.$color-border;
-  padding: v.$sp-16;
+  padding: v.$spacing-4;
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: all v.$transition-slow v.$transition-timing;
+  box-shadow: v.$shadow-dropdown;
 
   &.open {
     transform: translateY(0);
@@ -217,65 +246,47 @@
 .header__mobile-nav {
   display: flex;
   flex-direction: column;
-  gap: v.$sp-8;
+  gap: v.$spacing-2;
 
   .header__nav-link {
-    padding: v.$sp-12 v.$sp-16;
-    border-radius: 12px;
+    padding: v.$spacing-4;
+    border-radius: v.$radius-md;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: v.$sp-8;
-    font-size: v.$fs-16;
-    font-weight: v.$weight-medium;
+    gap: v.$spacing-2;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-medium;
     background: none;
     border: none;
     width: 100%;
     text-align: center;
     cursor: pointer;
-    color: v.$color-text;
+    color: v.$color-text-secondary;
     text-decoration: none;
 
     &:hover {
-      background: color-mix(in oklab, #{v.$color-primary} 8%, transparent);
-      color: v.$color-primary-ink;
+      background: v.$brand-primary-50;
+      color: v.$brand-primary-500;
     }
 
     &.active {
-      background: color-mix(in oklab, #{v.$color-primary} 12%, transparent);
-      color: v.$color-primary-ink;
+      background: v.$brand-primary-100;
+      color: v.$brand-primary-500;
+      font-weight: v.$font-weight-semibold;
     }
   }
 
   button.header__nav-link {
-    font-weight: v.$weight-semibold;
-    background: color-mix(in oklab, #{v.$color-primary} 8%, white);
-    border: 1px solid color-mix(in oklab, #{v.$color-primary} 20%, white);
-    color: v.$color-primary-ink;
+    margin-top: v.$spacing-2;
+    background: v.$brand-primary-50;
+    border: 1px solid v.$brand-primary-200;
+    color: v.$brand-primary-500;
+    font-weight: v.$font-weight-semibold;
 
     &:hover {
-      background: color-mix(in oklab, #{v.$color-primary} 15%, white);
-      border-color: color-mix(in oklab, #{v.$color-primary} 35%, white);
+      background: v.$brand-primary-100;
+      border-color: v.$brand-primary-300;
     }
-  }
-}
-
-@media (max-width: 520px) {
-  .header__container {
-    padding-inline: v.$sp-12;
-    height: 56px;
-  }
-
-  .header__logo {
-    font-size: v.$fs-20;
-  }
-
-  .header__cart {
-    width: 40px;
-    height: 40px;
-  }
-
-  .header__mobile-menu {
-    padding: v.$sp-12;
   }
 }
