@@ -8,9 +8,26 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: v.$font-size-base;
+  letter-spacing: v.$letter-spacing-normal;
 }
 
 body {
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-normal;
+  color: v.$color-text-primary;
+  background-color: v.$color-background;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: v.$brand-primary-500;
+  text-decoration: none;
 }
