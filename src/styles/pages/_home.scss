@@ -1,1 +1,645 @@
 @use "../variables" as v;
+
+.home {
+  background: v.$color-background;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 v.$spacing-8;
+
+  @media (max-width: v.$breakpoint-lg) {
+    padding: 0 v.$spacing-6;
+  }
+  @media (max-width: v.$breakpoint-md) {
+    padding: 0 v.$spacing-5;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    padding: 0 v.$spacing-4;
+  }
+}
+
+.section-title {
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-primary;
+  margin: 0 0 v.$spacing-8 0;
+
+  &--inline {
+    margin: 0;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-2xl;
+    margin-bottom: v.$spacing-6;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xl;
+    margin-bottom: v.$spacing-5;
+  }
+}
+
+.hero {
+  padding: v.$spacing-16 0;
+  background: v.$color-background;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-12 0;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-10 0;
+  }
+
+  &__content {
+    position: relative;
+    min-height: 300px;
+
+    @media (max-width: v.$breakpoint-md) {
+      display: flex;
+      flex-direction: column;
+      gap: v.$spacing-6;
+      min-height: auto;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-5;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+
+    @media (max-width: v.$breakpoint-md) {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    font-size: v.$font-size-5xl;
+    line-height: 1.1;
+    margin: 0;
+    color: v.$color-text-primary;
+    font-weight: v.$font-weight-bold;
+    @media (max-width: v.$breakpoint-lg) {
+      font-size: v.$font-size-4xl;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-3xl;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-2xl;
+    }
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+    margin: 0;
+    line-height: v.$line-height-relaxed;
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__image {
+    position: absolute;
+    right: 5%;
+    top: 70%;
+    transform: translateY(-50%);
+    width: 400px;
+    max-width: 460px;
+    z-index: 0;
+
+    @media (max-width: v.$breakpoint-lg) {
+      width: 400px;
+      max-width: 400px;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      width: 100%;
+      max-width: 100%;
+      margin: v.$spacing-4 auto 0;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__button {
+    display: inline-block;
+    padding: v.$spacing-4 v.$spacing-8;
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    border: none;
+    border-radius: v.$radius-button;
+    text-decoration: none;
+    transition: v.$transition-button;
+    margin-top: v.$spacing-6;
+    z-index: 1;
+    position: relative;
+    margin-top: v.$spacing-16;
+
+    &:hover {
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-md;
+      transform: translateY(-2px);
+    }
+    &:active {
+      background: v.$brand-primary-700;
+      transform: translateY(0);
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      width: 100%;
+      text-align: center;
+      margin-top: v.$spacing-6;
+    }
+  }
+}
+
+// QUICK SELECTION - простой адаптив с переносом
+.quick-selection {
+  padding: v.$spacing-20 0;
+  background: v.$neutral-0;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-16 0;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-12 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); // 5 в один ряд
+    gap: v.$spacing-5;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr); // 3 в ряд
+      gap: v.$spacing-5;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      grid-template-columns: repeat(2, 1fr); // 2 в ряд
+      gap: v.$spacing-4;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      grid-template-columns: 1fr; // 1 в ряд
+      gap: v.$spacing-4;
+    }
+  }
+}
+
+.category-card {
+  background: v.$neutral-50;
+  border-radius: v.$radius-card;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: v.$transition-card;
+  border: 1px solid v.$color-border;
+
+  &:hover {
+    box-shadow: v.$shadow-card-hover;
+    transform: translateY(-4px);
+    border-color: v.$color-border-dark;
+    .category-card__image img {
+      transform: scale(1.05);
+    }
+    .category-card__button {
+      background: v.$brand-primary-600;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 3 / 2; // Более компактное соотношение сторон
+    background: v.$neutral-100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: v.$spacing-4; // Уменьшен padding
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-3;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform v.$transition-slow v.$transition-timing;
+    }
+  }
+
+  &__content {
+    padding: v.$spacing-5; // Уменьшен padding
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-2; // Уменьшен gap
+    flex: 1;
+  }
+
+  &__title {
+    font-size: v.$font-size-base; // Уменьшен размер шрифта
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    margin: 0;
+    line-height: v.$line-height-tight;
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-xs; // Уменьшен размер шрифта
+    color: v.$color-text-secondary;
+    margin: 0;
+    line-height: v.$line-height-normal;
+    flex: 1;
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 0.7rem;
+    }
+  }
+
+  &__button {
+    padding: v.$spacing-2 v.$spacing-3; // Уменьшен padding кнопки
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
+    font-size: v.$font-size-xs; // Уменьшен размер шрифта кнопки
+    font-weight: v.$font-weight-semibold;
+    border: none;
+    border-radius: v.$radius-button;
+    cursor: pointer;
+    transition: v.$transition-button;
+    font-family: v.$font-family-base;
+    text-align: center;
+    display: inline-block;
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.popular-products {
+  padding: v.$spacing-20 0;
+  background: v.$neutral-100;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-10 0;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-8 0;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: v.$spacing-6;
+    margin-bottom: v.$spacing-8;
+
+    @media (max-width: v.$breakpoint-sm) {
+      // в один ряд: заголовок + кнопки
+      .section-title {
+        margin: 0;
+      }
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: v.$spacing-3;
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-2;
+    }
+  }
+
+  &__carousel {
+    display: flex;
+    gap: v.$spacing-5;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: v.$spacing-4;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    cursor: grab;
+
+    // Запрет выделения текста при drag
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    // Состояние перетаскивания
+    &.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto; // Отключаем smooth при drag
+
+      // Запрещаем клики по карточкам во время drag
+      .product-card {
+        pointer-events: none;
+      }
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      gap: v.$spacing-4;
+    }
+  }
+
+  &__item {
+    flex: 0 0 280px; // Соответствует размеру ProductCard на desktop
+    max-width: 280px;
+    @media (max-width: v.$breakpoint-lg) {
+      flex-basis: 240px; // Соответствует размеру ProductCard на tablet
+      max-width: 240px;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      flex-basis: 200px; // Соответствует размеру ProductCard на mobile
+      max-width: 200px;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      flex-basis: 100%; // На маленьких экранах - на всю ширину
+      max-width: 100%;
+    }
+  }
+}
+
+.carousel-control {
+  width: 48px;
+  height: 48px;
+  border-radius: v.$radius-full;
+  background: v.$brand-primary-500;
+  color: v.$neutral-0;
+  border: none;
+  font-size: v.$font-size-xl;
+  cursor: pointer;
+  transition: v.$transition-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  @media (max-width: v.$breakpoint-sm) {
+    width: 36px;
+    height: 36px;
+    font-size: v.$font-size-lg;
+  }
+
+  &:hover:not(&--disabled) {
+    background: v.$brand-primary-600;
+    box-shadow: v.$shadow-md;
+    transform: scale(1.05);
+  }
+  &:active:not(&--disabled) {
+    background: v.$brand-primary-700;
+    transform: scale(0.95);
+  }
+  &--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.benefits {
+  padding: v.$spacing-8 0 v.$spacing-20;
+  background: v.$neutral-100;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-10 0;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-8 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: v.$spacing-6;
+
+    .benefit-card {
+      grid-column: span 4;
+    } // 3 в ряд на десктопі
+    @media (max-width: v.$breakpoint-lg) {
+      .benefit-card {
+        grid-column: span 6;
+      }
+    } // 2 в ряд
+    @media (max-width: v.$breakpoint-sm) {
+      .benefit-card {
+        grid-column: span 12;
+      }
+    } // 1 в ряд
+  }
+}
+
+.benefit-card {
+  background: v.$neutral-0;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-card;
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-5;
+  padding: v.$spacing-6;
+  box-shadow: v.$shadow-card;
+  transition: v.$transition-card;
+
+  // Ховер эффект
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: v.$shadow-card-hover;
+    border-color: v.$brand-primary-200;
+  }
+
+  @media (max-width: v.$breakpoint-lg) {
+    gap: v.$spacing-4;
+    padding: v.$spacing-5;
+  }
+  @media (max-width: v.$breakpoint-md) {
+    gap: v.$spacing-3;
+    padding: v.$spacing-4;
+  }
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-2;
+    padding: v.$spacing-3;
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: v.$radius-full;
+    background: v.$brand-primary-50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: v.$shadow-sm;
+    color: v.$brand-primary-500;
+    transition: v.$transition-button;
+
+    // Анимация при hover на карточке
+    .benefit-card:hover & {
+      background: v.$brand-primary-100;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: v.$breakpoint-lg) {
+      width: 56px;
+      height: 56px;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      width: 48px;
+      height: 48px;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      width: 40px;
+      height: 40px;
+    }
+
+    // Стили для SVG иконок
+    svg {
+      width: 32px;
+      height: 32px;
+
+      @media (max-width: v.$breakpoint-lg) {
+        width: 28px;
+        height: 28px;
+      }
+      @media (max-width: v.$breakpoint-md) {
+        width: 24px;
+        height: 24px;
+      }
+      @media (max-width: v.$breakpoint-sm) {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-2;
+  }
+
+  &__title {
+    margin: 0;
+    color: v.$color-text-primary;
+    font-weight: v.$font-weight-bold;
+    font-size: v.$font-size-lg;
+
+    @media (max-width: v.$breakpoint-lg) {
+      font-size: v.$font-size-base;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-sm;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+    }
+  }
+
+  &__description {
+    margin: 0;
+    color: v.$color-text-secondary;
+    font-size: v.$font-size-base;
+    line-height: v.$line-height-relaxed;
+
+    @media (max-width: v.$breakpoint-lg) {
+      font-size: v.$font-size-sm;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-xs;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// CTA — компактний адаптив
+.cta {
+  padding: v.$spacing-8 0 v.$spacing-20;
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: v.$spacing-8;
+    background: v.$brand-primary-500;
+    padding: v.$spacing-10 v.$spacing-16;
+    border-radius: v.$radius-xl;
+
+    @media (max-width: v.$breakpoint-md) {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: v.$spacing-10 v.$spacing-8;
+      gap: v.$spacing-6;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    color: v.$neutral-0;
+    line-height: v.$line-height-tight;
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+
+    @media (max-width: v.$breakpoint-lg) {
+      font-size: v.$font-size-xl;
+    }
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-xl;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-lg;
+    }
+  }
+
+  &__button {
+    justify-self: end;
+    padding: v.$spacing-4 v.$spacing-8;
+    background: v.$neutral-0;
+    color: v.$brand-primary-500;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    border: none;
+    border-radius: v.$radius-button;
+    text-decoration: none;
+    transition: v.$transition-button;
+    white-space: nowrap;
+
+    &:hover {
+      background: v.$neutral-50;
+      box-shadow: v.$shadow-lg;
+    }
+    &:active {
+      background: v.$neutral-100;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      justify-self: center;
+      width: 100%;
+      font-size: v.$font-size-sm;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+      padding: v.$spacing-3 v.$spacing-6;
+    }
+  }
+}

@@ -1,0 +1,376 @@
+@import "../../styles/variables";
+
+// Размеры карточки для разных экранов
+$card-width-desktop: 280px;
+$card-width-tablet: 240px;
+$card-width-mobile: 200px;
+
+// Фиксированные высоты для текстовых блоков
+$title-height: 40px; // 2 строки по 20px
+$specs-height: 20px; // 1 строка
+$price-height: 28px; // высота цены
+
+.product-card {
+  background: $neutral-0;
+  color: $color-text-primary;
+  border-radius: $radius-card;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $card-width-desktop;
+  transition: transform $transition-base $transition-timing,
+    box-shadow $transition-base $transition-timing,
+    border-color $transition-base $transition-timing;
+  border: 1px solid $color-border;
+  height: 100%; // Важно для одинаковой высоты в grid
+  
+  // Запрет выделения текста и изображений
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  
+  // Запрет перетаскивания изображений
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-card-hover;
+    border-color: $color-border-dark;
+  }
+
+  // IMAGE
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1; // Квадратное изображение для единообразия
+    background: $neutral-50;
+    overflow: hidden;
+    flex-shrink: 0; // Не сжимается
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: $spacing-4;
+    transition: transform $transition-slow $transition-timing;
+
+    .product-card:hover & {
+      transform: scale(1.05);
+    }
+  }
+
+  &__discount {
+    position: absolute;
+    top: $spacing-3;
+    right: $spacing-3;
+    background: $brand-secondary-500;
+    color: $color-text-inverse;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    padding: $spacing-2 $spacing-3;
+    border-radius: $radius-badge;
+    box-shadow: $shadow-sm;
+    line-height: 1;
+    letter-spacing: $letter-spacing-tight;
+    z-index: 1;
+  }
+
+  // CONTENT
+  &__content {
+    padding: $spacing-5;
+    display: flex;
+    flex-direction: column;
+    flex: 1; // Растягивается на оставшееся пространство
+    min-height: 0; // Для правильной работы flex
+  }
+
+  // TITLE - фиксированная высота для 2 строк
+  &__title {
+    margin: 0 0 $spacing-3 0;
+    font-family: $font-family-base;
+    font-weight: $font-weight-semibold;
+    letter-spacing: $letter-spacing-tight;
+    line-height: $line-height-tight; // 1.25
+    font-size: $font-size-base; // 16px
+    color: $color-text-primary;
+    height: $title-height;
+    
+    // Ограничение на 2 строки с ellipsis
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // SPECS - фиксированная высота
+  &__specs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+    font-size: $font-size-xs; // 12px
+    color: $color-text-secondary;
+    line-height: 1.2;
+    height: $specs-height;
+    margin-bottom: $spacing-3;
+    overflow: hidden; // Скрываем если не влезает
+  }
+
+  &__spec {
+    white-space: nowrap;
+  }
+  
+  &__separator {
+    color: $color-border-dark;
+  }
+
+  // PRICE - фиксированная высота
+  &__price-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-2;
+    height: $price-height;
+    margin-top: auto; // Прижимается к низу
+    margin-bottom: $spacing-4;
+  }
+
+  &__price {
+    font-size: $font-size-xl; // 20px
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    line-height: 1;
+    letter-spacing: $letter-spacing-tight;
+  }
+
+  &__old-price {
+    font-size: $font-size-sm; // 14px
+    color: $color-text-tertiary;
+    text-decoration: line-through;
+    font-weight: $font-weight-regular;
+    line-height: 1;
+  }
+
+  // ACTIONS - кнопки
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-3;
+    margin-top: auto; // Всегда внизу
+  }
+
+  &__button {
+    height: 40px;
+    padding: 0 $spacing-4;
+    border-radius: $radius-button;
+    border: 1px solid transparent;
+    font-family: $font-family-base;
+    font-size: $font-size-sm; // 14px
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    transition: $transition-button;
+    text-align: center;
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &--primary {
+      background: $brand-primary-500;
+      color: $color-text-inverse;
+      border-color: $brand-primary-500;
+
+      &:hover {
+        background: $brand-primary-600;
+        border-color: $brand-primary-600;
+        box-shadow: $shadow-button;
+      }
+      &:active {
+        background: $brand-primary-700;
+        border-color: $brand-primary-700;
+      }
+      &:focus-visible {
+        outline: 2px solid $brand-primary-300;
+        outline-offset: 2px;
+      }
+    }
+
+    &--secondary {
+      background: $neutral-100;
+      color: $color-text-primary;
+      border-color: $color-border;
+
+      &:hover {
+        background: $neutral-200;
+        border-color: $color-border-dark;
+      }
+      &:active {
+        background: $neutral-300;
+      }
+      &:focus-visible {
+        outline: 2px solid $brand-primary-200;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+// ========================================
+// RESPONSIVE - Адаптив
+// ========================================
+
+// TABLET (768px - 1024px)
+@media (max-width: $breakpoint-lg) {
+  .product-card {
+    max-width: $card-width-tablet;
+
+    &__content {
+      padding: $spacing-4;
+    }
+
+    &__title {
+      font-size: $font-size-sm; // 14px
+      margin-bottom: $spacing-2;
+    }
+
+    &__specs {
+      font-size: 11px;
+      gap: $spacing-1;
+      margin-bottom: $spacing-2;
+    }
+
+    &__price {
+      font-size: $font-size-lg; // 18px
+    }
+
+    &__old-price {
+      font-size: $font-size-xs; // 12px
+    }
+
+    &__price-wrapper {
+      margin-bottom: $spacing-3;
+    }
+
+    &__actions {
+      gap: $spacing-2;
+    }
+
+    &__button {
+      height: 36px;
+      padding: 0 $spacing-3;
+      font-size: $font-size-xs; // 12px
+    }
+
+    &__discount {
+      top: $spacing-2;
+      right: $spacing-2;
+      padding: $spacing-1 $spacing-2;
+      font-size: 10px;
+    }
+  }
+}
+
+// MOBILE LARGE (481px - 767px) - кнопки еще в ряд
+@media (max-width: $breakpoint-md) {
+  .product-card {
+    max-width: $card-width-mobile;
+
+    &__content {
+      padding: $spacing-3;
+    }
+
+    &__title {
+      font-size: $font-size-sm; // 14px
+      height: 36px; // Немного меньше для мобильных
+    }
+
+    &__image {
+      padding: $spacing-3;
+    }
+
+    &__price {
+      font-size: $font-size-base; // 16px
+    }
+
+    &__button {
+      height: 34px;
+      font-size: 11px;
+      padding: 0 $spacing-2;
+    }
+  }
+}
+
+// MOBILE SMALL (< 480px) - кнопки друг под другом
+@media (max-width: $breakpoint-sm) {
+  .product-card {
+    max-width: 100%;
+
+    &__actions {
+      grid-template-columns: 1fr; // Одна колонка - кнопки друг под другом
+      gap: $spacing-2;
+    }
+
+    &__button {
+      width: 100%;
+      height: 38px; // Немного выше для удобства нажатия
+      font-size: $font-size-xs; // 12px
+    }
+
+    &__content {
+      padding: $spacing-4;
+    }
+
+    &__title {
+      font-size: $font-size-base; // 16px для читабельности на мобильных
+      height: 40px;
+    }
+
+    &__specs {
+      font-size: $font-size-xs;
+    }
+
+    &__price-wrapper {
+      margin-bottom: $spacing-4;
+    }
+  }
+}
+
+// EXTRA SMALL (< 360px)
+@media (max-width: 360px) {
+  .product-card {
+    &__content {
+      padding: $spacing-3;
+    }
+
+    &__title {
+      font-size: $font-size-sm;
+    }
+
+    &__price {
+      font-size: $font-size-base;
+    }
+
+    &__button {
+      height: 36px;
+      font-size: 11px;
+    }
+  }
+}

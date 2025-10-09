@@ -1,0 +1,579 @@
+@import "../styles/variables";
+
+.catalog {
+  background: $color-background;
+  min-height: 100vh;
+  padding: $spacing-8 0;
+
+  &__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 $spacing-6;
+  }
+
+  // ========================================
+  // BREADCRUMBS
+  // ========================================
+  &__breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-6;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+  }
+
+  &__breadcrumb {
+    color: $color-text-secondary;
+    transition: color $transition-fast;
+
+    &:hover:not(&--active) {
+      color: $brand-primary-500;
+      cursor: pointer;
+    }
+
+    &--active {
+      color: $color-text-primary;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &__breadcrumb-separator {
+    color: $color-border-dark;
+  }
+
+  // ========================================
+  // HEADER
+  // ========================================
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-8;
+  }
+
+  &__title {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin: 0;
+    letter-spacing: $letter-spacing-tight;
+  }
+
+  &__count {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  // ========================================
+  // CONTENT LAYOUT
+  // ========================================
+  &__content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: $spacing-8;
+    align-items: start;
+  }
+
+  // ========================================
+  // PRODUCTS GRID
+  // ========================================
+  &__products {
+    width: 100%;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-16 $spacing-8;
+    background: $neutral-0;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-sm;
+
+    p {
+      font-size: $font-size-lg;
+      color: $color-text-secondary;
+      margin-bottom: $spacing-6;
+    }
+  }
+
+  &__empty-button {
+    padding: $spacing-3 $spacing-6;
+    background: $brand-primary-500;
+    color: $color-text-inverse;
+    border: none;
+    border-radius: $radius-button;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: $transition-button;
+
+    &:hover {
+      background: $brand-primary-600;
+      box-shadow: $shadow-button;
+    }
+  }
+
+  // ========================================
+  // PAGINATION
+  // ========================================
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-2;
+    margin-top: $spacing-12;
+  }
+}
+
+// ========================================
+// PRODUCTS GRID
+// ========================================
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-6;
+  margin-bottom: $spacing-8;
+}
+
+// ========================================
+// PAGINATION
+// ========================================
+.pagination {
+  &__button {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 $spacing-3;
+    background: $neutral-0;
+    border: 1px solid $color-border;
+    border-radius: $radius-base;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    cursor: pointer;
+    transition: $transition-button;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover:not(&--disabled):not(&--active) {
+      background: $neutral-100;
+      border-color: $color-border-dark;
+    }
+
+    &--active {
+      background: $brand-primary-500;
+      color: $color-text-inverse;
+      border-color: $brand-primary-500;
+      font-weight: $font-weight-bold;
+    }
+
+    &--disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ========================================
+// FILTERS
+// ========================================
+.catalog__filters {
+  position: sticky;
+  top: $spacing-6;
+  max-height: calc(100vh - $spacing-12);
+  overflow-y: auto;
+  
+  // Кастомний скролбар
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $neutral-100;
+    border-radius: $radius-full;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $neutral-300;
+    border-radius: $radius-full;
+    
+    &:hover {
+      background: $neutral-400;
+    }
+  }
+}
+
+.filters {
+  background: $neutral-0;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  box-shadow: $shadow-sm;
+  border: 1px solid $color-border-light;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-6;
+    padding-bottom: $spacing-4;
+    border-bottom: 2px solid $color-border;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin: 0;
+    letter-spacing: $letter-spacing-tight;
+  }
+
+  &__reset {
+    background: none;
+    border: none;
+    color: $brand-primary-500;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: color $transition-fast;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $radius-sm;
+
+    &:hover {
+      color: $brand-primary-600;
+      background: $brand-primary-50;
+    }
+  }
+
+  &__apply {
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    background: $brand-primary-500;
+    color: $color-text-inverse;
+    border: none;
+    border-radius: $radius-button;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: $transition-button;
+    margin-top: $spacing-6;
+
+    &:hover {
+      background: $brand-primary-600;
+      box-shadow: $shadow-button;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+}
+
+// ========================================
+// FILTER GROUP
+// ========================================
+.filter-group {
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-6;
+  border-bottom: 1px solid $color-border-light;
+
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin: 0 0 $spacing-4 0;
+    letter-spacing: $letter-spacing-normal;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    &--grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-2;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: $spacing-2;
+      
+      // Кастомний скролбар для розмірів
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: $neutral-50;
+        border-radius: $radius-full;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: $neutral-300;
+        border-radius: $radius-full;
+        
+        &:hover {
+          background: $neutral-400;
+        }
+      }
+    }
+  }
+}
+
+// ========================================
+// FILTER CHECKBOX
+// ========================================
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  cursor: pointer;
+  user-select: none;
+  transition: background $transition-fast;
+  padding: $spacing-2;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background: $neutral-50;
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: $brand-primary-500;
+    border-radius: $radius-sm;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+    line-height: $line-height-normal;
+  }
+}
+
+// ========================================
+// FILTER CHIP (для розмірів)
+// ========================================
+.filter-chip {
+  padding: $spacing-2 $spacing-3;
+  background: $neutral-50;
+  border: 1px solid $color-border;
+  border-radius: $radius-button;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-align: center;
+  white-space: nowrap;
+
+  &:hover {
+    background: $neutral-100;
+    border-color: $brand-primary-300;
+  }
+
+  &--active {
+    background: $brand-primary-500;
+    border-color: $brand-primary-500;
+    color: $color-text-inverse;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      background: $brand-primary-600;
+      border-color: $brand-primary-600;
+    }
+  }
+}
+
+// ========================================
+// FILTER RANGE
+// ========================================
+.filter-range {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  &__input {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: $neutral-200;
+    border-radius: $radius-full;
+    outline: none;
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: $brand-primary-500;
+      border: 3px solid $neutral-0;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: $shadow-sm;
+      transition: all $transition-fast;
+
+      &:hover {
+        background: $brand-primary-600;
+        transform: scale(1.1);
+      }
+    }
+
+    &::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: $brand-primary-500;
+      border: 3px solid $neutral-0;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: $shadow-sm;
+      transition: all $transition-fast;
+
+      &:hover {
+        background: $brand-primary-600;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+// ========================================
+// RESPONSIVE
+// ========================================
+
+// TABLET (768px - 1024px)
+@media (max-width: $breakpoint-lg) {
+  .catalog {
+    &__content {
+      grid-template-columns: 260px 1fr;
+      gap: $spacing-6;
+    }
+
+    &__title {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: $spacing-5;
+  }
+
+  .filters {
+    padding: $spacing-5;
+  }
+}
+
+// MOBILE (< 768px)
+@media (max-width: $breakpoint-md) {
+  .catalog {
+    padding: $spacing-6 0;
+
+    &__container {
+      padding: 0 $spacing-4;
+    }
+
+    &__content {
+      grid-template-columns: 1fr;
+      gap: $spacing-6;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-2;
+      margin-bottom: $spacing-6;
+    }
+
+    &__title {
+      font-size: $font-size-2xl;
+    }
+
+    &__filters {
+      position: static;
+      order: -1;
+      max-height: none;
+    }
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-4;
+  }
+
+  .filters {
+    padding: $spacing-4;
+
+    &__header {
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  .filter-group {
+    margin-bottom: $spacing-5;
+    padding-bottom: $spacing-5;
+
+    &__title {
+      font-size: $font-size-sm;
+    }
+
+    &__options {
+      gap: $spacing-2;
+
+      &--grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-height: 250px;
+      }
+    }
+  }
+
+  .filter-chip {
+    padding: $spacing-1 $spacing-2;
+    font-size: 10px;
+  }
+}
+
+// MOBILE SMALL (< 480px)
+@media (max-width: $breakpoint-sm) {
+  .catalog {
+    padding: $spacing-4 0;
+
+    &__container {
+      padding: 0 $spacing-3;
+    }
+
+    &__title {
+      font-size: $font-size-xl;
+    }
+
+    &__breadcrumbs {
+      font-size: 11px;
+      gap: $spacing-1;
+    }
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-4;
+  }
+
+  .filter-group__options--grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pagination__button {
+    min-width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+}
