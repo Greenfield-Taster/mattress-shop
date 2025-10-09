@@ -25,7 +25,6 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product-card">
-      {/* IMAGE SECTION */}
       <div className="product-card__image-wrapper">
         <img src={image} alt={name} className="product-card__image" />
         {hasDiscount && (
@@ -33,12 +32,9 @@ const ProductCard = ({ product }) => {
         )}
       </div>
 
-      {/* CONTENT SECTION */}
       <div className="product-card__content">
-        {/* TITLE */}
         <h3 className="product-card__title">{name}</h3>
 
-        {/* SPECS */}
         <div className="product-card__specs">
           {type && <span className="product-card__spec">{type}</span>}
           {height && (
@@ -55,7 +51,6 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {/* PRICE */}
         <div className="product-card__price-wrapper">
           <span className="product-card__price">
             ₴{price.toLocaleString("uk-UA")}
@@ -67,7 +62,6 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {/* ACTIONS */}
         <div className="product-card__actions">
           <Link
             to={`/products/${id}`}

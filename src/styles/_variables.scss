@@ -205,3 +205,13 @@ $breakpoint-md: 768px; // Tablet
 $breakpoint-lg: 1024px; // Desktop
 $breakpoint-xl: 1280px; // Large Desktop
 $breakpoint-2xl: 1536px; // Extra Large
+
+// Размеры карточки для разных экранов
+$card-width-desktop: 280px;
+$card-width-tablet: 240px;
+$card-width-mobile: 200px;
+
+// Фиксированные высоты для текстовых блоков
+$title-height: 20px;
+$specs-height: 27px;
+$price-height: 35px;
