@@ -10,8 +10,6 @@ import springlessImage from "../assets/images/springless.png";
 import kidsImage from "../assets/images/kids.png";
 import toperImage from "../assets/images/toper.png";
 import pillowImage from "../assets/images/pillow.png";
-import product1Image from "../assets/images/springless.png";
-import product2Image from "../assets/images/springless.png";
 
 const Home = () => {
   const carouselRef = useRef(null);
@@ -31,7 +29,7 @@ const Home = () => {
       height: 22,
       hardness: "H3",
       price: 7990,
-      image: product1Image,
+      image: kidsImage,
     },
     {
       id: 2,
@@ -41,7 +39,7 @@ const Home = () => {
       hardness: "H2",
       price: 2490,
       oldPrice: 6490,
-      image: product2Image,
+      image: toperImage,
     },
     {
       id: 3,
@@ -50,7 +48,7 @@ const Home = () => {
       height: 24,
       hardness: "H3",
       price: 8990,
-      image: product2Image,
+      image: springlessImage,
     },
     {
       id: 4,
@@ -59,7 +57,7 @@ const Home = () => {
       height: 25,
       hardness: "H4",
       price: 9990,
-      image: product1Image,
+      image: springImage,
     },
     {
       id: 5,
@@ -69,7 +67,7 @@ const Home = () => {
       hardness: "H2",
       price: 5990,
       oldPrice: 7990,
-      image: product2Image,
+      image: springlessImage,
     },
     {
       id: 6,
@@ -78,7 +76,7 @@ const Home = () => {
       height: 26,
       hardness: "H3",
       price: 11990,
-      image: product1Image,
+      image: springlessImage,
     },
   ];
 

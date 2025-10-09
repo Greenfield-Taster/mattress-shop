@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
 import "./ProductCard.scss";
 
+// TODO: Цей компонент отримує дані через пропс product
+// В майбутньому product буде приходити з API
+// Структура даних з API повинна відповідати:
+// {
+//   id: number,
+//   name: string,
+//   type: string,
+//   height: number,
+//   hardness: string,
+//   price: number,
+//   oldPrice: number | null,
+//   image: string (URL)
+// }
+
 const ProductCard = ({ product }) => {
   const { id, name, type, height, hardness, price, oldPrice, image } = product;
 
@@ -65,7 +79,9 @@ const ProductCard = ({ product }) => {
             className="product-card__button product-card__button--secondary"
             onClick={(e) => {
               e.preventDefault();
-              // TODO: Add to cart logic
+              // TODO: API - Додати логіку додавання товару в кошик
+              // Потрібно буде викликати POST /api/cart з параметрами:
+              // { productId: id, quantity: 1 }
               console.log("Add to cart:", id);
             }}
           >

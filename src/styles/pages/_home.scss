@@ -332,7 +332,7 @@
     gap: v.$spacing-5;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding-bottom: v.$spacing-4;
+    padding: v.$spacing-1 0 v.$spacing-4;
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
