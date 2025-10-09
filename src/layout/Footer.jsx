@@ -13,7 +13,7 @@ import {
   FileText,
 } from "lucide-react";
 
-import "../../styles/components/_footer.scss";
+import "../styles/layout/_footer.scss";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

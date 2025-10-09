@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
-import Modal from "../ui/Modal";
-import LoginForm from "../ui/LoginForm";
-import "../../styles/components/_header.scss";
+import Modal from "../components/modals/Modal";
+import LoginForm from "../components/modals/LoginForm";
+import "../styles/layout/_header.scss";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
