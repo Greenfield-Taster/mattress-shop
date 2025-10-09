@@ -1,14 +1,14 @@
-@import "../styles/variables";
+@use "../variables" as v;
 
 .catalog {
-  background: $color-background;
+  background: v.$color-background;
   min-height: 100vh;
-  padding: $spacing-8 0;
+  padding: v.$spacing-8 0;
 
   &__container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 $spacing-6;
+    padding: 0 v.$spacing-6;
   }
 
   // ========================================
@@ -17,29 +17,29 @@
   &__breadcrumbs {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
-    margin-bottom: $spacing-6;
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
+    gap: v.$spacing-2;
+    margin-bottom: v.$spacing-6;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
   }
 
   &__breadcrumb {
-    color: $color-text-secondary;
-    transition: color $transition-fast;
+    color: v.$color-text-secondary;
+    transition: color v.$transition-fast;
 
     &:hover:not(&--active) {
-      color: $brand-primary-500;
+      color: v.$brand-primary-500;
       cursor: pointer;
     }
 
     &--active {
-      color: $color-text-primary;
-      font-weight: $font-weight-medium;
+      color: v.$color-text-primary;
+      font-weight: v.$font-weight-medium;
     }
   }
 
   &__breadcrumb-separator {
-    color: $color-border-dark;
+    color: v.$color-border-dark;
   }
 
   // ========================================
@@ -49,20 +49,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-8;
+    margin-bottom: v.$spacing-8;
   }
 
   &__title {
-    font-size: $font-size-4xl;
-    font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    font-size: v.$font-size-4xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
     margin: 0;
-    letter-spacing: $letter-spacing-tight;
+    letter-spacing: v.$letter-spacing-tight;
   }
 
   &__count {
-    font-size: $font-size-base;
-    color: $color-text-secondary;
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
     margin: 0;
   }
 
@@ -72,7 +72,7 @@
   &__content {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: $spacing-8;
+    gap: v.$spacing-8;
     align-items: start;
   }
 
@@ -85,32 +85,32 @@
 
   &__empty {
     text-align: center;
-    padding: $spacing-16 $spacing-8;
-    background: $neutral-0;
-    border-radius: $radius-lg;
-    box-shadow: $shadow-sm;
+    padding: v.$spacing-16 v.$spacing-8;
+    background: v.$neutral-0;
+    border-radius: v.$radius-lg;
+    box-shadow: v.$shadow-sm;
 
     p {
-      font-size: $font-size-lg;
-      color: $color-text-secondary;
-      margin-bottom: $spacing-6;
+      font-size: v.$font-size-lg;
+      color: v.$color-text-secondary;
+      margin-bottom: v.$spacing-6;
     }
   }
 
   &__empty-button {
-    padding: $spacing-3 $spacing-6;
-    background: $brand-primary-500;
-    color: $color-text-inverse;
+    padding: v.$spacing-3 v.$spacing-6;
+    background: v.$brand-primary-500;
+    color: v.$color-text-inverse;
     border: none;
-    border-radius: $radius-button;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
+    border-radius: v.$radius-button;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
     cursor: pointer;
-    transition: $transition-button;
+    transition: v.$transition-button;
 
     &:hover {
-      background: $brand-primary-600;
-      box-shadow: $shadow-button;
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-button;
     }
   }
 
@@ -121,8 +121,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: $spacing-2;
-    margin-top: $spacing-12;
+    gap: v.$spacing-2;
+    margin-top: v.$spacing-12;
   }
 }
 
@@ -132,8 +132,8 @@
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: $spacing-6;
-  margin-bottom: $spacing-8;
+  gap: v.$spacing-6;
+  margin-bottom: v.$spacing-8;
 }
 
 // ========================================
@@ -143,29 +143,29 @@
   &__button {
     min-width: 40px;
     height: 40px;
-    padding: 0 $spacing-3;
-    background: $neutral-0;
-    border: 1px solid $color-border;
-    border-radius: $radius-base;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    color: $color-text-primary;
+    padding: 0 v.$spacing-3;
+    background: v.$neutral-0;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-base;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-primary;
     cursor: pointer;
-    transition: $transition-button;
+    transition: v.$transition-button;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
     &:hover:not(&--disabled):not(&--active) {
-      background: $neutral-100;
-      border-color: $color-border-dark;
+      background: v.$neutral-100;
+      border-color: v.$color-border-dark;
     }
 
     &--active {
-      background: $brand-primary-500;
-      color: $color-text-inverse;
-      border-color: $brand-primary-500;
-      font-weight: $font-weight-bold;
+      background: v.$brand-primary-500;
+      color: v.$color-text-inverse;
+      border-color: v.$brand-primary-500;
+      font-weight: v.$font-weight-bold;
     }
 
     &--disabled {
@@ -180,87 +180,87 @@
 // ========================================
 .catalog__filters {
   position: sticky;
-  top: $spacing-6;
-  max-height: calc(100vh - $spacing-12);
+  top: v.$spacing-6;
+  max-height: calc(100vh - v.$spacing-12);
   overflow-y: auto;
-  
+
   // Кастомний скролбар
   &::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   &::-webkit-scrollbar-track {
-    background: $neutral-100;
-    border-radius: $radius-full;
+    background: v.$neutral-100;
+    border-radius: v.$radius-full;
   }
-  
+
   &::-webkit-scrollbar-thumb {
-    background: $neutral-300;
-    border-radius: $radius-full;
-    
+    background: v.$neutral-300;
+    border-radius: v.$radius-full;
+
     &:hover {
-      background: $neutral-400;
+      background: v.$neutral-400;
     }
   }
 }
 
 .filters {
-  background: $neutral-0;
-  border-radius: $radius-lg;
-  padding: $spacing-6;
-  box-shadow: $shadow-sm;
-  border: 1px solid $color-border-light;
+  background: v.$neutral-0;
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  box-shadow: v.$shadow-sm;
+  border: 1px solid v.$color-border-light;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-6;
-    padding-bottom: $spacing-4;
-    border-bottom: 2px solid $color-border;
+    margin-bottom: v.$spacing-6;
+    padding-bottom: v.$spacing-4;
+    border-bottom: 2px solid v.$color-border;
   }
 
   &__title {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-    color: $color-text-primary;
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
     margin: 0;
-    letter-spacing: $letter-spacing-tight;
+    letter-spacing: v.$letter-spacing-tight;
   }
 
   &__reset {
     background: none;
     border: none;
-    color: $brand-primary-500;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
+    color: v.$brand-primary-500;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
     cursor: pointer;
-    transition: color $transition-fast;
-    padding: $spacing-1 $spacing-2;
-    border-radius: $radius-sm;
+    transition: color v.$transition-fast;
+    padding: v.$spacing-1 v.$spacing-2;
+    border-radius: v.$radius-sm;
 
     &:hover {
-      color: $brand-primary-600;
-      background: $brand-primary-50;
+      color: v.$brand-primary-600;
+      background: v.$brand-primary-50;
     }
   }
 
   &__apply {
     width: 100%;
-    padding: $spacing-3 $spacing-4;
-    background: $brand-primary-500;
-    color: $color-text-inverse;
+    padding: v.$spacing-3 v.$spacing-4;
+    background: v.$brand-primary-500;
+    color: v.$color-text-inverse;
     border: none;
-    border-radius: $radius-button;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
+    border-radius: v.$radius-button;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
     cursor: pointer;
-    transition: $transition-button;
-    margin-top: $spacing-6;
+    transition: v.$transition-button;
+    margin-top: v.$spacing-6;
 
     &:hover {
-      background: $brand-primary-600;
-      box-shadow: $shadow-button;
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-button;
     }
 
     &:active {
@@ -273,9 +273,9 @@
 // FILTER GROUP
 // ========================================
 .filter-group {
-  margin-bottom: $spacing-6;
-  padding-bottom: $spacing-6;
-  border-bottom: 1px solid $color-border-light;
+  margin-bottom: v.$spacing-6;
+  padding-bottom: v.$spacing-6;
+  border-bottom: 1px solid v.$color-border-light;
 
   &:last-of-type {
     border-bottom: none;
@@ -284,42 +284,42 @@
   }
 
   &__title {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-    margin: 0 0 $spacing-4 0;
-    letter-spacing: $letter-spacing-normal;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    margin: 0 0 v.$spacing-4 0;
+    letter-spacing: v.$letter-spacing-normal;
   }
 
   &__options {
     display: flex;
     flex-direction: column;
-    gap: $spacing-2;
+    gap: v.$spacing-2;
 
     &--grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-2;
+      gap: v.$spacing-2;
       max-height: 300px;
       overflow-y: auto;
-      padding-right: $spacing-2;
-      
+      padding-right: v.$spacing-2;
+
       // Кастомний скролбар для розмірів
       &::-webkit-scrollbar {
         width: 4px;
       }
-      
+
       &::-webkit-scrollbar-track {
-        background: $neutral-50;
-        border-radius: $radius-full;
+        background: v.$neutral-50;
+        border-radius: v.$radius-full;
       }
-      
+
       &::-webkit-scrollbar-thumb {
-        background: $neutral-300;
-        border-radius: $radius-full;
-        
+        background: v.$neutral-300;
+        border-radius: v.$radius-full;
+
         &:hover {
-          background: $neutral-400;
+          background: v.$neutral-400;
         }
       }
     }
@@ -332,30 +332,30 @@
 .filter-checkbox {
   display: flex;
   align-items: center;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
   cursor: pointer;
   user-select: none;
-  transition: background $transition-fast;
-  padding: $spacing-2;
-  border-radius: $radius-sm;
+  transition: background v.$transition-fast;
+  padding: v.$spacing-2;
+  border-radius: v.$radius-sm;
 
   &:hover {
-    background: $neutral-50;
+    background: v.$neutral-50;
   }
 
   input[type="checkbox"] {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: $brand-primary-500;
-    border-radius: $radius-sm;
+    accent-color: v.$brand-primary-500;
+    border-radius: v.$radius-sm;
     flex-shrink: 0;
   }
 
   &__label {
-    font-size: $font-size-sm;
-    color: $color-text-primary;
-    line-height: $line-height-normal;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-primary;
+    line-height: v.$line-height-normal;
   }
 }
 
@@ -363,32 +363,32 @@
 // FILTER CHIP (для розмірів)
 // ========================================
 .filter-chip {
-  padding: $spacing-2 $spacing-3;
-  background: $neutral-50;
-  border: 1px solid $color-border;
-  border-radius: $radius-button;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
+  padding: v.$spacing-2 v.$spacing-3;
+  background: v.$neutral-50;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-button;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text-primary;
   cursor: pointer;
-  transition: all $transition-fast;
+  transition: all v.$transition-fast;
   text-align: center;
   white-space: nowrap;
 
   &:hover {
-    background: $neutral-100;
-    border-color: $brand-primary-300;
+    background: v.$neutral-100;
+    border-color: v.$brand-primary-300;
   }
 
   &--active {
-    background: $brand-primary-500;
-    border-color: $brand-primary-500;
-    color: $color-text-inverse;
-    font-weight: $font-weight-semibold;
+    background: v.$brand-primary-500;
+    border-color: v.$brand-primary-500;
+    color: v.$color-text-inverse;
+    font-weight: v.$font-weight-semibold;
 
     &:hover {
-      background: $brand-primary-600;
-      border-color: $brand-primary-600;
+      background: v.$brand-primary-600;
+      border-color: v.$brand-primary-600;
     }
   }
 }
@@ -399,15 +399,15 @@
 .filter-range {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 
   &__input {
     width: 100%;
     height: 6px;
     -webkit-appearance: none;
     appearance: none;
-    background: $neutral-200;
-    border-radius: $radius-full;
+    background: v.$neutral-200;
+    border-radius: v.$radius-full;
     outline: none;
     cursor: pointer;
 
@@ -416,15 +416,15 @@
       appearance: none;
       width: 18px;
       height: 18px;
-      background: $brand-primary-500;
-      border: 3px solid $neutral-0;
+      background: v.$brand-primary-500;
+      border: 3px solid v.$neutral-0;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: $shadow-sm;
-      transition: all $transition-fast;
+      box-shadow: v.$shadow-sm;
+      transition: all v.$transition-fast;
 
       &:hover {
-        background: $brand-primary-600;
+        background: v.$brand-primary-600;
         transform: scale(1.1);
       }
     }
@@ -432,15 +432,15 @@
     &::-moz-range-thumb {
       width: 18px;
       height: 18px;
-      background: $brand-primary-500;
-      border: 3px solid $neutral-0;
+      background: v.$brand-primary-500;
+      border: 3px solid v.$neutral-0;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: $shadow-sm;
-      transition: all $transition-fast;
+      box-shadow: v.$shadow-sm;
+      transition: all v.$transition-fast;
 
       &:hover {
-        background: $brand-primary-600;
+        background: v.$brand-primary-600;
         transform: scale(1.1);
       }
     }
@@ -452,51 +452,51 @@
 // ========================================
 
 // TABLET (768px - 1024px)
-@media (max-width: $breakpoint-lg) {
+@media (max-width: v.$breakpoint-lg) {
   .catalog {
     &__content {
       grid-template-columns: 260px 1fr;
-      gap: $spacing-6;
+      gap: v.$spacing-6;
     }
 
     &__title {
-      font-size: $font-size-3xl;
+      font-size: v.$font-size-3xl;
     }
   }
 
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: $spacing-5;
+    gap: v.$spacing-5;
   }
 
   .filters {
-    padding: $spacing-5;
+    padding: v.$spacing-5;
   }
 }
 
 // MOBILE (< 768px)
-@media (max-width: $breakpoint-md) {
+@media (max-width: v.$breakpoint-md) {
   .catalog {
-    padding: $spacing-6 0;
+    padding: v.$spacing-6 0;
 
     &__container {
-      padding: 0 $spacing-4;
+      padding: 0 v.$spacing-4;
     }
 
     &__content {
       grid-template-columns: 1fr;
-      gap: $spacing-6;
+      gap: v.$spacing-6;
     }
 
     &__header {
       flex-direction: column;
       align-items: flex-start;
-      gap: $spacing-2;
-      margin-bottom: $spacing-6;
+      gap: v.$spacing-2;
+      margin-bottom: v.$spacing-6;
     }
 
     &__title {
-      font-size: $font-size-2xl;
+      font-size: v.$font-size-2xl;
     }
 
     &__filters {
@@ -508,27 +508,27 @@
 
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: $spacing-4;
+    gap: v.$spacing-4;
   }
 
   .filters {
-    padding: $spacing-4;
+    padding: v.$spacing-4;
 
     &__header {
-      margin-bottom: $spacing-4;
+      margin-bottom: v.$spacing-4;
     }
   }
 
   .filter-group {
-    margin-bottom: $spacing-5;
-    padding-bottom: $spacing-5;
+    margin-bottom: v.$spacing-5;
+    padding-bottom: v.$spacing-5;
 
     &__title {
-      font-size: $font-size-sm;
+      font-size: v.$font-size-sm;
     }
 
     &__options {
-      gap: $spacing-2;
+      gap: v.$spacing-2;
 
       &--grid {
         grid-template-columns: repeat(3, 1fr);
@@ -538,33 +538,33 @@
   }
 
   .filter-chip {
-    padding: $spacing-1 $spacing-2;
+    padding: v.$spacing-1 v.$spacing-2;
     font-size: 10px;
   }
 }
 
 // MOBILE SMALL (< 480px)
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .catalog {
-    padding: $spacing-4 0;
+    padding: v.$spacing-4 0;
 
     &__container {
-      padding: 0 $spacing-3;
+      padding: 0 v.$spacing-3;
     }
 
     &__title {
-      font-size: $font-size-xl;
+      font-size: v.$font-size-xl;
     }
 
     &__breadcrumbs {
       font-size: 11px;
-      gap: $spacing-1;
+      gap: v.$spacing-1;
     }
   }
 
   .products-grid {
     grid-template-columns: 1fr;
-    gap: $spacing-4;
+    gap: v.$spacing-4;
   }
 
   .filter-group__options--grid {

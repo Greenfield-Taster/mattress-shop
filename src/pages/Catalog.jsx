@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import ProductCard from "../components/ProductCard/ProductCard";
-import "./Catalog.scss";
+import "../styles/pages/_catalog.scss";
 
 // Тестові дані матраців з різними характеристиками
 const MOCK_PRODUCTS = [
@@ -263,10 +263,7 @@ const Catalog = () => {
       }
 
       // Фільтр по висоті
-      if (
-        product.height < heightRange[0] ||
-        product.height > heightRange[1]
-      ) {
+      if (product.height < heightRange[0] || product.height > heightRange[1]) {
         return false;
       }
 
@@ -385,7 +382,9 @@ const Catalog = () => {
                     <button
                       key={size}
                       className={`filter-chip ${
-                        selectedSizes.includes(size) ? "filter-chip--active" : ""
+                        selectedSizes.includes(size)
+                          ? "filter-chip--active"
+                          : ""
                       }`}
                       onClick={() => toggleFilter(size, setSelectedSizes)}
                     >
@@ -452,7 +451,9 @@ const Catalog = () => {
                       <input
                         type="checkbox"
                         checked={selectedFillers.includes(filler)}
-                        onChange={() => toggleFilter(filler, setSelectedFillers)}
+                        onChange={() =>
+                          toggleFilter(filler, setSelectedFillers)
+                        }
                       />
                       <span className="filter-checkbox__label">{filler}</span>
                     </label>
@@ -480,7 +481,8 @@ const Catalog = () => {
               {/* Навантаження */}
               <div className="filter-group">
                 <h3 className="filter-group__title">
-                  Навантаження: {maxWeightFilter >= 200 ? "до ∞" : `до ${maxWeightFilter} кг`}
+                  Навантаження:{" "}
+                  {maxWeightFilter >= 200 ? "до ∞" : `до ${maxWeightFilter} кг`}
                 </h3>
                 <div className="filter-range">
                   <input
@@ -542,7 +544,10 @@ const Catalog = () => {
             ) : (
               <div className="catalog__empty">
                 <p>За обраними фільтрами товарів не знайдено</p>
-                <button onClick={resetFilters} className="catalog__empty-button">
+                <button
+                  onClick={resetFilters}
+                  className="catalog__empty-button"
+                >
                   Скинути фільтри
                 </button>
               </div>
