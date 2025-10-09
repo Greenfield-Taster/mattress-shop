@@ -118,7 +118,6 @@ const Home = () => {
     },
   ];
 
-  // Benefit items с иконками из lucide-react
   const benefits = [
     {
       id: 1,
@@ -152,7 +151,7 @@ const Home = () => {
   // Скролл по кнопкам
   const scroll = (direction) => {
     if (carouselRef.current) {
-      const scrollAmount = 350;
+      const scrollAmount = 305;
       const newScrollLeft =
         direction === "left"
           ? carouselRef.current.scrollLeft - scrollAmount
@@ -226,7 +225,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* HERO */}
       <section className="hero">
         <div className="container">
           <div className="hero__content">
@@ -249,7 +247,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* QUICK SELECTION */}
       <section className="quick-selection">
         <div className="container">
           <h2 className="section-title">Швидкий підбір</h2>
@@ -274,7 +271,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* POPULAR PRODUCTS */}
       <section className="popular-products">
         <div className="container">
           <div className="popular-products__header">
@@ -328,7 +324,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* BENEFITS */}
       <section className="benefits">
         <div className="container">
           <h2 className="section-title">Чому обирають нас</h2>
@@ -353,7 +348,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta">
         <div className="container">
           <div className="cta__content">
