@@ -253,32 +253,26 @@
   }
 
   &__title {
-    font-size: v.$font-size-base; // Уменьшен размер шрифта
+    font-size: v.$font-size-lg;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     margin: 0;
     line-height: v.$line-height-tight;
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
-    }
   }
 
   &__subtitle {
-    font-size: v.$font-size-xs; // Уменьшен размер шрифта
+    font-size: v.$font-size-xs;
     color: v.$color-text-secondary;
     margin: 0;
     line-height: v.$line-height-normal;
     flex: 1;
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: 0.7rem;
-    }
   }
 
   &__button {
-    padding: v.$spacing-2 v.$spacing-3; // Уменьшен padding кнопки
+    padding: v.$spacing-3 v.$spacing-3;
     background: v.$brand-primary-500;
     color: v.$neutral-0;
-    font-size: v.$font-size-xs; // Уменьшен размер шрифта кнопки
+    font-size: v.$font-size-base;
     font-weight: v.$font-weight-semibold;
     border: none;
     border-radius: v.$radius-button;
@@ -287,9 +281,7 @@
     font-family: v.$font-family-base;
     text-align: center;
     display: inline-block;
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: 0.7rem;
-    }
+    margin-top: v.$spacing-2;
   }
 }
 
@@ -406,10 +398,12 @@
     box-shadow: v.$shadow-md;
     transform: scale(1.05);
   }
+
   &:active:not(&--disabled) {
     background: v.$brand-primary-700;
     transform: scale(0.95);
   }
+
   &--disabled {
     opacity: 0.3;
     cursor: not-allowed;
@@ -546,12 +540,6 @@
     @media (max-width: v.$breakpoint-lg) {
       font-size: v.$font-size-base;
     }
-    @media (max-width: v.$breakpoint-md) {
-      font-size: v.$font-size-sm;
-    }
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
-    }
   }
 
   &__description {
@@ -637,9 +625,9 @@
       width: 100%;
       font-size: v.$font-size-sm;
     }
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
-      padding: v.$spacing-3 v.$spacing-6;
-    }
+    // @media (max-width: v.$breakpoint-sm) {
+    //   font-size: v.$font-size-xs;
+    //   padding: v.$spacing-3 v.$spacing-6;
+    // }
   }
 }
