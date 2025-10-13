@@ -19,15 +19,16 @@
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-12;
     text-align: center;
+    letter-spacing: v.$letter-spacing-tight;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-3xl;
-      margin-bottom: v.$spacing-8;
+      margin-bottom: v.$spacing-10;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-2xl;
-      margin-bottom: v.$spacing-6;
+      margin-bottom: v.$spacing-8;
     }
   }
 
@@ -39,12 +40,17 @@
 
     @media (max-width: v.$breakpoint-lg) {
       gap: v.$spacing-6;
+      margin-bottom: v.$spacing-12;
     }
 
     @media (max-width: v.$breakpoint-md) {
       grid-template-columns: 1fr;
       gap: v.$spacing-6;
       margin-bottom: v.$spacing-12;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      margin-bottom: v.$spacing-10;
     }
   }
 
@@ -58,14 +64,14 @@
     flex-direction: column;
     gap: v.$spacing-6;
 
-    @media (max-width: v.$breakpoint-md) {
-      gap: v.$spacing-6;
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-5;
     }
   }
 
   &__card {
     background: v.$neutral-0;
-    border-radius: v.$radius-xl;
+    border-radius: v.$radius-card;
     padding: v.$spacing-8;
     box-shadow: v.$shadow-card;
     border: 1px solid v.$color-border;
@@ -77,27 +83,35 @@
 
     @media (max-width: v.$breakpoint-sm) {
       padding: v.$spacing-5;
-      border-radius: v.$radius-lg;
     }
   }
 
   &__card-title {
     font-size: v.$font-size-2xl;
-    font-weight: v.$font-weight-semibold;
+    font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-6;
+    letter-spacing: v.$letter-spacing-tight;
 
-    @media (max-width: v.$breakpoint-sm) {
+    @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-xl;
       margin-bottom: v.$spacing-5;
     }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-lg;
+      margin-bottom: v.$spacing-4;
+    }
   }
 
-  // Форма
   &__form {
     display: flex;
     flex-direction: column;
     gap: v.$spacing-5;
+
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-4;
+    }
   }
 
   &__form-group {
@@ -109,12 +123,13 @@
   &__textarea {
     padding: v.$spacing-4;
     border: 1px solid v.$color-border;
-    border-radius: v.$radius-md;
+    border-radius: v.$radius-base;
     font-size: v.$font-size-base;
     font-family: v.$font-family-base;
     color: v.$color-text-primary;
     background: v.$neutral-0;
     transition: v.$transition-button;
+    line-height: v.$line-height-normal;
 
     &::placeholder {
       color: v.$color-text-tertiary;
@@ -126,7 +141,7 @@
       box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
     }
 
-    &:hover {
+    &:hover:not(:focus) {
       border-color: v.$brand-primary-300;
     }
 
@@ -139,6 +154,11 @@
   &__textarea {
     resize: vertical;
     min-height: 120px;
+    font-family: v.$font-family-base;
+
+    @media (max-width: v.$breakpoint-sm) {
+      min-height: 100px;
+    }
   }
 
   &__submit-btn {
@@ -152,15 +172,17 @@
     cursor: pointer;
     transition: v.$transition-button;
     box-shadow: v.$shadow-button;
+    letter-spacing: v.$letter-spacing-tight;
 
     &:hover {
       background: v.$brand-primary-600;
       box-shadow: v.$shadow-card;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
     &:active {
       transform: translateY(0);
+      background: v.$brand-primary-700;
     }
 
     @media (max-width: v.$breakpoint-sm) {
@@ -174,9 +196,13 @@
     font-size: v.$font-size-sm;
     color: v.$color-text-secondary;
     margin-top: v.$spacing-2;
+    line-height: v.$line-height-normal;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+    }
   }
 
-  // Контактна інформація
   &__info-card {
     height: fit-content;
   }
@@ -185,6 +211,10 @@
     display: flex;
     flex-direction: column;
     gap: v.$spacing-5;
+
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-4;
+    }
   }
 
   &__info-item {
@@ -199,6 +229,10 @@
     color: v.$color-text-secondary;
     text-transform: uppercase;
     letter-spacing: v.$letter-spacing-wide;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+    }
   }
 
   &__info-values {
@@ -212,6 +246,7 @@
     color: v.$brand-primary-500;
     text-decoration: none;
     transition: v.$transition-button;
+    font-weight: v.$font-weight-medium;
 
     &:hover {
       color: v.$brand-primary-600;
@@ -227,6 +262,7 @@
     font-size: v.$font-size-base;
     color: v.$color-text-primary;
     line-height: v.$line-height-relaxed;
+    font-weight: v.$font-weight-regular;
 
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-sm;
@@ -245,6 +281,7 @@
     color: v.$brand-primary-500;
     text-decoration: none;
     transition: v.$transition-button;
+    font-weight: v.$font-weight-medium;
 
     &:hover {
       color: v.$brand-primary-600;
@@ -258,9 +295,9 @@
 
   &__social-separator {
     color: v.$color-text-tertiary;
+    user-select: none;
   }
 
-  // Карта
   &__map-card {
     flex: 1;
     min-height: 300px;
@@ -272,23 +309,26 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      min-height: 300px;
+      min-height: 280px;
     }
   }
 
   &__map {
     flex: 1;
-    border-radius: v.$radius-md;
+    border-radius: v.$radius-base;
     overflow: hidden;
     border: 1px solid v.$color-border;
-    min-height: 250px;
+    min-height: 240px;
 
     iframe {
       display: block;
     }
+
+    @media (max-width: v.$breakpoint-sm) {
+      min-height: 200px;
+    }
   }
 
-  // FAQ Секція
   &__faq-section {
     margin-top: v.$spacing-16;
 
@@ -297,7 +337,7 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      margin-top: v.$spacing-8;
+      margin-top: v.$spacing-10;
     }
   }
 
@@ -307,6 +347,7 @@
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-8;
     text-align: center;
+    letter-spacing: v.$letter-spacing-tight;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-2xl;
