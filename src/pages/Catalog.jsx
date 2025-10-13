@@ -1,201 +1,163 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard/ProductCard";
+import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
+import CustomSelect from "../components/CustomSelect/CustomSelect";
+import { fetchProducts } from "../api/fetchProducts";
 import "../styles/pages/_catalog.scss";
 
-// Тестові дані матраців з різними характеристиками
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: "Orthopedic AirFlow Pro",
-    type: "Пружинний",
-    height: 22,
-    hardness: "Н3",
-    price: 7990,
-    oldPrice: 9990,
-    image: "https://via.placeholder.com/300x300?text=AirFlow+Pro",
-    size: "160х200",
-    blockType: "Незалежний пружинний блок",
-    fillers: ["Латекс", "Піна з пам'яттю"],
-    cover: "Знімний",
-    maxWeight: 120,
-  },
-  {
-    id: 2,
-    name: "Comfort Dream Latex",
-    type: "Безпружинні",
-    height: 18,
-    hardness: "Н2",
-    price: 12500,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Dream+Latex",
-    size: "180х200",
-    blockType: "Безпружинний",
-    fillers: ["Латексована піна", "Кокосове полотно"],
-    cover: "Незнімний",
-    maxWeight: 140,
-  },
-  {
-    id: 3,
-    name: "Kids Paradise Soft",
-    type: "Дитячі",
-    height: 12,
-    hardness: "Н1",
-    price: 5490,
-    oldPrice: 6990,
-    image: "https://via.placeholder.com/300x300?text=Kids+Paradise",
-    size: "70х160",
-    blockType: "Безпружинний",
-    fillers: ["Кокосове полотно"],
-    cover: "Знімний",
-    maxWeight: 60,
-  },
-  {
-    id: 4,
-    name: "Memory Foam Elite",
-    type: "Безпружинні",
-    height: 25,
-    hardness: "Н3",
-    price: 15990,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Memory+Elite",
-    size: "200х200",
-    blockType: "Безпружинний",
-    fillers: ["Піна з пам'яттю", "Латекс"],
-    cover: "Знімний",
-    maxWeight: 150,
-  },
-  {
-    id: 5,
-    name: "Spring Classic",
-    type: "Пружинні",
-    height: 20,
-    hardness: "Н2",
-    price: 6990,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Spring+Classic",
-    size: "140х200",
-    blockType: "Незалежний пружинний блок",
-    fillers: ["Латексована піна"],
-    cover: "Незнімний",
-    maxWeight: 110,
-  },
-  {
-    id: 6,
-    name: "Topper Ultra Soft",
-    type: "Топери",
-    height: 5,
-    hardness: "Н1",
-    price: 2990,
-    oldPrice: 3990,
-    image: "https://via.placeholder.com/300x300?text=Topper+Soft",
-    size: "180х200",
-    blockType: "Безпружинний",
-    fillers: ["Піна з пам'яттю"],
-    cover: "Знімний",
-    maxWeight: 120,
-  },
-  {
-    id: 7,
-    name: "Roll & Go Travel",
-    type: "Скручені",
-    height: 15,
-    hardness: "Н2",
-    price: 4990,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Roll+Go",
-    size: "90х200",
-    blockType: "Безпружинний",
-    fillers: ["Латексована піна"],
-    cover: "Незнімний",
-    maxWeight: 90,
-  },
-  {
-    id: 8,
-    name: "Premium Ortho Max",
-    type: "Пружинні",
-    height: 28,
-    hardness: "Н4",
-    price: 18990,
-    oldPrice: 22990,
-    image: "https://via.placeholder.com/300x300?text=Ortho+Max",
-    size: "200х200",
-    blockType: "Незалежний пружинний блок",
-    fillers: ["Латекс", "Кокосове полотно"],
-    cover: "Знімний",
-    maxWeight: 160,
-  },
-  {
-    id: 9,
-    name: "EcoNatural Coconut",
-    type: "Безпружинні",
-    height: 14,
-    hardness: "Н3",
-    price: 8990,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=EcoNatural",
-    size: "160х200",
-    blockType: "Безпружинний",
-    fillers: ["Кокосове полотно", "Латекс"],
-    cover: "Знімний",
-    maxWeight: 130,
-  },
-  {
-    id: 10,
-    name: "Baby Dream Comfort",
-    type: "Дитячі",
-    height: 10,
-    hardness: "Н1",
-    price: 4490,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Baby+Dream",
-    size: "60х120",
-    blockType: "Безпружинний",
-    fillers: ["Кокосове полотно"],
-    cover: "Знімний",
-    maxWeight: 50,
-  },
-  {
-    id: 11,
-    name: "Deluxe Spring Pro",
-    type: "Пружинні",
-    height: 24,
-    hardness: "Н3",
-    price: 13990,
-    oldPrice: 16990,
-    image: "https://via.placeholder.com/300x300?text=Deluxe+Spring",
-    size: "180х200",
-    blockType: "Незалежний пружинний блок",
-    fillers: ["Латекс", "Піна з пам'яттю"],
-    cover: "Знімний",
-    maxWeight: 140,
-  },
-  {
-    id: 12,
-    name: "Topper Memory 3cm",
-    type: "Топери",
-    height: 3,
-    hardness: "Н1",
-    price: 1990,
-    oldPrice: null,
-    image: "https://via.placeholder.com/300x300?text=Topper+3cm",
-    size: "160х200",
-    blockType: "Безпружинний",
-    fillers: ["Піна з пам'яттю"],
-    cover: "Незнімний",
-    maxWeight: 100,
-  },
-];
-
+/**
+ * Головна сторінка каталогу з фільтрацією, сортуванням та пагінацією
+ *
+ * Архітектура:
+ * - URL як джерело правди (query params)
+ * - Серверна фільтрація та сортування
+ * - Sticky sidebar з фільтрами
+ * - Адаптивний layout
+ */
 const Catalog = () => {
-  // Стани фільтрів
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [selectedSizes, setSelectedSizes] = useState([]);
-  const [heightRange, setHeightRange] = useState([3, 45]);
-  const [selectedBlockTypes, setSelectedBlockTypes] = useState([]);
-  const [selectedFillers, setSelectedFillers] = useState([]);
-  const [selectedCovers, setSelectedCovers] = useState([]);
-  const [maxWeightFilter, setMaxWeightFilter] = useState(200);
-  const [priceRange, setPriceRange] = useState([0, 50000]);
+  // URL query params - джерело правди
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Стан для продуктів
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * Парсинг параметрів з URL
+   */
+  const parseParams = () => {
+    const params = {
+      types: searchParams.get("types")?.split(",").filter(Boolean) || [],
+      sizes: searchParams.get("sizes")?.split(",").filter(Boolean) || [],
+      blockTypes:
+        searchParams.get("blockTypes")?.split(",").filter(Boolean) || [],
+      fillers: searchParams.get("fillers")?.split(",").filter(Boolean) || [],
+      covers: searchParams.get("covers")?.split(",").filter(Boolean) || [],
+      height: searchParams.get("height") || "3-45",
+      maxWeight: searchParams.get("maxWeight") || "<=250",
+      price: searchParams.get("price") || "0-50000",
+      sort: searchParams.get("sort") || "default",
+      page: parseInt(searchParams.get("page")) || 1,
+      limit: parseInt(searchParams.get("limit")) || 12,
+    };
+    return params;
+  };
+
+  const params = parseParams();
+
+  /**
+   * Завантаження продуктів при зміні параметрів
+   *
+   * 🔄 КОЛИ ПІДКЛЮЧАТИМЕШ СЕРВЕР:
+   * Ця функція вже готова працювати з серверним API
+   * fetchProducts автоматично відправить всі параметри на сервер
+   */
+  useEffect(() => {
+    const loadProducts = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchProducts(params);
+        setProducts(result.items);
+        setTotal(result.total);
+      } catch (error) {
+        console.error("Error loading products:", error);
+        // 🔄 НА СЕРВЕРІ: Додати обробку помилок (toast, notification)
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, [searchParams]); // Перезавантажуємо при зміні URL
+
+  /**
+   * Оновлення URL з новими параметрами
+   */
+  const updateURL = (newParams) => {
+    const query = new URLSearchParams();
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== "") {
+        // Для масивів
+        if (Array.isArray(value) && value.length > 0) {
+          query.set(key, value.join(","));
+        }
+        // Для дефолтних значень - не додаємо в URL
+        else if (
+          (key === "height" && value === "3-45") ||
+          (key === "maxWeight" && value === "<=250") ||
+          (key === "price" && value === "0-50000") ||
+          (key === "sort" && value === "default") ||
+          (key === "page" && value === 1) ||
+          (key === "limit" && value === 12)
+        ) {
+          // Пропускаємо дефолтні значення
+        }
+        // Для всіх інших
+        else {
+          query.set(key, value);
+        }
+      }
+    });
+
+    setSearchParams(query);
+  };
+
+  /**
+   * Обробник застосування фільтрів
+   */
+  const handleApplyFilters = (newFilters) => {
+    updateURL({
+      ...newFilters,
+      page: 1, // Скидаємо на першу сторінку при зміні фільтрів
+    });
+  };
+
+  /**
+   * Обробник очищення всіх фільтрів
+   */
+  const handleClearAll = () => {
+    setSearchParams({}); // Повністю очищаємо URL
+  };
+
+  /**
+   * Обробник зміни сортування
+   */
+  const handleSortChange = (sortValue) => {
+    updateURL({
+      ...params,
+      sort: sortValue,
+      page: 1,
+    });
+  };
+
+  /**
+   * Обробник зміни сторінки пагінації
+   */
+  const handlePageChange = (newPage) => {
+    updateURL({
+      ...params,
+      page: newPage,
+    });
+
+    // Прокрутка до початку каталогу
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Опції для сортування
+  const sortOptions = [
+    { value: "default", label: "За замовчуванням" },
+    { value: "price-asc", label: "Спочатку дешевші" },
+    { value: "price-desc", label: "Спочатку дорожчі" },
+    { value: "popular", label: "Популярні" },
+    { value: "new", label: "Новинки" },
+    { value: "discount", label: "Зі знижкою" },
+  ];
 
   // Опції фільтрів
   const filterOptions = {
@@ -228,6 +190,7 @@ const Catalog = () => {
       "70х170",
       "70х160",
       "70х150",
+      "60х120",
       "нестандартний розмір",
     ],
     blockTypes: ["Безпружинний", "Незалежний пружинний блок"],
@@ -240,333 +203,116 @@ const Catalog = () => {
     covers: ["Знімний", "Незнімний"],
   };
 
-  // Функція для toggle фільтрів
-  const toggleFilter = (value, setFilter) => {
-    setFilter((prev) =>
-      prev.includes(value)
-        ? prev.filter((item) => item !== value)
-        : [...prev, value]
-    );
-  };
-
-  // Фільтрація товарів
-  const filteredProducts = useMemo(() => {
-    return MOCK_PRODUCTS.filter((product) => {
-      // Фільтр по типу
-      if (selectedTypes.length > 0 && !selectedTypes.includes(product.type)) {
-        return false;
-      }
-
-      // Фільтр по розміру
-      if (selectedSizes.length > 0 && !selectedSizes.includes(product.size)) {
-        return false;
-      }
-
-      // Фільтр по висоті
-      if (product.height < heightRange[0] || product.height > heightRange[1]) {
-        return false;
-      }
-
-      // Фільтр по типу блоку
-      if (
-        selectedBlockTypes.length > 0 &&
-        !selectedBlockTypes.includes(product.blockType)
-      ) {
-        return false;
-      }
-
-      // Фільтр по наповнювачам
-      if (selectedFillers.length > 0) {
-        const hasSelectedFiller = selectedFillers.some((filler) =>
-          product.fillers.includes(filler)
-        );
-        if (!hasSelectedFiller) return false;
-      }
-
-      // Фільтр по чохлу
-      if (
-        selectedCovers.length > 0 &&
-        !selectedCovers.includes(product.cover)
-      ) {
-        return false;
-      }
-
-      // Фільтр по навантаженню (до безкінечності якщо 200)
-      if (maxWeightFilter < 200 && product.maxWeight > maxWeightFilter) {
-        return false;
-      }
-
-      // Фільтр по ціні
-      if (product.price < priceRange[0] || product.price > priceRange[1]) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [
-    selectedTypes,
-    selectedSizes,
-    heightRange,
-    selectedBlockTypes,
-    selectedFillers,
-    selectedCovers,
-    maxWeightFilter,
-    priceRange,
-  ]);
-
-  // Скидання всіх фільтрів
-  const resetFilters = () => {
-    setSelectedTypes([]);
-    setSelectedSizes([]);
-    setHeightRange([3, 45]);
-    setSelectedBlockTypes([]);
-    setSelectedFillers([]);
-    setSelectedCovers([]);
-    setMaxWeightFilter(200);
-    setPriceRange([0, 50000]);
-  };
+  // Розрахунок пагінації
+  const totalPages = Math.ceil(total / params.limit);
 
   return (
     <div className="catalog">
       <div className="catalog__container">
-        {/* Хлібні крихти */}
-        <div className="catalog__breadcrumbs">
-          <span className="catalog__breadcrumb">Головна</span>
-          <span className="catalog__breadcrumb-separator">/</span>
-          <span className="catalog__breadcrumb catalog__breadcrumb--active">
-            Каталог
-          </span>
-        </div>
-
-        {/* Заголовок */}
+        {/* Заголовок і сортування */}
         <div className="catalog__header">
           <h1 className="catalog__title">Каталог матраців</h1>
-          <p className="catalog__count">
-            Знайдено: {filteredProducts.length} товари
-          </p>
+          <div className="catalog__controls">
+            <div className="catalog__sort">
+              <span className="catalog__sort-label">Сортувати:</span>
+              <CustomSelect
+                value={params.sort}
+                onChange={handleSortChange}
+                options={sortOptions}
+              />
+            </div>
+            <p className="catalog__count">Знайдено: {total} товарів</p>
+          </div>
         </div>
 
         <div className="catalog__content">
           {/* Фільтри */}
           <aside className="catalog__filters">
-            <div className="filters">
-              <div className="filters__header">
-                <h2 className="filters__title">Фільтри</h2>
-                <button className="filters__reset" onClick={resetFilters}>
-                  Скинути
-                </button>
-              </div>
-
-              {/* Тип */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">Тип</h3>
-                <div className="filter-group__options">
-                  {filterOptions.types.map((type) => (
-                    <label key={type} className="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedTypes.includes(type)}
-                        onChange={() => toggleFilter(type, setSelectedTypes)}
-                      />
-                      <span className="filter-checkbox__label">{type}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Розміри */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">Розміри</h3>
-                <div className="filter-group__options filter-group__options--grid">
-                  {filterOptions.sizes.map((size) => (
-                    <button
-                      key={size}
-                      className={`filter-chip ${
-                        selectedSizes.includes(size)
-                          ? "filter-chip--active"
-                          : ""
-                      }`}
-                      onClick={() => toggleFilter(size, setSelectedSizes)}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Висота */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">
-                  Висота: {heightRange[0]} см - {heightRange[1]} см
-                </h3>
-                <div className="filter-range">
-                  <input
-                    type="range"
-                    min="3"
-                    max="45"
-                    value={heightRange[0]}
-                    onChange={(e) =>
-                      setHeightRange([Number(e.target.value), heightRange[1]])
-                    }
-                    className="filter-range__input"
-                  />
-                  <input
-                    type="range"
-                    min="3"
-                    max="45"
-                    value={heightRange[1]}
-                    onChange={(e) =>
-                      setHeightRange([heightRange[0], Number(e.target.value)])
-                    }
-                    className="filter-range__input"
-                  />
-                </div>
-              </div>
-
-              {/* Тип блоку */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">Тип блоку</h3>
-                <div className="filter-group__options">
-                  {filterOptions.blockTypes.map((type) => (
-                    <label key={type} className="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedBlockTypes.includes(type)}
-                        onChange={() =>
-                          toggleFilter(type, setSelectedBlockTypes)
-                        }
-                      />
-                      <span className="filter-checkbox__label">{type}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Наповнювачі */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">Наповнювачі</h3>
-                <div className="filter-group__options">
-                  {filterOptions.fillers.map((filler) => (
-                    <label key={filler} className="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedFillers.includes(filler)}
-                        onChange={() =>
-                          toggleFilter(filler, setSelectedFillers)
-                        }
-                      />
-                      <span className="filter-checkbox__label">{filler}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Чохол */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">Чохол</h3>
-                <div className="filter-group__options">
-                  {filterOptions.covers.map((cover) => (
-                    <label key={cover} className="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedCovers.includes(cover)}
-                        onChange={() => toggleFilter(cover, setSelectedCovers)}
-                      />
-                      <span className="filter-checkbox__label">{cover}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Навантаження */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">
-                  Навантаження:{" "}
-                  {maxWeightFilter >= 200 ? "до ∞" : `до ${maxWeightFilter} кг`}
-                </h3>
-                <div className="filter-range">
-                  <input
-                    type="range"
-                    min="50"
-                    max="200"
-                    value={maxWeightFilter}
-                    onChange={(e) => setMaxWeightFilter(Number(e.target.value))}
-                    className="filter-range__input"
-                  />
-                </div>
-              </div>
-
-              {/* Ціна */}
-              <div className="filter-group">
-                <h3 className="filter-group__title">
-                  Ціна: ₴{priceRange[0].toLocaleString()} - ₴
-                  {priceRange[1].toLocaleString()}
-                </h3>
-                <div className="filter-range">
-                  <input
-                    type="range"
-                    min="0"
-                    max="50000"
-                    step="500"
-                    value={priceRange[0]}
-                    onChange={(e) =>
-                      setPriceRange([Number(e.target.value), priceRange[1]])
-                    }
-                    className="filter-range__input"
-                  />
-                  <input
-                    type="range"
-                    min="0"
-                    max="50000"
-                    step="500"
-                    value={priceRange[1]}
-                    onChange={(e) =>
-                      setPriceRange([priceRange[0], Number(e.target.value)])
-                    }
-                    className="filter-range__input"
-                  />
-                </div>
-              </div>
-
-              {/* Кнопка застосувати */}
-              <button className="filters__apply">Застосувати</button>
-            </div>
+            <CatalogFilters
+              params={params}
+              onApply={handleApplyFilters}
+              onClearAll={handleClearAll}
+              filterOptions={filterOptions}
+            />
           </aside>
 
           {/* Сітка товарів */}
           <div className="catalog__products">
-            {filteredProducts.length > 0 ? (
-              <div className="products-grid">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+            {loading ? (
+              <div className="catalog__loader">
+                <div className="loader-spinner"></div>
+                <p>Завантаження товарів...</p>
               </div>
+            ) : products.length > 0 ? (
+              <>
+                <div className="products-grid">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+
+                {/* Пагінація */}
+                {totalPages > 1 && (
+                  <div className="catalog__pagination">
+                    <button
+                      className="pagination__button"
+                      onClick={() => handlePageChange(params.page - 1)}
+                      disabled={params.page === 1}
+                    >
+                      ‹
+                    </button>
+
+                    {[...Array(totalPages)].map((_, index) => {
+                      const pageNum = index + 1;
+                      // Показуємо тільки деякі сторінки
+                      if (
+                        pageNum === 1 ||
+                        pageNum === totalPages ||
+                        (pageNum >= params.page - 1 &&
+                          pageNum <= params.page + 1)
+                      ) {
+                        return (
+                          <button
+                            key={pageNum}
+                            className={`pagination__button ${
+                              params.page === pageNum
+                                ? "pagination__button--active"
+                                : ""
+                            }`}
+                            onClick={() => handlePageChange(pageNum)}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      } else if (
+                        pageNum === params.page - 2 ||
+                        pageNum === params.page + 2
+                      ) {
+                        return <span key={pageNum}>...</span>;
+                      }
+                      return null;
+                    })}
+
+                    <button
+                      className="pagination__button"
+                      onClick={() => handlePageChange(params.page + 1)}
+                      disabled={params.page === totalPages}
+                    >
+                      ›
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="catalog__empty">
-                <p>За обраними фільтрами товарів не знайдено</p>
+                <h2>Товари не знайдено</h2>
+                <p>Спробуйте змінити параметри фільтрації</p>
                 <button
-                  onClick={resetFilters}
+                  onClick={handleClearAll}
                   className="catalog__empty-button"
                 >
                   Скинути фільтри
                 </button>
-              </div>
-            )}
-
-            {/* Пагінація */}
-            {filteredProducts.length > 0 && (
-              <div className="catalog__pagination">
-                <button className="pagination__button pagination__button--disabled">
-                  ‹
-                </button>
-                <button className="pagination__button pagination__button--active">
-                  1
-                </button>
-                <button className="pagination__button">2</button>
-                <button className="pagination__button">3</button>
-                <button className="pagination__button">...</button>
-                <button className="pagination__button">6</button>
-                <button className="pagination__button">›</button>
               </div>
             )}
           </div>
