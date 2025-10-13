@@ -1,0 +1,321 @@
+@use "../variables" as v;
+
+.contacts {
+  background: v.$color-background;
+  min-height: 100vh;
+  padding: v.$spacing-16 0;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-12 0;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-8 0;
+  }
+
+  &__title {
+    font-size: v.$font-size-4xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-12;
+    text-align: center;
+
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-3xl;
+      margin-bottom: v.$spacing-8;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-2xl;
+      margin-bottom: v.$spacing-6;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$spacing-8;
+    margin-bottom: v.$spacing-16;
+
+    @media (max-width: v.$breakpoint-lg) {
+      gap: v.$spacing-6;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      grid-template-columns: 1fr;
+      gap: v.$spacing-6;
+      margin-bottom: v.$spacing-12;
+    }
+  }
+
+  &__form-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info-section {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-6;
+
+    @media (max-width: v.$breakpoint-md) {
+      gap: v.$spacing-6;
+    }
+  }
+
+  &__card {
+    background: v.$neutral-0;
+    border-radius: v.$radius-xl;
+    padding: v.$spacing-8;
+    box-shadow: v.$shadow-card;
+    border: 1px solid v.$color-border;
+    transition: v.$transition-card;
+
+    @media (max-width: v.$breakpoint-md) {
+      padding: v.$spacing-6;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-5;
+      border-radius: v.$radius-lg;
+    }
+  }
+
+  &__card-title {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-6;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xl;
+      margin-bottom: v.$spacing-5;
+    }
+  }
+
+  // Форма
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-5;
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input,
+  &__textarea {
+    padding: v.$spacing-4;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-base;
+    font-family: v.$font-family-base;
+    color: v.$color-text-primary;
+    background: v.$neutral-0;
+    transition: v.$transition-button;
+
+    &::placeholder {
+      color: v.$color-text-tertiary;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: v.$brand-primary-500;
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+    }
+
+    &:hover {
+      border-color: v.$brand-primary-300;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-3;
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  &__submit-btn {
+    padding: v.$spacing-4 v.$spacing-8;
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
+    border: none;
+    border-radius: v.$radius-button;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    cursor: pointer;
+    transition: v.$transition-button;
+    box-shadow: v.$shadow-button;
+
+    &:hover {
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-card;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-3 v.$spacing-6;
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__form-note {
+    text-align: center;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    margin-top: v.$spacing-2;
+  }
+
+  // Контактна інформація
+  &__info-card {
+    height: fit-content;
+  }
+
+  &__info-list {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-5;
+  }
+
+  &__info-item {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-2;
+  }
+
+  &__info-label {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: v.$letter-spacing-wide;
+  }
+
+  &__info-values {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-1;
+  }
+
+  &__info-link {
+    font-size: v.$font-size-base;
+    color: v.$brand-primary-500;
+    text-decoration: none;
+    transition: v.$transition-button;
+
+    &:hover {
+      color: v.$brand-primary-600;
+      text-decoration: underline;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__info-text {
+    font-size: v.$font-size-base;
+    color: v.$color-text-primary;
+    line-height: v.$line-height-relaxed;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-2;
+    flex-wrap: wrap;
+  }
+
+  &__social-link {
+    font-size: v.$font-size-base;
+    color: v.$brand-primary-500;
+    text-decoration: none;
+    transition: v.$transition-button;
+
+    &:hover {
+      color: v.$brand-primary-600;
+      text-decoration: underline;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__social-separator {
+    color: v.$color-text-tertiary;
+  }
+
+  // Карта
+  &__map-card {
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: v.$breakpoint-md) {
+      min-height: 350px;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      min-height: 300px;
+    }
+  }
+
+  &__map {
+    flex: 1;
+    border-radius: v.$radius-md;
+    overflow: hidden;
+    border: 1px solid v.$color-border;
+    min-height: 250px;
+
+    iframe {
+      display: block;
+    }
+  }
+
+  // FAQ Секція
+  &__faq-section {
+    margin-top: v.$spacing-16;
+
+    @media (max-width: v.$breakpoint-md) {
+      margin-top: v.$spacing-12;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      margin-top: v.$spacing-8;
+    }
+  }
+
+  &__section-title {
+    font-size: v.$font-size-3xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-8;
+    text-align: center;
+
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-2xl;
+      margin-bottom: v.$spacing-6;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xl;
+      margin-bottom: v.$spacing-5;
+    }
+  }
+}
