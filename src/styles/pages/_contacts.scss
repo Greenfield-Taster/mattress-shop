@@ -204,13 +204,28 @@
       box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
     }
 
-    &:hover:not(:focus) {
+    &:hover:not(:focus):not(&--error) {
       border-color: v.$brand-primary-300;
+    }
+
+    &--error {
+      border-color: #e53e3e;
+      
+      &:focus {
+        border-color: #e53e3e;
+        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+      }
+    }
+
+    &:disabled {
+      background: v.$neutral-100;
+      cursor: not-allowed;
+      opacity: 0.6;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       padding: v.$spacing-3;
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -242,15 +257,22 @@
     letter-spacing: v.$letter-spacing-tight;
     margin-top: auto;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: v.$brand-primary-600;
       box-shadow: v.$shadow-card;
       transform: translateY(-2px);
     }
 
-    &:active {
+    &:active:not(:disabled) {
       transform: translateY(0);
       background: v.$brand-primary-700;
+    }
+
+    &:disabled {
+      background: v.$neutral-300;
+      cursor: not-allowed;
+      opacity: 0.6;
+      transform: none;
     }
 
     @media (max-width: v.$breakpoint-sm) {
@@ -441,6 +463,51 @@
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-2xl;
       margin-bottom: v.$spacing-5;
+    }
+  }
+
+  // Стилі для помилок валідації
+  &__error {
+    display: block;
+    color: #e53e3e;
+    font-size: v.$font-size-sm;
+    margin-top: v.$spacing-1;
+    font-weight: v.$font-weight-medium;
+    line-height: v.$line-height-tight;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  // Повідомлення про успіх
+  &__success-message {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: v.$spacing-4;
+    border-radius: v.$radius-base;
+    margin-bottom: v.$spacing-5;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-medium;
+    line-height: v.$line-height-relaxed;
+    text-align: center;
+    animation: slideDown 0.3s ease-out;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+      padding: v.$spacing-3;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }

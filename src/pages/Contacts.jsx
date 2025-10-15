@@ -11,18 +11,225 @@ const Contacts = () => {
     message: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    phone: false,
+    email: false,
+    message: false,
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Валідація окремого поля
+  const validateField = (name, value) => {
+    let error = "";
+
+    switch (name) {
+      case "name":
+        if (!value.trim()) {
+          error = "Будь ласка, введіть ваше ім'я";
+        } else if (value.trim().length < 2) {
+          error = "Ім'я має містити мінімум 2 символи";
+        } else if (value.trim().length > 50) {
+          error = "Ім'я має містити максимум 50 символів";
+        } else if (!/^[а-яА-ЯіІїЇєЄґҐa-zA-Z\s'-]+$/.test(value)) {
+          error = "Ім'я може містити тільки літери";
+        }
+        break;
+
+      case "phone":
+        // Видаляємо всі символи крім цифр і +
+        const phoneDigits = value.replace(/[^\d+]/g, "");
+        if (!value.trim()) {
+          error = "Будь ласка, введіть номер телефону";
+        } else if (phoneDigits.length < 10) {
+          error = "Номер телефону занадто короткий";
+        } else if (phoneDigits.length > 13) {
+          error = "Номер телефону занадто довгий";
+        } else if (!/^(\+?38)?0\d{9}$/.test(phoneDigits)) {
+          error = "Некоректний формат телефону (напр. +380501234567)";
+        }
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          error = "Будь ласка, введіть email";
+        } else if (
+          !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value)
+        ) {
+          error = "Некоректний формат email";
+        }
+        break;
+
+      case "message":
+        if (!value.trim()) {
+          error = "Будь ласка, введіть повідомлення";
+        } else if (value.trim().length < 10) {
+          error = "Повідомлення має містити мінімум 10 символів";
+        } else if (value.trim().length > 500) {
+          error = "Повідомлення має містити максимум 500 символів";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    return error;
+  };
+
+  // Форматування телефону
+  const formatPhone = (value) => {
+    const phoneDigits = value.replace(/\D/g, "");
+    let formatted = "";
+
+    if (phoneDigits.length > 0) {
+      if (phoneDigits.startsWith("38")) {
+        formatted = "+38";
+        const remaining = phoneDigits.slice(2);
+        if (remaining.length > 0) {
+          formatted += " (" + remaining.slice(0, 3);
+          if (remaining.length > 3) {
+            formatted += ") " + remaining.slice(3, 6);
+            if (remaining.length > 6) {
+              formatted += "-" + remaining.slice(6, 8);
+              if (remaining.length > 8) {
+                formatted += "-" + remaining.slice(8, 10);
+              }
+            }
+          }
+        }
+      } else if (phoneDigits.startsWith("0")) {
+        formatted = "+38 (" + phoneDigits.slice(0, 3);
+        if (phoneDigits.length > 3) {
+          formatted += ") " + phoneDigits.slice(3, 6);
+          if (phoneDigits.length > 6) {
+            formatted += "-" + phoneDigits.slice(6, 8);
+            if (phoneDigits.length > 8) {
+              formatted += "-" + phoneDigits.slice(8, 10);
+            }
+          }
+        }
+      } else {
+        formatted = value;
+      }
+    }
+
+    return formatted;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    let processedValue = value;
+    
+    // Форматування телефону
+    if (name === "phone") {
+      processedValue = formatPhone(value);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: processedValue,
+    }));
+
+    // Валідація в реальному часі якщо поле вже було touched
+    if (touched[name]) {
+      const error = validateField(name, processedValue);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+
+    const error = validateField(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Тут буде логіка відправки форми
+    
+    // Позначаємо всі поля як touched
+    setTouched({
+      name: true,
+      phone: true,
+      email: true,
+      message: true,
+    });
+
+    // Валідуємо всі поля
+    const newErrors = {
+      name: validateField("name", formData.name),
+      phone: validateField("phone", formData.phone),
+      email: validateField("email", formData.email),
+      message: validateField("message", formData.message),
+    };
+
+    setErrors(newErrors);
+
+    // Перевіряємо чи є помилки
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+
+    if (!hasErrors) {
+      setIsSubmitting(true);
+      
+      try {
+        // Тут буде логіка відправки форми на сервер
+        console.log("Form submitted:", formData);
+        
+        // Симуляція відправки
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        
+        // Успішна відправка
+        setSubmitSuccess(true);
+        
+        // Очищення форми
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          message: "",
+        });
+        
+        setTouched({
+          name: false,
+          phone: false,
+          email: false,
+          message: false,
+        });
+        
+        // Сховати повідомлення успіху через 5 секунд
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+        
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("Помилка при відправці форми. Спробуйте ще раз.");
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
   };
 
   return (
@@ -36,10 +243,17 @@ const Contacts = () => {
             <div className="contacts__card">
               <h2 className="contacts__card-title">Зв'язатися з нами</h2>
               <p className="contacts__card-description">
-                Заповніть форму нижче, і ми зв'яжемось з вами найближчим часом. 
+                Заповніть форму нижче, і ми зв'яжемось з вами найближчим часом.
                 Всі поля обов'язкові для заповнення.
               </p>
-              <form className="contacts__form" onSubmit={handleSubmit}>
+
+              {submitSuccess && (
+                <div className="contacts__success-message">
+                  ✓ Дякуємо! Ваше повідомлення успішно надіслано. Ми зв'яжемось з вами найближчим часом.
+                </div>
+              )}
+
+              <form className="contacts__form" onSubmit={handleSubmit} noValidate>
                 <div className="contacts__form-group">
                   <label className="contacts__label">
                     Ваше ім'я <span className="contacts__required">*</span>
@@ -50,9 +264,15 @@ const Contacts = () => {
                     placeholder="Введіть ваше ім'я"
                     value={formData.name}
                     onChange={handleChange}
-                    className="contacts__input"
-                    required
+                    onBlur={handleBlur}
+                    className={`contacts__input ${
+                      touched.name && errors.name ? "contacts__input--error" : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
+                  {touched.name && errors.name && (
+                    <span className="contacts__error">{errors.name}</span>
+                  )}
                 </div>
 
                 <div className="contacts__form-group">
@@ -65,9 +285,15 @@ const Contacts = () => {
                     placeholder="+38 (0__) ___-__-__"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="contacts__input"
-                    required
+                    onBlur={handleBlur}
+                    className={`contacts__input ${
+                      touched.phone && errors.phone ? "contacts__input--error" : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
+                  {touched.phone && errors.phone && (
+                    <span className="contacts__error">{errors.phone}</span>
+                  )}
                 </div>
 
                 <div className="contacts__form-group">
@@ -80,9 +306,15 @@ const Contacts = () => {
                     placeholder="your@email.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="contacts__input"
-                    required
+                    onBlur={handleBlur}
+                    className={`contacts__input ${
+                      touched.email && errors.email ? "contacts__input--error" : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
+                  {touched.email && errors.email && (
+                    <span className="contacts__error">{errors.email}</span>
+                  )}
                 </div>
 
                 <div className="contacts__form-group">
@@ -94,13 +326,25 @@ const Contacts = () => {
                     placeholder="Напишіть ваше повідомлення..."
                     value={formData.message}
                     onChange={handleChange}
-                    className="contacts__textarea"
-                    required
+                    onBlur={handleBlur}
+                    className={`contacts__textarea ${
+                      touched.message && errors.message
+                        ? "contacts__textarea--error"
+                        : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
+                  {touched.message && errors.message && (
+                    <span className="contacts__error">{errors.message}</span>
+                  )}
                 </div>
 
-                <button type="submit" className="contacts__submit-btn">
-                  Надіслати
+                <button
+                  type="submit"
+                  className="contacts__submit-btn"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Надсилання..." : "Надіслати"}
                 </button>
 
                 <p className="contacts__form-note">
