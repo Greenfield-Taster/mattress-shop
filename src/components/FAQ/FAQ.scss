@@ -67,7 +67,7 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -103,12 +103,12 @@
 
     @media (max-width: v.$breakpoint-md) {
       padding: 0 v.$spacing-5 v.$spacing-5 v.$spacing-5;
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       padding: 0 v.$spacing-4 v.$spacing-4 v.$spacing-4;
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
 
     p {

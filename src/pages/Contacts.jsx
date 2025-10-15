@@ -35,12 +35,19 @@ const Contacts = () => {
           <div className="contacts__form-section">
             <div className="contacts__card">
               <h2 className="contacts__card-title">Зв'язатися з нами</h2>
+              <p className="contacts__card-description">
+                Заповніть форму нижче, і ми зв'яжемось з вами найближчим часом. 
+                Всі поля обов'язкові для заповнення.
+              </p>
               <form className="contacts__form" onSubmit={handleSubmit}>
                 <div className="contacts__form-group">
+                  <label className="contacts__label">
+                    Ваше ім'я <span className="contacts__required">*</span>
+                  </label>
                   <input
                     type="text"
                     name="name"
-                    placeholder="Ваше ім'я"
+                    placeholder="Введіть ваше ім'я"
                     value={formData.name}
                     onChange={handleChange}
                     className="contacts__input"
@@ -49,10 +56,13 @@ const Contacts = () => {
                 </div>
 
                 <div className="contacts__form-group">
+                  <label className="contacts__label">
+                    Телефон <span className="contacts__required">*</span>
+                  </label>
                   <input
                     type="tel"
                     name="phone"
-                    placeholder="Телефон"
+                    placeholder="+38 (0__) ___-__-__"
                     value={formData.phone}
                     onChange={handleChange}
                     className="contacts__input"
@@ -61,10 +71,13 @@ const Contacts = () => {
                 </div>
 
                 <div className="contacts__form-group">
+                  <label className="contacts__label">
+                    Електронна пошта <span className="contacts__required">*</span>
+                  </label>
                   <input
                     type="email"
                     name="email"
-                    placeholder="Ел. пошта"
+                    placeholder="your@email.com"
                     value={formData.email}
                     onChange={handleChange}
                     className="contacts__input"
@@ -73,13 +86,15 @@ const Contacts = () => {
                 </div>
 
                 <div className="contacts__form-group">
+                  <label className="contacts__label">
+                    Повідомлення <span className="contacts__required">*</span>
+                  </label>
                   <textarea
                     name="message"
-                    placeholder="Повідомлення"
+                    placeholder="Напишіть ваше повідомлення..."
                     value={formData.message}
                     onChange={handleChange}
                     className="contacts__textarea"
-                    rows="5"
                     required
                   />
                 </div>

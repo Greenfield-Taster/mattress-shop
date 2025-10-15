@@ -4,6 +4,8 @@
   background: v.$color-background;
   min-height: 100vh;
   padding: v.$spacing-16 0;
+  width: 100%;
+  overflow-x: hidden;
 
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-12 0;
@@ -37,6 +39,9 @@
     grid-template-columns: 1fr 1fr;
     gap: v.$spacing-8;
     margin-bottom: v.$spacing-16;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
 
     @media (max-width: v.$breakpoint-lg) {
       gap: v.$spacing-6;
@@ -51,18 +56,37 @@
 
     @media (max-width: v.$breakpoint-sm) {
       margin-bottom: v.$spacing-10;
+      gap: v.$spacing-4;
     }
   }
 
   &__form-section {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-width: 0;
+
+    @media (max-width: v.$breakpoint-md) {
+      order: 2;
+    }
+
+    .contacts__card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &__info-section {
     display: flex;
     flex-direction: column;
     gap: v.$spacing-6;
+    height: 100%;
+    min-width: 0;
+
+    @media (max-width: v.$breakpoint-md) {
+      order: 1;
+    }
 
     @media (max-width: v.$breakpoint-sm) {
       gap: v.$spacing-5;
@@ -92,6 +116,8 @@
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-6;
     letter-spacing: v.$letter-spacing-tight;
+    display: flex;
+    justify-content: center;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-xl;
@@ -99,7 +125,26 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-lg;
+      font-size: v.$font-size-xl;
+      margin-bottom: v.$spacing-4;
+    }
+  }
+
+  &__card-description {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+    line-height: v.$line-height-relaxed;
+    margin-bottom: v.$spacing-6;
+    display: flex;
+    text-align: center;
+
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-base;
+      margin-bottom: v.$spacing-5;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-base;
       margin-bottom: v.$spacing-4;
     }
   }
@@ -108,6 +153,7 @@
     display: flex;
     flex-direction: column;
     gap: v.$spacing-5;
+    flex: 1;
 
     @media (max-width: v.$breakpoint-sm) {
       gap: v.$spacing-4;
@@ -117,6 +163,23 @@
   &__form-group {
     display: flex;
     flex-direction: column;
+    gap: v.$spacing-2;
+  }
+
+  &__label {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-1;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-base;
+    }
+  }
+
+  &__required {
+    color: #e53e3e;
+    margin-left: 2px;
   }
 
   &__input,
@@ -152,12 +215,16 @@
   }
 
   &__textarea {
-    resize: vertical;
-    min-height: 120px;
+    resize: none;
+    height: 140px;
     font-family: v.$font-family-base;
 
+    @media (max-width: v.$breakpoint-md) {
+      height: 120px;
+    }
+
     @media (max-width: v.$breakpoint-sm) {
-      min-height: 100px;
+      height: 100px;
     }
   }
 
@@ -173,6 +240,7 @@
     transition: v.$transition-button;
     box-shadow: v.$shadow-button;
     letter-spacing: v.$letter-spacing-tight;
+    margin-top: auto;
 
     &:hover {
       background: v.$brand-primary-600;
@@ -186,8 +254,8 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      padding: v.$spacing-3 v.$spacing-6;
-      font-size: v.$font-size-sm;
+      padding: v.$spacing-4 v.$spacing-6;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -199,7 +267,7 @@
     line-height: v.$line-height-normal;
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
+      font-size: v.$font-size-sm;
     }
   }
 
@@ -208,9 +276,20 @@
   }
 
   &__info-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: v.$spacing-5;
+    column-gap: v.$spacing-6;
+
+    // Від md до lg - один стовпчик
+    @media (max-width: v.$breakpoint-lg) and (min-width: v.$breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+
+    // Від sm до md - один стовпчик
+    @media (max-width: v.$breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
 
     @media (max-width: v.$breakpoint-sm) {
       gap: v.$spacing-4;
@@ -231,7 +310,7 @@
     letter-spacing: v.$letter-spacing-wide;
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
+      font-size: v.$font-size-sm;
     }
   }
 
@@ -254,7 +333,7 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -265,7 +344,7 @@
     font-weight: v.$font-weight-regular;
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -273,7 +352,11 @@
     display: flex;
     align-items: center;
     gap: v.$spacing-2;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-1;
+    }
   }
 
   &__social-link {
@@ -282,6 +365,7 @@
     text-decoration: none;
     transition: v.$transition-button;
     font-weight: v.$font-weight-medium;
+    white-space: nowrap;
 
     &:hover {
       color: v.$brand-primary-600;
@@ -289,7 +373,7 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -355,7 +439,7 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xl;
+      font-size: v.$font-size-2xl;
       margin-bottom: v.$spacing-5;
     }
   }
