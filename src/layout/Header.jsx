@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, User } from "lucide-react";
+import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
 import { useCart } from "../hooks/useCart";
+import { useAuth } from "../hooks/useAuth";
 import CartSidePanel from "../components/Cart/CartSidePanel";
-import Modal from "../components/modals/Modal";
-import LoginForm from "../components/modals/LoginForm";
+import SideAuthPanel from "../components/SideAuthPanel/SideAuthPanel";
 import "../styles/layout/_header.scss";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isAuthPanelOpen, setIsAuthPanelOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const mobileMenuButtonRef = useRef(null);
-  
+
   const { totals } = useCart();
+  const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
   const isActiveLink = (path) => {
@@ -28,6 +29,14 @@ const Header = () => {
   const handleCartClick = (e) => {
     e.preventDefault();
     setIsCartOpen(true);
+  };
+
+  const handleAuthClick = () => {
+    if (isAuthenticated) {
+      logout();
+    } else {
+      setIsAuthPanelOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -108,11 +117,21 @@ const Header = () => {
 
             <div className="header__auth hidden-mobile">
               <button
-                onClick={() => setIsLoginModalOpen(true)}
+                onClick={handleAuthClick}
                 className="btn btn-primary btn-sm"
+                title={isAuthenticated ? "Вийти" : "Увійти"}
               >
-                <User size={16} />
-                Вхід
+                {isAuthenticated ? (
+                  <>
+                    <LogOut size={16} />
+                    Вийти
+                  </>
+                ) : (
+                  <>
+                    <User size={16} />
+                    Вхід
+                  </>
+                )}
               </button>
             </div>
 
@@ -169,29 +188,32 @@ const Header = () => {
                   className="header__nav-link"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    setIsLoginModalOpen(true);
+                    handleAuthClick();
                   }}
                 >
-                  <User size={16} />
-                  Вхід
+                  {isAuthenticated ? (
+                    <>
+                      <LogOut size={16} />
+                      Вийти
+                    </>
+                  ) : (
+                    <>
+                      <User size={16} />
+                      Вхід
+                    </>
+                  )}
                 </button>
               </div>
             </nav>
           </div>
         </div>
-
-        <Modal
-          isOpen={isLoginModalOpen}
-          onClose={() => setIsLoginModalOpen(false)}
-          title="Вхід в акаунт"
-        >
-          <LoginForm onClose={() => setIsLoginModalOpen(false)} />
-        </Modal>
       </header>
 
-      <CartSidePanel
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
+      <CartSidePanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <SideAuthPanel
+        isOpen={isAuthPanelOpen}
+        onClose={() => setIsAuthPanelOpen(false)}
       />
     </>
   );
