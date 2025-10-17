@@ -1,17 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
+import { useCart } from "../hooks/useCart";
+import CartSidePanel from "../components/Cart/CartSidePanel";
 import Modal from "../components/modals/Modal";
 import LoginForm from "../components/modals/LoginForm";
 import "../styles/layout/_header.scss";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartCount] = useState(0); // TODO: connect to cart state
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const mobileMenuButtonRef = useRef(null);
-
+  
+  const { totals } = useCart();
   const location = useLocation();
 
   const isActiveLink = (path) => {
@@ -20,6 +23,11 @@ const Header = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleCartClick = (e) => {
+    e.preventDefault();
+    setIsCartOpen(true);
   };
 
   useEffect(() => {
@@ -52,76 +60,19 @@ const Header = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="header">
-      <div className="header__container">
-        <Link to="/" className="header__logo">
-          JUST SLEEP
-        </Link>
-
-        <nav className="header__nav">
-          <Link
-            to="/"
-            className={`header__nav-link ${isActiveLink("/") ? "active" : ""}`}
-          >
-            Головна
-          </Link>
-          <Link
-            to="/catalog"
-            className={`header__nav-link ${
-              isActiveLink("/catalog") ? "active" : ""
-            }`}
-          >
-            Каталог
-          </Link>
-          <Link
-            to="/contacts"
-            className={`header__nav-link ${
-              isActiveLink("/contacts") ? "active" : ""
-            }`}
-          >
-            Контакти
-          </Link>
-        </nav>
-
-        <div className="header__actions">
-          <Link to="/cart" className="header__cart">
-            <ShoppingCart size={20} />
-            {cartCount > 0 && (
-              <span className="header__cart__badge">{cartCount}</span>
-            )}
+    <>
+      <header className="header">
+        <div className="header__container">
+          <Link to="/" className="header__logo">
+            JUST SLEEP
           </Link>
 
-          <div className="header__auth hidden-mobile">
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
-              className="btn btn-primary btn-sm"
-            >
-              <User size={16} />
-              Вхід
-            </button>
-          </div>
-
-          <button
-            ref={mobileMenuButtonRef}
-            className="header__mobile-menu-btn"
-            onClick={toggleMobileMenu}
-            aria-label="Відкрити меню"
-          >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-
-        <div
-          ref={mobileMenuRef}
-          className={`header__mobile-menu ${isMobileMenuOpen ? "open" : ""}`}
-        >
-          <nav className="header__mobile-nav">
+          <nav className="header__nav">
             <Link
               to="/"
               className={`header__nav-link ${
                 isActiveLink("/") ? "active" : ""
               }`}
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Головна
             </Link>
@@ -130,7 +81,6 @@ const Header = () => {
               className={`header__nav-link ${
                 isActiveLink("/catalog") ? "active" : ""
               }`}
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Каталог
             </Link>
@@ -139,40 +89,111 @@ const Header = () => {
               className={`header__nav-link ${
                 isActiveLink("/contacts") ? "active" : ""
               }`}
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Контакти
             </Link>
-            <div
-              style={{
-                borderTop: "1px solid #e5e5e5",
-                paddingTop: "1rem",
-                marginTop: "1rem",
-              }}
+          </nav>
+
+          <div className="header__actions">
+            <button
+              onClick={handleCartClick}
+              className="header__cart"
+              aria-label="Відкрити кошик"
             >
+              <ShoppingCart size={20} />
+              {totals.itemsCount > 0 && (
+                <span className="header__cart__badge">{totals.itemsCount}</span>
+              )}
+            </button>
+
+            <div className="header__auth hidden-mobile">
               <button
-                className="header__nav-link"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  setIsLoginModalOpen(true);
-                }}
+                onClick={() => setIsLoginModalOpen(true)}
+                className="btn btn-primary btn-sm"
               >
                 <User size={16} />
                 Вхід
               </button>
             </div>
-          </nav>
-        </div>
-      </div>
 
-      <Modal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        title="Вхід в акаунт"
-      >
-        <LoginForm onClose={() => setIsLoginModalOpen(false)} />
-      </Modal>
-    </header>
+            <button
+              ref={mobileMenuButtonRef}
+              className="header__mobile-menu-btn"
+              onClick={toggleMobileMenu}
+              aria-label="Відкрити меню"
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+
+          <div
+            ref={mobileMenuRef}
+            className={`header__mobile-menu ${isMobileMenuOpen ? "open" : ""}`}
+          >
+            <nav className="header__mobile-nav">
+              <Link
+                to="/"
+                className={`header__nav-link ${
+                  isActiveLink("/") ? "active" : ""
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Головна
+              </Link>
+              <Link
+                to="/catalog"
+                className={`header__nav-link ${
+                  isActiveLink("/catalog") ? "active" : ""
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Каталог
+              </Link>
+              <Link
+                to="/contacts"
+                className={`header__nav-link ${
+                  isActiveLink("/contacts") ? "active" : ""
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Контакти
+              </Link>
+              <div
+                style={{
+                  borderTop: "1px solid #e5e5e5",
+                  paddingTop: "1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <button
+                  className="header__nav-link"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLoginModalOpen(true);
+                  }}
+                >
+                  <User size={16} />
+                  Вхід
+                </button>
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        <Modal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          title="Вхід в акаунт"
+        >
+          <LoginForm onClose={() => setIsLoginModalOpen(false)} />
+        </Modal>
+      </header>
+
+      <CartSidePanel
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+      />
+    </>
   );
 };
 
