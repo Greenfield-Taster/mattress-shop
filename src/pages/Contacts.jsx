@@ -236,6 +236,9 @@ const Contacts = () => {
     <div className="contacts">
       <div className="container">
         <h1 className="contacts__title">Контакти</h1>
+        <p className="contacts__subtitle">
+          Ми завжди раді відповісти на ваші запитання та допомогти з вибором ідеального матраца
+        </p>
 
         <div className="contacts__content">
           {/* Форма зв'язку */}

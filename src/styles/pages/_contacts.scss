@@ -1,11 +1,11 @@
 @use "../variables" as v;
 
 .contacts {
-  background: v.$color-background;
+  background: linear-gradient(135deg, v.$neutral-50 0%, v.$neutral-100 100%);
   min-height: 100vh;
   padding: v.$spacing-16 0;
   width: 100%;
-  overflow-x: hidden;
+  position: relative;
 
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-12 0;
@@ -19,17 +19,36 @@
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
-    margin-bottom: v.$spacing-12;
+    margin-bottom: v.$spacing-4;
     text-align: center;
     letter-spacing: v.$letter-spacing-tight;
+    animation: fadeInDown 0.6s ease-out;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-3xl;
-      margin-bottom: v.$spacing-10;
+      margin-bottom: v.$spacing-3;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-2xl;
+      margin-bottom: v.$spacing-2;
+    }
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-lg;
+    color: v.$color-text-secondary;
+    text-align: center;
+    margin-bottom: v.$spacing-12;
+    animation: fadeInDown 0.6s ease-out 0.1s both;
+
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-base;
+      margin-bottom: v.$spacing-10;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
       margin-bottom: v.$spacing-8;
     }
   }
@@ -42,6 +61,8 @@
     align-items: stretch;
     width: 100%;
     max-width: 100%;
+    position: relative;
+    z-index: 1;
 
     @media (max-width: v.$breakpoint-lg) {
       gap: v.$spacing-6;
@@ -65,6 +86,7 @@
     flex-direction: column;
     height: 100%;
     min-width: 0;
+    animation: fadeInLeft 0.6s ease-out 0.2s both;
 
     @media (max-width: v.$breakpoint-md) {
       order: 2;
@@ -83,6 +105,7 @@
     gap: v.$spacing-6;
     height: 100%;
     min-width: 0;
+    animation: fadeInRight 0.6s ease-out 0.2s both;
 
     @media (max-width: v.$breakpoint-md) {
       order: 1;
@@ -95,11 +118,18 @@
 
   &__card {
     background: v.$neutral-0;
-    border-radius: v.$radius-card;
+    border-radius: v.$radius-lg;
     padding: v.$spacing-8;
-    box-shadow: v.$shadow-card;
-    border: 1px solid v.$color-border;
-    transition: v.$transition-card;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(v.$brand-primary-500, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
 
     @media (max-width: v.$breakpoint-md) {
       padding: v.$spacing-6;
@@ -114,19 +144,17 @@
     font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
-    margin-bottom: v.$spacing-6;
+    margin-bottom: v.$spacing-3;
     letter-spacing: v.$letter-spacing-tight;
-    display: flex;
-    justify-content: center;
+    text-align: center;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: v.$font-size-xl;
-      margin-bottom: v.$spacing-5;
+      margin-bottom: v.$spacing-2;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xl;
-      margin-bottom: v.$spacing-4;
+      font-size: v.$font-size-lg;
     }
   }
 
@@ -135,16 +163,14 @@
     color: v.$color-text-secondary;
     line-height: v.$line-height-relaxed;
     margin-bottom: v.$spacing-6;
-    display: flex;
     text-align: center;
 
     @media (max-width: v.$breakpoint-md) {
-      font-size: v.$font-size-base;
       margin-bottom: v.$spacing-5;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-base;
+      font-size: v.$font-size-sm;
       margin-bottom: v.$spacing-4;
     }
   }
@@ -178,20 +204,20 @@
   }
 
   &__required {
-    color: #e53e3e;
+    color: v.$error;
     margin-left: 2px;
   }
 
   &__input,
   &__textarea {
     padding: v.$spacing-4;
-    border: 1px solid v.$color-border;
-    border-radius: v.$radius-base;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-input;
     font-size: v.$font-size-base;
     font-family: v.$font-family-base;
     color: v.$color-text-primary;
-    background: v.$neutral-0;
-    transition: v.$transition-button;
+    background: v.$neutral-50;
+    transition: all 0.2s ease;
     line-height: v.$line-height-normal;
 
     &::placeholder {
@@ -201,19 +227,23 @@
     &:focus {
       outline: none;
       border-color: v.$brand-primary-500;
-      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+      background: v.$neutral-0;
+      box-shadow: 0 0 0 4px rgba(v.$brand-primary-500, 0.1);
+      transform: translateY(-1px);
     }
 
     &:hover:not(:focus):not(&--error) {
       border-color: v.$brand-primary-300;
+      background: v.$neutral-0;
     }
 
     &--error {
-      border-color: #e53e3e;
-      
+      border-color: v.$error;
+      background: rgba(v.$error, 0.05);
+
       &:focus {
-        border-color: #e53e3e;
-        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+        border-color: v.$error;
+        box-shadow: 0 0 0 4px rgba(v.$error, 0.1);
       }
     }
 
@@ -225,7 +255,6 @@
 
     @media (max-width: v.$breakpoint-sm) {
       padding: v.$spacing-3;
-      font-size: v.$font-size-base;
     }
   }
 
@@ -245,27 +274,54 @@
 
   &__submit-btn {
     padding: v.$spacing-4 v.$spacing-8;
-    background: v.$brand-primary-500;
+    background: linear-gradient(
+      135deg,
+      v.$brand-primary-500 0%,
+      v.$brand-primary-600 100%
+    );
     color: v.$neutral-0;
     border: none;
     border-radius: v.$radius-button;
     font-size: v.$font-size-base;
     font-weight: v.$font-weight-semibold;
     cursor: pointer;
-    transition: v.$transition-button;
-    box-shadow: v.$shadow-button;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(v.$brand-primary-500, 0.3);
     letter-spacing: v.$letter-spacing-tight;
     margin-top: auto;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
 
     &:hover:not(:disabled) {
-      background: v.$brand-primary-600;
-      box-shadow: v.$shadow-card;
-      transform: translateY(-2px);
+      background: linear-gradient(
+        135deg,
+        v.$brand-primary-600 0%,
+        v.$brand-primary-700 100%
+      );
+      box-shadow: 0 6px 20px rgba(v.$brand-primary-500, 0.4);
+      transform: translateY(-3px);
+
+      &::before {
+        width: 300px;
+        height: 300px;
+      }
     }
 
     &:active:not(:disabled) {
-      transform: translateY(0);
-      background: v.$brand-primary-700;
+      transform: translateY(-1px);
     }
 
     &:disabled {
@@ -273,11 +329,11 @@
       cursor: not-allowed;
       opacity: 0.6;
       transform: none;
+      box-shadow: none;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      padding: v.$spacing-4 v.$spacing-6;
-      font-size: v.$font-size-base;
+      padding: v.$spacing-3 v.$spacing-6;
     }
   }
 
@@ -289,7 +345,7 @@
     line-height: v.$line-height-normal;
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-xs;
     }
   }
 
@@ -300,21 +356,18 @@
   &__info-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-5;
-    column-gap: v.$spacing-6;
+    gap: v.$spacing-6;
 
-    // Від md до lg - один стовпчик
     @media (max-width: v.$breakpoint-lg) and (min-width: v.$breakpoint-md) {
       grid-template-columns: 1fr;
     }
 
-    // Від sm до md - один стовпчик
     @media (max-width: v.$breakpoint-md) {
       grid-template-columns: 1fr;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      gap: v.$spacing-4;
+      gap: v.$spacing-5;
     }
   }
 
@@ -322,18 +375,23 @@
     display: flex;
     flex-direction: column;
     gap: v.$spacing-2;
+    padding: v.$spacing-4;
+    background: linear-gradient(135deg, v.$neutral-50 0%, v.$neutral-100 100%);
+    border-radius: v.$radius-base;
+    border: 1px solid rgba(v.$brand-primary-500, 0.1);
+    transition: all 0.3s ease;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-4 v.$spacing-1 v.$spacing-4 v.$spacing-3;
+    }
   }
 
   &__info-label {
-    font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-semibold;
-    color: v.$color-text-secondary;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+    color: v.$brand-primary-500;
     text-transform: uppercase;
     letter-spacing: v.$letter-spacing-wide;
-
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-sm;
-    }
   }
 
   &__info-values {
@@ -344,18 +402,20 @@
 
   &__info-link {
     font-size: v.$font-size-base;
-    color: v.$brand-primary-500;
+    color: v.$color-text-primary;
     text-decoration: none;
-    transition: v.$transition-button;
+    transition: all 0.2s ease;
     font-weight: v.$font-weight-medium;
+    display: inline-flex;
+    align-items: center;
+    gap: v.$spacing-1;
 
     &:hover {
-      color: v.$brand-primary-600;
-      text-decoration: underline;
+      color: v.$brand-primary-500;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-base;
+      font-size: v.$font-size-sm;
     }
   }
 
@@ -363,45 +423,46 @@
     font-size: v.$font-size-base;
     color: v.$color-text-primary;
     line-height: v.$line-height-relaxed;
-    font-weight: v.$font-weight-regular;
+    font-weight: v.$font-weight-medium;
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-base;
+      font-size: v.$font-size-sm;
     }
   }
 
   &__social {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: v.$spacing-2;
-    flex-wrap: nowrap;
-
-    @media (max-width: v.$breakpoint-sm) {
-      gap: v.$spacing-1;
-    }
+    width: 100%;
   }
 
   &__social-link {
-    font-size: v.$font-size-base;
+    font-size: v.$font-size-sm;
     color: v.$brand-primary-500;
     text-decoration: none;
-    transition: v.$transition-button;
-    font-weight: v.$font-weight-medium;
+    transition: all 0.2s ease;
+    font-weight: v.$font-weight-semibold;
+    padding: v.$spacing-2 v.$spacing-3;
+    background: rgba(v.$brand-primary-500, 0.1);
+    border-radius: v.$radius-base;
+    text-align: center;
     white-space: nowrap;
 
     &:hover {
-      color: v.$brand-primary-600;
-      text-decoration: underline;
+      background: v.$brand-primary-500;
+      color: v.$neutral-0;
+      transform: translateY(-2px);
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-base;
+      font-size: v.$font-size-xs;
+      padding: v.$spacing-1 v.$spacing-2;
     }
   }
 
   &__social-separator {
-    color: v.$color-text-tertiary;
-    user-select: none;
+    display: none;
   }
 
   &__map-card {
@@ -423,8 +484,9 @@
     flex: 1;
     border-radius: v.$radius-base;
     overflow: hidden;
-    border: 1px solid v.$color-border;
+    border: 2px solid rgba(v.$brand-primary-500, 0.2);
     min-height: 240px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
     iframe {
       display: block;
@@ -437,6 +499,8 @@
 
   &__faq-section {
     margin-top: v.$spacing-16;
+    position: relative;
+    z-index: 1;
 
     @media (max-width: v.$breakpoint-md) {
       margin-top: v.$spacing-12;
@@ -461,38 +525,54 @@
     }
 
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-2xl;
+      font-size: v.$font-size-xl;
       margin-bottom: v.$spacing-5;
     }
   }
 
-  // Стилі для помилок валідації
   &__error {
-    display: block;
-    color: #e53e3e;
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-1;
+    color: v.$error;
     font-size: v.$font-size-sm;
     margin-top: v.$spacing-1;
     font-weight: v.$font-weight-medium;
-    line-height: v.$line-height-tight;
+    animation: shake 0.3s ease;
 
-    @media (max-width: v.$breakpoint-sm) {
+    &::before {
+      content: "⚠️";
       font-size: v.$font-size-sm;
     }
   }
 
-  // Повідомлення про успіх
   &__success-message {
-    background: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
+    background: linear-gradient(
+      135deg,
+      v.$success-light 0%,
+      lighten(v.$success-light, 5%) 100%
+    );
+    border: 2px solid v.$success;
+    color: v.$success-dark;
     padding: v.$spacing-4;
     border-radius: v.$radius-base;
     margin-bottom: v.$spacing-5;
     font-size: v.$font-size-base;
-    font-weight: v.$font-weight-medium;
+    font-weight: v.$font-weight-semibold;
     line-height: v.$line-height-relaxed;
     text-align: center;
     animation: slideDown 0.3s ease-out;
+    box-shadow: 0 4px 12px rgba(v.$success, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$spacing-2;
+
+    &::before {
+      content: "✓";
+      font-size: v.$font-size-2xl;
+      font-weight: v.$font-weight-bold;
+    }
 
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-sm;
@@ -503,11 +583,57 @@
   @keyframes slideDown {
     from {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-20px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    75% {
+      transform: translateX(5px);
     }
   }
 }
