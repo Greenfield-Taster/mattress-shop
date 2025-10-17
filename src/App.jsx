@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
 import Product from "./pages/Product";
 import Contacts from "./pages/Contacts";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 import "./styles/main.scss";
@@ -26,6 +27,7 @@ function App() {
               <Route path="/catalog" element={<Catalog />} />
               <Route path="/product/:id" element={<Product />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

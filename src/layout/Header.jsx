@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import CartSidePanel from "../components/Cart/CartSidePanel";
@@ -15,8 +15,9 @@ const Header = () => {
   const mobileMenuButtonRef = useRef(null);
 
   const { totals } = useCart();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActiveLink = (path) => {
     return location.pathname === path;
@@ -33,7 +34,7 @@ const Header = () => {
 
   const handleAuthClick = () => {
     if (isAuthenticated) {
-      logout();
+      navigate("/profile");
     } else {
       setIsAuthPanelOpen(true);
     }
@@ -119,19 +120,14 @@ const Header = () => {
               <button
                 onClick={handleAuthClick}
                 className="btn btn-primary btn-sm"
-                title={isAuthenticated ? "Вийти" : "Увійти"}
+                title={
+                  isAuthenticated
+                    ? `Профіль${user?.name ? ": " + user.name : ""}`
+                    : "Увійти"
+                }
               >
-                {isAuthenticated ? (
-                  <>
-                    <LogOut size={16} />
-                    Вийти
-                  </>
-                ) : (
-                  <>
-                    <User size={16} />
-                    Вхід
-                  </>
-                )}
+                <User size={16} />
+                {isAuthenticated ? user?.name || "Профіль" : "Вхід"}
               </button>
             </div>
 
@@ -191,17 +187,8 @@ const Header = () => {
                     handleAuthClick();
                   }}
                 >
-                  {isAuthenticated ? (
-                    <>
-                      <LogOut size={16} />
-                      Вийти
-                    </>
-                  ) : (
-                    <>
-                      <User size={16} />
-                      Вхід
-                    </>
-                  )}
+                  <User size={16} />
+                  {isAuthenticated ? user?.name || "Профіль" : "Вхід"}
                 </button>
               </div>
             </nav>
