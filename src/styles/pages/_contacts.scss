@@ -291,6 +291,7 @@
     margin-top: auto;
     position: relative;
     overflow: hidden;
+    min-width: 9rem;
 
     &::before {
       content: "";
@@ -382,8 +383,12 @@
     transition: all 0.3s ease;
 
     @media (max-width: v.$breakpoint-sm) {
-      padding: v.$spacing-4 v.$spacing-1 v.$spacing-4 v.$spacing-3;
+      padding: v.$spacing-4 v.$spacing-3;
     }
+  }
+
+  &__info-item--socials {
+    grid-column: 1 / -1;
   }
 
   &__info-label {
@@ -432,7 +437,7 @@
 
   &__social {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: v.$spacing-2;
     width: 100%;
   }
@@ -448,21 +453,55 @@
     border-radius: v.$radius-base;
     text-align: center;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$spacing-2;
 
     &:hover {
       background: v.$brand-primary-500;
       color: v.$neutral-0;
       transform: translateY(-2px);
     }
-
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
-      padding: v.$spacing-1 v.$spacing-2;
-    }
   }
 
+  &__social-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+  &__social-text {
+    display: inline;
+  }
   &__social-separator {
     display: none;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    &__social {
+      display: flex;
+      gap: v.$spacing-2;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    &__social-link {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: v.$radius-base;
+      gap: 0; /* лише іконка */
+    }
+
+    &__social-icon {
+      width: 22px;
+      height: 22px;
+    }
+    &__social-text {
+      display: none;
+    }
   }
 
   &__map-card {

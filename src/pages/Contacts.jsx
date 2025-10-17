@@ -128,9 +128,9 @@ const Contacts = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     let processedValue = value;
-    
+
     // Форматування телефону
     if (name === "phone") {
       processedValue = formatPhone(value);
@@ -153,7 +153,7 @@ const Contacts = () => {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    
+
     setTouched((prev) => ({
       ...prev,
       [name]: true,
@@ -168,7 +168,7 @@ const Contacts = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Позначаємо всі поля як touched
     setTouched({
       name: true,
@@ -192,17 +192,17 @@ const Contacts = () => {
 
     if (!hasErrors) {
       setIsSubmitting(true);
-      
+
       try {
         // Тут буде логіка відправки форми на сервер
         console.log("Form submitted:", formData);
-        
+
         // Симуляція відправки
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        
+
         // Успішна відправка
         setSubmitSuccess(true);
-        
+
         // Очищення форми
         setFormData({
           name: "",
@@ -210,19 +210,18 @@ const Contacts = () => {
           email: "",
           message: "",
         });
-        
+
         setTouched({
           name: false,
           phone: false,
           email: false,
           message: false,
         });
-        
+
         // Сховати повідомлення успіху через 5 секунд
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
-        
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("Помилка при відправці форми. Спробуйте ще раз.");
@@ -237,7 +236,8 @@ const Contacts = () => {
       <div className="container">
         <h1 className="contacts__title">Контакти</h1>
         <p className="contacts__subtitle">
-          Ми завжди раді відповісти на ваші запитання та допомогти з вибором ідеального матраца
+          Ми завжди раді відповісти на ваші запитання та допомогти з вибором
+          ідеального матраца
         </p>
 
         <div className="contacts__content">
@@ -252,11 +252,16 @@ const Contacts = () => {
 
               {submitSuccess && (
                 <div className="contacts__success-message">
-                  ✓ Дякуємо! Ваше повідомлення успішно надіслано. Ми зв'яжемось з вами найближчим часом.
+                  ✓ Дякуємо! Ваше повідомлення успішно надіслано. Ми зв'яжемось
+                  з вами найближчим часом.
                 </div>
               )}
 
-              <form className="contacts__form" onSubmit={handleSubmit} noValidate>
+              <form
+                className="contacts__form"
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 <div className="contacts__form-group">
                   <label className="contacts__label">
                     Ваше ім'я <span className="contacts__required">*</span>
@@ -269,7 +274,9 @@ const Contacts = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`contacts__input ${
-                      touched.name && errors.name ? "contacts__input--error" : ""
+                      touched.name && errors.name
+                        ? "contacts__input--error"
+                        : ""
                     }`}
                     disabled={isSubmitting}
                   />
@@ -290,7 +297,9 @@ const Contacts = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`contacts__input ${
-                      touched.phone && errors.phone ? "contacts__input--error" : ""
+                      touched.phone && errors.phone
+                        ? "contacts__input--error"
+                        : ""
                     }`}
                     disabled={isSubmitting}
                   />
@@ -301,7 +310,8 @@ const Contacts = () => {
 
                 <div className="contacts__form-group">
                   <label className="contacts__label">
-                    Електронна пошта <span className="contacts__required">*</span>
+                    Електронна пошта
+                    <span className="contacts__required">*</span>
                   </label>
                   <input
                     type="email"
@@ -311,7 +321,9 @@ const Contacts = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`contacts__input ${
-                      touched.email && errors.email ? "contacts__input--error" : ""
+                      touched.email && errors.email
+                        ? "contacts__input--error"
+                        : ""
                     }`}
                     disabled={isSubmitting}
                   />
@@ -357,9 +369,7 @@ const Contacts = () => {
             </div>
           </div>
 
-          {/* Контактна інформація і карта */}
           <div className="contacts__info-section">
-            {/* Контактні дані */}
             <div className="contacts__card contacts__info-card">
               <h2 className="contacts__card-title">Контактні дані</h2>
               <div className="contacts__info-list">
@@ -397,31 +407,62 @@ const Contacts = () => {
                   <span className="contacts__info-text">Пн–Сб 10:00–20:00</span>
                 </div>
 
-                <div className="contacts__info-item">
+                <div className="contacts__info-item contacts__info-item--socials">
                   <span className="contacts__info-label">Соцмережі:</span>
                   <div className="contacts__social">
                     <a
                       href="#"
                       className="contacts__social-link"
                       aria-label="Telegram"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      Telegram
+                      <svg
+                        className="contacts__social-icon"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        aria-hidden="true"
+                      >
+                        <path d="M9.04 15.07 8.9 18a.9.9 0 0 0 .71-.34l1.71-1.64 3.55 2.6c.65.36 1.12.17 1.28-.6l2.32-10.9c.21-.96-.35-1.33-1.02-1.1L3.9 9.2c-.94.34-.93.83-.17 1.05l4.2 1.31 9.76-6.15-8.65 7.66z" />
+                      </svg>
+                      <span className="contacts__social-text">Telegram</span>
                     </a>
-                    <span className="contacts__social-separator">·</span>
                     <a
                       href="#"
                       className="contacts__social-link"
                       aria-label="Instagram"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      Instagram
+                      <svg
+                        className="contacts__social-icon"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm6-1.25a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z" />
+                      </svg>
+                      <span className="contacts__social-text">Instagram</span>
                     </a>
-                    <span className="contacts__social-separator">·</span>
                     <a
                       href="#"
                       className="contacts__social-link"
                       aria-label="Facebook"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      Facebook
+                      <svg
+                        className="contacts__social-icon"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        aria-hidden="true"
+                      >
+                        <path d="M13 22v-8h3l1-4h-4V7a2 2 0 0 1 2-2h2V1h-3a5 5 0 0 0-5 5v4H6v4h3v8h4z" />
+                      </svg>
+                      <span className="contacts__social-text">Facebook</span>
                     </a>
                   </div>
                 </div>
