@@ -45,21 +45,18 @@ const Product = () => {
                 size: "160×200",
                 price: foundProduct.price,
                 oldPrice: foundProduct.oldPrice,
-                inStock: foundProduct.inStock !== false,
               },
               {
                 id: `${foundProduct.id}-2`,
                 size: "180×200",
                 price: foundProduct.price + 1000,
                 oldPrice: foundProduct.oldPrice ? foundProduct.oldPrice + 1000 : null,
-                inStock: true,
               },
               {
                 id: `${foundProduct.id}-3`,
                 size: "200×200",
                 price: foundProduct.price + 2000,
                 oldPrice: foundProduct.oldPrice ? foundProduct.oldPrice + 2000 : null,
-                inStock: true,
               },
             ],
             images: foundProduct.images || [
@@ -71,10 +68,8 @@ const Product = () => {
 
           setProduct(productWithVariants);
 
-          // Вибираємо початковий варіант: перший в наявності або перший у списку
-          const initialVariant = productWithVariants.variants.find(v => v.inStock) 
-            || productWithVariants.variants[0];
-          setSelectedVariant(initialVariant);
+          // Вибираємо перший варіант
+          setSelectedVariant(productWithVariants.variants[0]);
           
           // Завантажуємо всі схожі продукти (без slice для каруселі)
           const similar = response.items.filter(
@@ -237,34 +232,22 @@ const Product = () => {
                       key={variant.id}
                       className={`size-button ${
                         selectedVariant?.id === variant.id ? "size-button--active" : ""
-                      } ${!variant.inStock ? "size-button--out-of-stock" : ""}`}
+                      }`}
                       onClick={() => handleVariantChange(variant)}
-                      disabled={!variant.inStock}
                       aria-pressed={selectedVariant?.id === variant.id}
-                      aria-label={`Розмір ${variant.size}${!variant.inStock ? ' - немає в наявності' : ''}`}
+                      aria-label={`Розмір ${variant.size}`}
                     >
                       {variant.size}
-                      {!variant.inStock && (
-                        <span className="size-button__badge">Немає</span>
-                      )}
                     </button>
                   ))}
                 </div>
               </div>
-
-              {/* Stock Status */}
-              {selectedVariant && !selectedVariant.inStock && (
-                <div className="product-info__stock-warning" role="alert">
-                  <span>⚠️ Обраний розмір немає в наявності</span>
-                </div>
-              )}
 
               {/* Actions */}
               <div className="product-info__actions">
                 <button 
                   className="btn btn--primary btn--large"
                   onClick={handleAddToCart}
-                  disabled={!selectedVariant?.inStock}
                   aria-label="Додати товар у кошик"
                 >
                   Додати в кошик
@@ -272,16 +255,10 @@ const Product = () => {
                 <button 
                   className="btn btn--secondary btn--large"
                   onClick={handleBuyNow}
-                  disabled={!selectedVariant?.inStock}
                   aria-label="Швидка покупка товару"
                 >
                   Купити зараз
                 </button>
-                <WishlistButton 
-                  product={product} 
-                  variant="with-text" 
-                  className="product-info__wishlist-button"
-                />
               </div>
             </div>
           </div>

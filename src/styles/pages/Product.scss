@@ -721,30 +721,3 @@
     transition-duration: 0.01ms !important;
   }
 }
-
-// ========================================
-// DARK MODE SUPPORT (optional)
-// ========================================
-
-@media (prefers-color-scheme: dark) {
-  .product-page {
-    background-color: $neutral-900;
-  }
-
-  .product-tabs {
-    background-color: $neutral-800;
-  }
-
-  .characteristic-item,
-  .comment-form,
-  .reviews-list__empty {
-    background-color: $neutral-800;
-  }
-
-  .comment-form__input,
-  .comment-form__textarea {
-    background-color: $neutral-900;
-    border-color: $neutral-700;
-    color: $neutral-100;
-  }
-}
