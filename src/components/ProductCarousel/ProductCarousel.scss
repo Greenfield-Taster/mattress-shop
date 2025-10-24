@@ -63,6 +63,7 @@
     cursor: grab;
     user-select: none;
     padding-bottom: $spacing-4;
+    padding-top: $spacing-1;
 
     &::-webkit-scrollbar {
       display: none;

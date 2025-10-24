@@ -1,7 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
-import { useWishlist } from "../hooks/useWishlist";
 import { fetchProducts } from "../api/fetchProducts";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
 import ProductCarousel from "../components/ProductCarousel/ProductCarousel";
@@ -12,19 +11,19 @@ const Product = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
-  
+
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState("characteristics");
   const [loading, setLoading] = useState(true);
-  
+
   // Форма для коментарів
   const [commentForm, setCommentForm] = useState({
     name: "",
     email: "",
     rating: 5,
-    comment: ""
+    comment: "",
   });
 
   // Завантаження продукту та схожих товарів
@@ -33,8 +32,10 @@ const Product = () => {
       setLoading(true);
       try {
         const response = await fetchProducts({ limit: 100 });
-        const foundProduct = response.items.find(item => item.id === parseInt(id));
-        
+        const foundProduct = response.items.find(
+          (item) => item.id === parseInt(id)
+        );
+
         if (foundProduct) {
           // Додаємо варіанти розмірів якщо їх немає
           const productWithVariants = {
@@ -50,13 +51,17 @@ const Product = () => {
                 id: `${foundProduct.id}-2`,
                 size: "180×200",
                 price: foundProduct.price + 1000,
-                oldPrice: foundProduct.oldPrice ? foundProduct.oldPrice + 1000 : null,
+                oldPrice: foundProduct.oldPrice
+                  ? foundProduct.oldPrice + 1000
+                  : null,
               },
               {
                 id: `${foundProduct.id}-3`,
                 size: "200×200",
                 price: foundProduct.price + 2000,
-                oldPrice: foundProduct.oldPrice ? foundProduct.oldPrice + 2000 : null,
+                oldPrice: foundProduct.oldPrice
+                  ? foundProduct.oldPrice + 2000
+                  : null,
               },
             ],
             images: foundProduct.images || [
@@ -70,10 +75,11 @@ const Product = () => {
 
           // Вибираємо перший варіант
           setSelectedVariant(productWithVariants.variants[0]);
-          
+
           // Завантажуємо всі схожі продукти (без slice для каруселі)
           const similar = response.items.filter(
-            item => item.type === foundProduct.type && item.id !== foundProduct.id
+            (item) =>
+              item.type === foundProduct.type && item.id !== foundProduct.id
           );
           setRelatedProducts(similar);
         }
@@ -125,18 +131,21 @@ const Product = () => {
     setActiveTab(tab);
   }, []);
 
-  const handleCommentSubmit = useCallback((e) => {
-    e.preventDefault();
-    // TODO: Відправка коментаря на сервер
-    console.log("Comment submitted:", commentForm);
-    // Очистити форму
-    setCommentForm({
-      name: "",
-      email: "",
-      rating: 5,
-      comment: ""
-    });
-  }, [commentForm]);
+  const handleCommentSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      // TODO: Відправка коментаря на сервер
+      console.log("Comment submitted:", commentForm);
+      // Очистити форму
+      setCommentForm({
+        name: "",
+        email: "",
+        rating: 5,
+        comment: "",
+      });
+    },
+    [commentForm]
+  );
 
   // Loading state
   if (loading) {
@@ -159,7 +168,10 @@ const Product = () => {
         <div className="container">
           <h2>Товар не знайдено</h2>
           <p>На жаль, цей товар недоступний або видалений з каталогу.</p>
-          <button onClick={() => navigate("/catalog")} className="btn btn--primary">
+          <button
+            onClick={() => navigate("/catalog")}
+            className="btn btn--primary"
+          >
             Повернутися до каталогу
           </button>
         </div>
@@ -169,24 +181,13 @@ const Product = () => {
 
   return (
     <div className="product-page">
-      {/* Breadcrumbs */}
-      <div className="container">
-        <nav className="breadcrumbs" aria-label="Breadcrumb">
-          <Link to="/" className="breadcrumbs__link">Головна</Link>
-          <span className="breadcrumbs__separator" aria-hidden="true">/</span>
-          <Link to="/catalog" className="breadcrumbs__link">Каталог</Link>
-          <span className="breadcrumbs__separator" aria-hidden="true">/</span>
-          <span className="breadcrumbs__current">{product.name}</span>
-        </nav>
-      </div>
-
       {/* Product Details Section */}
       <section className="product-details">
         <div className="container">
           <div className="product-details__grid">
             {/* Image Gallery */}
-            <ProductGallery 
-              images={images} 
+            <ProductGallery
+              images={images}
               alt={product.name}
               priority={true}
             />
@@ -197,15 +198,28 @@ const Product = () => {
                 <h1 className="product-info__title">{product.name}</h1>
                 <WishlistButton product={product} variant="default" />
               </div>
-              
+
               <div className="product-info__features">
-                <span className="product-info__feature">{product.blockType}</span>
-                <span className="product-info__separator" aria-hidden="true">•</span>
-                <span className="product-info__feature">{product.hardness}</span>
+                <span className="product-info__feature">
+                  {product.blockType}
+                </span>
+                <span className="product-info__separator" aria-hidden="true">
+                  •
+                </span>
+                <span className="product-info__feature">
+                  {product.hardness}
+                </span>
                 {product.cover && (
                   <>
-                    <span className="product-info__separator" aria-hidden="true">•</span>
-                    <span className="product-info__feature">{product.cover} чохол</span>
+                    <span
+                      className="product-info__separator"
+                      aria-hidden="true"
+                    >
+                      •
+                    </span>
+                    <span className="product-info__feature">
+                      {product.cover} чохол
+                    </span>
                   </>
                 )}
               </div>
@@ -223,15 +237,15 @@ const Product = () => {
 
               {/* Size Variants */}
               <div className="product-info__size">
-                <label className="product-info__label">
-                  Розмір (см)
-                </label>
+                <label className="product-info__label">Розмір (см)</label>
                 <div className="product-info__size-options">
                   {variants.map((variant) => (
                     <button
                       key={variant.id}
                       className={`size-button ${
-                        selectedVariant?.id === variant.id ? "size-button--active" : ""
+                        selectedVariant?.id === variant.id
+                          ? "size-button--active"
+                          : ""
                       }`}
                       onClick={() => handleVariantChange(variant)}
                       aria-pressed={selectedVariant?.id === variant.id}
@@ -245,14 +259,14 @@ const Product = () => {
 
               {/* Actions */}
               <div className="product-info__actions">
-                <button 
+                <button
                   className="btn btn--primary btn--large"
                   onClick={handleAddToCart}
                   aria-label="Додати товар у кошик"
                 >
                   Додати в кошик
                 </button>
-                <button 
+                <button
                   className="btn btn--secondary btn--large"
                   onClick={handleBuyNow}
                   aria-label="Швидка покупка товару"
@@ -310,7 +324,7 @@ const Product = () => {
 
             <div className="tabs__content">
               {activeTab === "characteristics" && (
-                <div 
+                <div
                   role="tabpanel"
                   id="characteristics-panel"
                   aria-labelledby="characteristics-tab"
@@ -319,23 +333,37 @@ const Product = () => {
                   <div className="characteristics-grid">
                     <div className="characteristic-item">
                       <span className="characteristic-item__label">Тип:</span>
-                      <span className="characteristic-item__value">{product.type}</span>
+                      <span className="characteristic-item__value">
+                        {product.type}
+                      </span>
                     </div>
                     <div className="characteristic-item">
-                      <span className="characteristic-item__label">Висота:</span>
-                      <span className="characteristic-item__value">{product.height} см</span>
+                      <span className="characteristic-item__label">
+                        Висота:
+                      </span>
+                      <span className="characteristic-item__value">
+                        {product.height} см
+                      </span>
                     </div>
                     <div className="characteristic-item">
-                      <span className="characteristic-item__label">Жорсткість:</span>
-                      <span className="characteristic-item__value">{product.hardness}</span>
+                      <span className="characteristic-item__label">
+                        Жорсткість:
+                      </span>
+                      <span className="characteristic-item__value">
+                        {product.hardness}
+                      </span>
                     </div>
                     <div className="characteristic-item">
                       <span className="characteristic-item__label">Блок:</span>
-                      <span className="characteristic-item__value">{product.blockType}</span>
+                      <span className="characteristic-item__value">
+                        {product.blockType}
+                      </span>
                     </div>
                     {product.fillers && (
                       <div className="characteristic-item">
-                        <span className="characteristic-item__label">Наповнювачі:</span>
+                        <span className="characteristic-item__label">
+                          Наповнювачі:
+                        </span>
                         <span className="characteristic-item__value">
                           {product.fillers.join(", ")}
                         </span>
@@ -343,25 +371,34 @@ const Product = () => {
                     )}
                     {product.cover && (
                       <div className="characteristic-item">
-                        <span className="characteristic-item__label">Чохол:</span>
-                        <span className="characteristic-item__value">{product.cover}</span>
+                        <span className="characteristic-item__label">
+                          Чохол:
+                        </span>
+                        <span className="characteristic-item__value">
+                          {product.cover}
+                        </span>
                       </div>
                     )}
                     {product.maxWeight && (
                       <div className="characteristic-item">
-                        <span className="characteristic-item__label">Макс. вага:</span>
-                        <span className="characteristic-item__value">до {product.maxWeight} кг</span>
+                        <span className="characteristic-item__label">
+                          Макс. вага:
+                        </span>
+                        <span className="characteristic-item__value">
+                          до {product.maxWeight} кг
+                        </span>
                       </div>
                     )}
                   </div>
                   <p className="tab-content__description">
-                    Рекомендації: провітрювати кожні 2 місяці, використовувати наматрацник для захисту.
+                    Рекомендації: провітрювати кожні 2 місяці, використовувати
+                    наматрацник для захисту.
                   </p>
                 </div>
               )}
 
               {activeTab === "reviews" && (
-                <div 
+                <div
                   role="tabpanel"
                   id="reviews-panel"
                   aria-labelledby="reviews-tab"
@@ -380,7 +417,12 @@ const Product = () => {
                           type="text"
                           className="comment-form__input"
                           value={commentForm.name}
-                          onChange={(e) => setCommentForm({...commentForm, name: e.target.value})}
+                          onChange={(e) =>
+                            setCommentForm({
+                              ...commentForm,
+                              name: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -394,7 +436,12 @@ const Product = () => {
                           type="email"
                           className="comment-form__input"
                           value={commentForm.email}
-                          onChange={(e) => setCommentForm({...commentForm, email: e.target.value})}
+                          onChange={(e) =>
+                            setCommentForm({
+                              ...commentForm,
+                              email: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -410,9 +457,13 @@ const Product = () => {
                               aria-checked={star === commentForm.rating}
                               aria-label={`${star} з 5 зірок`}
                               className={`comment-form__star ${
-                                star <= commentForm.rating ? "comment-form__star--active" : ""
+                                star <= commentForm.rating
+                                  ? "comment-form__star--active"
+                                  : ""
                               }`}
-                              onClick={() => setCommentForm({...commentForm, rating: star})}
+                              onClick={() =>
+                                setCommentForm({ ...commentForm, rating: star })
+                              }
                             >
                               ★
                             </button>
@@ -421,7 +472,10 @@ const Product = () => {
                       </div>
 
                       <div className="comment-form__group">
-                        <label htmlFor="comment" className="comment-form__label">
+                        <label
+                          htmlFor="comment"
+                          className="comment-form__label"
+                        >
                           Ваш відгук *
                         </label>
                         <textarea
@@ -429,7 +483,12 @@ const Product = () => {
                           className="comment-form__textarea"
                           rows="5"
                           value={commentForm.comment}
-                          onChange={(e) => setCommentForm({...commentForm, comment: e.target.value})}
+                          onChange={(e) =>
+                            setCommentForm({
+                              ...commentForm,
+                              comment: e.target.value,
+                            })
+                          }
                           required
                         ></textarea>
                       </div>
@@ -450,7 +509,7 @@ const Product = () => {
               )}
 
               {activeTab === "certificates" && (
-                <div 
+                <div
                   role="tabpanel"
                   id="certificates-panel"
                   aria-labelledby="certificates-tab"
@@ -468,10 +527,7 @@ const Product = () => {
 
       {/* Similar Products Carousel */}
       {relatedProducts.length > 0 && (
-        <ProductCarousel 
-          products={relatedProducts} 
-          title="Схожі товари"
-        />
+        <ProductCarousel products={relatedProducts} title="Схожі товари" />
       )}
     </div>
   );
