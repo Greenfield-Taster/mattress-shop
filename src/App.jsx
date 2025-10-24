@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
 import Layout from "./layout/Layout";
 import ScrollToTop from "./utils/ScrollToTop";
 import Home from "./pages/Home";
@@ -18,21 +19,23 @@ function App() {
 
   return (
     <AuthProvider>
-      <CartProvider currency="₴">
-        <Router basename={basename}>
-          <ScrollToTop />
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/catalog" element={<Catalog />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </Router>
-      </CartProvider>
+      <WishlistProvider>
+        <CartProvider currency="₴">
+          <Router basename={basename}>
+            <ScrollToTop />
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/catalog" element={<Catalog />} />
+                <Route path="/product/:id" element={<Product />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          </Router>
+        </CartProvider>
+      </WishlistProvider>
     </AuthProvider>
   );
 }

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
+import WishlistButton from "../WishlistButton/WishlistButton";
 import "./ProductCard.scss";
 
 const ProductCard = ({ product }) => {
@@ -13,6 +14,7 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     
     addItem({
       id,
@@ -28,26 +30,42 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <div className="product-card__image-wrapper">
-        <img src={image} alt={name} className="product-card__image" />
+        <Link to={`/product/${id}`} className="product-card__image-link">
+          <img 
+            src={image} 
+            alt={name} 
+            className="product-card__image"
+            loading="lazy"
+            width={290}
+            height={290}
+          />
+        </Link>
+        
         {hasDiscount && (
           <div className="product-card__discount">-{discountPercent}%</div>
         )}
+        
+        <div className="product-card__wishlist">
+          <WishlistButton product={product} variant="small" />
+        </div>
       </div>
 
       <div className="product-card__content">
-        <h3 className="product-card__title">{name}</h3>
+        <Link to={`/product/${id}`} className="product-card__title-link">
+          <h3 className="product-card__title">{name}</h3>
+        </Link>
 
         <div className="product-card__specs">
           {type && <span className="product-card__spec">{type}</span>}
           {height && (
             <>
-              <span className="product-card__separator">•</span>
+              <span className="product-card__separator" aria-hidden="true">•</span>
               <span className="product-card__spec">{height} см</span>
             </>
           )}
           {hardness && (
             <>
-              <span className="product-card__separator">•</span>
+              <span className="product-card__separator" aria-hidden="true">•</span>
               <span className="product-card__spec">{hardness}</span>
             </>
           )}
@@ -74,6 +92,7 @@ const ProductCard = ({ product }) => {
           <button
             className="product-card__button product-card__button--secondary"
             onClick={handleAddToCart}
+            aria-label={`Додати ${name} в кошик`}
           >
             До кошика
           </button>

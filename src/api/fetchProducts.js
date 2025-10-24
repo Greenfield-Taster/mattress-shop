@@ -16,6 +16,7 @@ const mockProducts = [
     price: 7990,
     oldPrice: 9990,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress, springMattress, springMattress],
     size: "160х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Піна з пам'яттю"],
@@ -24,6 +25,12 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 20,
+    variants: [
+      { id: 1, size: "140×200", price: 6990, oldPrice: 8990, inStock: true },
+      { id: 2, size: "160×200", price: 7990, oldPrice: 9990, inStock: true },
+      { id: 3, size: "180×200", price: 8990, oldPrice: 10990, inStock: true },
+      { id: 4, size: "200×200", price: 9990, oldPrice: 11990, inStock: false },
+    ],
   },
   {
     id: 2,
@@ -34,6 +41,7 @@ const mockProducts = [
     price: 12500,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress],
     size: "180х200",
     blockType: "Безпружинний",
     fillers: ["Латексована піна", "Кокосове полотно"],
@@ -42,6 +50,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
+    variants: [
+      { id: 5, size: "160×200", price: 11500, inStock: true },
+      { id: 6, size: "180×200", price: 12500, inStock: true },
+      { id: 7, size: "200×200", price: 13500, inStock: true },
+    ],
   },
   {
     id: 3,
@@ -52,6 +65,7 @@ const mockProducts = [
     price: 5490,
     oldPrice: 6990,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress],
     size: "70х160",
     blockType: "Безпружинний",
     fillers: ["Кокосове полотно"],
@@ -60,6 +74,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 21,
+    variants: [
+      { id: 8, size: "60×120", price: 4490, oldPrice: 5490, inStock: true },
+      { id: 9, size: "70×140", price: 4990, oldPrice: 5990, inStock: true },
+      { id: 10, size: "70×160", price: 5490, oldPrice: 6990, inStock: true },
+    ],
   },
   {
     id: 4,
@@ -70,6 +89,7 @@ const mockProducts = [
     price: 15990,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress, springMattress],
     size: "200х200",
     blockType: "Безпружинний",
     fillers: ["Піна з пам'яттю", "Латекс"],
@@ -78,6 +98,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
+    variants: [
+      { id: 11, size: "160×200", price: 13990, inStock: true },
+      { id: 12, size: "180×200", price: 14990, inStock: true },
+      { id: 13, size: "200×200", price: 15990, inStock: true },
+    ],
   },
   {
     id: 5,
@@ -88,6 +113,7 @@ const mockProducts = [
     price: 6990,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress],
     size: "140х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латексована піна"],
@@ -96,6 +122,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
+    variants: [
+      { id: 14, size: "90×200", price: 5490, inStock: true },
+      { id: 15, size: "140×200", price: 6990, inStock: true },
+      { id: 16, size: "160×200", price: 7490, inStock: true },
+    ],
   },
   {
     id: 6,
@@ -106,6 +137,7 @@ const mockProducts = [
     price: 2990,
     oldPrice: 3990,
     image: springMattress,
+    images: [springMattress, springMattress],
     size: "180х200",
     blockType: "Безпружинний",
     fillers: ["Піна з пам'яттю"],
@@ -114,6 +146,11 @@ const mockProducts = [
     inStock: false,
     isNew: false,
     discount: 25,
+    variants: [
+      { id: 17, size: "140×200", price: 2490, oldPrice: 3490, inStock: false },
+      { id: 18, size: "160×200", price: 2790, oldPrice: 3790, inStock: false },
+      { id: 19, size: "180×200", price: 2990, oldPrice: 3990, inStock: false },
+    ],
   },
   {
     id: 7,
@@ -124,6 +161,7 @@ const mockProducts = [
     price: 4990,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress],
     size: "90х200",
     blockType: "Безпружинний",
     fillers: ["Латексована піна"],
@@ -132,6 +170,10 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
+    variants: [
+      { id: 20, size: "80×190", price: 4490, inStock: true },
+      { id: 21, size: "90×200", price: 4990, inStock: true },
+    ],
   },
   {
     id: 8,
@@ -142,6 +184,7 @@ const mockProducts = [
     price: 18990,
     oldPrice: 22990,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress, springMattress, springMattress, springMattress],
     size: "200х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Кокосове полотно"],
@@ -150,6 +193,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 17,
+    variants: [
+      { id: 22, size: "160×200", price: 16990, oldPrice: 20990, inStock: true },
+      { id: 23, size: "180×200", price: 17990, oldPrice: 21990, inStock: true },
+      { id: 24, size: "200×200", price: 18990, oldPrice: 22990, inStock: true },
+    ],
   },
   {
     id: 9,
@@ -160,6 +208,7 @@ const mockProducts = [
     price: 8990,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress],
     size: "160х200",
     blockType: "Безпружинний",
     fillers: ["Кокосове полотно", "Латекс"],
@@ -168,6 +217,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
+    variants: [
+      { id: 25, size: "140×200", price: 7990, inStock: true },
+      { id: 26, size: "160×200", price: 8990, inStock: true },
+      { id: 27, size: "180×200", price: 9990, inStock: true },
+    ],
   },
   {
     id: 10,
@@ -178,6 +232,7 @@ const mockProducts = [
     price: 4490,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress],
     size: "60х120",
     blockType: "Безпружинний",
     fillers: ["Кокосове полотно"],
@@ -186,6 +241,10 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
+    variants: [
+      { id: 28, size: "60×120", price: 4490, inStock: true },
+      { id: 29, size: "70×140", price: 4990, inStock: true },
+    ],
   },
   {
     id: 11,
@@ -196,6 +255,7 @@ const mockProducts = [
     price: 13990,
     oldPrice: 16990,
     image: springMattress,
+    images: [springMattress, springMattress, springMattress, springMattress, springMattress],
     size: "180х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Піна з пам'яттю"],
@@ -204,6 +264,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 18,
+    variants: [
+      { id: 30, size: "160×200", price: 12990, oldPrice: 15990, inStock: true },
+      { id: 31, size: "180×200", price: 13990, oldPrice: 16990, inStock: true },
+      { id: 32, size: "200×200", price: 14990, oldPrice: 17990, inStock: true },
+    ],
   },
   {
     id: 12,
@@ -214,6 +279,7 @@ const mockProducts = [
     price: 1990,
     oldPrice: null,
     image: springMattress,
+    images: [springMattress, springMattress],
     size: "160х200",
     blockType: "Безпружинний",
     fillers: ["Піна з пам'яттю"],
@@ -222,6 +288,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
+    variants: [
+      { id: 33, size: "140×200", price: 1790, inStock: true },
+      { id: 34, size: "160×200", price: 1990, inStock: true },
+      { id: 35, size: "180×200", price: 2190, inStock: true },
+    ],
   },
 ];
 

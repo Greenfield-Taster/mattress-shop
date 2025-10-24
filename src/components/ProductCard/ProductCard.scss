@@ -47,6 +47,13 @@
     flex-shrink: 0;
   }
 
+  &__image-link,
+  &__title-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
   &__image {
     position: absolute;
     inset: 0;
@@ -74,7 +81,27 @@
     box-shadow: v.$shadow-sm;
     line-height: 1;
     letter-spacing: v.$letter-spacing-tight;
-    z-index: 1;
+    z-index: 2;
+  }
+
+  &__wishlist {
+    position: absolute;
+    top: v.$spacing-3;
+    left: v.$spacing-3;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+
+    .product-card:hover & {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   &__content {
