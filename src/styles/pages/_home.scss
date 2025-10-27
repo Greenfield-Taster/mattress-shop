@@ -44,7 +44,7 @@
 .hero {
   padding: v.$spacing-16 0;
   background: linear-gradient(to bottom, #f8fafc 0%, #e2e8f0 100%);
-  min-height: 90vh;
+  min-height: 55vh;
   display: flex;
   align-items: center;
   position: relative;
@@ -55,30 +55,30 @@
     min-height: auto;
   }
   @media (max-width: v.$breakpoint-sm) {
-    padding: v.$spacing-10 0;
+    padding: v.$spacing-10 0 v.$spacing-16 0;
   }
 
   &__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 80px;
+    gap: 60px;
     position: relative;
     z-index: 10;
 
     @media (max-width: v.$breakpoint-lg) {
-      gap: 60px;
+      gap: 40px;
     }
     @media (max-width: v.$breakpoint-md) {
       flex-direction: column;
-      gap: v.$spacing-8;
+      gap: v.$spacing-10;
       text-align: center;
     }
   }
 
   &__text {
     flex: 1;
-    max-width: 600px;
+    max-width: 550px;
     z-index: 1;
     position: relative;
 
@@ -88,7 +88,7 @@
   }
 
   &__title {
-    font-size: 64px;
+    font-size: 54px;
     font-weight: v.$font-weight-bold;
     line-height: 1.1;
     margin: 0 0 v.$spacing-6 0;
@@ -96,24 +96,27 @@
     letter-spacing: -0.02em;
 
     @media (max-width: v.$breakpoint-lg) {
-      font-size: 52px;
-    }
-    @media (max-width: v.$breakpoint-md) {
       font-size: 48px;
     }
+    @media (max-width: v.$breakpoint-md) {
+      font-size: 42px;
+    }
     @media (max-width: v.$breakpoint-sm) {
-      font-size: 36px;
+      font-size: 32px;
     }
   }
 
   &__subtitle {
-    font-size: 18px;
-    line-height: 1.7;
+    font-size: 17px;
+    line-height: 1.6;
     color: v.$color-text-secondary;
     margin: 0 0 v.$spacing-10 0;
 
     @media (max-width: v.$breakpoint-md) {
       font-size: 16px;
+    }
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 15px;
     }
   }
 
@@ -132,10 +135,10 @@
   }
 
   &__button {
-    padding: v.$spacing-4 v.$spacing-8;
+    padding: 15px 32px;
     font-size: v.$font-size-base;
     font-weight: v.$font-weight-semibold;
-    border-radius: v.$radius-button;
+    border-radius: 10px;
     text-decoration: none;
     transition: all 0.3s ease;
     display: inline-block;
@@ -144,16 +147,16 @@
     @media (max-width: v.$breakpoint-sm) {
       width: 100%;
       text-align: center;
+      padding: 14px 28px;
     }
 
     &--primary {
-      background-color: v.$color-text-primary;
+      background-color: v.$brand-primary-500;
       color: v.$neutral-0;
 
       &:hover {
-        background-color: #1e293b;
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+        box-shadow: 0 10px 25px #11397966;
       }
       &:active {
         transform: translateY(0);
@@ -169,7 +172,7 @@
         background-color: #f8fafc;
         border-color: #cbd5e1;
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
       }
       &:active {
         transform: translateY(0);
@@ -184,74 +187,91 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    min-width: 550px;
 
+    @media (max-width: v.$breakpoint-lg) {
+      min-width: 480px;
+    }
     @media (max-width: v.$breakpoint-md) {
       width: 100%;
-      margin-top: v.$spacing-6;
+      min-width: auto;
+      margin-top: v.$spacing-8;
     }
   }
 
   &__mattress-shape {
     position: relative;
-    width: 600px;
-    height: 400px;
+    width: 700px;
+    height: 420px;
 
     @media (max-width: v.$breakpoint-lg) {
-      width: 500px;
-      height: 350px;
+      width: 600px;
+      height: 370px;
     }
     @media (max-width: v.$breakpoint-md) {
-      width: 450px;
-      height: 320px;
+      width: 550px;
+      height: 350px;
     }
     @media (max-width: v.$breakpoint-sm) {
-      width: 350px;
-      height: 250px;
+      width: 100%;
+      max-width: 420px;
+      height: 280px;
     }
 
-    // Білий хвилястий матрац з тінями
+    // Білий овальний матрац без кола, просто овал з тінями
     &::before {
-      content: '';
+      content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 85%;
       background: v.$neutral-0;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.15),
-        0 15px 30px rgba(0, 0, 0, 0.1),
-        inset 0 -20px 40px rgba(0, 0, 0, 0.05);
-      transform: perspective(1000px) rotateX(-5deg);
+      border-radius: 50%;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.18),
+        0 20px 40px rgba(0, 0, 0, 0.12), 0 10px 20px rgba(0, 0, 0, 0.08),
+        inset 0 -15px 30px rgba(0, 0, 0, 0.04);
+
+      @media (max-width: v.$breakpoint-sm) {
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.16),
+          0 15px 30px rgba(0, 0, 0, 0.1), 0 8px 15px rgba(0, 0, 0, 0.06);
+      }
     }
 
-    // Тінь знизу матрацу
+    // Велика тінь знизу матрацу
     &::after {
-      content: '';
+      content: "";
       position: absolute;
-      bottom: -40px;
+      bottom: -60px;
       left: 50%;
       transform: translateX(-50%);
-      width: 500px;
-      height: 80px;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, transparent 70%);
+      width: 70%;
+      height: 100px;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        transparent 70%
+      );
       border-radius: 50%;
-      filter: blur(20px);
+      filter: blur(25px);
 
       @media (max-width: v.$breakpoint-lg) {
-        width: 400px;
-        height: 60px;
-        bottom: -30px;
+        width: 65%;
+        height: 80px;
+        bottom: -50px;
       }
       @media (max-width: v.$breakpoint-md) {
-        width: 350px;
-        height: 50px;
+        width: 60%;
+        height: 70px;
+        bottom: -40px;
       }
       @media (max-width: v.$breakpoint-sm) {
-        width: 280px;
-        height: 40px;
-        bottom: -20px;
+        width: 55%;
+        height: 50px;
+        bottom: -30px;
+        filter: blur(20px);
       }
     }
   }
@@ -261,24 +281,24 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;
-    height: 300px;
+    width: 600px;
+    height: 380px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
 
     @media (max-width: v.$breakpoint-lg) {
-      width: 400px;
-      height: 250px;
+      width: 520px;
+      height: 330px;
     }
     @media (max-width: v.$breakpoint-md) {
-      width: 350px;
-      height: 220px;
+      width: 480px;
+      height: 300px;
     }
     @media (max-width: v.$breakpoint-sm) {
-      width: 300px;
-      height: 200px;
+      width: 90%;
+      height: 240px;
     }
   }
 
@@ -286,104 +306,16 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15));
+
+    @media (max-width: v.$breakpoint-sm) {
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
+    }
   }
 
   // Видаляємо старі стилі
   &__image {
     display: none;
-  }
-}
-
-// CATEGORIES BAR - іконки категорій під hero
-.categories-bar {
-  padding: v.$spacing-12 0;
-  background: v.$neutral-0;
-
-  @media (max-width: v.$breakpoint-md) {
-    padding: v.$spacing-10 0;
-  }
-  @media (max-width: v.$breakpoint-sm) {
-    padding: v.$spacing-8 0;
-  }
-
-  &__grid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: v.$spacing-10;
-    flex-wrap: wrap;
-
-    @media (max-width: v.$breakpoint-lg) {
-      gap: v.$spacing-8;
-    }
-    @media (max-width: v.$breakpoint-md) {
-      justify-content: center;
-      gap: v.$spacing-6;
-    }
-  }
-}
-
-.category-icon-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: v.$spacing-3;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: v.$spacing-4;
-  border-radius: v.$radius-lg;
-  text-decoration: none;
-  color: v.$color-text-primary;
-
-  @media (max-width: v.$breakpoint-md) {
-    flex: 1 1 calc(33.333% - 16px);
-    min-width: 100px;
-  }
-  @media (max-width: v.$breakpoint-sm) {
-    flex: 1 1 calc(50% - 12px);
-  }
-
-  &:hover {
-    transform: translateY(-5px);
-
-    .category-icon-item__icon {
-      transform: scale(1.1);
-      color: v.$brand-primary-500;
-    }
-  }
-
-  &__icon {
-    transition: all 0.3s ease;
-    color: v.$color-text-primary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      width: 40px;
-      height: 40px;
-
-      @media (max-width: v.$breakpoint-md) {
-        width: 36px;
-        height: 36px;
-      }
-      @media (max-width: v.$breakpoint-sm) {
-        width: 32px;
-        height: 32px;
-      }
-    }
-  }
-
-  span {
-    font-size: v.$font-size-base;
-    font-weight: v.$font-weight-medium;
-    color: v.$color-text-primary;
-    white-space: nowrap;
-
-    @media (max-width: v.$breakpoint-md) {
-      font-size: v.$font-size-sm;
-    }
   }
 }
 
