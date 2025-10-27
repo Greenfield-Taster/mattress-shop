@@ -3,7 +3,7 @@ import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
 import "../styles/pages/_home.scss";
 
-import heroCatImage from "../assets/images/hero-cat.png";
+import heroCatImage from "../assets/images/heero-cat.png";
 import springImage from "../assets/images/spring.png";
 import springlessImage from "../assets/images/springless.png";
 import kidsImage from "../assets/images/kids.png";
@@ -137,18 +137,203 @@ const Home = () => {
           <div className="hero__content">
             <div className="hero__text">
               <h1 className="hero__title">
-                Сон преміум-класу. Матраци для здорової спини.
+                Сон преміум-класу.
+                <br />
+                Матраци для
+                <br />
+                здорової спини
               </h1>
               <p className="hero__subtitle">
-                Ортопедична підтримка · Безпружинні та пружинні · Доставка 1-3
-                дні
+                Беапружинні, пружинні та дитячі моделі з піни,
+                <br />
+                латексу та кокосу. Підбір за вагою та жорсткісти.
               </p>
+              <div className="hero__buttons">
+                <Link
+                  to="/catalog"
+                  className="hero__button hero__button--primary"
+                >
+                  До каталогу
+                </Link>
+                <Link
+                  to="/quiz"
+                  className="hero__button hero__button--secondary"
+                >
+                  Підібрати за 30 сек
+                </Link>
+              </div>
             </div>
-            <div className="hero__image">
-              <img src={heroCatImage} alt="Котик на матраці" />
+            <div className="hero__mattress">
+              <div className="hero__mattress-shape">
+                <div className="hero__cat-container">
+                  <img
+                    src={heroCatImage}
+                    alt="Котик на матраці"
+                    className="hero__cat-image"
+                  />
+                </div>
+              </div>
             </div>
-            <Link to="/catalog" className="hero__button">
-              До каталогу
+          </div>
+        </div>
+      </section>
+
+      <section className="categories-bar">
+        <div className="container">
+          <div className="categories-bar__grid">
+            <Link to="/catalog?type=spring" className="category-icon-item">
+              <div className="category-icon-item__icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 5C11.716 5 5 11.716 5 20C5 28.284 11.716 35 20 35C28.284 35 35 28.284 35 20C35 11.716 28.284 5 20 5Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M20 10C20 10 15 15 15 20C15 25 20 30 20 30C20 30 25 25 25 20C25 15 20 10 20 10Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span>Пружинні</span>
+            </Link>
+            <Link to="/catalog?type=springless" className="category-icon-item">
+              <div className="category-icon-item__icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="20"
+                    cy="15"
+                    r="7"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M20 22C20 22 13 24 13 30H27C27 24 20 22 20 22Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span>Безпружинні</span>
+            </Link>
+            <Link to="/catalog?type=kids" className="category-icon-item">
+              <div className="category-icon-item__icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="20"
+                    cy="12"
+                    r="5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M20 17C20 17 14 19 14 24H26C26 19 20 17 20 17Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle
+                    cx="13"
+                    cy="32"
+                    r="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <circle
+                    cx="27"
+                    cy="32"
+                    r="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </div>
+              <span>Дитячі</span>
+            </Link>
+            <Link to="/catalog?type=toppers" className="category-icon-item">
+              <div className="category-icon-item__icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 20C10 20 12 12 20 12C28 12 30 20 30 20"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M10 20C10 20 12 28 20 28C28 28 30 20 30 20"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="20"
+                    y1="12"
+                    x2="20"
+                    y2="28"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </div>
+              <span>Топери</span>
+            </Link>
+            <Link to="/catalog?type=accessories" className="category-icon-item">
+              <div className="category-icon-item__icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 20C12 20 15 12 20 12C25 12 28 20 28 20C28 20 25 28 20 28C15 28 12 20 12 20Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="3"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </div>
+              <span>Аксесуари</span>
             </Link>
           </div>
         </div>
