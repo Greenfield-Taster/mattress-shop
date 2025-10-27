@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
 import { fetchProducts } from "../api/fetchProducts";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
-import ProductCarousel from "../components/ProductCarousel/ProductCarousel";
+import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import "../styles/pages/Product.scss";
 
@@ -527,7 +527,12 @@ const Product = () => {
 
       {/* Similar Products Carousel */}
       {relatedProducts.length > 0 && (
-        <ProductCarousel products={relatedProducts} title="Схожі товари" />
+        <UniversalCarousel
+          products={relatedProducts}
+          title="Схожі товари"
+          showTitle={true}
+          showControls={true}
+        />
       )}
     </div>
   );
