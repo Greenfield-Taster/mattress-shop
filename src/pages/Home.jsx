@@ -135,19 +135,16 @@ const Home = () => {
       <section className="hero">
         <div className="container">
           <div className="hero__content">
-            <div className="hero__text">
-              <h1 className="hero__title">
-                Сон преміум-класу.
-                <br />
-                Матраци для
-                <br />
-                здорової спини
-              </h1>
-              <p className="hero__subtitle">
-                Безпружинні, пружинні та дитячі моделі з піни,
-                <br />
-                латексу та кокосу. Підбір за вагою та жорсткісти.
-              </p>
+            <div className="hero__left">
+              <div className="hero__text">
+                <h1 className="hero__title">
+                  Матраци преміум-класу, що дбають про здоров'я спини
+                </h1>
+                <p className="hero__subtitle">
+                  Безпружинні, пружинні та дитячі моделі з піни, латексу та
+                  кокосу. Підбір за вагою та жорсткісти.
+                </p>
+              </div>
               <div className="hero__buttons">
                 <Link
                   to="/catalog"
@@ -171,6 +168,11 @@ const Home = () => {
                     alt="Котик на матраці"
                     className="hero__cat-image"
                   />
+                  <div className="hero__zzz">
+                    <span className="hero__zzz-item hero__zzz-item--1">Z</span>
+                    <span className="hero__zzz-item hero__zzz-item--2">Z</span>
+                    <span className="hero__zzz-item hero__zzz-item--3">Z</span>
+                  </div>
                 </div>
               </div>
             </div>
