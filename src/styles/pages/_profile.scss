@@ -1,9 +1,5 @@
 @import "../variables";
 
-// ========================================
-// PROFILE PAGE
-// ========================================
-
 .profile-page {
   min-height: calc(100vh - 80px);
   background: $color-background;
@@ -24,10 +20,6 @@
   }
 }
 
-// ========================================
-// PROFILE HEADER
-// ========================================
-
 .profile-header {
   display: flex;
   justify-content: space-between;
@@ -38,9 +30,16 @@
 
   @media (max-width: $breakpoint-md) {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: $spacing-4;
+    text-align: center;
     margin-bottom: $spacing-6;
+  }
+
+  .btn {
+    @media (max-width: $breakpoint-md) {
+      width: 100%;
+    }
   }
 }
 
@@ -64,10 +63,6 @@
   color: $color-text-secondary;
 }
 
-// ========================================
-// PROFILE CONTENT
-// ========================================
-
 .profile-content {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -77,10 +72,6 @@
     grid-template-columns: 1fr;
   }
 }
-
-// ========================================
-// PROFILE CARD
-// ========================================
 
 .profile-card {
   background: $neutral-0;
@@ -105,22 +96,41 @@
   margin-bottom: $spacing-6;
   padding-bottom: $spacing-4;
   border-bottom: 1px solid $color-border-light;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-4;
+  }
 }
 
 .profile-card__title {
   font-size: $font-size-xl;
   font-weight: $font-weight-semibold;
   color: $color-text-primary;
+
+  @media (max-width: $breakpoint-md) {
+    text-align: center;
+  }
+}
+
+.profile-card__title-info {
+  margin-bottom: $spacing-4;
 }
 
 .profile-card__actions {
   display: flex;
   gap: $spacing-2;
-}
 
-// ========================================
-// PROFILE MAIN (Avatar section)
-// ========================================
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
 
 .profile-main {
   grid-row: span 2;
@@ -181,10 +191,6 @@
   color: $color-text-secondary;
 }
 
-// ========================================
-// PROFILE STATS
-// ========================================
-
 .profile-stats {
   display: flex;
   flex-direction: column;
@@ -226,10 +232,6 @@
   color: $color-text-primary;
   font-weight: $font-weight-semibold;
 }
-
-// ========================================
-// PROFILE FORM
-// ========================================
 
 .profile-details {
   @media (max-width: $breakpoint-lg) {
@@ -315,10 +317,6 @@
   }
 }
 
-// ========================================
-// PROFILE INFO (Additional info section)
-// ========================================
-
 .profile-info {
   @media (max-width: $breakpoint-lg) {
     grid-column: 1;
@@ -333,7 +331,7 @@
 
 .profile-info__item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: $spacing-4;
   padding: $spacing-4;
   background: $neutral-50;
@@ -343,7 +341,6 @@
 
   &:hover {
     background: $neutral-100;
-    transform: translateX(4px);
   }
 }
 
@@ -424,6 +421,10 @@
 .btn-sm {
   padding: $spacing-2 $spacing-4;
   font-size: $font-size-sm;
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
 }
 
 .btn-icon {

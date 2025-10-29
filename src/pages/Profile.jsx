@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { User, Mail, Phone, MapPin, Calendar, Edit2, Save, X, LogOut } from "lucide-react";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Edit2,
+  Save,
+  X,
+  LogOut,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages/_profile.scss";
 
 const Profile = () => {
   const { user, logout, updateUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editedUser, setEditedUser] = useState({
@@ -27,21 +37,21 @@ const Profile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser(prev => ({
+    setEditedUser((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSave = async () => {
     setIsSaving(true);
-    
+
     const result = await updateUser(editedUser);
-    
+
     if (result.success) {
       setIsEditing(false);
     }
-    
+
     setIsSaving(false);
   };
 
@@ -67,12 +77,12 @@ const Profile = () => {
 
   // Форматування дати реєстрації
   const formatDate = (dateString) => {
-    if (!dateString) return "Недавно";
+    if (!dateString) return "Нещодавно";
     const date = new Date(dateString);
     return date.toLocaleDateString("uk-UA", {
       year: "numeric",
       month: "long",
-      day: "numeric"
+      day: "numeric",
     });
   };
 
@@ -87,8 +97,8 @@ const Profile = () => {
               Керуйте своїми персональними даними та налаштуваннями
             </p>
           </div>
-          
-          <button 
+
+          <button
             className="btn btn-outline btn-icon"
             onClick={handleLogout}
             title="Вийти з акаунту"
@@ -109,7 +119,7 @@ const Profile = () => {
                   <User size={48} />
                 )}
               </div>
-              
+
               <div className="profile-avatar__info">
                 <h2 className="profile-avatar__name">
                   {user?.name || "Користувач"}
@@ -137,9 +147,9 @@ const Profile = () => {
           <div className="profile-card profile-details">
             <div className="profile-card__header">
               <h3 className="profile-card__title">Персональні дані</h3>
-              
+
               {!isEditing ? (
-                <button 
+                <button
                   className="btn btn-sm btn-outline"
                   onClick={() => setIsEditing(true)}
                 >
@@ -148,7 +158,7 @@ const Profile = () => {
                 </button>
               ) : (
                 <div className="profile-card__actions">
-                  <button 
+                  <button
                     className="btn btn-sm btn-outline"
                     onClick={handleCancel}
                     disabled={isSaving}
@@ -156,7 +166,7 @@ const Profile = () => {
                     <X size={16} />
                     <span>Скасувати</span>
                   </button>
-                  <button 
+                  <button
                     className="btn btn-sm btn-primary"
                     onClick={handleSave}
                     disabled={isSaving}
@@ -267,8 +277,8 @@ const Profile = () => {
 
           {/* Додаткова інформація */}
           <div className="profile-card profile-info">
-            <h3 className="profile-card__title">Корисна інформація</h3>
-            
+            <h3 className="profile-card__title-info">Корисна інформація</h3>
+
             <div className="profile-info__list">
               <div className="profile-info__item">
                 <div className="profile-info__icon">💳</div>
