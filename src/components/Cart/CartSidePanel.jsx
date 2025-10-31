@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../hooks/useCart';
 import CartItemCompact from './CartItemCompact';
 import './CartSidePanel.scss';
 
 const CartSidePanel = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const {
     items,
     updateQty,
@@ -269,7 +271,10 @@ const CartSidePanel = ({ isOpen, onClose }) => {
 
             <button
               className="cart-side-panel__checkout-button"
-              onClick={() => alert('Перехід до оформлення')}
+              onClick={() => {
+                navigate('/checkout');
+                onClose();
+              }}
               type="button"
             >
               Оформити замовлення

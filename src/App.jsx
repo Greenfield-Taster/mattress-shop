@@ -9,6 +9,7 @@ import Catalog from "./pages/Catalog";
 import Product from "./pages/Product";
 import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
+import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
 
 import "./styles/main.scss";
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/checkout" element={<Checkout />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
