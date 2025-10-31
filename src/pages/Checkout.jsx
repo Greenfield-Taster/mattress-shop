@@ -121,7 +121,7 @@ const Checkout = () => {
 
   const handleSubmitOrder = (e) => {
     e.preventDefault();
-    
+
     if (!deliveryMethod) {
       alert("Будь ласка, оберіть спосіб доставки");
       return;
@@ -133,7 +133,9 @@ const Checkout = () => {
     }
 
     if (!agreeToTerms) {
-      alert("Необхідно погодитись з умовами оферти та політикою конфіденційності");
+      alert(
+        "Необхідно погодитись з умовами оферти та політикою конфіденційності"
+      );
       return;
     }
 
@@ -152,7 +154,8 @@ const Checkout = () => {
     alert("Замовлення успішно оформлено! (це тестовий режим)");
   };
 
-  const deliveryPrice = deliveryMethod === "pickup" ? 0 : "за тарифами перевізника";
+  const deliveryPrice =
+    deliveryMethod === "pickup" ? 0 : "за тарифами перевізника";
 
   return (
     <div className="checkout">
@@ -268,7 +271,10 @@ const Checkout = () => {
                       </p>
                     </div>
                     {deliveryMethod === option.id && (
-                      <CheckCircle size={20} className="checkout__delivery-check" />
+                      <CheckCircle
+                        size={20}
+                        className="checkout__delivery-check"
+                      />
                     )}
                   </div>
                 ))}
@@ -296,7 +302,10 @@ const Checkout = () => {
                         <option value="kharkiv">Харків</option>
                         <option value="dnipro">Дніпро</option>
                       </select>
-                      <ChevronDown size={20} className="checkout__select-icon" />
+                      <ChevronDown
+                        size={20}
+                        className="checkout__select-icon"
+                      />
                     </div>
                   </div>
 
@@ -314,7 +323,9 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <div className="checkout__form-group">
-                      <label className="checkout__label">Відділення / Поштомат</label>
+                      <label className="checkout__label">
+                        Відділення / Поштомат
+                      </label>
                       <div className="checkout__select-wrapper">
                         <select
                           value={deliveryWarehouse}
@@ -327,7 +338,10 @@ const Checkout = () => {
                           <option value="2">Відділення №2</option>
                           <option value="3">Поштомат №15</option>
                         </select>
-                        <ChevronDown size={20} className="checkout__select-icon" />
+                        <ChevronDown
+                          size={20}
+                          className="checkout__select-icon"
+                        />
                       </div>
                     </div>
                   )}
@@ -359,7 +373,9 @@ const Checkout = () => {
             {/* Payment Block */}
             <section className="checkout__section">
               <h2 className="checkout__section-title">Оплата</h2>
-              <p className="checkout__section-subtitle">Оберіть спосіб оплати</p>
+              <p className="checkout__section-subtitle">
+                Оберіть спосіб оплати
+              </p>
 
               <div className="checkout__payment-grid">
                 {paymentOptions.map((option) => (
@@ -378,7 +394,10 @@ const Checkout = () => {
                       </p>
                     </div>
                     {paymentMethod === option.id && (
-                      <CheckCircle size={20} className="checkout__payment-check" />
+                      <CheckCircle
+                        size={20}
+                        className="checkout__payment-check"
+                      />
                     )}
                   </div>
                 ))}
@@ -479,14 +498,11 @@ const Checkout = () => {
                   <Clock size={16} />
                   Пн-Нд: 8:00-20:00
                 </p>
-                
+
                 <div className="checkout__help-faq">
                   <p className="checkout__help-faq-text">
                     FAQ з доставки та оплати
                   </p>
-                  <Link to="/contacts" className="checkout__help-link">
-                    Дивитись всі питання →
-                  </Link>
                 </div>
               </div>
             </div>

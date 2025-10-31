@@ -651,24 +651,4 @@
     color: $color-text-primary;
     margin-bottom: $spacing-3;
   }
-
-  &__help-link {
-    display: inline-flex;
-    align-items: center;
-    gap: $spacing-1;
-    font-size: $font-size-sm;
-    color: $brand-primary-500;
-    text-decoration: none;
-    font-weight: $font-weight-medium;
-    transition: $transition-button;
-
-    &:hover {
-      color: $brand-primary-600;
-      text-decoration: underline;
-    }
-
-    @media (max-width: $breakpoint-sm) {
-      font-size: $font-size-xs;
-    }
-  }
 }
