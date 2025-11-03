@@ -1,29 +1,29 @@
-@import "../../styles/variables";
+@use "../../styles/variables" as v;
 
 .product-gallery {
   display: flex;
   flex-direction: column;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
   width: 100%;
 
   &__main {
     position: relative;
     width: 100%;
     aspect-ratio: 4 / 3;
-    background-color: $neutral-50;
-    border-radius: $radius-lg;
+    background-color: v.$neutral-50;
+    border-radius: v.$radius-lg;
     overflow: hidden;
-    border: 1px solid $color-border;
+    border: 1px solid v.$color-border;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: v.$breakpoint-md) {
       aspect-ratio: 1 / 1;
     }
 
-    @media (max-width: $breakpoint-sm) {
-      border-radius: $radius-base;
+    @media (max-width: v.$breakpoint-sm) {
+      border-radius: v.$radius-base;
     }
   }
 
@@ -45,9 +45,9 @@
     transform: translateY(-50%);
     width: 48px;
     height: 48px;
-    background-color: rgba($neutral-0, 0.9);
-    border: 1px solid rgba($color-border, 0.5);
-    border-radius: $radius-full;
+    background-color: rgba(v.$neutral-0, 0.9);
+    border: 1px solid rgba(v.$color-border, 0.5);
+    border-radius: v.$radius-full;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,9 +57,9 @@
     backdrop-filter: blur(4px);
 
     &:hover:not(:disabled) {
-      background-color: $neutral-0;
-      border-color: $brand-primary-500;
-      color: $brand-primary-500;
+      background-color: v.$neutral-0;
+      border-color: v.$brand-primary-500;
+      color: v.$brand-primary-500;
       transform: translateY(-50%) scale(1.1);
     }
 
@@ -73,31 +73,31 @@
     }
 
     &:focus-visible {
-      outline: 2px solid $brand-primary-500;
+      outline: 2px solid v.$brand-primary-500;
       outline-offset: 2px;
     }
 
     &--prev {
-      left: $spacing-4;
+      left: v.$spacing-4;
 
-      @media (max-width: $breakpoint-sm) {
-        left: $spacing-2;
+      @media (max-width: v.$breakpoint-sm) {
+        left: v.$spacing-2;
       }
     }
 
     &--next {
-      right: $spacing-4;
+      right: v.$spacing-4;
 
-      @media (max-width: $breakpoint-sm) {
-        right: $spacing-2;
+      @media (max-width: v.$breakpoint-sm) {
+        right: v.$spacing-2;
       }
     }
 
     svg {
-      color: $color-text-primary;
+      color: v.$color-text-primary;
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: v.$breakpoint-sm) {
       width: 40px;
       height: 40px;
 
@@ -110,57 +110,57 @@
 
   &__counter {
     position: absolute;
-    bottom: $spacing-4;
+    bottom: v.$spacing-4;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba($neutral-900, 0.75);
-    color: $neutral-0;
-    padding: $spacing-2 $spacing-4;
-    border-radius: $radius-full;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    background-color: rgba(v.$neutral-900, 0.75);
+    color: v.$neutral-0;
+    padding: v.$spacing-2 v.$spacing-4;
+    border-radius: v.$radius-full;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
     backdrop-filter: blur(4px);
     z-index: 2;
 
-    @media (max-width: $breakpoint-sm) {
-      font-size: $font-size-xs;
-      padding: $spacing-1 $spacing-3;
-      bottom: $spacing-2;
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+      padding: v.$spacing-1 v.$spacing-3;
+      bottom: v.$spacing-2;
     }
   }
 
   &__thumbnails {
     display: flex;
-    gap: $spacing-3;
+    gap: v.$spacing-3;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: $spacing-2 0;
+    padding: v.$spacing-2 0;
     scrollbar-width: thin;
-    scrollbar-color: $color-border $neutral-100;
+    scrollbar-color: v.$color-border v.$neutral-100;
 
     &::-webkit-scrollbar {
       height: 6px;
     }
 
     &::-webkit-scrollbar-track {
-      background: $neutral-100;
-      border-radius: $radius-full;
+      background: v.$neutral-100;
+      border-radius: v.$radius-full;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: $color-border;
-      border-radius: $radius-full;
+      background-color: v.$color-border;
+      border-radius: v.$radius-full;
       transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: $brand-primary-500;
+        background-color: v.$brand-primary-500;
       }
     }
 
-    @media (max-width: $breakpoint-sm) {
-      gap: $spacing-2;
-      padding: $spacing-1 0;
+    @media (max-width: v.$breakpoint-sm) {
+      gap: v.$spacing-2;
+      padding: v.$spacing-1 0;
     }
   }
 
@@ -169,9 +169,9 @@
     width: 80px;
     height: 80px;
     aspect-ratio: 1;
-    background-color: $neutral-50;
-    border: 2px solid $color-border;
-    border-radius: $radius-base;
+    background-color: v.$neutral-50;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-base;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -187,7 +187,7 @@
     }
 
     &:hover:not(:disabled) {
-      border-color: $brand-primary-400;
+      border-color: v.$brand-primary-400;
       transform: scale(1.05);
 
       img {
@@ -205,29 +205,29 @@
     }
 
     &:focus-visible {
-      outline: 2px solid $brand-primary-500;
+      outline: 2px solid v.$brand-primary-500;
       outline-offset: 2px;
     }
 
     &--active {
-      border-color: $brand-primary-500;
+      border-color: v.$brand-primary-500;
       border-width: 3px;
-      box-shadow: 0 0 0 2px rgba($brand-primary-500, 0.2);
+      box-shadow: 0 0 0 2px rgba(v.$brand-primary-500, 0.2);
 
       &:hover {
-        border-color: $brand-primary-600;
+        border-color: v.$brand-primary-600;
       }
     }
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: v.$breakpoint-lg) {
       width: 70px;
       height: 70px;
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: v.$breakpoint-sm) {
       width: 60px;
       height: 60px;
-      border-radius: $radius-sm;
+      border-radius: v.$radius-sm;
     }
   }
 }

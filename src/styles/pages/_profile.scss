@@ -1,22 +1,22 @@
-@import "../variables";
+@use "../variables" as v;
 
 .profile-page {
   min-height: calc(100vh - 80px);
-  background: $color-background;
-  padding: $spacing-8 0;
+  background: v.$color-background;
+  padding: v.$spacing-8 0;
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-6 0;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-6 0;
   }
 }
 
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-6;
+  padding: 0 v.$spacing-6;
 
-  @media (max-width: $breakpoint-md) {
-    padding: 0 $spacing-4;
+  @media (max-width: v.$breakpoint-md) {
+    padding: 0 v.$spacing-4;
   }
 }
 
@@ -24,20 +24,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacing-8;
-  padding-bottom: $spacing-6;
-  border-bottom: 2px solid $color-border;
+  margin-bottom: v.$spacing-8;
+  padding-bottom: v.$spacing-6;
+  border-bottom: 2px solid v.$color-border;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     align-items: stretch;
-    gap: $spacing-4;
+    gap: v.$spacing-4;
     text-align: center;
-    margin-bottom: $spacing-6;
+    margin-bottom: v.$spacing-6;
   }
 
   .btn {
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: v.$breakpoint-md) {
       width: 100%;
     }
   }
@@ -48,44 +48,44 @@
 }
 
 .profile-header__title {
-  font-size: $font-size-4xl;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  margin-bottom: $spacing-2;
+  font-size: v.$font-size-4xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-primary;
+  margin-bottom: v.$spacing-2;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-3xl;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-3xl;
   }
 }
 
 .profile-header__subtitle {
-  font-size: $font-size-base;
-  color: $color-text-secondary;
+  font-size: v.$font-size-base;
+  color: v.$color-text-secondary;
 }
 
 .profile-content {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
 
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     grid-template-columns: 1fr;
   }
 }
 
 .profile-card {
-  background: $neutral-0;
-  border-radius: $radius-lg;
-  padding: $spacing-6;
-  box-shadow: $shadow-card;
-  transition: $transition-card;
+  background: v.$neutral-0;
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  box-shadow: v.$shadow-card;
+  transition: v.$transition-card;
 
   &:hover {
-    box-shadow: $shadow-card-hover;
+    box-shadow: v.$shadow-card-hover;
   }
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-5;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-5;
   }
 }
 
@@ -93,36 +93,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacing-6;
-  padding-bottom: $spacing-4;
-  border-bottom: 1px solid $color-border-light;
+  margin-bottom: v.$spacing-6;
+  padding-bottom: v.$spacing-4;
+  border-bottom: 1px solid v.$color-border-light;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     align-items: stretch;
-    gap: $spacing-4;
+    gap: v.$spacing-4;
   }
 }
 
 .profile-card__title {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-primary;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     text-align: center;
   }
 }
 
 .profile-card__title-info {
-  margin-bottom: $spacing-4;
+  margin-bottom: v.$spacing-4;
 }
 
 .profile-card__actions {
   display: flex;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     width: 100%;
 
@@ -136,9 +136,9 @@
   grid-row: span 2;
   display: flex;
   flex-direction: column;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
 
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     grid-row: span 1;
   }
 }
@@ -148,20 +148,24 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 }
 
 .profile-avatar__circle {
   width: 120px;
   height: 120px;
-  border-radius: $radius-full;
-  background: linear-gradient(135deg, $brand-primary-500, $brand-primary-600);
+  border-radius: v.$radius-full;
+  background: linear-gradient(
+    135deg,
+    v.$brand-primary-500,
+    v.$brand-primary-600
+  );
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $neutral-0;
+  color: v.$neutral-0;
   overflow: hidden;
-  box-shadow: $shadow-md;
+  box-shadow: v.$shadow-md;
 
   img {
     width: 100%;
@@ -180,61 +184,61 @@
 }
 
 .profile-avatar__name {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  margin-bottom: $spacing-1;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-primary;
+  margin-bottom: v.$spacing-1;
 }
 
 .profile-avatar__email {
-  font-size: $font-size-sm;
-  color: $color-text-secondary;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-secondary;
 }
 
 .profile-stats {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
-  padding-top: $spacing-4;
-  border-top: 1px solid $color-border-light;
+  gap: v.$spacing-3;
+  padding-top: v.$spacing-4;
+  border-top: 1px solid v.$color-border-light;
 }
 
 .profile-stat {
   display: flex;
   align-items: center;
-  gap: $spacing-3;
-  padding: $spacing-3;
-  background: $neutral-50;
-  border-radius: $radius-base;
+  gap: v.$spacing-3;
+  padding: v.$spacing-3;
+  background: v.$neutral-50;
+  border-radius: v.$radius-base;
 
   svg {
     flex-shrink: 0;
-    color: $brand-primary-500;
+    color: v.$brand-primary-500;
   }
 }
 
 .profile-stat__content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 }
 
 .profile-stat__label {
-  font-size: $font-size-xs;
-  color: $color-text-tertiary;
-  font-weight: $font-weight-medium;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-tertiary;
+  font-weight: v.$font-weight-medium;
   text-transform: uppercase;
-  letter-spacing: $letter-spacing-wide;
+  letter-spacing: v.$letter-spacing-wide;
 }
 
 .profile-stat__value {
-  font-size: $font-size-sm;
-  color: $color-text-primary;
-  font-weight: $font-weight-semibold;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-primary;
+  font-weight: v.$font-weight-semibold;
 }
 
 .profile-details {
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     grid-column: 1;
   }
 }
@@ -242,18 +246,18 @@
 .profile-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: $spacing-5;
+  gap: v.$spacing-5;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: $spacing-4;
+    gap: v.$spacing-4;
   }
 }
 
 .profile-form__group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
 
   &--full {
     grid-column: 1 / -1;
@@ -263,62 +267,62 @@
 .profile-form__label {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
+  gap: v.$spacing-2;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text-primary;
 
   svg {
-    color: $brand-primary-500;
+    color: v.$brand-primary-500;
     flex-shrink: 0;
   }
 }
 
 .profile-form__input,
 .profile-form__textarea {
-  padding: $spacing-3 $spacing-4;
-  font-size: $font-size-base;
-  color: $color-text-primary;
-  background: $neutral-50;
-  border: 2px solid $color-border;
-  border-radius: $radius-input;
-  transition: $transition-button;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-size: v.$font-size-base;
+  color: v.$color-text-primary;
+  background: v.$neutral-50;
+  border: 2px solid v.$color-border;
+  border-radius: v.$radius-input;
+  transition: v.$transition-button;
 
   &:focus {
     outline: none;
-    border-color: $brand-primary-500;
-    box-shadow: 0 0 0 3px rgba($brand-primary-500, 0.1);
+    border-color: v.$brand-primary-500;
+    box-shadow: 0 0 0 3px rgba(v.$brand-primary-500, 0.1);
   }
 
   &::placeholder {
-    color: $color-text-tertiary;
+    color: v.$color-text-tertiary;
   }
 }
 
 .profile-form__textarea {
   resize: vertical;
   min-height: 100px;
-  font-family: $font-family-base;
+  font-family: v.$font-family-base;
 }
 
 .profile-form__value {
-  padding: $spacing-3 $spacing-4;
-  font-size: $font-size-base;
-  color: $color-text-primary;
-  background: $neutral-50;
-  border-radius: $radius-input;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-size: v.$font-size-base;
+  color: v.$color-text-primary;
+  background: v.$neutral-50;
+  border-radius: v.$radius-input;
   min-height: 48px;
   display: flex;
   align-items: center;
 
   &--phone {
-    font-weight: $font-weight-medium;
-    color: $brand-primary-500;
+    font-weight: v.$font-weight-medium;
+    color: v.$brand-primary-500;
   }
 }
 
 .profile-info {
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     grid-column: 1;
   }
 }
@@ -326,59 +330,55 @@
 .profile-info__list {
   display: flex;
   flex-direction: column;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 }
 
 .profile-info__item {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
-  padding: $spacing-4;
-  background: $neutral-50;
-  border-radius: $radius-base;
-  transition: $transition-card;
+  gap: v.$spacing-4;
+  padding: v.$spacing-4;
+  background: v.$neutral-50;
+  border-radius: v.$radius-base;
+  transition: v.$transition-card;
   cursor: pointer;
 
   &:hover {
-    background: $neutral-100;
+    background: v.$neutral-100;
   }
 }
 
 .profile-info__icon {
-  font-size: $font-size-3xl;
+  font-size: v.$font-size-3xl;
   flex-shrink: 0;
 }
 
 .profile-info__content {
   h4 {
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-    margin-bottom: $spacing-1;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-1;
   }
 
   p {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
   }
 }
-
-// ========================================
-// BUTTONS
-// ========================================
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-5;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-5;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
   border: none;
-  border-radius: $radius-button;
+  border-radius: v.$radius-button;
   cursor: pointer;
-  transition: $transition-button;
+  transition: v.$transition-button;
   white-space: nowrap;
 
   &:disabled {
@@ -393,13 +393,13 @@
 }
 
 .btn-primary {
-  background: $brand-primary-500;
-  color: $neutral-0;
-  box-shadow: $shadow-button;
+  background: v.$brand-primary-500;
+  color: v.$neutral-0;
+  box-shadow: v.$shadow-button;
 
   &:hover:not(:disabled) {
-    background: $brand-primary-600;
-    box-shadow: $shadow-sm;
+    background: v.$brand-primary-600;
+    box-shadow: v.$shadow-sm;
     transform: translateY(-1px);
   }
 
@@ -410,35 +410,31 @@
 
 .btn-outline {
   background: transparent;
-  color: $brand-primary-500;
-  border: 2px solid $brand-primary-500;
+  color: v.$brand-primary-500;
+  border: 2px solid v.$brand-primary-500;
 
   &:hover:not(:disabled) {
-    background: rgba($brand-primary-500, 0.05);
+    background: rgba(v.$brand-primary-500, 0.05);
   }
 }
 
 .btn-sm {
-  padding: $spacing-2 $spacing-4;
-  font-size: $font-size-sm;
+  padding: v.$spacing-2 v.$spacing-4;
+  font-size: v.$font-size-sm;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     width: 100%;
   }
 }
 
 .btn-icon {
-  gap: $spacing-2;
+  gap: v.$spacing-2;
 
   svg {
     width: 20px;
     height: 20px;
   }
 }
-
-// ========================================
-// ANIMATIONS
-// ========================================
 
 @keyframes fadeInUp {
   from {

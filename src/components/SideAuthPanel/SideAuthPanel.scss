@@ -1,8 +1,4 @@
-@import '../../styles/variables';
-
-// ========================================
-// BACKDROP (фон за панеллю)
-// ========================================
+@use "../../styles/variables" as v;
 
 .auth-backdrop {
   position: fixed;
@@ -10,26 +6,22 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba($neutral-900, 0);
+  background-color: rgba(v.$neutral-900, 0);
   backdrop-filter: blur(0px);
-  z-index: $z-backdrop;
+  z-index: v.$z-backdrop;
   opacity: 0;
   visibility: hidden;
-  transition: all $transition-slow $transition-timing;
+  transition: all v.$transition-slow v.$transition-timing;
   pointer-events: none;
 
   &.active {
     opacity: 1;
     visibility: visible;
-    background-color: rgba($neutral-900, 0.5);
+    background-color: rgba(v.$neutral-900, 0.5);
     backdrop-filter: blur(4px);
     pointer-events: all;
   }
 }
-
-// ========================================
-// SIDE PANEL (основна панель)
-// ========================================
 
 .side-auth-panel {
   position: fixed;
@@ -38,24 +30,22 @@
   height: 100vh;
   width: 100%;
   max-width: 420px;
-  background: rgba($neutral-0, 0.95);
+  background: rgba(v.$neutral-0, 0.95);
   backdrop-filter: blur(24px);
-  box-shadow: $shadow-xl;
-  z-index: $z-modal;
+  box-shadow: v.$shadow-xl;
+  z-index: v.$z-modal;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: $spacing-8 $spacing-6;
-  
-  // Анімація slide-in
+  padding: v.$spacing-8 v.$spacing-6;
+
   transform: translateX(100%);
-  transition: transform $transition-slow $transition-timing;
-  
+  transition: transform v.$transition-slow v.$transition-timing;
+
   &.open {
     transform: translateX(0);
   }
 
-  // Кастомний скролбар
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -65,29 +55,24 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $neutral-300;
-    border-radius: $radius-full;
-    
+    background: v.$neutral-300;
+    border-radius: v.$radius-full;
+
     &:hover {
-      background: $neutral-400;
+      background: v.$neutral-400;
     }
   }
 
-  // Адаптив для мобільних
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     max-width: 100%;
-    padding: $spacing-6 $spacing-4;
+    padding: v.$spacing-6 v.$spacing-4;
   }
 }
 
-// ========================================
-// CLOSE BUTTON (кнопка закриття)
-// ========================================
-
 .close-btn {
   position: absolute;
-  top: $spacing-4;
-  right: $spacing-4;
+  top: v.$spacing-4;
+  right: v.$spacing-4;
   width: 40px;
   height: 40px;
   display: flex;
@@ -95,15 +80,15 @@
   justify-content: center;
   background: transparent;
   border: none;
-  border-radius: $radius-full;
-  color: $neutral-500;
+  border-radius: v.$radius-full;
+  color: v.$neutral-500;
   cursor: pointer;
-  transition: $transition-button;
+  transition: v.$transition-button;
   z-index: 10;
 
   &:hover {
-    background: $neutral-100;
-    color: $neutral-800;
+    background: v.$neutral-100;
+    color: v.$neutral-800;
   }
 
   &:active {
@@ -116,63 +101,51 @@
   }
 }
 
-// ========================================
-// HEADER (шапка з логотипом)
-// ========================================
-
 .auth-header {
   text-align: center;
-  margin-bottom: $spacing-8;
-  padding-top: $spacing-4;
+  margin-bottom: v.$spacing-8;
+  padding-top: v.$spacing-4;
 }
 
 .logo-icon {
-  font-size: $font-size-6xl;
-  margin-bottom: $spacing-4;
-  animation: bounce-in 0.6s $transition-timing;
+  font-size: v.$font-size-6xl;
+  margin-bottom: v.$spacing-4;
+  animation: bounce-in 0.6s v.$transition-timing;
 }
 
 .auth-title {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  margin-bottom: $spacing-2;
-  animation: fade-in-up 0.5s $transition-timing 0.1s both;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-primary;
+  margin-bottom: v.$spacing-2;
+  animation: fade-in-up 0.5s v.$transition-timing 0.1s both;
 }
 
 .auth-subtitle {
-  font-size: $font-size-base;
-  color: $color-text-secondary;
-  animation: fade-in-up 0.5s $transition-timing 0.2s both;
+  font-size: v.$font-size-base;
+  color: v.$color-text-secondary;
+  animation: fade-in-up 0.5s v.$transition-timing 0.2s both;
 }
-
-// ========================================
-// CONTENT (основний контент)
-// ========================================
 
 .auth-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: $spacing-5;
-  animation: fade-in-up 0.5s $transition-timing 0.3s both;
+  gap: v.$spacing-5;
+  animation: fade-in-up 0.5s v.$transition-timing 0.3s both;
 }
-
-// ========================================
-// ERROR MESSAGE (повідомлення про помилку)
-// ========================================
 
 .error-message {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-4;
-  background: rgba($error, 0.1);
-  border: 1px solid rgba($error, 0.3);
-  border-radius: $radius-base;
-  color: $error;
-  font-size: $font-size-sm;
-  animation: shake 0.4s $transition-timing;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-4;
+  background: rgba(v.$error, 0.1);
+  border: 1px solid rgba(v.$error, 0.3);
+  border-radius: v.$radius-base;
+  color: v.$error;
+  font-size: v.$font-size-sm;
+  animation: shake 0.4s v.$transition-timing;
 
   svg {
     flex-shrink: 0;
@@ -181,74 +154,65 @@
   }
 }
 
-// ========================================
-// INPUT GROUP (група полів вводу)
-// ========================================
-
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
 }
 
 .input-label {
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text-primary;
 }
 
-// Phone Input
 .phone-input-wrapper {
   display: flex;
   align-items: center;
-  background: $neutral-50;
-  border: 2px solid $color-border;
-  border-radius: $radius-input;
+  background: v.$neutral-50;
+  border: 2px solid v.$color-border;
+  border-radius: v.$radius-input;
   overflow: hidden;
-  transition: $transition-button;
+  transition: v.$transition-button;
 
   &:focus-within {
-    border-color: $brand-primary-500;
-    box-shadow: 0 0 0 3px rgba($brand-primary-500, 0.1);
+    border-color: v.$brand-primary-500;
+    box-shadow: 0 0 0 3px rgba(v.$brand-primary-500, 0.1);
   }
 }
 
 .phone-prefix {
-  padding: $spacing-3 $spacing-4;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
-  background: $neutral-100;
-  border-right: 2px solid $color-border;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text-primary;
+  background: v.$neutral-100;
+  border-right: 2px solid v.$color-border;
 }
 
 .phone-input {
   flex: 1;
-  padding: $spacing-3 $spacing-4;
-  font-size: $font-size-base;
-  color: $color-text-primary;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-size: v.$font-size-base;
+  color: v.$color-text-primary;
   background: transparent;
   border: none;
   outline: none;
 
   &::placeholder {
-    color: $color-text-tertiary;
+    color: v.$color-text-tertiary;
   }
 }
-
-// ========================================
-// CODE INPUTS (поля для коду)
-// ========================================
 
 .code-input-group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 }
 
 .code-inputs {
   display: flex;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
   justify-content: space-between;
 }
 
@@ -256,50 +220,46 @@
   width: 100%;
   aspect-ratio: 1;
   max-width: 60px;
-  padding: $spacing-3;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
+  padding: v.$spacing-3;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-primary;
   text-align: center;
-  background: $neutral-50;
-  border: 2px solid $color-border;
-  border-radius: $radius-input;
+  background: v.$neutral-50;
+  border: 2px solid v.$color-border;
+  border-radius: v.$radius-input;
   outline: none;
-  transition: $transition-button;
+  transition: v.$transition-button;
 
   &:focus {
-    border-color: $brand-primary-500;
-    box-shadow: 0 0 0 3px rgba($brand-primary-500, 0.1);
+    border-color: v.$brand-primary-500;
+    box-shadow: 0 0 0 3px rgba(v.$brand-primary-500, 0.1);
     transform: scale(1.05);
   }
 
   &:not(:placeholder-shown) {
-    border-color: $brand-primary-500;
-    background: rgba($brand-primary-500, 0.05);
+    border-color: v.$brand-primary-500;
+    background: rgba(v.$brand-primary-500, 0.05);
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     max-width: 50px;
-    font-size: $font-size-xl;
+    font-size: v.$font-size-xl;
   }
 }
-
-// ========================================
-// BUTTONS (кнопки)
-// ========================================
 
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-6;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-6;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
   border: none;
-  border-radius: $radius-button;
+  border-radius: v.$radius-button;
   cursor: pointer;
-  transition: $transition-button;
+  transition: v.$transition-button;
   white-space: nowrap;
 
   &:disabled {
@@ -317,30 +277,28 @@
   }
 }
 
-// Primary Button
 .btn-primary {
-  background: $brand-primary-500;
-  color: $color-text-inverse;
-  box-shadow: $shadow-button;
+  background: v.$brand-primary-500;
+  color: v.$color-text-inverse;
+  box-shadow: v.$shadow-button;
 
   &:hover:not(:disabled) {
-    background: $brand-primary-600;
-    box-shadow: $shadow-sm;
+    background: v.$brand-primary-600;
+    box-shadow: v.$shadow-sm;
     transform: translateY(-1px);
   }
 }
 
-// Google Button
 .btn-google {
-  background: $neutral-0;
-  color: $color-text-primary;
-  border: 2px solid $color-border;
-  box-shadow: $shadow-xs;
+  background: v.$neutral-0;
+  color: v.$color-text-primary;
+  border: 2px solid v.$color-border;
+  box-shadow: v.$shadow-xs;
 
   &:hover {
-    background: $neutral-50;
-    border-color: $neutral-300;
-    box-shadow: $shadow-sm;
+    background: v.$neutral-50;
+    border-color: v.$neutral-300;
+    box-shadow: v.$shadow-sm;
     transform: translateY(-1px);
   }
 
@@ -350,25 +308,24 @@
   }
 }
 
-// Back Button
 .back-btn {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-1;
-  padding: $spacing-2 0;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $neutral-600;
+  gap: v.$spacing-1;
+  padding: v.$spacing-2 0;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$neutral-600;
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: $transition-button;
+  transition: v.$transition-button;
   align-self: flex-start;
-  margin-bottom: $spacing-2;
+  margin-bottom: v.$spacing-2;
 
   &:hover {
-    color: $brand-primary-500;
-    gap: $spacing-2;
+    color: v.$brand-primary-500;
+    gap: v.$spacing-2;
   }
 
   svg {
@@ -376,121 +333,101 @@
     height: 20px;
   }
 }
-
-// ========================================
-// DIVIDER (роздільник)
-// ========================================
 
 .divider {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
-  margin: $spacing-2 0;
+  gap: v.$spacing-4;
+  margin: v.$spacing-2 0;
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     flex: 1;
     height: 1px;
-    background: $color-border;
+    background: v.$color-border;
   }
 
   span {
-    font-size: $font-size-sm;
-    color: $color-text-tertiary;
-    font-weight: $font-weight-medium;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-tertiary;
+    font-weight: v.$font-weight-medium;
   }
 }
-
-// ========================================
-// PHONE DISPLAY (відображення номера)
-// ========================================
 
 .phone-display {
   display: flex;
   flex-direction: column;
-  gap: $spacing-1;
-  padding: $spacing-4;
-  background: $neutral-50;
-  border-radius: $radius-base;
+  gap: v.$spacing-1;
+  padding: v.$spacing-4;
+  background: v.$neutral-50;
+  border-radius: v.$radius-base;
   text-align: center;
 }
 
 .phone-display-label {
-  font-size: $font-size-sm;
-  color: $color-text-secondary;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-secondary;
 }
 
 .phone-display-number {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  color: $brand-primary-500;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
+  color: v.$brand-primary-500;
 }
-
-// ========================================
-// RESEND (повторна відправка)
-// ========================================
 
 .resend-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-1;
-  font-size: $font-size-sm;
+  gap: v.$spacing-1;
+  font-size: v.$font-size-sm;
 }
 
 .resend-text {
-  color: $color-text-secondary;
+  color: v.$color-text-secondary;
 }
 
 .resend-btn {
   padding: 0;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  color: $brand-primary-500;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  color: v.$brand-primary-500;
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: $transition-button;
+  transition: v.$transition-button;
 
   &:hover {
-    color: $brand-primary-600;
+    color: v.$brand-primary-600;
     text-decoration: underline;
   }
 }
-
-// ========================================
-// FOOTER (підвал)
-// ========================================
 
 .auth-footer {
   margin-top: auto;
-  padding-top: $spacing-6;
-  animation: fade-in 0.5s $transition-timing 0.4s both;
+  padding-top: v.$spacing-6;
+  animation: fade-in 0.5s v.$transition-timing 0.4s both;
 }
 
 .footer-text {
-  font-size: $font-size-xs;
-  color: $color-text-tertiary;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-tertiary;
   text-align: center;
-  line-height: $line-height-relaxed;
+  line-height: v.$line-height-relaxed;
 }
 
 .footer-link {
-  color: $brand-primary-500;
+  color: v.$brand-primary-500;
   text-decoration: none;
-  font-weight: $font-weight-medium;
-  transition: $transition-button;
+  font-weight: v.$font-weight-medium;
+  transition: v.$transition-button;
 
   &:hover {
-    color: $brand-primary-600;
+    color: v.$brand-primary-600;
     text-decoration: underline;
   }
 }
-
-// ========================================
-// ANIMATIONS (анімації)
-// ========================================
 
 @keyframes fade-in-up {
   from {
@@ -530,13 +467,21 @@
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(5px);
   }
 }

@@ -1,22 +1,22 @@
-@import "../../styles/variables";
+@use "../../styles/variables" as v;
 
 .wishlist-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-3;
-  background-color: $neutral-0;
-  border: 2px solid $color-border;
-  border-radius: $radius-full;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3;
+  background-color: v.$neutral-0;
+  border: 2px solid v.$color-border;
+  border-radius: v.$radius-full;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 
   &:hover:not(:disabled) {
-    border-color: $brand-primary-500;
-    background-color: $brand-primary-50;
+    border-color: v.$brand-primary-500;
+    background-color: v.$brand-primary-50;
     transform: scale(1.05);
   }
 
@@ -30,12 +30,12 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $brand-primary-500;
+    outline: 2px solid v.$brand-primary-500;
     outline-offset: 2px;
   }
 
   &__icon {
-    color: $color-text-secondary;
+    color: v.$color-text-secondary;
     transition: all 0.2s ease;
 
     &--spinner {
@@ -44,29 +44,29 @@
   }
 
   &__text {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    color: $color-text-primary;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-primary;
     white-space: nowrap;
     transition: color 0.2s ease;
   }
 
   &--active {
-    border-color: $brand-primary-500;
-    background-color: $brand-primary-500;
+    border-color: v.$brand-primary-500;
+    background-color: v.$brand-primary-500;
 
     .wishlist-button__icon {
-      color: $neutral-0;
+      color: v.$neutral-0;
       animation: heartBeat 0.3s ease;
     }
 
     .wishlist-button__text {
-      color: $neutral-0;
+      color: v.$neutral-0;
     }
 
     &:hover:not(:disabled) {
-      border-color: $brand-primary-600;
-      background-color: $brand-primary-600;
+      border-color: v.$brand-primary-600;
+      background-color: v.$brand-primary-600;
     }
   }
 
@@ -74,20 +74,20 @@
     pointer-events: none;
 
     .wishlist-button__icon {
-      color: $brand-primary-500;
+      color: v.$brand-primary-500;
     }
   }
 
   &--default {
     width: 44px;
     height: 44px;
-    padding: $spacing-3;
+    padding: v.$spacing-3;
   }
 
   &--small {
     width: 36px;
     height: 36px;
-    padding: $spacing-2;
+    padding: v.$spacing-2;
 
     .wishlist-button__icon {
       width: 16px;
@@ -98,7 +98,7 @@
   &--large {
     width: 52px;
     height: 52px;
-    padding: $spacing-4;
+    padding: v.$spacing-4;
 
     .wishlist-button__icon {
       width: 24px;
@@ -108,8 +108,8 @@
 
   &--with-text {
     width: auto;
-    padding: $spacing-3 $spacing-5;
-    border-radius: $radius-button;
+    padding: v.$spacing-3 v.$spacing-5;
+    border-radius: v.$radius-button;
   }
 
   &::after {
@@ -121,7 +121,7 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     border-radius: 50%;
-    background-color: rgba($brand-primary-500, 0.3);
+    background-color: rgba(v.$brand-primary-500, 0.3);
     opacity: 0;
     pointer-events: none;
   }
@@ -132,7 +132,8 @@
 }
 
 @keyframes heartBeat {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   25% {
@@ -166,7 +167,7 @@
   }
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .wishlist-button {
     &--default {
       width: 40px;
@@ -174,8 +175,8 @@
     }
 
     &--with-text {
-      padding: $spacing-2 $spacing-4;
-      font-size: $font-size-xs;
+      padding: v.$spacing-2 v.$spacing-4;
+      font-size: v.$font-size-xs;
     }
   }
 }
