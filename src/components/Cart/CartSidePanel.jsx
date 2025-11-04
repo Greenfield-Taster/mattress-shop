@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../hooks/useCart';
-import CartItemCompact from './CartItemCompact';
-import './CartSidePanel.scss';
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../hooks/useCart";
+import CartItemCompact from "./CartItemCompact";
+import "./CartSidePanel.scss";
 
 const CartSidePanel = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -16,11 +16,11 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     currency,
     promoCode,
     applyPromoCode,
-    removePromoCode
+    removePromoCode,
   } = useCart();
 
-  const [promoInput, setPromoInput] = useState('');
-  const [promoMessage, setPromoMessage] = useState({ text: '', type: '' });
+  const [promoInput, setPromoInput] = useState("");
+  const [promoMessage, setPromoMessage] = useState({ text: "", type: "" });
   const panelRef = useRef(null);
   const closeButtonRef = useRef(null);
 
@@ -29,12 +29,12 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     if (!isOpen) return;
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
 
       // Focus trap
-      if (e.key === 'Tab' && panelRef.current) {
+      if (e.key === "Tab" && panelRef.current) {
         const focusableElements = panelRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
@@ -51,23 +51,23 @@ const CartSidePanel = ({ isOpen, onClose }) => {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
   // Блокування скролу body
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 100);
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -79,26 +79,26 @@ const CartSidePanel = ({ isOpen, onClose }) => {
 
   const handlePromoSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!promoInput.trim()) {
-      setPromoMessage({ text: 'Введіть промокод', type: 'error' });
+      setPromoMessage({ text: "Введіть промокод", type: "error" });
       return;
     }
 
     const result = applyPromoCode(promoInput);
-    setPromoMessage({ 
-      text: result.message, 
-      type: result.success ? 'success' : 'error' 
+    setPromoMessage({
+      text: result.message,
+      type: result.success ? "success" : "error",
     });
 
     if (result.success) {
-      setPromoInput('');
+      setPromoInput("");
     }
   };
 
   const handleRemovePromo = () => {
     removePromoCode();
-    setPromoMessage({ text: '', type: '' });
+    setPromoMessage({ text: "", type: "" });
   };
 
   if (!isOpen) return null;
@@ -107,7 +107,7 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     <div className="cart-side-panel-overlay" onClick={handleOverlayClick}>
       <div
         ref={panelRef}
-        className={`cart-side-panel ${isOpen ? 'cart-side-panel--open' : ''}`}
+        className={`cart-side-panel ${isOpen ? "cart-side-panel--open" : ""}`}
         role="dialog"
         aria-labelledby="cart-panel-title"
         aria-modal="true"
@@ -117,7 +117,9 @@ const CartSidePanel = ({ isOpen, onClose }) => {
           <h2 id="cart-panel-title" className="cart-side-panel__title">
             Кошик
             {totals.itemsCount > 0 && (
-              <span className="cart-side-panel__count">({totals.itemsCount})</span>
+              <span className="cart-side-panel__count">
+                ({totals.itemsCount})
+              </span>
             )}
           </h2>
           <button
@@ -192,17 +194,41 @@ const CartSidePanel = ({ isOpen, onClose }) => {
               {/* Promo Code */}
               <div className="cart-side-panel__promo">
                 {!promoCode ? (
-                  <form onSubmit={handlePromoSubmit} className="cart-side-panel__promo-form">
+                  <form
+                    onSubmit={handlePromoSubmit}
+                    className="cart-side-panel__promo-form"
+                  >
                     <input
                       type="text"
-                      className="cart-side-panel__promo-input"
-                      placeholder="Промокод"
+                      className={`cart-side-panel__promo-input ${
+                        promoMessage.type === "error"
+                          ? "cart-side-panel__promo-input--error"
+                          : ""
+                      } ${
+                        promoMessage.type === "success"
+                          ? "cart-side-panel__promo-input--success"
+                          : ""
+                      }`}
+                      placeholder="ПРОМОКОД"
                       value={promoInput}
-                      onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .toUpperCase()
+                          .replace(/[^A-Z0-9]/g, "");
+                        if (value.length <= 6) {
+                          setPromoInput(value);
+
+                          if (promoMessage.text) {
+                            setPromoMessage({ text: "", type: "" });
+                          }
+                        }
+                      }}
+                      maxLength={6}
                     />
                     <button
                       type="submit"
                       className="cart-side-panel__promo-button"
+                      disabled={promoInput.length !== 6}
                     >
                       Застосувати
                     </button>
@@ -210,10 +236,13 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                 ) : (
                   <div className="cart-side-panel__promo-applied">
                     <div className="cart-side-panel__promo-info">
-                      <span className="cart-side-panel__promo-code">{promoCode.code}</span>
+                      <span className="cart-side-panel__promo-code">
+                        {promoCode.code}
+                      </span>
                       <span className="cart-side-panel__promo-discount">
-                        -{promoCode.type === 'percentage' 
-                          ? `${promoCode.discount}%` 
+                        -
+                        {promoCode.type === "percentage"
+                          ? `${promoCode.discount}%`
                           : `${currency}${promoCode.discount}`}
                       </span>
                     </div>
@@ -240,7 +269,9 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                   </div>
                 )}
                 {promoMessage.text && (
-                  <p className={`cart-side-panel__promo-message cart-side-panel__promo-message--${promoMessage.type}`}>
+                  <p
+                    className={`cart-side-panel__promo-message cart-side-panel__promo-message--${promoMessage.type}`}
+                  >
                     {promoMessage.text}
                   </p>
                 )}
@@ -255,24 +286,33 @@ const CartSidePanel = ({ isOpen, onClose }) => {
             <div className="cart-side-panel__totals">
               <div className="cart-side-panel__total-row">
                 <span>Проміжний підсумок:</span>
-                <span>{currency}{totals.subtotal.toLocaleString('uk-UA')}</span>
+                <span>
+                  {currency}
+                  {totals.subtotal.toLocaleString("uk-UA")}
+                </span>
               </div>
               {totals.discount > 0 && (
                 <div className="cart-side-panel__total-row cart-side-panel__total-row--discount">
                   <span>Знижка:</span>
-                  <span>-{currency}{totals.discount.toLocaleString('uk-UA')}</span>
+                  <span>
+                    -{currency}
+                    {totals.discount.toLocaleString("uk-UA")}
+                  </span>
                 </div>
               )}
               <div className="cart-side-panel__total-row cart-side-panel__total-row--final">
                 <span>Разом:</span>
-                <span>{currency}{totals.total.toLocaleString('uk-UA')}</span>
+                <span>
+                  {currency}
+                  {totals.total.toLocaleString("uk-UA")}
+                </span>
               </div>
             </div>
 
             <button
               className="cart-side-panel__checkout-button"
               onClick={() => {
-                navigate('/checkout');
+                navigate("/checkout");
                 onClose();
               }}
               type="button"

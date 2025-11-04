@@ -85,18 +85,21 @@ export const CartProvider = ({ children, currency = "₴" }) => {
   }, []);
 
   const applyPromoCode = useCallback((code) => {
-    // Мок для дизайну
     const mockPromos = {
       SAVE10: { discount: 10, type: "percentage" },
-      SAVE500: { discount: 500, type: "fixed" },
+      SAVE20: { discount: 20, type: "percentage" },
+      NEW100: { discount: 100, type: "fixed" },
+      BEST50: { discount: 50, type: "percentage" },
+      GIFT15: { discount: 15, type: "percentage" },
+      VIP500: { discount: 500, type: "fixed" },
     };
 
     const promo = mockPromos[code.toUpperCase()];
     if (promo) {
       setPromoCode({ code: code.toUpperCase(), ...promo });
-      return { success: true, message: "Промокод застосовано!" };
+      return { success: true, message: "" };
     }
-    return { success: false, message: "Невірний промокод" };
+    return { success: false, message: "Невірний промокод. Спробуйте інший." };
   }, []);
 
   const removePromoCode = useCallback(() => {
