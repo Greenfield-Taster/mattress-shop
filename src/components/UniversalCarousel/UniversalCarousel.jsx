@@ -15,6 +15,8 @@ const UniversalCarousel = ({
   const hasDraggedRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
+  const momentumRef = useRef(null);
+  const lastScrollTimeRef = useRef(0);
 
   // Проверка возможности скролла
   const checkScrollability = useCallback(() => {
@@ -47,8 +49,17 @@ const UniversalCarousel = ({
 
     isDraggingRef.current = true;
     hasDraggedRef.current = false;
-    startXRef.current = e.pageX - carouselRef.current.offsetLeft;
+    startXRef.current = e.pageX;
     scrollLeftRef.current = carouselRef.current.scrollLeft;
+    lastScrollTimeRef.current = Date.now();
+    
+    // Відміняємо momentum якщо він є
+    if (momentumRef.current) {
+      cancelAnimationFrame(momentumRef.current);
+      momentumRef.current = null;
+    }
+    
+    carouselRef.current.style.scrollBehavior = 'auto';
   }, []);
 
   // Drag to scroll - движение
@@ -57,24 +68,29 @@ const UniversalCarousel = ({
 
     e.preventDefault();
 
-    const x = e.pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startXRef.current) * 2;
+    const x = e.pageX;
+    const walk = (x - startXRef.current);
 
-    if (Math.abs(walk) > 5) {
+    if (Math.abs(walk) > 3) {
       hasDraggedRef.current = true;
     }
 
     carouselRef.current.scrollLeft = scrollLeftRef.current - walk;
+    lastScrollTimeRef.current = Date.now();
   }, []);
 
   // Drag to scroll - конец
   const handleMouseUp = useCallback(() => {
     isDraggingRef.current = false;
     
+    if (carouselRef.current) {
+      carouselRef.current.style.scrollBehavior = '';
+    }
+    
     // Сбрасываем флаг через небольшую задержку
     setTimeout(() => {
       hasDraggedRef.current = false;
-    }, 50);
+    }, 100);
   }, []);
 
   // Drag to scroll - покинул область
@@ -82,9 +98,13 @@ const UniversalCarousel = ({
     if (isDraggingRef.current) {
       isDraggingRef.current = false;
       
+      if (carouselRef.current) {
+        carouselRef.current.style.scrollBehavior = '';
+      }
+      
       setTimeout(() => {
         hasDraggedRef.current = false;
-      }, 50);
+      }, 100);
     }
   }, []);
 
@@ -94,29 +114,42 @@ const UniversalCarousel = ({
     
     isDraggingRef.current = true;
     hasDraggedRef.current = false;
-    startXRef.current = e.touches[0].pageX - carouselRef.current.offsetLeft;
+    startXRef.current = e.touches[0].pageX;
     scrollLeftRef.current = carouselRef.current.scrollLeft;
+    lastScrollTimeRef.current = Date.now();
+    
+    if (momentumRef.current) {
+      cancelAnimationFrame(momentumRef.current);
+      momentumRef.current = null;
+    }
+    
+    carouselRef.current.style.scrollBehavior = 'auto';
   }, []);
 
   const handleTouchMove = useCallback((e) => {
     if (!isDraggingRef.current || !carouselRef.current) return;
 
-    const x = e.touches[0].pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startXRef.current) * 2;
+    const x = e.touches[0].pageX;
+    const walk = (x - startXRef.current);
 
-    if (Math.abs(walk) > 5) {
+    if (Math.abs(walk) > 3) {
       hasDraggedRef.current = true;
     }
 
     carouselRef.current.scrollLeft = scrollLeftRef.current - walk;
+    lastScrollTimeRef.current = Date.now();
   }, []);
 
   const handleTouchEnd = useCallback(() => {
     isDraggingRef.current = false;
     
+    if (carouselRef.current) {
+      carouselRef.current.style.scrollBehavior = '';
+    }
+    
     setTimeout(() => {
       hasDraggedRef.current = false;
-    }, 50);
+    }, 100);
   }, []);
 
   // Обработчик клика на элементе карточки
