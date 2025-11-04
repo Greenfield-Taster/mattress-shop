@@ -6,6 +6,7 @@ import ProductGallery from "../components/ProductGallery/ProductGallery";
 import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
+import "../styles/pages/_product.scss";
 
 import {
   ChevronDown,
@@ -15,7 +16,6 @@ import {
   ShieldCheck,
   CheckCircle,
 } from "lucide-react";
-import "../styles/pages/Product.scss";
 
 const Product = () => {
   const { id } = useParams();
@@ -297,7 +297,7 @@ const Product = () => {
           <p>На жаль, цей товар недоступний або видалений з каталогу.</p>
           <button
             onClick={() => navigate("/catalog")}
-            className="btn btn--primary"
+            className="btnProd btnProd--primary"
           >
             Повернутися до каталогу
           </button>
@@ -440,14 +440,14 @@ const Product = () => {
               {/* Actions */}
               <div className="product-info__actions">
                 <button
-                  className="btn btn--primary btn--large"
+                  className="btnProd btnProd--primary btnProd--large"
                   onClick={handleAddToCart}
                   aria-label="Додати товар у кошик"
                 >
                   Додати в кошик
                 </button>
                 <button
-                  className="btn btn--secondary btn--large"
+                  className="btnProd btnProd--secondary btnProd--large"
                   onClick={handleBuyNow}
                   aria-label="Швидка покупка товару"
                 >
@@ -816,7 +816,10 @@ const Product = () => {
                         ></textarea>
                       </div>
 
-                      <button type="submit" className="btn btn--primary">
+                      <button
+                        type="submit"
+                        className="btnProd btnProd--primary"
+                      >
                         Відправити відгук
                       </button>
                     </form>

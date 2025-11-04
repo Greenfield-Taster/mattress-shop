@@ -320,11 +320,7 @@
   }
 }
 
-// ========================================
-// BUTTONS - Оновлений стиль
-// ========================================
-
-.btn {
+.btnProd {
   padding: v.$spacing-4 v.$spacing-6;
   border-radius: v.$radius-button;
   font-size: v.$font-size-base;
@@ -363,12 +359,11 @@
   &--secondary {
     background-color: v.$neutral-0;
     color: v.$brand-primary-500;
-    border: 2px solid v.$brand-primary-500;
+    border: 2px solid v.$color-border;
 
     &:hover {
-      background-color: v.$brand-primary-50;
       transform: translateY(-2px);
-      box-shadow: v.$shadow-sm;
+      box-shadow: v.$shadow-md;
     }
 
     &:active {
