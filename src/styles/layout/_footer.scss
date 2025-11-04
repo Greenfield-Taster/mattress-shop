@@ -5,6 +5,8 @@
   color: v.$neutral-200;
   border-top: 1px solid v.$neutral-800;
   width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .footer__container {

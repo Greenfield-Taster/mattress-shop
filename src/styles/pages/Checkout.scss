@@ -4,6 +4,9 @@
   background: v.$color-background;
   min-height: 100vh;
   padding: v.$spacing-8 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-6 0;
