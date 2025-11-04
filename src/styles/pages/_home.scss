@@ -470,7 +470,7 @@
       gap: v.$spacing-4;
     }
 
-    @media (max-width: v.$breakpoint-sm) {
+    @media (max-width: 480px) {
       grid-template-columns: 1fr; // 1 в ряд
       gap: v.$spacing-4;
     }
