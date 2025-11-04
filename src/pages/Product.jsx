@@ -1,10 +1,20 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
 import { fetchProducts } from "../api/fetchProducts";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
 import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
+import certificateIso from "../assets/images/certificate-ISO.jpg";
+
+import {
+  ChevronDown,
+  ChevronUp,
+  Star,
+  Award,
+  ShieldCheck,
+  CheckCircle,
+} from "lucide-react";
 import "../styles/pages/Product.scss";
 
 const Product = () => {
@@ -17,6 +27,9 @@ const Product = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState("characteristics");
   const [loading, setLoading] = useState(true);
+  const [showAllSizes, setShowAllSizes] = useState(false);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   // Форма для коментарів
   const [commentForm, setCommentForm] = useState({
@@ -25,6 +38,93 @@ const Product = () => {
     rating: 5,
     comment: "",
   });
+
+  // Мокові дані для відгуків (пізніше будуть з API)
+  const mockReviews = useMemo(
+    () => [
+      {
+        id: 1,
+        name: "Олена Петренко",
+        rating: 5,
+        date: "2024-10-15",
+        comment:
+          "Чудовий матрац! Спина перестала боліти вже через тиждень. Сплю значно краще, прокидаюся відпочившою. Рекомендую всім, хто має проблеми зі спиною!",
+        verified: true,
+      },
+      {
+        id: 2,
+        name: "Андрій Коваленко",
+        rating: 4,
+        date: "2024-10-10",
+        comment:
+          "Якість відмінна, але доставка зайняла трохи більше часу, ніж очікувалося. Сам матрац дуже добрий, ортопедичний ефект відчувається.",
+        verified: true,
+      },
+      {
+        id: 3,
+        name: "Марія Сидоренко",
+        rating: 5,
+        date: "2024-10-05",
+        comment:
+          "Дуже задоволена покупкою. М'який та комфортний, але з хорошою підтримкою. Ціна повністю відповідає якості.",
+        verified: true,
+      },
+      {
+        id: 4,
+        name: "Ігор Мельник",
+        rating: 5,
+        date: "2024-09-28",
+        comment:
+          "Відмінний матрац за свою ціну. Сплю краще ніж на старому дорогому. Не жалію про покупку!",
+        verified: false,
+      },
+      {
+        id: 5,
+        name: "Наталія Іваненко",
+        rating: 4,
+        date: "2024-09-20",
+        comment:
+          "Гарний матрац, але перші дні був специфічний запах нового матеріалу. Швидко вивітрився після провітрювання.",
+        verified: true,
+      },
+      {
+        id: 6,
+        name: "Сергій Бондаренко",
+        rating: 5,
+        date: "2024-09-15",
+        comment:
+          "Купували для дитини. Дуже задоволені. Середньої жорсткості, як рекомендував ортопед.",
+        verified: true,
+      },
+    ],
+    []
+  );
+
+  // Мокові дані для сертифікатів (пізніше з API)
+  const mockCertificates = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "Сертифікат якості ISO 9001",
+        image: certificateIso,
+        description: "Міжнародний стандарт системи управління якістю",
+      },
+      {
+        id: 2,
+        title: "Екологічний сертифікат",
+        image: certificateIso,
+        description:
+          "Підтвердження екологічності матеріалів та безпечності для здоров'я",
+      },
+      {
+        id: 3,
+        title: "Гігієнічний сертифікат",
+        image: certificateIso,
+        description: "Відповідність санітарно-гігієнічним нормам України",
+      },
+    ],
+    []
+  );
 
   // Завантаження продукту та схожих товарів
   useEffect(() => {
@@ -37,46 +137,49 @@ const Product = () => {
         );
 
         if (foundProduct) {
-          // Додаємо варіанти розмірів якщо їх немає
+          const sizes = [
+            "80×190",
+            "80×200",
+            "90×190",
+            "90×200",
+            "120×190",
+            "120×200",
+            "140×190",
+            "140×200",
+            "160×190",
+            "160×200",
+            "180×190",
+            "180×200",
+            "200×200",
+          ];
+
           const productWithVariants = {
             ...foundProduct,
-            variants: foundProduct.variants || [
-              {
-                id: `${foundProduct.id}-1`,
-                size: "160×200",
-                price: foundProduct.price,
-                oldPrice: foundProduct.oldPrice,
-              },
-              {
-                id: `${foundProduct.id}-2`,
-                size: "180×200",
-                price: foundProduct.price + 1000,
-                oldPrice: foundProduct.oldPrice
-                  ? foundProduct.oldPrice + 1000
-                  : null,
-              },
-              {
-                id: `${foundProduct.id}-3`,
-                size: "200×200",
-                price: foundProduct.price + 2000,
-                oldPrice: foundProduct.oldPrice
-                  ? foundProduct.oldPrice + 2000
-                  : null,
-              },
-            ],
+            variants:
+              foundProduct.variants ||
+              sizes
+                .slice(0, 8 + Math.floor(Math.random() * 5))
+                .map((size, index) => ({
+                  id: `${foundProduct.id}-${index + 1}`,
+                  size,
+                  price: foundProduct.price + index * 500,
+                  oldPrice: foundProduct.oldPrice
+                    ? foundProduct.oldPrice + index * 500
+                    : null,
+                })),
             images: foundProduct.images || [
               foundProduct.image,
               foundProduct.image,
               foundProduct.image,
             ],
+            // Додаємо рекомендації (якщо є в API)
+            recommendations: foundProduct.recommendations || null,
           };
 
           setProduct(productWithVariants);
-
-          // Вибираємо перший варіант
           setSelectedVariant(productWithVariants.variants[0]);
 
-          // Завантажуємо всі схожі продукти (без slice для каруселі)
+          // Завантажуємо схожі продукти
           const similar = response.items.filter(
             (item) =>
               item.type === foundProduct.type && item.id !== foundProduct.id
@@ -94,16 +197,23 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // Мемоїзовані значення для оптимізації
-  const images = useMemo(() => {
-    return product?.images || [];
-  }, [product]);
+  // Мемоїзовані значення
+  const images = useMemo(() => product?.images || [], [product]);
+  const variants = useMemo(() => product?.variants || [], [product]);
 
-  const variants = useMemo(() => {
-    return product?.variants || [];
-  }, [product]);
+  // Розраховуємо кількість відгуків для показу
+  const visibleReviews = useMemo(() => {
+    return showAllReviews ? mockReviews : mockReviews.slice(0, 3);
+  }, [showAllReviews, mockReviews]);
 
-  // Handlers з useCallback для оптимізації
+  // Розраховуємо середній рейтинг
+  const averageRating = useMemo(() => {
+    if (mockReviews.length === 0) return 0;
+    const sum = mockReviews.reduce((acc, review) => acc + review.rating, 0);
+    return (sum / mockReviews.length).toFixed(1);
+  }, [mockReviews]);
+
+  // Handlers
   const handleVariantChange = useCallback((variant) => {
     setSelectedVariant(variant);
   }, []);
@@ -134,9 +244,7 @@ const Product = () => {
   const handleCommentSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      // TODO: Відправка коментаря на сервер
       console.log("Comment submitted:", commentForm);
-      // Очистити форму
       setCommentForm({
         name: "",
         email: "",
@@ -146,6 +254,25 @@ const Product = () => {
     },
     [commentForm]
   );
+
+  const toggleSizesVisibility = useCallback(() => {
+    setShowAllSizes((prev) => !prev);
+  }, []);
+
+  const toggleReviewsVisibility = useCallback(() => {
+    setShowAllReviews((prev) => !prev);
+  }, []);
+
+  // Визначаємо, скільки розмірів показувати
+  const visibleVariants = useMemo(() => {
+    const threshold = 6;
+    if (variants.length <= threshold || showAllSizes) {
+      return variants;
+    }
+    return variants.slice(0, threshold);
+  }, [variants, showAllSizes]);
+
+  const hasMoreSizes = variants.length > 6;
 
   // Loading state
   if (loading) {
@@ -199,6 +326,29 @@ const Product = () => {
                 <WishlistButton product={product} variant="default" />
               </div>
 
+              {/* Rating */}
+              {mockReviews.length > 0 && (
+                <div className="product-info__rating">
+                  <div className="rating-stars">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`rating-star ${
+                          star <= Math.round(averageRating)
+                            ? "rating-star--filled"
+                            : ""
+                        }`}
+                        size={20}
+                      />
+                    ))}
+                  </div>
+                  <span className="rating-value">{averageRating}</span>
+                  <span className="rating-count">
+                    ({mockReviews.length} відгуків)
+                  </span>
+                </div>
+              )}
+
               <div className="product-info__features">
                 <span className="product-info__feature">
                   {product.blockType}
@@ -229,9 +379,20 @@ const Product = () => {
                   ₴{selectedVariant?.price.toLocaleString("uk-UA")}
                 </span>
                 {selectedVariant?.oldPrice && (
-                  <span className="product-info__price-old">
-                    ₴{selectedVariant.oldPrice.toLocaleString("uk-UA")}
-                  </span>
+                  <>
+                    <span className="product-info__price-old">
+                      ₴{selectedVariant.oldPrice.toLocaleString("uk-UA")}
+                    </span>
+                    <span className="product-info__discount">
+                      -
+                      {Math.round(
+                        ((selectedVariant.oldPrice - selectedVariant.price) /
+                          selectedVariant.oldPrice) *
+                          100
+                      )}
+                      %
+                    </span>
+                  </>
                 )}
               </div>
 
@@ -239,7 +400,7 @@ const Product = () => {
               <div className="product-info__size">
                 <label className="product-info__label">Розмір (см)</label>
                 <div className="product-info__size-options">
-                  {variants.map((variant) => (
+                  {visibleVariants.map((variant) => (
                     <button
                       key={variant.id}
                       className={`size-button ${
@@ -255,6 +416,25 @@ const Product = () => {
                     </button>
                   ))}
                 </div>
+
+                {hasMoreSizes && (
+                  <button
+                    className="show-more-sizes"
+                    onClick={toggleSizesVisibility}
+                    aria-expanded={showAllSizes}
+                  >
+                    {showAllSizes ? (
+                      <>
+                        Показати менше <ChevronUp size={18} />
+                      </>
+                    ) : (
+                      <>
+                        Показати всі розміри ({variants.length}){" "}
+                        <ChevronDown size={18} />
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
 
               {/* Actions */}
@@ -306,7 +486,7 @@ const Product = () => {
                 }`}
                 onClick={() => handleTabChange("reviews")}
               >
-                Відгуки
+                Відгуки {mockReviews.length > 0 && `(${mockReviews.length})`}
               </button>
               <button
                 role="tab"
@@ -323,6 +503,7 @@ const Product = () => {
             </div>
 
             <div className="tabs__content">
+              {/* Characteristics Tab */}
               {activeTab === "characteristics" && (
                 <div
                   role="tabpanel"
@@ -330,6 +511,24 @@ const Product = () => {
                   aria-labelledby="characteristics-tab"
                   className="tab-content"
                 >
+                  {/* Рекомендації (якщо є) */}
+                  {product.recommendations && (
+                    <div className="recommendations-block">
+                      <div className="recommendations-block__icon">
+                        <ShieldCheck size={24} />
+                      </div>
+                      <div className="recommendations-block__content">
+                        <h3 className="recommendations-block__title">
+                          Рекомендації експертів
+                        </h3>
+                        <p className="recommendations-block__text">
+                          {product.recommendations}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <h3 className="section-subtitle">Технічні характеристики</h3>
                   <div className="characteristics-grid">
                     <div className="characteristic-item">
                       <span className="characteristic-item__label">Тип:</span>
@@ -390,13 +589,25 @@ const Product = () => {
                       </div>
                     )}
                   </div>
-                  <p className="tab-content__description">
-                    Рекомендації: провітрювати кожні 2 місяці, використовувати
-                    наматрацник для захисту.
-                  </p>
+
+                  <div className="care-recommendations">
+                    <h3 className="section-subtitle">
+                      Рекомендації по догляду
+                    </h3>
+                    <ul className="care-list">
+                      <li>Провітрюйте матрац кожні 2-3 місяці</li>
+                      <li>Використовуйте наматрацник для захисту</li>
+                      <li>
+                        Перевертайте матрац раз на 3 місяці для рівномірного
+                        зносу
+                      </li>
+                      <li>Уникайте прямих сонячних променів та вологи</li>
+                    </ul>
+                  </div>
                 </div>
               )}
 
+              {/* Reviews Tab */}
               {activeTab === "reviews" && (
                 <div
                   role="tabpanel"
@@ -404,46 +615,157 @@ const Product = () => {
                   aria-labelledby="reviews-tab"
                   className="tab-content"
                 >
+                  {/* Відгуки */}
+                  {mockReviews.length > 0 ? (
+                    <div className="reviews-section">
+                      <div className="reviews-summary">
+                        <div className="reviews-summary__rating">
+                          <span className="reviews-summary__number">
+                            {averageRating}
+                          </span>
+                          <div className="reviews-summary__stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`rating-star ${
+                                  star <= Math.round(averageRating)
+                                    ? "rating-star--filled"
+                                    : ""
+                                }`}
+                                size={20}
+                              />
+                            ))}
+                          </div>
+                          <span className="reviews-summary__text">
+                            Базується на {mockReviews.length} відгуках
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="reviews-list">
+                        {visibleReviews.map((review) => (
+                          <div key={review.id} className="review-card">
+                            <div className="review-card__header">
+                              <div className="review-card__author">
+                                <span className="review-card__name">
+                                  {review.name}
+                                </span>
+                                {review.verified && (
+                                  <span className="review-card__verified">
+                                    <CheckCircle size={16} />
+                                    Підтверджена покупка
+                                  </span>
+                                )}
+                              </div>
+                              <span className="review-card__date">
+                                {new Date(review.date).toLocaleDateString(
+                                  "uk-UA",
+                                  {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </div>
+                            <div className="review-card__rating">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`rating-star rating-star--small ${
+                                    star <= review.rating
+                                      ? "rating-star--filled"
+                                      : ""
+                                  }`}
+                                  size={16}
+                                />
+                              ))}
+                            </div>
+                            <p className="review-card__comment">
+                              {review.comment}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {mockReviews.length > 3 && (
+                        <button
+                          className="show-more-reviews"
+                          onClick={toggleReviewsVisibility}
+                          aria-expanded={showAllReviews}
+                        >
+                          {showAllReviews ? (
+                            <>
+                              Показати менше <ChevronUp size={18} />
+                            </>
+                          ) : (
+                            <>
+                              Показати всі відгуки ({mockReviews.length}){" "}
+                              <ChevronDown size={18} />
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="empty-state">
+                      <div className="empty-state__icon">
+                        <Star size={48} />
+                      </div>
+                      <h3 className="empty-state__title">
+                        Поки що немає відгуків
+                      </h3>
+                      <p className="empty-state__text">
+                        Будьте першим, хто залишить відгук про цей матрац!
+                      </p>
+                    </div>
+                  )}
+
                   {/* Форма додавання коментаря */}
                   <div className="comment-form">
                     <h3 className="comment-form__title">Залишити відгук</h3>
                     <form onSubmit={handleCommentSubmit}>
-                      <div className="comment-form__group">
-                        <label htmlFor="name" className="comment-form__label">
-                          Ваше ім'я *
-                        </label>
-                        <input
-                          id="name"
-                          type="text"
-                          className="comment-form__input"
-                          value={commentForm.name}
-                          onChange={(e) =>
-                            setCommentForm({
-                              ...commentForm,
-                              name: e.target.value,
-                            })
-                          }
-                          required
-                        />
-                      </div>
+                      <div className="comment-form__row">
+                        <div className="comment-form__group">
+                          <label htmlFor="name" className="comment-form__label">
+                            Ваше ім'я *
+                          </label>
+                          <input
+                            id="name"
+                            type="text"
+                            className="comment-form__input"
+                            value={commentForm.name}
+                            onChange={(e) =>
+                              setCommentForm({
+                                ...commentForm,
+                                name: e.target.value,
+                              })
+                            }
+                            required
+                          />
+                        </div>
 
-                      <div className="comment-form__group">
-                        <label htmlFor="email" className="comment-form__label">
-                          Email *
-                        </label>
-                        <input
-                          id="email"
-                          type="email"
-                          className="comment-form__input"
-                          value={commentForm.email}
-                          onChange={(e) =>
-                            setCommentForm({
-                              ...commentForm,
-                              email: e.target.value,
-                            })
-                          }
-                          required
-                        />
+                        <div className="comment-form__group">
+                          <label
+                            htmlFor="email"
+                            className="comment-form__label"
+                          >
+                            Email *
+                          </label>
+                          <input
+                            id="email"
+                            type="email"
+                            className="comment-form__input"
+                            value={commentForm.email}
+                            onChange={(e) =>
+                              setCommentForm({
+                                ...commentForm,
+                                email: e.target.value,
+                              })
+                            }
+                            required
+                          />
+                        </div>
                       </div>
 
                       <div className="comment-form__group">
@@ -490,6 +812,7 @@ const Product = () => {
                             })
                           }
                           required
+                          placeholder="Поділіться своїми враженнями про цей матрац..."
                         ></textarea>
                       </div>
 
@@ -498,16 +821,10 @@ const Product = () => {
                       </button>
                     </form>
                   </div>
-
-                  {/* Список відгуків */}
-                  <div className="reviews-list">
-                    <p className="reviews-list__empty">
-                      Відгуки відсутні. Будьте першим, хто залишить відгук!
-                    </p>
-                  </div>
                 </div>
               )}
 
+              {/* Certificates Tab */}
               {activeTab === "certificates" && (
                 <div
                   role="tabpanel"
@@ -515,15 +832,104 @@ const Product = () => {
                   aria-labelledby="certificates-tab"
                   className="tab-content"
                 >
-                  <p className="tab-content__description">
-                    Інформація про сертифікати буде доступна незабаром.
-                  </p>
+                  {mockCertificates.length > 0 ? (
+                    <div className="certificates-grid">
+                      {mockCertificates.map((cert) => (
+                        <div
+                          key={cert.id}
+                          className="certificate-card"
+                          onClick={() => setSelectedCertificate(cert)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              setSelectedCertificate(cert);
+                            }
+                          }}
+                        >
+                          <div className="certificate-card__image-wrapper">
+                            <img
+                              src={cert.image}
+                              alt={cert.title}
+                              className="certificate-card__image"
+                              loading="lazy"
+                            />
+                            <div className="certificate-card__overlay">
+                              <Award size={32} />
+                              <span>Переглянути</span>
+                            </div>
+                          </div>
+                          <div className="certificate-card__content">
+                            <h4 className="certificate-card__title">
+                              {cert.title}
+                            </h4>
+                            <p className="certificate-card__description">
+                              {cert.description}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="empty-state">
+                      <div className="empty-state__icon">
+                        <Award size={48} />
+                      </div>
+                      <h3 className="empty-state__title">
+                        Сертифікати відсутні
+                      </h3>
+                      <p className="empty-state__text">
+                        Для даного товару сертифікати ще не додані. Зв'яжіться з
+                        нами для отримання додаткової інформації.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Certificate Modal */}
+      {selectedCertificate && (
+        <div
+          className="certificate-modal"
+          onClick={() => setSelectedCertificate(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="certificate-modal-title"
+        >
+          <div
+            className="certificate-modal__content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="certificate-modal__close"
+              onClick={() => setSelectedCertificate(null)}
+              aria-label="Закрити модальне вікно"
+            >
+              ×
+            </button>
+            <img
+              src={selectedCertificate.image}
+              alt={selectedCertificate.title}
+              className="certificate-modal__image"
+            />
+            <div className="certificate-modal__info">
+              <h3
+                id="certificate-modal-title"
+                className="certificate-modal__title"
+              >
+                {selectedCertificate.title}
+              </h3>
+              <p className="certificate-modal__description">
+                {selectedCertificate.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Similar Products Carousel */}
       {relatedProducts.length > 0 && (

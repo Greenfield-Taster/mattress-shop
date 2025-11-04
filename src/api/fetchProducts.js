@@ -1,11 +1,5 @@
-// 🔄 ВАЖЛИВО: Коли підключатимеш реальний сервер:
-// 1. Замінити mockProducts на axios.get('/api/products', { params })
-// 2. Обробити response.data замість локальних даних
-// 3. Додати обробку помилок (try/catch)
-
 import springMattress from "../assets/images/spring.png";
 
-// Тимчасові mock-дані для розробки
 const mockProducts = [
   {
     id: 1,
@@ -16,7 +10,14 @@ const mockProducts = [
     price: 7990,
     oldPrice: 9990,
     image: springMattress,
-    images: [springMattress, springMattress, springMattress, springMattress, springMattress, springMattress],
+    images: [
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+    ],
     size: "160х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Піна з пам'яттю"],
@@ -30,6 +31,18 @@ const mockProducts = [
       { id: 2, size: "160×200", price: 7990, oldPrice: 9990 },
       { id: 3, size: "180×200", price: 8990, oldPrice: 10990 },
       { id: 4, size: "200×200", price: 9990, oldPrice: 11990 },
+      { id: 5, size: "140×200", price: 6990, oldPrice: 8990 },
+      { id: 6, size: "160×200", price: 7990, oldPrice: 9990 },
+      { id: 7, size: "180×200", price: 8990, oldPrice: 10990 },
+      { id: 8, size: "200×200", price: 9990, oldPrice: 11990 },
+      { id: 9, size: "140×200", price: 6990, oldPrice: 8990 },
+      { id: 10, size: "160×200", price: 7990, oldPrice: 9990 },
+      { id: 11, size: "180×200", price: 8990, oldPrice: 10990 },
+      { id: 12, size: "200×200", price: 9990, oldPrice: 11990 },
+      { id: 13, size: "140×200", price: 6990, oldPrice: 8990 },
+      { id: 14, size: "160×200", price: 7990, oldPrice: 9990 },
+      { id: 15, size: "180×200", price: 8990, oldPrice: 10990 },
+      { id: 16, size: "200×200", price: 9990, oldPrice: 11990 },
     ],
   },
   {
@@ -51,8 +64,12 @@ const mockProducts = [
     isNew: true,
     discount: 0,
     variants: [
-      { id: 5, size: "160×200", price: 11500 },
-      { id: 6, size: "180×200", price: 12500 },
+      { id: 1, size: "160×200", price: 11500 },
+      { id: 2, size: "180×200", price: 12500 },
+      { id: 3, size: "200×200", price: 13500 },
+      { id: 4, size: "160×200", price: 11500 },
+      { id: 5, size: "180×200", price: 12500 },
+      { id: 6, size: "200×200", price: 13500 },
       { id: 7, size: "200×200", price: 13500 },
     ],
   },
@@ -89,7 +106,13 @@ const mockProducts = [
     price: 15990,
     oldPrice: null,
     image: springMattress,
-    images: [springMattress, springMattress, springMattress, springMattress, springMattress],
+    images: [
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+    ],
     size: "200х200",
     blockType: "Безпружинний",
     fillers: ["Піна з пам'яттю", "Латекс"],
@@ -184,7 +207,15 @@ const mockProducts = [
     price: 18990,
     oldPrice: 22990,
     image: springMattress,
-    images: [springMattress, springMattress, springMattress, springMattress, springMattress, springMattress, springMattress],
+    images: [
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+    ],
     size: "200х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Кокосове полотно"],
@@ -255,7 +286,13 @@ const mockProducts = [
     price: 13990,
     oldPrice: 16990,
     image: springMattress,
-    images: [springMattress, springMattress, springMattress, springMattress, springMattress],
+    images: [
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+    ],
     size: "180х200",
     blockType: "Незалежний пружинний блок",
     fillers: ["Латекс", "Піна з пам'яттю"],
@@ -327,7 +364,13 @@ const mockProducts = [
     price: 16990,
     oldPrice: null,
     image: springMattress,
-    images: [springMattress, springMattress, springMattress, springMattress, springMattress],
+    images: [
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+      springMattress,
+    ],
     size: "180х200",
     blockType: "Безпружинний",
     fillers: ["Латекс", "Кокосове полотно"],
@@ -486,7 +529,7 @@ const mockProducts = [
 ];
 
 const filterProducts = (products, params) => {
-  return products.filter(product => {
+  return products.filter((product) => {
     if (params.types?.length > 0 && !params.types.includes(product.type)) {
       return false;
     }
@@ -494,14 +537,17 @@ const filterProducts = (products, params) => {
       return false;
     }
     if (params.height) {
-      const [min, max] = params.height.split('-').map(Number);
+      const [min, max] = params.height.split("-").map(Number);
       if (product.height < min || product.height > max) return false;
     }
-    if (params.blockTypes?.length > 0 && !params.blockTypes.includes(product.blockType)) {
+    if (
+      params.blockTypes?.length > 0 &&
+      !params.blockTypes.includes(product.blockType)
+    ) {
       return false;
     }
     if (params.fillers?.length > 0) {
-      const hasAnyFiller = params.fillers.some(filler => 
+      const hasAnyFiller = params.fillers.some((filler) =>
         product.fillers.includes(filler)
       );
       if (!hasAnyFiller) return false;
@@ -510,11 +556,11 @@ const filterProducts = (products, params) => {
       return false;
     }
     if (params.maxWeight) {
-      const maxWeightValue = parseInt(params.maxWeight.replace('<=', ''));
+      const maxWeightValue = parseInt(params.maxWeight.replace("<=", ""));
       if (product.maxWeight > maxWeightValue) return false;
     }
     if (params.price) {
-      const [min, max] = params.price.split('-').map(Number);
+      const [min, max] = params.price.split("-").map(Number);
       if (product.price < min || product.price > max) return false;
     }
     return true;
@@ -522,18 +568,18 @@ const filterProducts = (products, params) => {
 };
 
 const sortProducts = (products, sortParam) => {
-  if (!sortParam || sortParam === 'default') return products;
+  if (!sortParam || sortParam === "default") return products;
   const sorted = [...products];
   switch (sortParam) {
-    case 'price-asc':
+    case "price-asc":
       return sorted.sort((a, b) => a.price - b.price);
-    case 'price-desc':
+    case "price-desc":
       return sorted.sort((a, b) => b.price - a.price);
-    case 'popular':
+    case "popular":
       return sorted;
-    case 'new':
+    case "new":
       return sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-    case 'discount':
+    case "discount":
       return sorted.sort((a, b) => b.discount - a.discount);
     default:
       return sorted;
@@ -541,7 +587,7 @@ const sortProducts = (products, sortParam) => {
 };
 
 export const fetchProducts = async (params) => {
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 300));
   const page = parseInt(params.page) || 1;
   const limit = parseInt(params.limit) || 12;
   let filtered = filterProducts(mockProducts, params);

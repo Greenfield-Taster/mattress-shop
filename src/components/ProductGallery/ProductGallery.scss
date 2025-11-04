@@ -5,10 +5,17 @@
   flex-direction: column;
   gap: v.$spacing-4;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-3;
+  }
 
   &__main {
     position: relative;
     width: 100%;
+    max-width: 100%;
     aspect-ratio: 4 / 3;
     background-color: v.$neutral-50;
     border-radius: v.$radius-lg;
@@ -24,6 +31,7 @@
 
     @media (max-width: v.$breakpoint-sm) {
       border-radius: v.$radius-base;
+      aspect-ratio: 1 / 1;
     }
   }
 
@@ -133,11 +141,14 @@
     display: flex;
     gap: v.$spacing-3;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     padding: v.$spacing-2 0;
     scrollbar-width: thin;
     scrollbar-color: v.$color-border v.$neutral-100;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
 
     &::-webkit-scrollbar {
       height: 6px;
@@ -168,6 +179,7 @@
     flex-shrink: 0;
     width: 80px;
     height: 80px;
+    min-width: 60px;
     aspect-ratio: 1;
     background-color: v.$neutral-50;
     border: 2px solid v.$color-border;
