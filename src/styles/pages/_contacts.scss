@@ -1,4 +1,5 @@
 @use "../variables" as v;
+@use "sass:color";
 
 .contacts {
   background: linear-gradient(135deg, v.$neutral-50 0%, v.$neutral-100 100%);
@@ -589,7 +590,7 @@
     background: linear-gradient(
       135deg,
       v.$success-light 0%,
-      lighten(v.$success-light, 5%) 100%
+      color.scale(v.$success-light, $lightness: 5%) 100%
     );
     border: 2px solid v.$success;
     color: v.$success-dark;
