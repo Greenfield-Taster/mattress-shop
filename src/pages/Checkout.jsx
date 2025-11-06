@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { AuthContext } from "../contexts/AuthContext";
+import DeliveryAutocomplete from "../components/DeliveryAutocomplete/DeliveryAutocomplete";
+import { getDeliveryAPI } from "../api/deliveryServices";
 import {
   formatPhoneNumber,
   formatCardNumber,
@@ -24,7 +26,6 @@ import {
   Package,
   Clock,
   CheckCircle,
-  ChevronDown,
   HelpCircle,
 } from "lucide-react";
 
@@ -44,6 +45,7 @@ const Checkout = () => {
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const [deliveryCity, setDeliveryCity] = useState("");
+  const [deliveryCityRef, setDeliveryCityRef] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryWarehouse, setDeliveryWarehouse] = useState("");
   const [saveDeliveryInfo, setSaveDeliveryInfo] = useState(false);
@@ -282,6 +284,46 @@ const Checkout = () => {
     alert("Замовлення успішно оформлено! (це тестовий режим)");
   };
 
+  // Функції для пошуку міст та відділень
+  const handleCitySearch = async (query) => {
+    console.log('🏙️ handleCitySearch викликано:', { query, deliveryMethod });
+    const api = getDeliveryAPI(deliveryMethod);
+    console.log('📡 Отримано API:', api ? 'Так' : 'Ні');
+    if (!api) {
+      console.warn('⚠️ API не знайдено для методу:', deliveryMethod);
+      return [];
+    }
+    const results = await api.searchCities(query);
+    console.log('✅ handleCitySearch повертає результати:', results.length);
+    return results;
+  };
+
+  const handleWarehouseSearch = async (query) => {
+    console.log('🏢 handleWarehouseSearch викликано:', { query, deliveryMethod, deliveryCityRef });
+    const api = getDeliveryAPI(deliveryMethod);
+    console.log('📡 Отримано API:', api ? 'Так' : 'Ні');
+    if (!api || !deliveryCityRef) {
+      console.warn('⚠️ API або cityRef відсутні:', { api: !!api, deliveryCityRef });
+      return [];
+    }
+    const results = await api.getWarehouses(deliveryCityRef, query);
+    console.log('✅ handleWarehouseSearch повертає результати:', results.length);
+    return results;
+  };
+
+  const handleCityChange = (city) => {
+    setDeliveryCity(city.label);
+    setDeliveryCityRef(city.value);
+    // Скидання відділення при зміні міста
+    setDeliveryWarehouse("");
+    clearError("deliveryCity");
+  };
+
+  const handleWarehouseChange = (warehouse) => {
+    setDeliveryWarehouse(warehouse.label);
+    clearError("deliveryWarehouse");
+  };
+
   const deliveryPrice =
     deliveryMethod === "pickup" ? 0 : "за тарифами перевізника";
 
@@ -427,40 +469,22 @@ const Checkout = () => {
               {/* Delivery details based on selection */}
               {deliveryMethod && deliveryMethod !== "pickup" && (
                 <div className="checkout__delivery-details">
+                  <div className="checkout__delivery-info-tip">
+                    🔍 Почніть вводити назву міста, і система автоматично знайде відповідні варіанти
+                  </div>
                   <div className="checkout__form-group">
                     <label className="checkout__label">
                       <MapPin size={18} />
                       Місто
                     </label>
-                    <div className="checkout__select-wrapper">
-                      <select
-                        value={deliveryCity}
-                        onChange={(e) => {
-                          setDeliveryCity(e.target.value);
-                          clearError("deliveryCity");
-                        }}
-                        className={`checkout__select ${
-                          errors.deliveryCity ? "error" : ""
-                        }`}
-                        required
-                      >
-                        <option value="">Оберіть місто</option>
-                        <option value="kyiv">Київ</option>
-                        <option value="lviv">Львів</option>
-                        <option value="odesa">Одеса</option>
-                        <option value="kharkiv">Харків</option>
-                        <option value="dnipro">Дніпро</option>
-                      </select>
-                      <ChevronDown
-                        size={20}
-                        className="checkout__select-icon"
-                      />
-                    </div>
-                    {errors.deliveryCity && (
-                      <span className="checkout__error">
-                        {errors.deliveryCity}
-                      </span>
-                    )}
+                    <DeliveryAutocomplete
+                      type="city"
+                      value={deliveryCity}
+                      onChange={handleCityChange}
+                      onSearch={handleCitySearch}
+                      placeholder="Почніть вводити назву міста"
+                      error={errors.deliveryCity}
+                    />
                   </div>
 
                   {deliveryMethod === "courier" ? (
@@ -490,33 +514,16 @@ const Checkout = () => {
                       <label className="checkout__label">
                         Відділення / Поштомат
                       </label>
-                      <div className="checkout__select-wrapper">
-                        <select
-                          value={deliveryWarehouse}
-                          onChange={(e) => {
-                            setDeliveryWarehouse(e.target.value);
-                            clearError("deliveryWarehouse");
-                          }}
-                          className={`checkout__select ${
-                            errors.deliveryWarehouse ? "error" : ""
-                          }`}
-                          required
-                        >
-                          <option value="">Оберіть відділення</option>
-                          <option value="1">Відділення №1</option>
-                          <option value="2">Відділення №2</option>
-                          <option value="3">Поштомат №15</option>
-                        </select>
-                        <ChevronDown
-                          size={20}
-                          className="checkout__select-icon"
-                        />
-                      </div>
-                      {errors.deliveryWarehouse && (
-                        <span className="checkout__error">
-                          {errors.deliveryWarehouse}
-                        </span>
-                      )}
+                      <DeliveryAutocomplete
+                        type="warehouse"
+                        value={deliveryWarehouse}
+                        onChange={handleWarehouseChange}
+                        onSearch={handleWarehouseSearch}
+                        placeholder="Почніть вводити номер або адресу"
+                        error={errors.deliveryWarehouse}
+                        cityRef={deliveryCityRef}
+                        disabled={!deliveryCityRef}
+                      />
                     </div>
                   )}
 

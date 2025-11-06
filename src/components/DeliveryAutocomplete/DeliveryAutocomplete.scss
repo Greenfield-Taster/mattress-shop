@@ -1,0 +1,196 @@
+@use "../../styles/variables" as v;
+
+.delivery-autocomplete {
+  position: relative;
+  width: 100%;
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 40px 12px 40px;
+    border: 1px solid v.$color-border-light;
+    border-radius: v.$radius-input;
+    background: v.$neutral-0;
+    transition: all 0.2s ease;
+
+    &:focus-within {
+      border-color: v.$brand-primary-500;
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+    }
+
+    &.error {
+      border-color: v.$error;
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: 12px;
+    color: v.$color-text-secondary;
+    pointer-events: none;
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: v.$color-text-primary;
+    background: transparent;
+    padding: 0;
+
+    &::placeholder {
+      color: v.$color-text-tertiary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: v.$color-text-secondary;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: v.$color-background;
+      color: v.$color-text-primary;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 300px;
+    background: v.$neutral-0;
+    border: 1px solid v.$color-border-light;
+    border-radius: v.$radius-input;
+    box-shadow: v.$shadow-dropdown;
+    overflow-y: auto;
+    z-index: v.$z-dropdown;
+    animation: slideDown 0.2s ease;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: v.$color-background;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: v.$color-border-light;
+      border-radius: 3px;
+
+      &:hover {
+        background: v.$color-border;
+      }
+    }
+  }
+
+  &__loading,
+  &__empty {
+    padding: 16px;
+    text-align: center;
+    color: v.$color-text-secondary;
+    font-size: 14px;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: v.$color-background;
+    }
+
+    &:active {
+      background: v.$neutral-200;
+    }
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: v.$brand-primary-500;
+  }
+
+  &__item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__item-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: v.$color-text-primary;
+    margin-bottom: 2px;
+  }
+
+  &__item-address,
+  &__item-area {
+    font-size: 12px;
+    color: v.$color-text-secondary;
+    margin-top: 2px;
+  }
+
+  &__error {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: v.$error;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .delivery-autocomplete {
+    &__dropdown {
+      max-height: 250px;
+    }
+
+    &__item {
+      padding: 10px 12px;
+    }
+  }
+}

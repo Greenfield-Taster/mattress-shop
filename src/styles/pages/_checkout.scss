@@ -833,4 +833,21 @@
       height: 24px;
     }
   }
+
+  &__delivery-info-tip {
+    background: rgba(v.$brand-primary-500, 0.08);
+    border-left: 3px solid v.$brand-primary-500;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-3 v.$spacing-4;
+    margin-bottom: v.$spacing-4;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    line-height: v.$line-height-relaxed;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-2 v.$spacing-3;
+      font-size: v.$font-size-xs;
+      margin-bottom: v.$spacing-3;
+    }
+  }
 }
