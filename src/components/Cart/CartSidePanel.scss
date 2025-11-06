@@ -441,7 +441,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-base;
     color: v.$color-text-secondary;
 
     span:last-child {
@@ -460,12 +460,12 @@
     &--final {
       padding-top: v.$spacing-3;
       border-top: 1px solid v.$color-border;
-      font-size: v.$font-size-lg;
+      font-size: v.$font-size-xl;
       font-weight: v.$font-weight-bold;
       color: v.$color-text-primary;
 
       span:last-child {
-        font-size: v.$font-size-xl;
+        font-size: v.$font-size-2xl;
         color: v.$brand-primary-500;
       }
     }
