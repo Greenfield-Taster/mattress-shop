@@ -140,6 +140,38 @@
     }
   }
 
+  &__error {
+    display: block;
+    font-size: v.$font-size-xs;
+    color: #ef4444;
+    margin-top: v.$spacing-1;
+    font-weight: v.$font-weight-medium;
+  }
+
+  &__section-error {
+    background: rgba(#ef4444, 0.1);
+    border: 1px solid #ef4444;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-3 v.$spacing-4;
+    margin-bottom: v.$spacing-4;
+    font-size: v.$font-size-sm;
+    color: #dc2626;
+    font-weight: v.$font-weight-medium;
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-2;
+
+    &::before {
+      content: "⚠️";
+      flex-shrink: 0;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-2 v.$spacing-3;
+      font-size: v.$font-size-xs;
+    }
+  }
+
   &__input,
   &__textarea,
   &__select {
@@ -162,6 +194,16 @@
       border-color: v.$brand-primary-500;
       background: v.$neutral-0;
       box-shadow: 0 0 0 3px rgba(v.$brand-primary-500, 0.1);
+    }
+
+    &.error {
+      border-color: #ef4444;
+      background: rgba(#ef4444, 0.05);
+
+      &:focus {
+        border-color: #ef4444;
+        box-shadow: 0 0 0 3px rgba(#ef4444, 0.1);
+      }
     }
 
     @media (max-width: v.$breakpoint-sm) {
@@ -574,12 +616,6 @@
       transform: translateY(0);
     }
 
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
     @media (max-width: v.$breakpoint-sm) {
       padding: v.$spacing-3;
       font-size: v.$font-size-sm;
@@ -642,5 +678,133 @@
     font-weight: v.$font-weight-medium;
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-3;
+  }
+
+  &__payment-details {
+    background: v.$neutral-50;
+    padding: v.$spacing-5;
+    border-radius: v.$radius-md;
+    margin-top: v.$spacing-4;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-4;
+    }
+  }
+
+  &__payment-info-box {
+    background: v.$neutral-0;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-4;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-3;
+    }
+  }
+
+  &__payment-info-text {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-primary;
+    line-height: v.$line-height-relaxed;
+    margin-bottom: v.$spacing-2;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+    }
+  }
+
+  &__payment-info-note {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-secondary;
+    line-height: v.$line-height-relaxed;
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 11px;
+    }
+  }
+
+  &__payment-security {
+    background: rgba(v.$brand-primary-500, 0.05);
+    border: 1px solid rgba(v.$brand-primary-500, 0.2);
+    border-radius: v.$radius-base;
+    padding: v.$spacing-3;
+    text-align: center;
+    margin-top: v.$spacing-4;
+
+    p {
+      font-size: v.$font-size-xs;
+      color: v.$brand-primary-600;
+      font-weight: v.$font-weight-medium;
+      margin: 0;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-2;
+    }
+  }
+
+  &__payment-buttons {
+    display: flex;
+    gap: v.$spacing-3;
+    margin-bottom: v.$spacing-4;
+
+    @media (max-width: v.$breakpoint-sm) {
+      flex-direction: column;
+      gap: v.$spacing-2;
+    }
+  }
+
+  &__payment-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: v.$spacing-4;
+    background: v.$neutral-0;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-md;
+    cursor: pointer;
+    transition: v.$transition-button;
+    font-family: v.$font-family-base;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    min-height: 56px;
+
+    &:hover {
+      border-color: v.$brand-primary-500;
+      box-shadow: v.$shadow-card;
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-3;
+      font-size: v.$font-size-sm;
+      min-height: 48px;
+    }
+  }
+
+  &__payment-logo {
+    height: 32px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+
+    @media (max-width: v.$breakpoint-sm) {
+      height: 24px;
+    }
   }
 }

@@ -2,6 +2,15 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { AuthContext } from "../contexts/AuthContext";
+import {
+  formatPhoneNumber,
+  formatCardNumber,
+  formatCardExpiry,
+  formatCVV,
+  formatEDRPOU,
+  validateCheckoutForm,
+  clearFieldError,
+} from "../utils/checkoutValidation";
 import "../styles/pages/Checkout.scss";
 
 // Import icons (lucide-react)
@@ -39,11 +48,35 @@ const Checkout = () => {
   const [deliveryWarehouse, setDeliveryWarehouse] = useState("");
   const [saveDeliveryInfo, setSaveDeliveryInfo] = useState(false);
 
-  // Payment state
   const [paymentMethod, setPaymentMethod] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [edrpou, setEdrpou] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
 
-  // Delivery options
+  const [errors, setErrors] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    deliveryMethod: "",
+    deliveryCity: "",
+    deliveryAddress: "",
+    deliveryWarehouse: "",
+    paymentMethod: "",
+    cardNumber: "",
+    cardExpiry: "",
+    cardCvv: "",
+    cardHolder: "",
+    companyName: "",
+    edrpou: "",
+    companyAddress: "",
+    agreeToTerms: "",
+  });
+
   const deliveryOptions = [
     {
       id: "nova-poshta",
@@ -111,31 +144,126 @@ const Checkout = () => {
     },
   ];
 
+  // Clear error when field is changed
+  const clearError = (fieldName) => {
+    setErrors((prev) => clearFieldError(prev, fieldName));
+  };
+
   const handleContactChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setContactData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+
+    if (name === "phone") {
+      const formatted = formatPhoneNumber(value);
+      setContactData((prev) => ({ ...prev, phone: formatted }));
+    } else {
+      setContactData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+
+    clearError(name);
+  };
+
+  // Handle card number change with formatting
+  const handleCardNumberChange = (e) => {
+    const formatted = formatCardNumber(e.target.value);
+    setCardNumber(formatted);
+    clearError("cardNumber");
+  };
+
+  // Handle card expiry change with formatting
+  const handleCardExpiryChange = (e) => {
+    const formatted = formatCardExpiry(e.target.value);
+    setCardExpiry(formatted);
+    clearError("cardExpiry");
+  };
+
+  // Handle CVV change with formatting
+  const handleCVVChange = (e) => {
+    const formatted = formatCVV(e.target.value);
+    setCardCvv(formatted);
+    clearError("cardCvv");
+  };
+
+  // Handle EDRPOU change with formatting
+  const handleEDRPOUChange = (e) => {
+    const formatted = formatEDRPOU(e.target.value);
+    setEdrpou(formatted);
+    clearError("edrpou");
+  };
+
+  // Handle Google/Apple Pay
+  const handleGoogleApplePay = (paymentType) => {
+    // Validate all required fields
+    const formData = {
+      contactData,
+      deliveryMethod,
+      deliveryCity,
+      deliveryAddress,
+      deliveryWarehouse,
+      paymentMethod: "google-apple-pay",
+      paymentData: {},
+      agreeToTerms,
+    };
+
+    const newErrors = validateCheckoutForm(formData);
+    setErrors(newErrors);
+
+    // If there are errors, don't proceed
+    if (Object.keys(newErrors).length > 0) {
+      // Scroll to first error
+      const firstErrorField = Object.keys(newErrors)[0];
+      const element =
+        document.querySelector(`[name="${firstErrorField}"]`) ||
+        document.querySelector(`.checkout__section`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    console.log(`Initiating ${paymentType} payment...`);
+    alert(`🔄 Перенаправлення на ${paymentType}...\n(це тестовий режим)`);
+    // Here would be Google/Apple Pay integration
   };
 
   const handleSubmitOrder = (e) => {
     e.preventDefault();
 
-    if (!deliveryMethod) {
-      alert("Будь ласка, оберіть спосіб доставки");
-      return;
-    }
+    // Prepare form data for validation
+    const formData = {
+      contactData,
+      deliveryMethod,
+      deliveryCity,
+      deliveryAddress,
+      deliveryWarehouse,
+      paymentMethod,
+      paymentData: {
+        cardNumber,
+        cardExpiry,
+        cardCvv,
+        cardHolder,
+        companyName,
+        edrpou,
+        companyAddress,
+      },
+      agreeToTerms,
+    };
 
-    if (!paymentMethod) {
-      alert("Будь ласка, оберіть спосіб оплати");
-      return;
-    }
+    // Validate all form data
+    const newErrors = validateCheckoutForm(formData);
+    setErrors(newErrors);
 
-    if (!agreeToTerms) {
-      alert(
-        "Необхідно погодитись з умовами оферти та політикою конфіденційності"
-      );
+    // If there are errors, scroll to first error
+    if (Object.keys(newErrors).length > 0) {
+      const firstErrorField = Object.keys(newErrors)[0];
+      const element =
+        document.querySelector(`[name="${firstErrorField}"]`) ||
+        document.querySelector(`.checkout__section`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       return;
     }
 
@@ -180,9 +308,14 @@ const Checkout = () => {
                   value={contactData.fullName}
                   onChange={handleContactChange}
                   placeholder="Введіть ваше ПІБ"
-                  className="checkout__input"
+                  className={`checkout__input ${
+                    errors.fullName ? "error" : ""
+                  }`}
                   required
                 />
+                {errors.fullName && (
+                  <span className="checkout__error">{errors.fullName}</span>
+                )}
               </div>
 
               <div className="checkout__form-row">
@@ -196,10 +329,13 @@ const Checkout = () => {
                     name="phone"
                     value={contactData.phone}
                     onChange={handleContactChange}
-                    placeholder="+380 XX XXX XX XX"
-                    className="checkout__input"
+                    placeholder="0XX XXX XX XX"
+                    className={`checkout__input ${errors.phone ? "error" : ""}`}
                     required
                   />
+                  {errors.phone && (
+                    <span className="checkout__error">{errors.phone}</span>
+                  )}
                 </div>
 
                 <div className="checkout__form-group">
@@ -213,9 +349,12 @@ const Checkout = () => {
                     value={contactData.email}
                     onChange={handleContactChange}
                     placeholder="example@mail.com"
-                    className="checkout__input"
+                    className={`checkout__input ${errors.email ? "error" : ""}`}
                     required
                   />
+                  {errors.email && (
+                    <span className="checkout__error">{errors.email}</span>
+                  )}
                 </div>
               </div>
 
@@ -253,6 +392,11 @@ const Checkout = () => {
               <p className="checkout__section-subtitle">
                 Оберіть спосіб доставки
               </p>
+              {errors.deliveryMethod && (
+                <div className="checkout__section-error">
+                  {errors.deliveryMethod}
+                </div>
+              )}
 
               <div className="checkout__delivery-grid">
                 {deliveryOptions.map((option) => (
@@ -291,8 +435,13 @@ const Checkout = () => {
                     <div className="checkout__select-wrapper">
                       <select
                         value={deliveryCity}
-                        onChange={(e) => setDeliveryCity(e.target.value)}
-                        className="checkout__select"
+                        onChange={(e) => {
+                          setDeliveryCity(e.target.value);
+                          clearError("deliveryCity");
+                        }}
+                        className={`checkout__select ${
+                          errors.deliveryCity ? "error" : ""
+                        }`}
                         required
                       >
                         <option value="">Оберіть місто</option>
@@ -307,6 +456,11 @@ const Checkout = () => {
                         className="checkout__select-icon"
                       />
                     </div>
+                    {errors.deliveryCity && (
+                      <span className="checkout__error">
+                        {errors.deliveryCity}
+                      </span>
+                    )}
                   </div>
 
                   {deliveryMethod === "courier" ? (
@@ -315,11 +469,21 @@ const Checkout = () => {
                       <input
                         type="text"
                         value={deliveryAddress}
-                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                        onChange={(e) => {
+                          setDeliveryAddress(e.target.value);
+                          clearError("deliveryAddress");
+                        }}
                         placeholder="Вулиця, будинок, квартира"
-                        className="checkout__input"
+                        className={`checkout__input ${
+                          errors.deliveryAddress ? "error" : ""
+                        }`}
                         required
                       />
+                      {errors.deliveryAddress && (
+                        <span className="checkout__error">
+                          {errors.deliveryAddress}
+                        </span>
+                      )}
                     </div>
                   ) : (
                     <div className="checkout__form-group">
@@ -329,8 +493,13 @@ const Checkout = () => {
                       <div className="checkout__select-wrapper">
                         <select
                           value={deliveryWarehouse}
-                          onChange={(e) => setDeliveryWarehouse(e.target.value)}
-                          className="checkout__select"
+                          onChange={(e) => {
+                            setDeliveryWarehouse(e.target.value);
+                            clearError("deliveryWarehouse");
+                          }}
+                          className={`checkout__select ${
+                            errors.deliveryWarehouse ? "error" : ""
+                          }`}
                           required
                         >
                           <option value="">Оберіть відділення</option>
@@ -343,6 +512,11 @@ const Checkout = () => {
                           className="checkout__select-icon"
                         />
                       </div>
+                      {errors.deliveryWarehouse && (
+                        <span className="checkout__error">
+                          {errors.deliveryWarehouse}
+                        </span>
+                      )}
                     </div>
                   )}
 
@@ -376,6 +550,11 @@ const Checkout = () => {
               <p className="checkout__section-subtitle">
                 Оберіть спосіб оплати
               </p>
+              {errors.paymentMethod && (
+                <div className="checkout__section-error">
+                  {errors.paymentMethod}
+                </div>
+              )}
 
               <div className="checkout__payment-grid">
                 {paymentOptions.map((option) => (
@@ -403,12 +582,246 @@ const Checkout = () => {
                 ))}
               </div>
 
+              {/* Dynamic payment forms based on selected method */}
+              {paymentMethod === "cash-on-delivery" && (
+                <div className="checkout__payment-details">
+                  <div className="checkout__payment-info-box">
+                    <p className="checkout__payment-info-text">
+                      💵 Ви зможете оплатити замовлення готівкою або карткою при
+                      отриманні товару.
+                    </p>
+                    <p className="checkout__payment-info-note">
+                      Зверніть увагу: при оплаті на пошті можлива комісія
+                      перевізника.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {paymentMethod === "card-online" && (
+                <div className="checkout__payment-details">
+                  <div className="checkout__form-group">
+                    <label className="checkout__label">
+                      <CreditCard size={18} />
+                      Номер картки
+                    </label>
+                    <input
+                      type="text"
+                      name="cardNumber"
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
+                      placeholder="1234 5678 9012 3456"
+                      className={`checkout__input ${
+                        errors.cardNumber ? "error" : ""
+                      }`}
+                      maxLength="19"
+                      required
+                    />
+                    {errors.cardNumber && (
+                      <span className="checkout__error">
+                        {errors.cardNumber}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="checkout__form-row">
+                    <div className="checkout__form-group">
+                      <label className="checkout__label">Термін дії</label>
+                      <input
+                        type="text"
+                        name="cardExpiry"
+                        value={cardExpiry}
+                        onChange={handleCardExpiryChange}
+                        placeholder="MM/YY"
+                        className={`checkout__input ${
+                          errors.cardExpiry ? "error" : ""
+                        }`}
+                        maxLength="5"
+                        required
+                      />
+                      {errors.cardExpiry && (
+                        <span className="checkout__error">
+                          {errors.cardExpiry}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="checkout__form-group">
+                      <label className="checkout__label">CVV</label>
+                      <input
+                        type="text"
+                        name="cardCvv"
+                        value={cardCvv}
+                        onChange={handleCVVChange}
+                        placeholder="123"
+                        className={`checkout__input ${
+                          errors.cardCvv ? "error" : ""
+                        }`}
+                        maxLength="3"
+                        required
+                      />
+                      {errors.cardCvv && (
+                        <span className="checkout__error">
+                          {errors.cardCvv}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="checkout__form-group">
+                    <label className="checkout__label">
+                      Ім'я власника картки
+                    </label>
+                    <input
+                      type="text"
+                      name="cardHolder"
+                      value={cardHolder}
+                      onChange={(e) => {
+                        setCardHolder(e.target.value);
+                        clearError("cardHolder");
+                      }}
+                      placeholder="TARAS SHEVCHENKO"
+                      className={`checkout__input ${
+                        errors.cardHolder ? "error" : ""
+                      }`}
+                      required
+                    />
+                    {errors.cardHolder && (
+                      <span className="checkout__error">
+                        {errors.cardHolder}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="checkout__payment-security">
+                    <p>🔒 Ваші дані захищені SSL-шифруванням</p>
+                  </div>
+                </div>
+              )}
+
+              {paymentMethod === "google-apple-pay" && (
+                <div className="checkout__payment-details">
+                  <div className="checkout__payment-buttons">
+                    <button
+                      className="checkout__payment-button checkout__payment-button--google"
+                      onClick={() => handleGoogleApplePay("Google Pay")}
+                      type="button"
+                    >
+                      <img
+                        src="/google-pay-logo.png"
+                        alt="Google Pay"
+                        className="checkout__payment-logo"
+                      />
+                    </button>
+                    <button
+                      className="checkout__payment-button checkout__payment-button--apple"
+                      onClick={() => handleGoogleApplePay("Apple Pay")}
+                      type="button"
+                    >
+                      <img
+                        src="/apple-pay-logo.png"
+                        alt="Apple Pay"
+                        className="checkout__payment-logo"
+                      />
+                    </button>
+                  </div>
+                  <div className="checkout__payment-info-box">
+                    <p className="checkout__payment-info-text">
+                      📱 Оберіть зручний спосіб оплати.
+                    </p>
+                    <p className="checkout__payment-info-note">
+                      Переконайтесь, що ваш пристрій підтримує обраний спосіб
+                      оплати.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {paymentMethod === "invoice" && (
+                <div className="checkout__payment-details">
+                  <div className="checkout__form-group">
+                    <label className="checkout__label">Назва компанії</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={companyName}
+                      onChange={(e) => {
+                        setCompanyName(e.target.value);
+                        clearError("companyName");
+                      }}
+                      placeholder="ТОВ 'Назва компанії'"
+                      className={`checkout__input ${
+                        errors.companyName ? "error" : ""
+                      }`}
+                      required
+                    />
+                    {errors.companyName && (
+                      <span className="checkout__error">
+                        {errors.companyName}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="checkout__form-group">
+                    <label className="checkout__label">ЄДРПОУ</label>
+                    <input
+                      type="text"
+                      name="edrpou"
+                      value={edrpou}
+                      onChange={handleEDRPOUChange}
+                      placeholder="12345678"
+                      className={`checkout__input ${
+                        errors.edrpou ? "error" : ""
+                      }`}
+                      maxLength="8"
+                      required
+                    />
+                    {errors.edrpou && (
+                      <span className="checkout__error">{errors.edrpou}</span>
+                    )}
+                  </div>
+
+                  <div className="checkout__form-group">
+                    <label className="checkout__label">Юридична адреса</label>
+                    <input
+                      type="text"
+                      name="companyAddress"
+                      value={companyAddress}
+                      onChange={(e) => {
+                        setCompanyAddress(e.target.value);
+                        clearError("companyAddress");
+                      }}
+                      placeholder="Місто, вулиця, будинок"
+                      className={`checkout__input ${
+                        errors.companyAddress ? "error" : ""
+                      }`}
+                      required
+                    />
+                    {errors.companyAddress && (
+                      <span className="checkout__error">
+                        {errors.companyAddress}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="checkout__payment-info-box">
+                    <p className="checkout__payment-info-text">
+                      🧾 Рахунок буде надіслано на вказану email-адресу протягом
+                      1 робочого дня.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <div className="checkout__checkbox">
                 <input
                   type="checkbox"
                   id="agreeTerms"
                   checked={agreeToTerms}
-                  onChange={(e) => setAgreeToTerms(e.target.checked)}
+                  onChange={(e) => {
+                    setAgreeToTerms(e.target.checked);
+                    clearError("agreeToTerms");
+                  }}
                   required
                 />
                 <label htmlFor="agreeTerms">
@@ -422,6 +835,14 @@ const Checkout = () => {
                   </a>
                 </label>
               </div>
+              {errors.agreeToTerms && (
+                <div
+                  className="checkout__section-error"
+                  style={{ marginTop: "12px" }}
+                >
+                  {errors.agreeToTerms}
+                </div>
+              )}
             </section>
           </div>
 
@@ -485,7 +906,9 @@ const Checkout = () => {
                 onClick={handleSubmitOrder}
                 className="checkout__submit-btn"
               >
-                Оплатити зараз
+                {paymentMethod === "card-online"
+                  ? "Оплатити зараз"
+                  : "Оформити замовлення"}
               </button>
 
               <div className="checkout__help">
