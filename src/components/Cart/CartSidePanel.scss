@@ -606,7 +606,7 @@
       width: 100%;
       font-size: v.$font-size-xl;
       letter-spacing: 0.3em;
-      padding: v.$spacing-3;
+      padding: v.$spacing-2;
 
       &::placeholder {
         font-size: v.$font-size-sm;
@@ -618,7 +618,7 @@
       width: 100%;
       min-height: 44px;
       font-size: v.$font-size-base;
-      padding: v.$spacing-4 v.$spacing-5;
+      padding: v.$spacing-3;
     }
   }
 }

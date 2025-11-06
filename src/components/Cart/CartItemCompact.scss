@@ -8,6 +8,7 @@
   border-radius: v.$radius-md;
   border: 1px solid v.$color-border;
   transition: v.$transition-card;
+  align-items: center;
 
   &:hover {
     border-color: v.$color-border-dark;
@@ -30,7 +31,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: v.$spacing-2;
+
     user-select: none;
     -webkit-user-drag: none;
   }
@@ -45,14 +46,14 @@
 
   &__header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: v.$spacing-2;
   }
 
   &__title {
     margin: 0;
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-lg;
     font-weight: v.$font-weight-semibold;
     color: v.$color-text-primary;
     line-height: v.$line-height-tight;
@@ -185,7 +186,7 @@
       margin: 0;
     }
 
-    &[type='number'] {
+    &[type="number"] {
       -moz-appearance: textfield;
       appearance: textfield;
     }
@@ -196,17 +197,40 @@
   }
 
   &__price {
-    font-size: v.$font-size-base;
+    font-size: v.$font-size-lg;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     white-space: nowrap;
   }
 }
 
-@media (max-width: v.$breakpoint-sm) {
+@media (max-width: v.$breakpoint-md) {
+  .cart-item-compact {
+    padding: v.$spacing-4;
+    gap: v.$spacing-4;
+
+    &__price {
+      font-size: v.$font-size-lg;
+    }
+
+    &__title {
+      font-size: v.$font-size-base;
+    }
+
+    &__specs {
+      margin-bottom: v.$spacing-2;
+    }
+  }
+}
+
+@media (max-width: 360px) {
   .cart-item-compact {
     padding: v.$spacing-3;
-    gap: v.$spacing-2;
+    gap: v.$spacing-3;
+
+    &__content {
+      gap: v.$spacing-1;
+    }
 
     &__image-wrapper {
       width: 60px;
@@ -214,7 +238,7 @@
     }
 
     &__title {
-      font-size: v.$font-size-xs;
+      font-size: v.$font-size-sm;
     }
 
     &__specs {
@@ -222,11 +246,15 @@
     }
 
     &__price {
-      font-size: v.$font-size-sm;
+      font-size: v.$font-size-base;
     }
 
     &__qty-input {
       width: 32px;
+    }
+
+    &__footer {
+      margin-top: v.$spacing-2;
     }
   }
 }
