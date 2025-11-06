@@ -286,28 +286,38 @@ const Checkout = () => {
 
   // Функції для пошуку міст та відділень
   const handleCitySearch = async (query) => {
-    console.log('🏙️ handleCitySearch викликано:', { query, deliveryMethod });
+    console.log("🏙️ handleCitySearch викликано:", { query, deliveryMethod });
     const api = getDeliveryAPI(deliveryMethod);
-    console.log('📡 Отримано API:', api ? 'Так' : 'Ні');
+    console.log("📡 Отримано API:", api ? "Так" : "Ні");
     if (!api) {
-      console.warn('⚠️ API не знайдено для методу:', deliveryMethod);
+      console.warn("⚠️ API не знайдено для методу:", deliveryMethod);
       return [];
     }
     const results = await api.searchCities(query);
-    console.log('✅ handleCitySearch повертає результати:', results.length);
+    console.log("✅ handleCitySearch повертає результати:", results.length);
     return results;
   };
 
   const handleWarehouseSearch = async (query) => {
-    console.log('🏢 handleWarehouseSearch викликано:', { query, deliveryMethod, deliveryCityRef });
+    console.log("🏢 handleWarehouseSearch викликано:", {
+      query,
+      deliveryMethod,
+      deliveryCityRef,
+    });
     const api = getDeliveryAPI(deliveryMethod);
-    console.log('📡 Отримано API:', api ? 'Так' : 'Ні');
+    console.log("📡 Отримано API:", api ? "Так" : "Ні");
     if (!api || !deliveryCityRef) {
-      console.warn('⚠️ API або cityRef відсутні:', { api: !!api, deliveryCityRef });
+      console.warn("⚠️ API або cityRef відсутні:", {
+        api: !!api,
+        deliveryCityRef,
+      });
       return [];
     }
     const results = await api.getWarehouses(deliveryCityRef, query);
-    console.log('✅ handleWarehouseSearch повертає результати:', results.length);
+    console.log(
+      "✅ handleWarehouseSearch повертає результати:",
+      results.length
+    );
     return results;
   };
 
@@ -338,7 +348,9 @@ const Checkout = () => {
             {/* Contact Data Block */}
             <section className="checkout__section">
               <h2 className="checkout__section-title">Контактні дані</h2>
-
+              <p className="checkout__section-subtitle">
+                Заповніть ваші контактні дані
+              </p>
               <div className="checkout__form-group">
                 <label className="checkout__label">
                   <User size={18} />
@@ -401,8 +413,8 @@ const Checkout = () => {
               </div>
 
               <div className="checkout__form-group">
-                <label className="checkout__label">
-                  Коментар до замовлення (необов'язково)
+                <label className="checkout__label--comment">
+                  Коментар до замовлення
                 </label>
                 <textarea
                   name="comment"
@@ -469,9 +481,6 @@ const Checkout = () => {
               {/* Delivery details based on selection */}
               {deliveryMethod && deliveryMethod !== "pickup" && (
                 <div className="checkout__delivery-details">
-                  <div className="checkout__delivery-info-tip">
-                    🔍 Почніть вводити назву міста, і система автоматично знайде відповідні варіанти
-                  </div>
                   <div className="checkout__form-group">
                     <label className="checkout__label">
                       <MapPin size={18} />
