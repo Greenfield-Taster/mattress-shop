@@ -273,6 +273,11 @@
         width: 14px;
         height: 14px;
       }
+
+      @media (max-width: v.$breakpoint-md) {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     label {
@@ -280,6 +285,10 @@
       color: v.$color-text-secondary;
       cursor: pointer;
       line-height: v.$line-height-normal;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      gap: v.$spacing-3;
     }
   }
 
@@ -349,6 +358,11 @@
     @media (max-width: v.$breakpoint-sm) {
       gap: v.$spacing-2;
       padding: v.$spacing-4 v.$spacing-3 v.$spacing-4 v.$spacing-2;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+      gap: v.$spacing-4;
+      padding: v.$spacing-4;
     }
   }
 
@@ -514,12 +528,18 @@
   &__item-image {
     width: 60px;
     height: 60px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: v.$radius-base;
     flex-shrink: 0;
 
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
     @media (max-width: v.$breakpoint-sm) {
-      width: 55px;
+      width: 65px;
       height: 55px;
     }
   }
