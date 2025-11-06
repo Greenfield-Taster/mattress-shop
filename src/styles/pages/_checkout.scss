@@ -639,6 +639,10 @@
     font-weight: v.$font-weight-semibold;
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$spacing-1;
   }
 
   &__help-phone {
@@ -678,6 +682,28 @@
     font-weight: v.$font-weight-medium;
     color: v.$color-text-primary;
     margin-bottom: v.$spacing-3;
+  }
+
+  &__help-faq-link {
+    display: inline-block;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$brand-primary-500;
+    text-decoration: none;
+    transition: v.$transition-button;
+    padding: v.$spacing-2 v.$spacing-3;
+    border-radius: v.$radius-base;
+    
+    &:hover {
+      color: v.$brand-primary-600;
+      background: rgba(v.$brand-primary-500, 0.05);
+      text-decoration: underline;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-xs;
+      padding: v.$spacing-1 v.$spacing-2;
+    }
   }
 
   &__payment-details {

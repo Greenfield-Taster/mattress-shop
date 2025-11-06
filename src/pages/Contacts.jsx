@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FAQ from "../components/FAQ/FAQ";
 import { faqData } from "../data/faqData";
 import "../styles/pages/_contacts.scss";
 
 const Contacts = () => {
+  // Scroll to FAQ section if hash is present
+  useEffect(() => {
+    if (window.location.hash === "#faq") {
+      setTimeout(() => {
+        const faqSection = document.getElementById("faq");
+        if (faqSection) {
+          const elementPosition = faqSection.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - 140;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -488,7 +506,7 @@ const Contacts = () => {
           </div>
         </div>
 
-        <section className="contacts__faq-section">
+        <section id="faq" className="contacts__faq-section">
           <h2 className="contacts__section-title">Часті питання</h2>
           <FAQ items={faqData} />
         </section>

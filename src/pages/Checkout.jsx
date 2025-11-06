@@ -11,7 +11,7 @@ import {
   validateCheckoutForm,
   clearFieldError,
 } from "../utils/checkoutValidation";
-import "../styles/pages/Checkout.scss";
+import "../styles/pages/_checkout.scss";
 
 // Import icons (lucide-react)
 import {
@@ -916,16 +916,16 @@ const Checkout = () => {
                   <HelpCircle size={20} />
                   Потрібна допомога?
                 </h3>
-                <p className="checkout__help-phone">+38 (XXX) XXX-XX-XX</p>
+                <p className="checkout__help-phone">+38 (066) 666-66-66</p>
                 <p className="checkout__help-time">
                   <Clock size={16} />
                   Пн-Нд: 8:00-20:00
                 </p>
 
                 <div className="checkout__help-faq">
-                  <p className="checkout__help-faq-text">
+                  <Link to="/contacts#faq" className="checkout__help-faq-link">
                     FAQ з доставки та оплати
-                  </p>
+                  </Link>
                 </div>
               </div>
             </div>
