@@ -293,32 +293,46 @@ const Checkout = () => {
       console.warn("⚠️ API не знайдено для методу:", deliveryMethod);
       return [];
     }
-    const results = await api.searchCities(query);
-    console.log("✅ handleCitySearch повертає результати:", results.length);
-    return results;
+    try {
+      const results = await api.searchCities(query);
+      console.log("✅ handleCitySearch повертає результати:", results.length);
+      return results;
+    } catch (error) {
+      console.error("❌ Помилка в handleCitySearch:", error);
+      return [];
+    }
   };
 
-  const handleWarehouseSearch = async (query) => {
+  const handleWarehouseSearch = async (query, cityRef) => {
+    // cityRef передається з компонента DeliveryAutocomplete
+    const effectiveCityRef = cityRef || deliveryCityRef;
     console.log("🏢 handleWarehouseSearch викликано:", {
       query,
       deliveryMethod,
+      cityRef,
       deliveryCityRef,
+      effectiveCityRef,
     });
     const api = getDeliveryAPI(deliveryMethod);
     console.log("📡 Отримано API:", api ? "Так" : "Ні");
-    if (!api || !deliveryCityRef) {
+    if (!api || !effectiveCityRef) {
       console.warn("⚠️ API або cityRef відсутні:", {
         api: !!api,
-        deliveryCityRef,
+        effectiveCityRef,
       });
       return [];
     }
-    const results = await api.getWarehouses(deliveryCityRef, query);
-    console.log(
-      "✅ handleWarehouseSearch повертає результати:",
-      results.length
-    );
-    return results;
+    try {
+      const results = await api.getWarehouses(effectiveCityRef, query);
+      console.log(
+        "✅ handleWarehouseSearch повертає результати:",
+        results.length
+      );
+      return results;
+    } catch (error) {
+      console.error("❌ Помилка в handleWarehouseSearch:", error);
+      return [];
+    }
   };
 
   const handleCityChange = (city) => {

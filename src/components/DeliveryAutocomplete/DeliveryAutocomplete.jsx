@@ -36,7 +36,7 @@ const DeliveryAutocomplete = ({
 
   // Пошук з debounce
   useEffect(() => {
-    console.log('🔄 useEffect пошуку спрацював:', { query, type });
+    console.log('🔄 useEffect пошуку спрацював:', { query, type, cityRef });
     
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
@@ -46,9 +46,12 @@ const DeliveryAutocomplete = ({
       console.log('✅ Довжина query >= 2, запускаємо пошук через 300мс');
       searchTimeoutRef.current = setTimeout(async () => {
         setIsLoading(true);
-        console.log('🚀 Викликаємо onSearch функцію з query:', query);
+        console.log('🚀 Викликаємо onSearch функцію:', { query, cityRef, type });
         try {
-          const data = await onSearch(query, cityRef);
+          // Для відділень передаємо cityRef як другий параметр
+          const data = type === 'warehouse' 
+            ? await onSearch(query, cityRef)
+            : await onSearch(query);
           console.log('📦 Отримано результати пошуку:', data);
           setResults(data);
           setIsOpen(data.length > 0);
@@ -70,7 +73,7 @@ const DeliveryAutocomplete = ({
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [query, onSearch, cityRef]);
+  }, [query, onSearch, cityRef, type]);
 
   // Скидання при зміні cityRef (для відділень)
   useEffect(() => {

@@ -7,7 +7,6 @@ const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
  * Нова Пошта API
  */
 export const NovaPoshtaAPI = {
-  // Отримати список міст
   async searchCities(query) {
     console.log("🔍 NovaPoshtaAPI.searchCities викликано з query:", query);
     console.log("🔑 API Key присутній:", !!NOVA_POSHTA_API_KEY);
@@ -16,20 +15,8 @@ export const NovaPoshtaAPI = {
       console.warn(
         "⚠️ Нова Пошта API ключ не налаштовано. Використовується демо-режим."
       );
-      // Повертаємо демо-дані для тестування
-      return [
-        { value: "kyiv-ref", label: "Київ", area: "Київська область" },
-        { value: "lviv-ref", label: "Львів", area: "Львівська область" },
-        { value: "odesa-ref", label: "Одеса", area: "Одеська область" },
-        { value: "kharkiv-ref", label: "Харків", area: "Харківська область" },
-        {
-          value: "dnipro-ref",
-          label: "Дніпро",
-          area: "Дніпропетровська область",
-        },
-      ].filter((city) =>
-        city.label.toLowerCase().includes(query.toLowerCase())
-      );
+
+      return [];
     }
 
     try {
@@ -54,10 +41,6 @@ export const NovaPoshtaAPI = {
       });
 
       console.log("📥 Отримано відповідь, status:", response.status);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
 
       const data = await response.json();
       console.log("📦 Дані від API:", data);
@@ -92,38 +75,6 @@ export const NovaPoshtaAPI = {
       console.warn(
         "⚠️ Нова Пошта API ключ не налаштовано. Використовується демо-режим."
       );
-      // Демо-дані
-      return [
-        {
-          value: "1",
-          label: "Відділення №1",
-          address: "вул. Хрещатик, 1",
-          number: "1",
-        },
-        {
-          value: "2",
-          label: "Відділення №2",
-          address: "вул. Саксаганського, 15",
-          number: "2",
-        },
-        {
-          value: "3",
-          label: "Відділення №3",
-          address: "вул. Велика Васильківська, 72",
-          number: "3",
-        },
-        {
-          value: "4",
-          label: "Поштомат №501",
-          address: "вул. Басейна, 8",
-          number: "501",
-        },
-      ].filter(
-        (warehouse) =>
-          !query ||
-          warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
-          warehouse.address.toLowerCase().includes(query.toLowerCase())
-      );
     }
 
     try {
@@ -150,14 +101,14 @@ export const NovaPoshtaAPI = {
 
       console.log("📥 Отримано відповідь, status:", response.status);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const data = await response.json();
       console.log("📦 Дані від API:", data);
 
-      if (data.success && data.data) {
+      if (!response.ok || !data.success) {
+        console.warn("⚠️ Нова Пошта API помилка (код:", response.status, ") ");
+      }
+
+      if (data.data) {
         const warehouses = data.data.map((warehouse) => ({
           value: warehouse.Ref,
           label: `${warehouse.Description}`,
@@ -370,9 +321,6 @@ export const InTimeAPI = {
   },
 };
 
-/**
- * Допоміжна функція для отримання API за типом доставки
- */
 export const getDeliveryAPI = (deliveryMethod) => {
   console.log("🎯 getDeliveryAPI викликано для:", deliveryMethod);
 
