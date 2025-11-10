@@ -1,6 +1,6 @@
 @use "../../styles/variables" as v;
 
-.universal-carousel {
+.carousel {
   padding: v.$spacing-12 0;
   background: v.$neutral-100;
   width: 100%;
@@ -64,7 +64,7 @@
     }
 
     cursor: grab;
-    
+
     &:active {
       cursor: grabbing;
     }
@@ -78,7 +78,7 @@
     @media (max-width: v.$breakpoint-md) {
       gap: v.$spacing-4;
     }
-    
+
     @media (max-width: v.$breakpoint-sm) {
       gap: v.$spacing-3;
       padding-right: v.$spacing-4;

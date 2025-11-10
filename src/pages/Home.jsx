@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
-import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
+import Carousel from "../components/Carousel/Carousel";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "../assets/images/heero-cat.png";
@@ -204,7 +204,7 @@ const Home = () => {
         </div>
       </section>
 
-      <UniversalCarousel
+      <Carousel
         products={popularProducts}
         title="Популярні товари"
         showTitle={true}

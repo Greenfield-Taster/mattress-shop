@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import ProductCard from "../ProductCard/ProductCard";
-import "./UniversalCarousel.scss";
+import "./Carousel.scss";
 
-const UniversalCarousel = ({ 
-  products, 
-  title, 
+const Carousel = ({
+  products,
+  title,
   showTitle = true,
-  showControls = true 
+  showControls = true,
 }) => {
   const carouselRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -52,14 +52,14 @@ const UniversalCarousel = ({
     startXRef.current = e.pageX;
     scrollLeftRef.current = carouselRef.current.scrollLeft;
     lastScrollTimeRef.current = Date.now();
-    
+
     // Відміняємо momentum якщо він є
     if (momentumRef.current) {
       cancelAnimationFrame(momentumRef.current);
       momentumRef.current = null;
     }
-    
-    carouselRef.current.style.scrollBehavior = 'auto';
+
+    carouselRef.current.style.scrollBehavior = "auto";
   }, []);
 
   // Drag to scroll - движение
@@ -69,7 +69,7 @@ const UniversalCarousel = ({
     e.preventDefault();
 
     const x = e.pageX;
-    const walk = (x - startXRef.current);
+    const walk = x - startXRef.current;
 
     if (Math.abs(walk) > 3) {
       hasDraggedRef.current = true;
@@ -82,11 +82,11 @@ const UniversalCarousel = ({
   // Drag to scroll - конец
   const handleMouseUp = useCallback(() => {
     isDraggingRef.current = false;
-    
+
     if (carouselRef.current) {
-      carouselRef.current.style.scrollBehavior = '';
+      carouselRef.current.style.scrollBehavior = "";
     }
-    
+
     // Сбрасываем флаг через небольшую задержку
     setTimeout(() => {
       hasDraggedRef.current = false;
@@ -97,11 +97,11 @@ const UniversalCarousel = ({
   const handleMouseLeave = useCallback(() => {
     if (isDraggingRef.current) {
       isDraggingRef.current = false;
-      
+
       if (carouselRef.current) {
-        carouselRef.current.style.scrollBehavior = '';
+        carouselRef.current.style.scrollBehavior = "";
       }
-      
+
       setTimeout(() => {
         hasDraggedRef.current = false;
       }, 100);
@@ -111,26 +111,26 @@ const UniversalCarousel = ({
   // Touch events для мобільних
   const handleTouchStart = useCallback((e) => {
     if (!carouselRef.current) return;
-    
+
     isDraggingRef.current = true;
     hasDraggedRef.current = false;
     startXRef.current = e.touches[0].pageX;
     scrollLeftRef.current = carouselRef.current.scrollLeft;
     lastScrollTimeRef.current = Date.now();
-    
+
     if (momentumRef.current) {
       cancelAnimationFrame(momentumRef.current);
       momentumRef.current = null;
     }
-    
-    carouselRef.current.style.scrollBehavior = 'auto';
+
+    carouselRef.current.style.scrollBehavior = "auto";
   }, []);
 
   const handleTouchMove = useCallback((e) => {
     if (!isDraggingRef.current || !carouselRef.current) return;
 
     const x = e.touches[0].pageX;
-    const walk = (x - startXRef.current);
+    const walk = x - startXRef.current;
 
     if (Math.abs(walk) > 3) {
       hasDraggedRef.current = true;
@@ -142,11 +142,11 @@ const UniversalCarousel = ({
 
   const handleTouchEnd = useCallback(() => {
     isDraggingRef.current = false;
-    
+
     if (carouselRef.current) {
-      carouselRef.current.style.scrollBehavior = '';
+      carouselRef.current.style.scrollBehavior = "";
     }
-    
+
     setTimeout(() => {
       hasDraggedRef.current = false;
     }, 100);
@@ -156,7 +156,7 @@ const UniversalCarousel = ({
   const handleCardClick = useCallback((e) => {
     // Если был драг - блокируем только переходы по ссылкам
     if (hasDraggedRef.current) {
-      const target = e.target.closest('a');
+      const target = e.target.closest("a");
       if (target) {
         e.preventDefault();
         e.stopPropagation();
@@ -184,15 +184,13 @@ const UniversalCarousel = ({
   const displayControls = showControls && products.length > 3;
 
   return (
-    <section className="universal-carousel">
+    <section className="carousel">
       <div className="container">
         {(showTitle || displayControls) && (
-          <div className="universal-carousel__header">
-            {showTitle && title && (
-              <h2 className="universal-carousel__title">{title}</h2>
-            )}
+          <div className="carousel__header">
+            {showTitle && title && <h2 className="carousel__title">{title}</h2>}
             {displayControls && (
-              <div className="universal-carousel__controls">
+              <div className="carousel__controls">
                 <button
                   className={`carousel-control carousel-control--left ${
                     !canScrollLeft ? "carousel-control--disabled" : ""
@@ -219,7 +217,7 @@ const UniversalCarousel = ({
         )}
 
         <div
-          className="universal-carousel__track"
+          className="carousel__track"
           ref={carouselRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -232,7 +230,7 @@ const UniversalCarousel = ({
           {products.map((product) => (
             <div
               key={product.id}
-              className="universal-carousel__item"
+              className="carousel__item"
               onClick={handleCardClick}
             >
               <ProductCard product={product} />
@@ -244,4 +242,4 @@ const UniversalCarousel = ({
   );
 };
 
-export default UniversalCarousel;
+export default Carousel;

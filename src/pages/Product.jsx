@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
 import { fetchProducts } from "../api/fetchProducts";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
-import UniversalCarousel from "../components/UniversalCarousel/UniversalCarousel";
+import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
 import "../styles/pages/_product.scss";
@@ -934,9 +934,8 @@ const Product = () => {
         </div>
       )}
 
-      {/* Similar Products Carousel */}
       {relatedProducts.length > 0 && (
-        <UniversalCarousel
+        <Carousel
           products={relatedProducts}
           title="Схожі товари"
           showTitle={true}
