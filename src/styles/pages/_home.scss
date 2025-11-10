@@ -704,11 +704,8 @@
     @media (max-width: v.$breakpoint-lg) {
       font-size: v.$font-size-sm;
     }
-    @media (max-width: v.$breakpoint-md) {
+    @media (max-width: v.$breakpoint-xs) {
       font-size: v.$font-size-xs;
-    }
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: 0.7rem;
     }
   }
 }
