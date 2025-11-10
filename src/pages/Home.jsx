@@ -3,12 +3,12 @@ import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Carousel from "../components/Carousel/Carousel";
 import "../styles/pages/_home.scss";
 
-import heroCatImage from "../assets/images/heero-cat.png";
-import springImage from "../assets/images/spring.png";
-import springlessImage from "../assets/images/springless.png";
-import kidsImage from "../assets/images/kids.png";
-import toperImage from "../assets/images/toper.png";
-import pillowImage from "../assets/images/pillow.png";
+import heroCatImage from "/heero-cat.png";
+import springImage from "/spring.png";
+import springlessImage from "/springless.png";
+import kidsImage from "/kids.png";
+import toperImage from "/toper.png";
+import pillowImage from "/pillow.png";
 
 const Home = () => {
   //TODO: Replace with real data from backend

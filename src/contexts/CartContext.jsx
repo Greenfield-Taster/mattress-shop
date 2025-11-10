@@ -1,5 +1,5 @@
 import { createContext, useState, useCallback, useMemo } from "react";
-import pillowImage from "../assets/images/pillow.png";
+import pillowImage from "/pillow.png";
 
 export const CartContext = createContext(null);
 

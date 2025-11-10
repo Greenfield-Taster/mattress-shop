@@ -1,4 +1,4 @@
-import springMattress from "../assets/images/spring.png";
+import springMattress from "/spring.png";
 
 const mockProducts = [
   {
