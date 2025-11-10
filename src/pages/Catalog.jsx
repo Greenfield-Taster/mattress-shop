@@ -24,6 +24,9 @@ const Catalog = () => {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Стан для відкриття/закриття фільтрів на мобільних
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
   /**
    * Парсинг параметрів з URL
    */
@@ -161,7 +164,14 @@ const Catalog = () => {
 
   // Опції фільтрів
   const filterOptions = {
-    types: ["Безпружинні", "Пружинні", "Дитячі", "Топери", "Скручені"],
+    types: [
+      "Безпружинні",
+      "Пружинні",
+      "Дитячі",
+      "Топери",
+      "Скручені",
+      "Аксесуари",
+    ],
     sizes: [
       "200х200",
       "180х200",
@@ -206,12 +216,51 @@ const Catalog = () => {
   // Розрахунок пагінації
   const totalPages = Math.ceil(total / params.limit);
 
+  /**
+   * Підраховує кількість активних фільтрів
+   */
+  const getActiveCount = () => {
+    let count = 0;
+
+    if (params.types?.length > 0) count += params.types.length;
+    if (params.sizes?.length > 0) count += params.sizes.length;
+    if (params.blockTypes?.length > 0) count += params.blockTypes.length;
+    if (params.fillers?.length > 0) count += params.fillers.length;
+    if (params.covers?.length > 0) count += params.covers.length;
+    if (params.height && params.height !== "3-45") count++;
+    if (params.price && params.price !== "0-50000") count++;
+    if (params.maxWeight && params.maxWeight !== "<=250") count++;
+
+    return count;
+  };
+
   return (
     <div className="catalog">
       <div className="catalog__container">
         {/* Заголовок і сортування */}
         <div className="catalog__header">
-          <h1 className="catalog__title">Каталог матраців</h1>
+          <div className="catalog__title-wrapper">
+            <h1 className="catalog__title">Каталог матраців</h1>
+            {/* Кнопка фільтрів на мобільних */}
+            <button
+              className="catalog__filters-toggle"
+              onClick={() => setFiltersOpen(!filtersOpen)}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M2.5 5.83333H17.5M5.83333 10H14.1667M8.33333 14.1667H11.6667"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              {getActiveCount() > 0 && (
+                <span className="catalog__filters-badge">
+                  {getActiveCount()}
+                </span>
+              )}
+            </button>
+          </div>
           <div className="catalog__controls">
             <div className="catalog__sort">
               <span className="catalog__sort-label">Сортувати:</span>
@@ -227,13 +276,29 @@ const Catalog = () => {
 
         <div className="catalog__content">
           {/* Фільтри */}
-          <aside className="catalog__filters">
-            <CatalogFilters
-              params={params}
-              onApply={handleApplyFilters}
-              onClearAll={handleClearAll}
-              filterOptions={filterOptions}
-            />
+          <aside
+            className={`catalog__filters ${
+              filtersOpen ? "catalog__filters--open" : ""
+            }`}
+          >
+            <div
+              className="catalog__filters-overlay"
+              onClick={() => setFiltersOpen(false)}
+            ></div>
+            <div className="catalog__filters-panel">
+              <CatalogFilters
+                params={params}
+                onApply={(filters) => {
+                  handleApplyFilters(filters);
+                  setFiltersOpen(false);
+                }}
+                onClearAll={() => {
+                  handleClearAll();
+                  setFiltersOpen(false);
+                }}
+                filterOptions={filterOptions}
+              />
+            </div>
           </aside>
 
           {/* Сітка товарів */}

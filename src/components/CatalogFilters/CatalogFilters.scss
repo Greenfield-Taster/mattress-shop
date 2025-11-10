@@ -158,11 +158,15 @@
         }
       }
     }
+  }
 
-    &--column {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  // ========================================
+  // CHECKBOXES
+  // ========================================
+  &__checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-3;
   }
 
   // ========================================
@@ -178,54 +182,6 @@
     margin-top: v.$spacing-2;
     font-size: v.$font-size-xs;
     color: v.$color-text-secondary;
-  }
-
-  // ========================================
-  // INPUTS
-  // ========================================
-  &__input-wrapper {
-    margin-top: v.$spacing-4;
-    display: flex;
-    align-items: center;
-    gap: v.$spacing-3;
-  }
-
-  &__input {
-    width: 80px;
-    padding: v.$spacing-2 v.$spacing-3;
-    border: 1px solid v.$color-border;
-    border-radius: v.$radius-base;
-    font-size: v.$font-size-sm;
-    color: v.$color-text-primary;
-    background: v.$neutral-0;
-    transition: all v.$transition-fast;
-
-    &:focus {
-      outline: none;
-      border-color: v.$brand-primary-500;
-      box-shadow: 0 0 0 3px v.$brand-primary-50;
-    }
-
-    &:hover {
-      border-color: v.$color-border-dark;
-    }
-
-    // Видалення стрілочок у number input
-    &[type="number"]::-webkit-inner-spin-button,
-    &[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    &[type="number"] {
-      -moz-appearance: textfield;
-    }
-  }
-
-  &__input-label {
-    font-size: v.$font-size-sm;
-    color: v.$color-text-secondary;
-    font-weight: v.$font-weight-medium;
   }
 
   // ========================================
@@ -277,6 +233,17 @@
       &:hover {
         border-color: v.$color-border-dark;
       }
+
+      // Видалення стрілочок у number input
+      &[type="number"]::-webkit-inner-spin-button,
+      &[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
     }
 
     span {
@@ -291,6 +258,84 @@
     color: v.$color-text-tertiary;
     font-weight: v.$font-weight-medium;
     padding-top: v.$spacing-5;
+  }
+}
+
+// ========================================
+// CUSTOM CHECKBOX
+// ========================================
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding: v.$spacing-2 0;
+  user-select: none;
+
+  // Ховаємо дефолтний checkbox
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  // Кастомний checkmark
+  &__checkmark {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background: v.$neutral-0;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-sm;
+    transition: all v.$transition-fast;
+    flex-shrink: 0;
+
+    // Галочка
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid v.$color-text-inverse;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &__label {
+    margin-left: v.$spacing-3;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-primary;
+    font-weight: v.$font-weight-medium;
+    transition: color v.$transition-fast;
+  }
+
+  // Hover стан
+  &:hover {
+    .filter-checkbox__checkmark {
+      border-color: v.$brand-primary-400;
+      background: v.$brand-primary-50;
+    }
+  }
+
+  // Checked стан
+  input[type="checkbox"]:checked ~ .filter-checkbox__checkmark {
+    background: v.$brand-primary-500;
+    border-color: v.$brand-primary-500;
+
+    &::after {
+      display: block;
+    }
+  }
+
+  // Focus стан
+  input[type="checkbox"]:focus ~ .filter-checkbox__checkmark {
+    box-shadow: 0 0 0 3px v.$brand-primary-50;
   }
 }
 
@@ -398,22 +443,6 @@
       box-shadow: 0 0 0 5px v.$brand-primary-50 !important;
     }
   }
-
-  // Tooltip
-  .rc-slider-tooltip {
-    .rc-slider-tooltip-inner {
-      background: v.$brand-primary-500;
-      color: v.$color-text-inverse;
-      font-size: v.$font-size-xs;
-      padding: v.$spacing-1 v.$spacing-2;
-      border-radius: v.$radius-sm;
-      box-shadow: v.$shadow-sm;
-    }
-
-    .rc-slider-tooltip-arrow {
-      border-top-color: v.$brand-primary-500;
-    }
-  }
 }
 
 // ========================================
@@ -478,22 +507,48 @@
     }
 
     &__price-inputs {
-      flex-direction: column;
-      align-items: stretch;
+      grid-template-columns: 1fr;
+      gap: v.$spacing-3;
     }
 
     &__price-separator {
-      padding-top: 0;
-      text-align: center;
+      display: none;
+    }
+
+    &__price-input-group {
+      label {
+        font-size: v.$font-size-xs;
+      }
     }
   }
 
   .filter-chip {
     font-size: 11px !important;
+    padding: v.$spacing-1 v.$spacing-3 !important;
+    min-height: 32px !important;
 
     &--size {
       font-size: 10px !important;
-      height: 26px !important;
+      min-height: 30px !important;
+    }
+  }
+
+  .filter-checkbox {
+    &__checkmark {
+      height: 18px;
+      width: 18px;
+
+      &::after {
+        left: 5px;
+        top: 1px;
+        width: 4px;
+        height: 9px;
+      }
+    }
+
+    &__label {
+      font-size: v.$font-size-sm;
+      margin-left: v.$spacing-2;
     }
   }
 }
@@ -505,6 +560,14 @@
       max-height: 200px;
     }
   }
+
+  .filter-chip {
+    font-size: 10px !important;
+
+    &--size {
+      font-size: 9px !important;
+    }
+  }
 }
 
 // MOBILE EXTRA SMALL (< 360px)
@@ -514,6 +577,6 @@
   }
 
   .filter-chip {
-    font-size: 10px !important;
+    font-size: 9px !important;
   }
 }

@@ -22,13 +22,19 @@
     gap: v.$spacing-6;
   }
 
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-4;
+    flex-shrink: 0;
+  }
+
   &__title {
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     margin: 0;
     letter-spacing: v.$letter-spacing-tight;
-    flex-shrink: 0;
   }
 
   &__controls {
@@ -36,6 +42,59 @@
     align-items: center;
     gap: v.$spacing-6;
     margin-left: auto;
+  }
+
+  &__filters-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background: v.$brand-primary-500;
+    color: v.$color-text-inverse;
+    border: none;
+    border-radius: v.$radius-full;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+    position: relative;
+    box-shadow: v.$shadow-md;
+    flex-shrink: 0;
+    z-index: 100;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-lg;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__filters-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 v.$spacing-2;
+    background: #ff4444;
+    color: v.$color-text-inverse;
+    font-size: 12px;
+    font-weight: v.$font-weight-bold;
+    border-radius: v.$radius-full;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.4);
+    border: 2px solid v.$neutral-0;
   }
 
   &__sort {
@@ -105,6 +164,15 @@
     }
   }
 
+  &__filters-overlay {
+    display: none;
+  }
+
+  &__filters-panel {
+    width: 100%;
+    height: 100%;
+  }
+
   &__empty {
     text-align: center;
     padding: v.$spacing-16 v.$spacing-8;
@@ -156,6 +224,27 @@
   grid-template-columns: repeat(4, 1fr);
   gap: v.$spacing-6;
   margin-bottom: v.$spacing-8;
+  width: 100%;
+
+  // Менше 425px - 1 картка на всю ширину
+  @media (max-width: 424px) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-5;
+  }
+
+  // 425px і більше - 2 картки
+  @media (min-width: 425px) and (max-width: 767px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: v.$spacing-4;
+  }
+
+  // 768px і більше - 3 картки
+  @media (min-width: 768px) and (max-width: 1023px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: v.$spacing-5;
+  }
+
+  // 1024px і більше - 4 картки (за замовчуванням)
 }
 
 // ========================================
@@ -252,12 +341,15 @@
   }
 
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-4;
+    // На екранах 640-768px - 2 картки
+    @media (min-width: 641px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: v.$spacing-4;
+    }
   }
 }
 
-// MOBILE LARGE (640px - 768px) - 2 карточки в ряд, фільтри зверху
+// MOBILE LARGE (640px - 768px) - фільтри зверху
 @media (max-width: v.$breakpoint-md) {
   .catalog {
     padding: v.$spacing-6 0;
@@ -276,6 +368,21 @@
       align-items: flex-start;
       gap: v.$spacing-4;
       margin-bottom: v.$spacing-6;
+      position: sticky;
+      top: 0;
+      background: v.$color-background;
+      z-index: 50;
+      padding: v.$spacing-4 0;
+      margin-left: calc(-1 * v.$spacing-4);
+      margin-right: calc(-1 * v.$spacing-4);
+      padding-left: v.$spacing-4;
+      padding-right: v.$spacing-4;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    &__title-wrapper {
+      width: 100%;
+      justify-content: space-between;
     }
 
     &__title {
@@ -284,16 +391,13 @@
 
     &__controls {
       width: 100%;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-wrap: wrap;
       gap: v.$spacing-3;
     }
 
     &__sort {
-      width: 100%;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: v.$spacing-2;
+      flex: 1;
+      min-width: 200px;
 
       .custom-select {
         width: 100%;
@@ -302,18 +406,73 @@
 
     &__count {
       width: 100%;
+      order: 3;
     }
 
+    // Показуємо кнопку фільтрів на мобільних (фіксована позиція)
+    &__filters-toggle {
+      display: flex;
+    }
+
+    // Мобільна панель фільтрів
     &__filters {
-      position: static;
-      order: -1;
-      max-height: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      pointer-events: none;
+
+      &--open {
+        pointer-events: auto;
+
+        .catalog__filters-overlay {
+          opacity: 1;
+        }
+
+        .catalog__filters-panel {
+          transform: translateX(0);
+        }
+      }
+    }
+
+    &__filters-overlay {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &__filters-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 85%;
+      max-width: 400px;
+      height: 100%;
+      background: v.$neutral-0;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      box-shadow: v.$shadow-lg;
+
+      .catalog-filters {
+        height: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+      }
     }
   }
 
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-4;
+    width: 100%;
   }
 
   .filters {
@@ -348,7 +507,7 @@
   }
 }
 
-// MOBILE MEDIUM (480px - 640px) - 2 карточки в ряд
+// MOBILE MEDIUM (480px - 640px)
 @media (max-width: v.$breakpoint-sm) {
   .catalog {
     padding: v.$spacing-5 0;
@@ -357,23 +516,16 @@
       padding: 0 v.$spacing-3;
     }
 
+    &__header {
+      margin-left: calc(-1 * v.$spacing-3);
+      margin-right: calc(-1 * v.$spacing-3);
+      padding-left: v.$spacing-3;
+      padding-right: v.$spacing-3;
+    }
+
     &__title {
       font-size: v.$font-size-xl;
     }
-
-    &__breadcrumbs {
-      font-size: 11px;
-      gap: v.$spacing-1;
-    }
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-3;
-  }
-
-  .filter-group__options--grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 
   .pagination__button {
@@ -383,7 +535,7 @@
   }
 }
 
-// MOBILE SMALL (< 480px) - 1 карточка в ряд
+// MOBILE SMALL (< 480px)
 @media (max-width: 480px) {
   .catalog {
     padding: v.$spacing-4 0;
@@ -391,33 +543,29 @@
     &__container {
       padding: 0 v.$spacing-3;
     }
-  }
 
-  .products-grid {
-    grid-template-columns: 1fr;
-    gap: v.$spacing-4;
-  }
-
-  .filter-group__options--grid {
-    grid-template-columns: repeat(2, 1fr);
+    &__header {
+      margin-left: calc(-1 * v.$spacing-3);
+      margin-right: calc(-1 * v.$spacing-3);
+      padding-left: v.$spacing-3;
+      padding-right: v.$spacing-3;
+    }
   }
 }
 
-// MOBILE EXTRA SMALL (< 360px) - оптимізація для дуже малих екранів
+// MOBILE EXTRA SMALL (< 360px)
 @media (max-width: 360px) {
   .catalog {
+    &__header {
+      margin-left: calc(-1 * v.$spacing-3);
+      margin-right: calc(-1 * v.$spacing-3);
+      padding-left: v.$spacing-3;
+      padding-right: v.$spacing-3;
+    }
+
     &__title {
       font-size: v.$font-size-lg;
     }
-
-    &__breadcrumbs {
-      font-size: 10px;
-    }
-  }
-
-  .filter-chip {
-    padding: v.$spacing-1 v.$spacing-2;
-    font-size: 9px;
   }
 
   .pagination__button {

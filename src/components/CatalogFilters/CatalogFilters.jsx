@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -13,29 +13,10 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
   // Локальний draft-стан для фільтрів (до Apply)
   const [draft, setDraft] = useState(params);
   
-  // Debounce таймер для слайдерів
-  const [debounceTimer, setDebounceTimer] = useState(null);
-
   // Синхронізуємо draft з params, коли змінюється ззовні
   useEffect(() => {
     setDraft(params);
   }, [params]);
-
-  /**
-   * Debounced оновлення для слайдерів
-   * Затримка 250мс перед оновленням draft
-   */
-  const debouncedUpdate = useCallback((key, value) => {
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-    }
-    
-    const timer = setTimeout(() => {
-      setDraft(prev => ({ ...prev, [key]: value }));
-    }, 250);
-    
-    setDebounceTimer(timer);
-  }, [debounceTimer]);
 
   /**
    * Обробник для checkbox-фільтрів (множинний вибір)
@@ -55,17 +36,41 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
   };
 
   /**
-   * Обробник для слайдерів (range)
+   * Обробник для слайдерів (range) - без затримки
    */
   const handleSliderChange = (key, value) => {
-    debouncedUpdate(key, `${value[0]}-${value[1]}`);
+    setDraft(prev => ({ ...prev, [key]: `${value[0]}-${value[1]}` }));
   };
 
   /**
-   * Обробник для maxWeight (спеціальний формат)
+   * Обробник для maxWeight (спеціальний формат) - без затримки
    */
   const handleMaxWeightChange = (value) => {
-    debouncedUpdate('maxWeight', `<=${value}`);
+    setDraft(prev => ({ ...prev, maxWeight: `<=${value}` }));
+  };
+
+  /**
+   * Обробник для інпутів ціни
+   */
+  const handlePriceInputChange = (index, value) => {
+    const priceRange = draft.price ? draft.price.split('-').map(Number) : [0, 50000];
+    const newRange = [...priceRange];
+    
+    // Валідація та обмеження
+    let numValue = parseInt(value) || 0;
+    numValue = Math.max(0, Math.min(50000, numValue));
+    
+    newRange[index] = numValue;
+    
+    // Перевірка, щоб min не був більше max
+    if (index === 0 && newRange[0] > newRange[1]) {
+      newRange[1] = newRange[0];
+    }
+    if (index === 1 && newRange[1] < newRange[0]) {
+      newRange[0] = newRange[1];
+    }
+    
+    setDraft(prev => ({ ...prev, price: `${newRange[0]}-${newRange[1]}` }));
   };
 
   /**
@@ -137,7 +142,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
         )}
       </div>
 
-      {/* Тип матрацу */}
+      {/* Тип матрацу - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Тип матрацу</h3>
         <div className="filter-section__chips">
@@ -159,7 +164,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
         </div>
       </div>
 
-      {/* Розміри */}
+      {/* Розміри - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Розміри (см)</h3>
         <div className="filter-section__chips filter-section__chips--grid">
@@ -203,51 +208,43 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
         </div>
       </div>
 
-      {/* Тип блоку */}
+      {/* Тип блоку - CHECKBOXES */}
       <div className="filter-section">
         <h3 className="filter-section__title">Тип блоку</h3>
-        <div className="filter-section__chips filter-section__chips--column">
+        <div className="filter-section__checkboxes">
           {filterOptions.blockTypes.map((type) => (
-            <Chip
-              key={type}
-              label={type}
-              onClick={() => handleArrayToggle('blockTypes', type)}
-              onDelete={
-                draft.blockTypes?.includes(type)
-                  ? () => handleArrayToggle('blockTypes', type)
-                  : undefined
-              }
-              color={draft.blockTypes?.includes(type) ? "primary" : "default"}
-              variant={draft.blockTypes?.includes(type) ? "filled" : "outlined"}
-              className="filter-chip"
-            />
+            <label key={type} className="filter-checkbox">
+              <input
+                type="checkbox"
+                checked={draft.blockTypes?.includes(type) || false}
+                onChange={() => handleArrayToggle('blockTypes', type)}
+              />
+              <span className="filter-checkbox__checkmark"></span>
+              <span className="filter-checkbox__label">{type}</span>
+            </label>
           ))}
         </div>
       </div>
 
-      {/* Наповнювачі */}
+      {/* Наповнювачі - CHECKBOXES */}
       <div className="filter-section">
         <h3 className="filter-section__title">Наповнювачі</h3>
-        <div className="filter-section__chips filter-section__chips--column">
+        <div className="filter-section__checkboxes">
           {filterOptions.fillers.map((filler) => (
-            <Chip
-              key={filler}
-              label={filler}
-              onClick={() => handleArrayToggle('fillers', filler)}
-              onDelete={
-                draft.fillers?.includes(filler)
-                  ? () => handleArrayToggle('fillers', filler)
-                  : undefined
-              }
-              color={draft.fillers?.includes(filler) ? "primary" : "default"}
-              variant={draft.fillers?.includes(filler) ? "filled" : "outlined"}
-              className="filter-chip"
-            />
+            <label key={filler} className="filter-checkbox">
+              <input
+                type="checkbox"
+                checked={draft.fillers?.includes(filler) || false}
+                onChange={() => handleArrayToggle('fillers', filler)}
+              />
+              <span className="filter-checkbox__checkmark"></span>
+              <span className="filter-checkbox__label">{filler}</span>
+            </label>
           ))}
         </div>
       </div>
 
-      {/* Чохол */}
+      {/* Чохол - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Чохол</h3>
         <div className="filter-section__chips">
@@ -290,11 +287,9 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
         </div>
       </div>
 
-      {/* Ціна */}
+      {/* Ціна з інпутами */}
       <div className="filter-section">
-        <h3 className="filter-section__title">
-          Ціна: {priceRange[0]} - {priceRange[1]} грн
-        </h3>
+        <h3 className="filter-section__title">Ціна</h3>
         <div className="filter-section__slider">
           <Slider
             range
@@ -305,9 +300,40 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             onChange={(value) => handleSliderChange('price', value)}
             className="custom-slider"
           />
-          <div className="filter-section__slider-labels">
-            <span>0 грн</span>
-            <span>50 000 грн</span>
+        </div>
+        
+        {/* Інпути для введення ціни */}
+        <div className="filter-section__price-inputs">
+          <div className="filter-section__price-input-group">
+            <label>Від</label>
+            <div>
+              <input
+                type="number"
+                min="0"
+                max="50000"
+                step="100"
+                value={priceRange[0]}
+                onChange={(e) => handlePriceInputChange(0, e.target.value)}
+              />
+              <span>грн</span>
+            </div>
+          </div>
+          
+          <span className="filter-section__price-separator">—</span>
+          
+          <div className="filter-section__price-input-group">
+            <label>До</label>
+            <div>
+              <input
+                type="number"
+                min="0"
+                max="50000"
+                step="100"
+                value={priceRange[1]}
+                onChange={(e) => handlePriceInputChange(1, e.target.value)}
+              />
+              <span>грн</span>
+            </div>
           </div>
         </div>
       </div>
