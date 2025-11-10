@@ -6,7 +6,7 @@
   padding: v.$spacing-8 0;
 
   &__container {
-    max-width: 1620px;
+    max-width: 1700px;
     margin: 0 auto;
     padding: 0 v.$spacing-6;
   }
@@ -57,10 +57,17 @@
     border-radius: v.$radius-full;
     cursor: pointer;
     transition: all v.$transition-fast;
-    position: relative;
-    box-shadow: v.$shadow-md;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    box-shadow: v.$shadow-lg;
     flex-shrink: 0;
-    z-index: 100;
+    z-index: 999;
+
+    // Показуємо тільки на мобільних
+    @media (max-width: v.$breakpoint-md) {
+      display: flex;
+    }
 
     svg {
       flex-shrink: 0;
@@ -221,35 +228,27 @@
 // ========================================
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: v.$spacing-6;
   margin-bottom: v.$spacing-8;
   width: 100%;
 
-  // Менше 425px - 1 картка на всю ширину
   @media (max-width: 424px) {
     grid-template-columns: 1fr;
     gap: v.$spacing-5;
   }
 
-  // 425px і більше - 2 картки
-  @media (min-width: 425px) and (max-width: 767px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-4;
-  }
-
-  // 768px і більше - 3 картки
-  @media (min-width: 768px) and (max-width: 1023px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 425px) {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: v.$spacing-5;
   }
 
-  // 1024px і більше - 4 картки (за замовчуванням)
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: v.$spacing-6;
+  }
 }
 
-// ========================================
-// PAGINATION
-// ========================================
 .pagination {
   &__button {
     min-width: 40px;
@@ -290,20 +289,16 @@
 // RESPONSIVE
 // ========================================
 
-// LARGE DESKTOP (1280px - 1620px) - 3 карточки
+// LARGE DESKTOP (1280px - 1620px)
 @media (max-width: 1440px) {
   .catalog {
     &__container {
       max-width: 1280px;
     }
   }
-
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
-// DESKTOP (1024px - 1280px) - 2 карточки + фільтри збоку
+// DESKTOP (1024px - 1280px) - фільтри збоку
 @media (max-width: v.$breakpoint-xl) {
   .catalog {
     &__container {
@@ -321,30 +316,17 @@
     }
   }
 
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-5;
-  }
-
   .filters {
     padding: v.$spacing-5;
   }
 }
 
-// TABLET (768px - 1024px) - 2 карточки + фільтри збоку (вужчі)
+// TABLET (768px - 1024px) - фільтри збоку (вужчі)
 @media (max-width: v.$breakpoint-lg) {
   .catalog {
     &__content {
       grid-template-columns: 260px 1fr;
       gap: v.$spacing-5;
-    }
-  }
-
-  .products-grid {
-    // На екранах 640-768px - 2 картки
-    @media (min-width: 641px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: v.$spacing-4;
     }
   }
 }
@@ -409,10 +391,7 @@
       order: 3;
     }
 
-    // Показуємо кнопку фільтрів на мобільних (фіксована позиція)
-    &__filters-toggle {
-      display: flex;
-    }
+    // Кнопка фільтрів вже налаштована фіксованою вище
 
     // Мобільна панель фільтрів
     &__filters {
