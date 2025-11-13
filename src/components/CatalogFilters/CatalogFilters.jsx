@@ -1,67 +1,53 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./CatalogFilters.scss";
 
-/**
- * Компонент фільтрів каталогу
- * Працює з draft-станом (локальна копія параметрів)
- * Оновлює батьківський стан тільки при натисканні "Застосувати"
- */
 const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
-  // Локальний draft-стан для фільтрів (до Apply)
   const [draft, setDraft] = useState(params);
-  
+
   // Синхронізуємо draft з params, коли змінюється ззовні
   useEffect(() => {
     setDraft(params);
   }, [params]);
 
-  /**
-   * Обробник для checkbox-фільтрів (множинний вибір)
-   */
+  // Обробник для checkbox-фільтрів (множинний вибір)
   const handleArrayToggle = (key, value) => {
-    setDraft(prev => {
+    setDraft((prev) => {
       const current = prev[key] || [];
       const isActive = current.includes(value);
-      
+
       return {
         ...prev,
-        [key]: isActive 
-          ? current.filter(item => item !== value)
-          : [...current, value]
+        [key]: isActive
+          ? current.filter((item) => item !== value)
+          : [...current, value],
       };
     });
   };
 
-  /**
-   * Обробник для слайдерів (range) - без затримки
-   */
+  // Обробник для слайдерів (range)
   const handleSliderChange = (key, value) => {
-    setDraft(prev => ({ ...prev, [key]: `${value[0]}-${value[1]}` }));
+    setDraft((prev) => ({ ...prev, [key]: `${value[0]}-${value[1]}` }));
   };
 
-  /**
-   * Обробник для maxWeight (спеціальний формат) - без затримки
-   */
   const handleMaxWeightChange = (value) => {
-    setDraft(prev => ({ ...prev, maxWeight: `<=${value}` }));
+    setDraft((prev) => ({ ...prev, maxWeight: `<=${value}` }));
   };
 
-  /**
-   * Обробник для інпутів ціни
-   */
   const handlePriceInputChange = (index, value) => {
-    const priceRange = draft.price ? draft.price.split('-').map(Number) : [0, 50000];
+    const priceRange = draft.price
+      ? draft.price.split("-").map(Number)
+      : [0, 50000];
     const newRange = [...priceRange];
-    
+
     // Валідація та обмеження
     let numValue = parseInt(value) || 0;
     numValue = Math.max(0, Math.min(50000, numValue));
-    
+
     newRange[index] = numValue;
-    
+
     // Перевірка, щоб min не був більше max
     if (index === 0 && newRange[0] > newRange[1]) {
       newRange[1] = newRange[0];
@@ -69,38 +55,31 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
     if (index === 1 && newRange[1] < newRange[0]) {
       newRange[0] = newRange[1];
     }
-    
-    setDraft(prev => ({ ...prev, price: `${newRange[0]}-${newRange[1]}` }));
+
+    setDraft((prev) => ({ ...prev, price: `${newRange[0]}-${newRange[1]}` }));
   };
 
-  /**
-   * Підраховує кількість активних фільтрів для бейджу
-   */
+  // Підраховує кількість активних фільтрів для бейджу
   const getActiveCount = () => {
     let count = 0;
-    
+
     if (draft.types?.length > 0) count += draft.types.length;
     if (draft.sizes?.length > 0) count += draft.sizes.length;
     if (draft.blockTypes?.length > 0) count += draft.blockTypes.length;
     if (draft.fillers?.length > 0) count += draft.fillers.length;
     if (draft.covers?.length > 0) count += draft.covers.length;
-    if (draft.height && draft.height !== '3-45') count++;
-    if (draft.price && draft.price !== '0-50000') count++;
-    if (draft.maxWeight && draft.maxWeight !== '<=250') count++;
-    
+    if (draft.height && draft.height !== "3-45") count++;
+    if (draft.price && draft.price !== "0-50000") count++;
+    if (draft.maxWeight && draft.maxWeight !== "<=250") count++;
+
     return count;
   };
 
-  /**
-   * Застосувати фільтри → передати в батьківський компонент
-   */
+  // Застосувати фільтри → передати в батьківський компонент
   const handleApply = () => {
     onApply(draft);
   };
 
-  /**
-   * Очистити всі фільтри
-   */
   const handleClear = () => {
     const cleared = {
       types: [],
@@ -108,21 +87,27 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
       blockTypes: [],
       fillers: [],
       covers: [],
-      height: '3-45',
-      maxWeight: '<=250',
-      price: '0-50000',
-      sort: 'default',
+      height: "3-45",
+      maxWeight: "<=250",
+      price: "0-50000",
+      sort: "default",
       page: 1,
-      limit: 12
+      limit: 12,
     };
     setDraft(cleared);
     onClearAll();
   };
 
   // Парсинг значень для слайдерів
-  const heightRange = draft.height ? draft.height.split('-').map(Number) : [3, 45];
-  const priceRange = draft.price ? draft.price.split('-').map(Number) : [0, 50000];
-  const maxWeightValue = draft.maxWeight ? parseInt(draft.maxWeight.replace('<=', '')) : 250;
+  const heightRange = draft.height
+    ? draft.height.split("-").map(Number)
+    : [3, 45];
+  const priceRange = draft.price
+    ? draft.price.split("-").map(Number)
+    : [0, 50000];
+  const maxWeightValue = draft.maxWeight
+    ? parseInt(draft.maxWeight.replace("<=", ""))
+    : 250;
 
   const activeCount = getActiveCount();
 
@@ -131,9 +116,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
       <div className="catalog-filters__header">
         <div className="catalog-filters__title-wrapper">
           <h2 className="catalog-filters__title">Фільтри</h2>
-          {activeCount > 0 && (
-            <span className="catalog-filters__count">{activeCount}</span>
-          )}
         </div>
         {activeCount > 0 && (
           <button className="catalog-filters__reset" onClick={handleClear}>
@@ -150,10 +132,10 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             <Chip
               key={type}
               label={type}
-              onClick={() => handleArrayToggle('types', type)}
+              onClick={() => handleArrayToggle("types", type)}
               onDelete={
                 draft.types?.includes(type)
-                  ? () => handleArrayToggle('types', type)
+                  ? () => handleArrayToggle("types", type)
                   : undefined
               }
               color={draft.types?.includes(type) ? "primary" : "default"}
@@ -172,10 +154,10 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             <Chip
               key={size}
               label={size}
-              onClick={() => handleArrayToggle('sizes', size)}
+              onClick={() => handleArrayToggle("sizes", size)}
               onDelete={
                 draft.sizes?.includes(size)
-                  ? () => handleArrayToggle('sizes', size)
+                  ? () => handleArrayToggle("sizes", size)
                   : undefined
               }
               color={draft.sizes?.includes(size) ? "primary" : "default"}
@@ -198,7 +180,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             min={3}
             max={45}
             value={heightRange}
-            onChange={(value) => handleSliderChange('height', value)}
+            onChange={(value) => handleSliderChange("height", value)}
             className="custom-slider"
           />
           <div className="filter-section__slider-labels">
@@ -217,7 +199,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
               <input
                 type="checkbox"
                 checked={draft.blockTypes?.includes(type) || false}
-                onChange={() => handleArrayToggle('blockTypes', type)}
+                onChange={() => handleArrayToggle("blockTypes", type)}
               />
               <span className="filter-checkbox__checkmark"></span>
               <span className="filter-checkbox__label">{type}</span>
@@ -235,7 +217,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
               <input
                 type="checkbox"
                 checked={draft.fillers?.includes(filler) || false}
-                onChange={() => handleArrayToggle('fillers', filler)}
+                onChange={() => handleArrayToggle("fillers", filler)}
               />
               <span className="filter-checkbox__checkmark"></span>
               <span className="filter-checkbox__label">{filler}</span>
@@ -252,10 +234,10 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             <Chip
               key={cover}
               label={cover}
-              onClick={() => handleArrayToggle('covers', cover)}
+              onClick={() => handleArrayToggle("covers", cover)}
               onDelete={
                 draft.covers?.includes(cover)
-                  ? () => handleArrayToggle('covers', cover)
+                  ? () => handleArrayToggle("covers", cover)
                   : undefined
               }
               color={draft.covers?.includes(cover) ? "primary" : "default"}
@@ -297,11 +279,11 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             max={50000}
             step={500}
             value={priceRange}
-            onChange={(value) => handleSliderChange('price', value)}
+            onChange={(value) => handleSliderChange("price", value)}
             className="custom-slider"
           />
         </div>
-        
+
         {/* Інпути для введення ціни */}
         <div className="filter-section__price-inputs">
           <div className="filter-section__price-input-group">
@@ -318,9 +300,9 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
               <span>грн</span>
             </div>
           </div>
-          
+
           <span className="filter-section__price-separator">—</span>
-          
+
           <div className="filter-section__price-input-group">
             <label>До</label>
             <div>

@@ -6,30 +6,13 @@ import CustomSelect from "../components/CustomSelect/CustomSelect";
 import { fetchProducts } from "../api/fetchProducts";
 import "../styles/pages/_catalog.scss";
 
-/**
- * Головна сторінка каталогу з фільтрацією, сортуванням та пагінацією
- *
- * Архітектура:
- * - URL як джерело правди (query params)
- * - Серверна фільтрація та сортування
- * - Sticky sidebar з фільтрами
- * - Адаптивний layout
- */
 const Catalog = () => {
-  // URL query params - джерело правди
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // Стан для продуктів
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  // Стан для відкриття/закриття фільтрів на мобільних
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  /**
-   * Парсинг параметрів з URL
-   */
   const parseParams = () => {
     const params = {
       types: searchParams.get("types")?.split(",").filter(Boolean) || [],
@@ -50,13 +33,7 @@ const Catalog = () => {
 
   const params = parseParams();
 
-  /**
-   * Завантаження продуктів при зміні параметрів
-   *
-   * 🔄 КОЛИ ПІДКЛЮЧАТИМЕШ СЕРВЕР:
-   * Ця функція вже готова працювати з серверним API
-   * fetchProducts автоматично відправить всі параметри на сервер
-   */
+  // Завантаження продуктів при зміні параметрів
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
@@ -73,11 +50,8 @@ const Catalog = () => {
     };
 
     loadProducts();
-  }, [searchParams]); // Перезавантажуємо при зміні URL
+  }, [searchParams, params]); // Перезавантажуємо при зміні URL
 
-  /**
-   * Оновлення URL з новими параметрами
-   */
   const updateURL = (newParams) => {
     const query = new URLSearchParams();
 
@@ -108,9 +82,6 @@ const Catalog = () => {
     setSearchParams(query);
   };
 
-  /**
-   * Обробник застосування фільтрів
-   */
   const handleApplyFilters = (newFilters) => {
     updateURL({
       ...newFilters,
@@ -118,16 +89,10 @@ const Catalog = () => {
     });
   };
 
-  /**
-   * Обробник очищення всіх фільтрів
-   */
   const handleClearAll = () => {
     setSearchParams({}); // Повністю очищаємо URL
   };
 
-  /**
-   * Обробник зміни сортування
-   */
   const handleSortChange = (sortValue) => {
     updateURL({
       ...params,
@@ -136,9 +101,6 @@ const Catalog = () => {
     });
   };
 
-  /**
-   * Обробник зміни сторінки пагінації
-   */
   const handlePageChange = (newPage) => {
     updateURL({
       ...params,
@@ -152,17 +114,13 @@ const Catalog = () => {
     });
   };
 
-  // Опції для сортування
   const sortOptions = [
     { value: "default", label: "За замовчуванням" },
     { value: "price-asc", label: "Спочатку дешевші" },
     { value: "price-desc", label: "Спочатку дорожчі" },
-    { value: "popular", label: "Популярні" },
-    { value: "new", label: "Новинки" },
     { value: "discount", label: "Зі знижкою" },
   ];
 
-  // Опції фільтрів
   const filterOptions = {
     types: [
       "Безпружинні",
@@ -213,53 +171,14 @@ const Catalog = () => {
     covers: ["Знімний", "Незнімний"],
   };
 
-  // Розрахунок пагінації
   const totalPages = Math.ceil(total / params.limit);
-
-  /**
-   * Підраховує кількість активних фільтрів
-   */
-  const getActiveCount = () => {
-    let count = 0;
-
-    if (params.types?.length > 0) count += params.types.length;
-    if (params.sizes?.length > 0) count += params.sizes.length;
-    if (params.blockTypes?.length > 0) count += params.blockTypes.length;
-    if (params.fillers?.length > 0) count += params.fillers.length;
-    if (params.covers?.length > 0) count += params.covers.length;
-    if (params.height && params.height !== "3-45") count++;
-    if (params.price && params.price !== "0-50000") count++;
-    if (params.maxWeight && params.maxWeight !== "<=250") count++;
-
-    return count;
-  };
 
   return (
     <div className="catalog">
       <div className="catalog__container">
-        {/* Заголовок і сортування */}
         <div className="catalog__header">
           <div className="catalog__title-wrapper">
             <h1 className="catalog__title">Каталог матраців</h1>
-            {/* Кнопка фільтрів на мобільних */}
-            <button
-              className="catalog__filters-toggle"
-              onClick={() => setFiltersOpen(!filtersOpen)}
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M2.5 5.83333H17.5M5.83333 10H14.1667M8.33333 14.1667H11.6667"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-              {getActiveCount() > 0 && (
-                <span className="catalog__filters-badge">
-                  {getActiveCount()}
-                </span>
-              )}
-            </button>
           </div>
           <div className="catalog__controls">
             <div className="catalog__sort">
@@ -275,7 +194,6 @@ const Catalog = () => {
         </div>
 
         <div className="catalog__content">
-          {/* Фільтри */}
           <aside
             className={`catalog__filters ${
               filtersOpen ? "catalog__filters--open" : ""
@@ -301,7 +219,6 @@ const Catalog = () => {
             </div>
           </aside>
 
-          {/* Сітка товарів */}
           <div className="catalog__products">
             {loading ? (
               <div className="catalog__loader">
