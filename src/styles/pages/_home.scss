@@ -167,6 +167,8 @@
     transition: all 0.3s ease;
     display: inline-block;
     border: 2px solid transparent;
+    cursor: pointer;
+    font-family: v.$font-family-base;
 
     @media (max-width: v.$breakpoint-sm) {
       width: 100%;
@@ -764,6 +766,8 @@
     text-decoration: none;
     transition: v.$transition-button;
     white-space: nowrap;
+    cursor: pointer;
+    font-family: v.$font-family-base;
 
     &:hover {
       background: v.$neutral-50;

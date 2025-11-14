@@ -70,6 +70,12 @@
   border-radius: v.$radius-base;
   transition: all v.$transition-fast v.$transition-timing;
   position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-2;
 
   &:hover {
     color: v.$color-text-primary;
@@ -80,6 +86,36 @@
     color: v.$brand-primary-500;
     background: v.$brand-primary-50;
     font-weight: v.$font-weight-semibold;
+  }
+
+  &--quiz {
+    background: linear-gradient(135deg, v.$brand-primary-500 0%, v.$brand-primary-600 100%);
+    color: v.$neutral-0;
+    padding: v.$spacing-2 v.$spacing-4;
+    font-weight: v.$font-weight-semibold;
+    box-shadow: v.$shadow-sm;
+
+    &:hover {
+      background: linear-gradient(135deg, v.$brand-primary-600 0%, v.$brand-primary-700 100%);
+      color: v.$neutral-0;
+      transform: translateY(-2px);
+      box-shadow: v.$shadow-md;
+    }
+
+    svg {
+      animation: sparkle 2s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.8;
   }
 }
 
@@ -296,6 +332,24 @@
     &:hover {
       background: v.$brand-primary-100;
       border-color: v.$brand-primary-300;
+    }
+
+    &.header__nav-link--quiz {
+      background: linear-gradient(135deg, v.$brand-primary-500 0%, v.$brand-primary-600 100%);
+      color: v.$neutral-0;
+      border: none;
+      margin-top: v.$spacing-3;
+      box-shadow: v.$shadow-sm;
+
+      &:hover {
+        background: linear-gradient(135deg, v.$brand-primary-600 0%, v.$brand-primary-700 100%);
+        transform: translateY(-2px);
+        box-shadow: v.$shadow-md;
+      }
+
+      svg {
+        animation: sparkle 2s ease-in-out infinite;
+      }
     }
   }
 }

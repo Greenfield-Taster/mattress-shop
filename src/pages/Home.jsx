@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Carousel from "../components/Carousel/Carousel";
+import { useQuiz } from "../contexts/QuizContext";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "/heero-cat.png";
@@ -11,6 +12,8 @@ import toperImage from "/toper.png";
 import pillowImage from "/pillow.png";
 
 const Home = () => {
+  const { openQuiz } = useQuiz();
+
   //TODO: Replace with real data from backend
   const popularProducts = [
     {
@@ -152,12 +155,12 @@ const Home = () => {
                 >
                   До каталогу
                 </Link>
-                <Link
-                  to="/quiz"
+                <button
                   className="hero__button hero__button--secondary"
+                  onClick={openQuiz}
                 >
                   Підібрати за 60 сек
-                </Link>
+                </button>
               </div>
             </div>
             <div className="hero__mattress">
@@ -239,9 +242,9 @@ const Home = () => {
         <div className="container">
           <div className="cta__content">
             <h2 className="cta__title">Підібрати матрац за 1 хвилину?</h2>
-            <Link to="/quiz" className="cta__button">
+            <button className="cta__button" onClick={openQuiz}>
               Пройти підбір
-            </Link>
+            </button>
           </div>
         </div>
       </section>
