@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MattressQuiz.scss";
 
@@ -11,16 +11,7 @@ const MattressQuiz = ({ onClose }) => {
     load: null,
     warranty: null,
   });
-  const [timeLeft, setTimeLeft] = useState(60);
   const [isComplete, setIsComplete] = useState(false);
-
-  // Таймер
-  useEffect(() => {
-    if (timeLeft > 0 && !isComplete) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [timeLeft, isComplete]);
 
   const steps = [
     {
@@ -141,7 +132,7 @@ const MattressQuiz = ({ onClose }) => {
   const handleViewResults = () => {
     // Формуємо параметри для каталогу на основі відповідей
     const params = new URLSearchParams();
-    
+
     if (answers.size) {
       params.append("size", answers.size);
     }
@@ -167,7 +158,6 @@ const MattressQuiz = ({ onClose }) => {
       load: null,
       warranty: null,
     });
-    setTimeLeft(60);
     setIsComplete(false);
   };
 
@@ -192,9 +182,7 @@ const MattressQuiz = ({ onClose }) => {
 
           <div className="mattress-quiz__complete">
             <div className="mattress-quiz__complete-icon">✓</div>
-            <h2 className="mattress-quiz__complete-title">
-              Підбір завершено!
-            </h2>
+            <h2 className="mattress-quiz__complete-title">Підбір завершено!</h2>
             <p className="mattress-quiz__complete-text">
               Ми підібрали для вас найкращі варіанти матраців за вашими
               параметрами
@@ -259,38 +247,23 @@ const MattressQuiz = ({ onClose }) => {
   return (
     <div className="mattress-quiz">
       <div className="mattress-quiz__container">
-        <button className="mattress-quiz__close" onClick={onClose}>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-
         <div className="mattress-quiz__header">
-          <div className="mattress-quiz__timer">
+          <div className="mattress-quiz__steps">
+            Крок {currentStep + 1} з {steps.length}
+          </div>
+
+          <button className="mattress-quiz__close" onClick={onClose}>
             <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
             >
-              <circle cx="10" cy="10" r="9" />
-              <path d="M10 5v5l3 3" />
+              <path d="M18 6L6 18M6 6l12 12" />
             </svg>
-            <span>{timeLeft}с</span>
-          </div>
-
-          <div className="mattress-quiz__steps">
-            Крок {currentStep + 1} з {steps.length}
-          </div>
+          </button>
         </div>
 
         <div className="mattress-quiz__progress">

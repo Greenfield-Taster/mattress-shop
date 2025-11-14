@@ -1,4 +1,4 @@
-@import "../../styles/variables";
+@use "../../styles/variables" as v;
 
 .mattress-quiz {
   position: fixed;
@@ -6,13 +6,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: $z-modal;
+  z-index: v.$z-modal;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(15, 20, 25, 0.6);
   backdrop-filter: blur(8px);
-  padding: $spacing-4;
+  padding: v.$spacing-4;
   animation: fadeIn 0.3s ease;
 
   @keyframes fadeIn {
@@ -29,10 +29,10 @@
   position: relative;
   width: 100%;
   max-width: 600px;
-  background: $neutral-0;
-  border-radius: $radius-2xl;
-  box-shadow: $shadow-xl;
-  padding: $spacing-8;
+  background: v.$neutral-0;
+  border-radius: v.$radius-2xl;
+  box-shadow: v.$shadow-xl;
+  padding: v.$spacing-8;
   animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes slideUp {
@@ -46,45 +46,42 @@
     }
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-6;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-6;
     max-width: 100%;
     margin: 0;
-    border-radius: $radius-xl;
+    border-radius: v.$radius-xl;
   }
 }
 
 .mattress-quiz__close {
-  position: absolute;
-  top: $spacing-6;
-  right: $spacing-6;
+  display: flex;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $neutral-100;
+  background: v.$neutral-100;
   border: none;
-  border-radius: $radius-full;
-  color: $neutral-600;
+  border-radius: v.$radius-full;
+  color: v.$neutral-600;
   cursor: pointer;
-  transition: $transition-button;
-  z-index: 1;
+  transition: v.$transition-button;
 
   &:hover {
-    background: $neutral-200;
-    color: $neutral-800;
+    background: v.$neutral-200;
+    color: v.$neutral-800;
     transform: scale(1.05);
   }
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 27px;
+    height: 27px;
   }
 
-  @media (max-width: $breakpoint-sm) {
-    top: $spacing-4;
-    right: $spacing-4;
+  @media (max-width: v.$breakpoint-sm) {
+    top: v.$spacing-4;
+    right: v.$spacing-4;
     width: 36px;
     height: 36px;
   }
@@ -94,33 +91,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: $spacing-6;
+  margin-bottom: v.$spacing-6;
 
-  @media (max-width: $breakpoint-sm) {
-    margin-bottom: $spacing-4;
+  @media (max-width: v.$breakpoint-sm) {
+    margin-bottom: v.$spacing-4;
   }
 }
 
 .mattress-quiz__timer {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-2 $spacing-4;
-  background: $brand-primary-50;
-  border-radius: $radius-full;
-  color: $brand-primary-600;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-sm;
+  gap: v.$spacing-2;
+  padding: v.$spacing-2 v.$spacing-4;
+  background: v.$brand-primary-50;
+  border-radius: v.$radius-full;
+  color: v.$brand-primary-600;
+  font-weight: v.$font-weight-semibold;
+  font-size: v.$font-size-sm;
 
   svg {
     width: 20px;
     height: 20px;
-    stroke: $brand-primary-500;
+    stroke: v.$brand-primary-500;
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-1 $spacing-3;
-    font-size: $font-size-xs;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-1 v.$spacing-3;
+    font-size: v.$font-size-xs;
 
     svg {
       width: 16px;
@@ -130,24 +127,24 @@
 }
 
 .mattress-quiz__steps {
-  font-size: $font-size-sm;
-  color: $neutral-500;
-  font-weight: $font-weight-medium;
+  font-size: v.$font-size-lg;
+  color: v.$neutral-500;
+  font-weight: v.$font-weight-medium;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-xs;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-base;
   }
 }
 
 .mattress-quiz__progress {
   height: 4px;
-  background: $neutral-200;
-  border-radius: $radius-full;
+  background: v.$neutral-200;
+  border-radius: v.$radius-full;
   overflow: hidden;
-  margin-bottom: $spacing-8;
+  margin-bottom: v.$spacing-8;
 
-  @media (max-width: $breakpoint-sm) {
-    margin-bottom: $spacing-6;
+  @media (max-width: v.$breakpoint-sm) {
+    margin-bottom: v.$spacing-6;
   }
 }
 
@@ -155,42 +152,42 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    $brand-primary-500 0%,
-    $brand-primary-400 100%
+    v.$brand-primary-500 0%,
+    v.$brand-primary-400 100%
   );
-  border-radius: $radius-full;
+  border-radius: v.$radius-full;
   transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mattress-quiz__content {
-  margin-bottom: $spacing-6;
+  margin-bottom: v.$spacing-6;
 }
 
 .mattress-quiz__title {
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-bold;
-  color: $neutral-800;
-  margin-bottom: $spacing-8;
-  line-height: $line-height-tight;
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$neutral-800;
+  margin-bottom: v.$spacing-8;
+  line-height: v.$line-height-tight;
   text-align: center;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-2xl;
-    margin-bottom: $spacing-6;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-2xl;
+    margin-bottom: v.$spacing-6;
   }
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-xl;
-    margin-bottom: $spacing-5;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xl;
+    margin-bottom: v.$spacing-5;
   }
 }
 
 .mattress-quiz__options {
   display: grid;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
   max-height: 400px;
   overflow-y: auto;
-  padding-right: $spacing-2;
+  padding-right: v.$spacing-2;
 
   // Кастомний скролбар
   &::-webkit-scrollbar {
@@ -198,74 +195,74 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: $neutral-100;
-    border-radius: $radius-full;
+    background: v.$neutral-100;
+    border-radius: v.$radius-full;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $neutral-300;
-    border-radius: $radius-full;
+    background: v.$neutral-300;
+    border-radius: v.$radius-full;
 
     &:hover {
-      background: $neutral-400;
+      background: v.$neutral-400;
     }
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     max-height: 320px;
-    gap: $spacing-2;
+    gap: v.$spacing-2;
   }
 }
 
 .mattress-quiz__option {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
-  padding: $spacing-5;
-  background: $neutral-50;
-  border: 2px solid $neutral-200;
-  border-radius: $radius-lg;
+  gap: v.$spacing-4;
+  padding: v.$spacing-5;
+  background: v.$neutral-50;
+  border: 2px solid v.$neutral-200;
+  border-radius: v.$radius-lg;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
   width: 100%;
 
   &:hover {
-    border-color: $brand-primary-300;
-    background: $neutral-0;
+    border-color: v.$brand-primary-300;
+    background: v.$neutral-0;
     transform: translateY(-2px);
-    box-shadow: $shadow-sm;
+    box-shadow: v.$shadow-sm;
   }
 
   &--selected {
-    border-color: $brand-primary-500;
-    background: $brand-primary-50;
-    box-shadow: $shadow-sm;
+    border-color: v.$brand-primary-500;
+    background: v.$brand-primary-50;
+    box-shadow: v.$shadow-sm;
 
     .mattress-quiz__option-label {
-      color: $brand-primary-700;
+      color: v.$brand-primary-700;
     }
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-4;
-    gap: $spacing-3;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-4;
+    gap: v.$spacing-3;
   }
 }
 
 .mattress-quiz__option-icon {
-  font-size: $font-size-3xl;
+  font-size: v.$font-size-3xl;
   flex-shrink: 0;
   width: 48px;
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $neutral-0;
-  border-radius: $radius-md;
+  background: v.$neutral-0;
+  border-radius: v.$radius-md;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-2xl;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-2xl;
     width: 40px;
     height: 40px;
   }
@@ -275,35 +272,35 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 }
 
 .mattress-quiz__option-label {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  color: $neutral-800;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
+  color: v.$neutral-800;
   transition: color 0.2s ease;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-base;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-base;
   }
 }
 
 .mattress-quiz__option-subtitle {
-  font-size: $font-size-sm;
-  color: $neutral-500;
+  font-size: v.$font-size-sm;
+  color: v.$neutral-500;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-xs;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xs;
   }
 }
 
 .mattress-quiz__footer {
-  padding-top: $spacing-6;
-  border-top: 1px solid $neutral-200;
+  padding-top: v.$spacing-6;
+  border-top: 1px solid v.$neutral-200;
 
-  @media (max-width: $breakpoint-sm) {
-    padding-top: $spacing-4;
+  @media (max-width: v.$breakpoint-sm) {
+    padding-top: v.$spacing-4;
   }
 }
 
@@ -311,25 +308,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-4 $spacing-6;
+  gap: v.$spacing-2;
+  padding: v.$spacing-4 v.$spacing-6;
   border: none;
-  border-radius: $radius-button;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  border-radius: v.$radius-button;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
   cursor: pointer;
-  transition: $transition-button;
-  font-family: $font-family-base;
+  transition: v.$transition-button;
+  font-family: v.$font-family-base;
 
   &--primary {
-    background: $brand-primary-500;
-    color: $neutral-0;
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
     width: 100%;
 
     &:hover {
-      background: $brand-primary-600;
+      background: v.$brand-primary-600;
       transform: translateY(-2px);
-      box-shadow: $shadow-md;
+      box-shadow: v.$shadow-md;
     }
 
     &:active {
@@ -338,14 +335,14 @@
   }
 
   &--secondary {
-    background: $neutral-100;
-    color: $neutral-700;
+    background: v.$neutral-100;
+    color: v.$neutral-700;
     width: 100%;
 
     &:hover {
-      background: $neutral-200;
+      background: v.$neutral-200;
       transform: translateY(-2px);
-      box-shadow: $shadow-sm;
+      box-shadow: v.$shadow-sm;
     }
 
     &:active {
@@ -355,12 +352,12 @@
 
   &--back {
     background: transparent;
-    color: $neutral-600;
-    padding: $spacing-3 $spacing-4;
+    color: v.$neutral-600;
+    padding: v.$spacing-3 v.$spacing-4;
 
     &:hover {
-      background: $neutral-100;
-      color: $neutral-800;
+      background: v.$neutral-100;
+      color: v.$neutral-800;
     }
   }
 
@@ -369,9 +366,9 @@
     height: 20px;
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-3 $spacing-5;
-    font-size: $font-size-sm;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-3 v.$spacing-5;
+    font-size: v.$font-size-sm;
 
     svg {
       width: 18px;
@@ -383,29 +380,25 @@
 // Сторінка завершення квізу
 .mattress-quiz__complete {
   text-align: center;
-  padding: $spacing-6 0;
+  padding: v.$spacing-6 0;
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-4 0;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-4 0;
   }
 }
 
 .mattress-quiz__complete-icon {
   width: 80px;
   height: 80px;
-  margin: 0 auto $spacing-6;
+  margin: 0 auto v.$spacing-6;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    $success 0%,
-    $success-dark 100%
-  );
-  border-radius: $radius-full;
-  color: $neutral-0;
-  font-size: $font-size-5xl;
-  font-weight: $font-weight-bold;
+  background: linear-gradient(135deg, v.$success 0%, v.$success-dark 100%);
+  border-radius: v.$radius-full;
+  color: v.$neutral-0;
+  font-size: v.$font-size-5xl;
+  font-weight: v.$font-weight-bold;
   box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
   animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -420,52 +413,52 @@
     }
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     width: 64px;
     height: 64px;
-    font-size: $font-size-4xl;
-    margin-bottom: $spacing-4;
+    font-size: v.$font-size-4xl;
+    margin-bottom: v.$spacing-4;
   }
 }
 
 .mattress-quiz__complete-title {
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-bold;
-  color: $neutral-800;
-  margin-bottom: $spacing-4;
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$neutral-800;
+  margin-bottom: v.$spacing-4;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-xl;
-    margin-bottom: $spacing-3;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xl;
+    margin-bottom: v.$spacing-3;
   }
 }
 
 .mattress-quiz__complete-text {
-  font-size: $font-size-base;
-  color: $neutral-500;
-  margin-bottom: $spacing-8;
+  font-size: v.$font-size-base;
+  color: v.$neutral-500;
+  margin-bottom: v.$spacing-8;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-sm;
-    margin-bottom: $spacing-6;
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-sm;
+    margin-bottom: v.$spacing-6;
   }
 }
 
 .mattress-quiz__complete-summary {
-  background: $neutral-50;
-  border-radius: $radius-lg;
-  padding: $spacing-6;
-  margin-bottom: $spacing-8;
+  background: v.$neutral-50;
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  margin-bottom: v.$spacing-8;
   text-align: left;
 
   h3 {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-semibold;
-    color: $neutral-800;
-    margin-bottom: $spacing-4;
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+    color: v.$neutral-800;
+    margin-bottom: v.$spacing-4;
   }
 
   ul {
@@ -474,43 +467,43 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: $spacing-3;
+    gap: v.$spacing-3;
   }
 
   li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: $spacing-3;
-    background: $neutral-0;
-    border-radius: $radius-base;
-    font-size: $font-size-sm;
+    padding: v.$spacing-3;
+    background: v.$neutral-0;
+    border-radius: v.$radius-base;
+    font-size: v.$font-size-sm;
 
     span {
-      color: $neutral-500;
+      color: v.$neutral-500;
     }
 
     strong {
-      color: $neutral-800;
-      font-weight: $font-weight-semibold;
+      color: v.$neutral-800;
+      font-weight: v.$font-weight-semibold;
     }
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-4;
-    margin-bottom: $spacing-6;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-6;
 
     h3 {
-      font-size: $font-size-base;
-      margin-bottom: $spacing-3;
+      font-size: v.$font-size-base;
+      margin-bottom: v.$spacing-3;
     }
 
     li {
-      padding: $spacing-2;
-      font-size: $font-size-xs;
+      padding: v.$spacing-2;
+      font-size: v.$font-size-xs;
       flex-direction: column;
       align-items: flex-start;
-      gap: $spacing-1;
+      gap: v.$spacing-1;
     }
   }
 }
@@ -518,9 +511,9 @@
 .mattress-quiz__complete-actions {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 
-  @media (max-width: $breakpoint-sm) {
-    gap: $spacing-2;
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-2;
   }
 }
