@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, Menu, X, User, Sparkles, Heart } from "lucide-react";
+import { ShoppingCart, Menu, X, User, Heart } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
-import { useQuiz } from "../contexts/QuizContext";
 import { useWishlist } from "../hooks/useWishlist";
 import CartSidePanel from "../components/Cart/CartSidePanel";
 import SideAuthPanel from "../components/SideAuthPanel/SideAuthPanel";
@@ -18,7 +17,6 @@ const Header = () => {
 
   const { totals } = useCart();
   const { user, isAuthenticated } = useAuth();
-  const { openQuiz } = useQuiz();
   const { wishlist } = useWishlist();
   const location = useLocation();
   const navigate = useNavigate();
@@ -98,13 +96,6 @@ const Header = () => {
             >
               Каталог
             </Link>
-            <button
-              onClick={openQuiz}
-              className="header__nav-link header__nav-link--quiz"
-            >
-              <Sparkles size={16} />
-              Підбір за 60с
-            </button>
             <Link
               to="/contacts"
               className={`header__nav-link ${
@@ -186,16 +177,6 @@ const Header = () => {
               >
                 Каталог
               </Link>
-              <button
-                className="header__nav-link header__nav-link--quiz"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  openQuiz();
-                }}
-              >
-                <Sparkles size={16} />
-                Підбір за 60с
-              </button>
               <Link
                 to="/contacts"
                 className={`header__nav-link ${

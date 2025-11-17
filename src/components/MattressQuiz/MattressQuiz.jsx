@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import "./MattressQuiz.scss";
 
 const MattressQuiz = ({ onClose }) => {
@@ -12,19 +13,78 @@ const MattressQuiz = ({ onClose }) => {
     warranty: null,
   });
   const [isComplete, setIsComplete] = useState(false);
+  const [showAllSizes, setShowAllSizes] = useState(false);
+
+  // Розміри з каталогу, розділені на категорії
+  const allSizes = [
+    "200х200",
+    "180х200",
+    "180х190",
+    "170х200",
+    "170х190",
+    "160х200",
+    "160х190",
+    "150х200",
+    "150х190",
+    "140х200",
+    "140х190",
+    "120х200",
+    "120х190",
+    "90х200",
+    "90х190",
+    "80х200",
+    "80х190",
+    "70х200",
+    "70х190",
+    "80х180",
+    "80х170",
+    "80х160",
+    "80х150",
+    "70х180",
+    "70х170",
+    "70х160",
+    "70х150",
+    "60х120",
+  ];
+
+  // Популярні розміри (показуються спочатку)
+  const popularSizes = [
+    { value: "200х200", label: "200×200 см", subtitle: "King Size XL" },
+    { value: "180х200", label: "180×200 см", subtitle: "King Size" },
+    { value: "160х200", label: "160×200 см", subtitle: "Двоспальний" },
+    { value: "140х200", label: "140×200 см", subtitle: "Двоспальний" },
+    { value: "120х200", label: "120×200 см", subtitle: "Полуторний" },
+    { value: "90х200", label: "90×200 см", subtitle: "Односпальний" },
+    { value: "80х190", label: "80×190 см", subtitle: "Односпальний" },
+    { value: "60х120", label: "60×120 см", subtitle: "Дитячий" },
+  ];
+
+  // Всі інші розміри
+  const otherSizes = allSizes
+    .filter((size) => !popularSizes.some((p) => p.value === size))
+    .map((size) => {
+      const [width, height] = size.split("х");
+      let subtitle = "";
+      const w = parseInt(width);
+
+      if (w >= 180) subtitle = "King Size";
+      else if (w >= 140) subtitle = "Двоспальний";
+      else if (w === 120) subtitle = "Полуторний";
+      else if (w >= 80 && w <= 90) subtitle = "Односпальний";
+      else subtitle = "Дитячий";
+
+      return {
+        value: size,
+        label: size.replace("х", "×") + " см",
+        subtitle,
+      };
+    });
 
   const steps = [
     {
       id: "size",
       title: "Оберіть розмір матраца",
-      options: [
-        { value: "80x190", label: "80×190 см", subtitle: "Односпальний" },
-        { value: "90x200", label: "90×200 см", subtitle: "Односпальний" },
-        { value: "120x200", label: "120×200 см", subtitle: "Полуторний" },
-        { value: "140x200", label: "140×200 см", subtitle: "Двоспальний" },
-        { value: "160x200", label: "160×200 см", subtitle: "Двоспальний" },
-        { value: "180x200", label: "180×200 см", subtitle: "King Size" },
-      ],
+      isSize: true, // Спеціальний прапорець для розмірів
     },
     {
       id: "hardness",
@@ -114,6 +174,7 @@ const MattressQuiz = ({ onClose }) => {
     if (currentStep < steps.length - 1) {
       setTimeout(() => {
         setCurrentStep(currentStep + 1);
+        setShowAllSizes(false); // Скидаємо стан показу всіх розмірів
       }, 300);
     } else {
       // Завершуємо квіз
@@ -126,6 +187,7 @@ const MattressQuiz = ({ onClose }) => {
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      setShowAllSizes(false);
     }
   };
 
@@ -134,7 +196,7 @@ const MattressQuiz = ({ onClose }) => {
     const params = new URLSearchParams();
 
     if (answers.size) {
-      params.append("size", answers.size);
+      params.append("sizes", answers.size);
     }
     if (answers.hardness) {
       params.append("hardness", answers.hardness);
@@ -159,6 +221,7 @@ const MattressQuiz = ({ onClose }) => {
       warranty: null,
     });
     setIsComplete(false);
+    setShowAllSizes(false);
   };
 
   const progress = ((currentStep + 1) / steps.length) * 100;
@@ -166,6 +229,7 @@ const MattressQuiz = ({ onClose }) => {
   if (isComplete) {
     return (
       <div className="mattress-quiz">
+        <div className="mattress-quiz__overlay" />
         <div className="mattress-quiz__container">
           <button className="mattress-quiz__close" onClick={onClose}>
             <svg
@@ -194,8 +258,10 @@ const MattressQuiz = ({ onClose }) => {
                 <li>
                   <span>Розмір:</span>{" "}
                   <strong>
-                    {steps[0].options.find((o) => o.value === answers.size)
-                      ?.label || "Не вибрано"}
+                    {popularSizes
+                      .concat(otherSizes)
+                      .find((o) => o.value === answers.size)?.label ||
+                      "Не вибрано"}
                   </strong>
                 </li>
                 <li>
@@ -246,6 +312,7 @@ const MattressQuiz = ({ onClose }) => {
 
   return (
     <div className="mattress-quiz">
+      <div className="mattress-quiz__overlay" />
       <div className="mattress-quiz__container">
         <div className="mattress-quiz__header">
           <div className="mattress-quiz__steps">
@@ -276,35 +343,108 @@ const MattressQuiz = ({ onClose }) => {
         <div className="mattress-quiz__content">
           <h2 className="mattress-quiz__title">{currentStepData.title}</h2>
 
-          <div className="mattress-quiz__options">
-            {currentStepData.options.map((option) => (
+          {currentStepData.isSize ? (
+            <div className="mattress-quiz__sizes">
+              <div className="mattress-quiz__options mattress-quiz__options--sizes">
+                {popularSizes.map((option) => (
+                  <button
+                    key={option.value}
+                    className={`mattress-quiz__option mattress-quiz__option--size ${
+                      answers[currentStepData.id] === option.value
+                        ? "mattress-quiz__option--selected"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      handleSelectOption(currentStepData.id, option.value)
+                    }
+                  >
+                    <div className="mattress-quiz__option-content">
+                      <span className="mattress-quiz__option-label">
+                        {option.label}
+                      </span>
+                      <span className="mattress-quiz__option-subtitle">
+                        {option.subtitle}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
               <button
-                key={option.value}
-                className={`mattress-quiz__option ${
-                  answers[currentStepData.id] === option.value
-                    ? "mattress-quiz__option--selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  handleSelectOption(currentStepData.id, option.value)
-                }
+                className="mattress-quiz__toggle-sizes"
+                onClick={() => setShowAllSizes(!showAllSizes)}
               >
-                {option.icon && (
-                  <span className="mattress-quiz__option-icon">
-                    {option.icon}
-                  </span>
+                {showAllSizes ? (
+                  <>
+                    <ChevronUp size={20} />
+                    Приховати інші розміри
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown size={20} />
+                    Показати всі розміри ({otherSizes.length})
+                  </>
                 )}
-                <div className="mattress-quiz__option-content">
-                  <span className="mattress-quiz__option-label">
-                    {option.label}
-                  </span>
-                  <span className="mattress-quiz__option-subtitle">
-                    {option.subtitle}
-                  </span>
-                </div>
               </button>
-            ))}
-          </div>
+
+              {showAllSizes && (
+                <div className="mattress-quiz__options mattress-quiz__options--all-sizes">
+                  {otherSizes.map((option) => (
+                    <button
+                      key={option.value}
+                      className={`mattress-quiz__option mattress-quiz__option--size mattress-quiz__option--compact ${
+                        answers[currentStepData.id] === option.value
+                          ? "mattress-quiz__option--selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleSelectOption(currentStepData.id, option.value)
+                      }
+                    >
+                      <div className="mattress-quiz__option-content">
+                        <span className="mattress-quiz__option-label">
+                          {option.label}
+                        </span>
+                        <span className="mattress-quiz__option-subtitle">
+                          {option.subtitle}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="mattress-quiz__options">
+              {currentStepData.options.map((option) => (
+                <button
+                  key={option.value}
+                  className={`mattress-quiz__option ${
+                    answers[currentStepData.id] === option.value
+                      ? "mattress-quiz__option--selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleSelectOption(currentStepData.id, option.value)
+                  }
+                >
+                  {option.icon && (
+                    <span className="mattress-quiz__option-icon">
+                      {option.icon}
+                    </span>
+                  )}
+                  <div className="mattress-quiz__option-content">
+                    <span className="mattress-quiz__option-label">
+                      {option.label}
+                    </span>
+                    <span className="mattress-quiz__option-subtitle">
+                      {option.subtitle}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {currentStep > 0 && (
