@@ -232,6 +232,11 @@
         outline-offset: 2px;
       }
     }
+
+    &--added {
+      cursor: default;
+      pointer-events: none;
+    }
   }
 }
 

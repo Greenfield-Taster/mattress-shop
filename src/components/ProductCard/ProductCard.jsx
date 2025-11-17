@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import "./ProductCard.scss";
@@ -6,6 +7,7 @@ import "./ProductCard.scss";
 const ProductCard = ({ product }) => {
   const { id, name, type, height, hardness, price, oldPrice, image } = product;
   const { addItem } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
 
   const hasDiscount = oldPrice && oldPrice > price;
   const discountPercent = hasDiscount
@@ -15,7 +17,7 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     addItem({
       id,
       title: name,
@@ -25,26 +27,32 @@ const ProductCard = ({ product }) => {
       image,
       qty: 1,
     });
+
+    setIsAdded(true);
+
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   };
 
   return (
     <div className="product-card">
       <div className="product-card__image-wrapper">
         <Link to={`/product/${id}`} className="product-card__image-link">
-          <img 
-            src={image} 
-            alt={name} 
+          <img
+            src={image}
+            alt={name}
             className="product-card__image"
             loading="lazy"
             width={290}
             height={290}
           />
         </Link>
-        
+
         {hasDiscount && (
           <div className="product-card__discount">-{discountPercent}%</div>
         )}
-        
+
         <div className="product-card__wishlist">
           <WishlistButton product={product} variant="small" />
         </div>
@@ -59,13 +67,17 @@ const ProductCard = ({ product }) => {
           {type && <span className="product-card__spec">{type}</span>}
           {height && (
             <>
-              <span className="product-card__separator" aria-hidden="true">•</span>
+              <span className="product-card__separator" aria-hidden="true">
+                •
+              </span>
               <span className="product-card__spec">{height} см</span>
             </>
           )}
           {hardness && (
             <>
-              <span className="product-card__separator" aria-hidden="true">•</span>
+              <span className="product-card__separator" aria-hidden="true">
+                •
+              </span>
               <span className="product-card__spec">{hardness}</span>
             </>
           )}
@@ -90,11 +102,14 @@ const ProductCard = ({ product }) => {
             Детальніше
           </Link>
           <button
-            className="product-card__button product-card__button--secondary"
+            className={`product-card__button product-card__button--secondary ${
+              isAdded ? "product-card__button--added" : ""
+            }`}
             onClick={handleAddToCart}
             aria-label={`Додати ${name} в кошик`}
+            disabled={isAdded}
           >
-            До кошика
+            {isAdded ? "Додано! ✓" : "Купити"}
           </button>
         </div>
       </div>
