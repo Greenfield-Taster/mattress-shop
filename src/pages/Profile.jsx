@@ -280,7 +280,10 @@ const Profile = () => {
             <h3 className="profile-card__title-info">Корисна інформація</h3>
 
             <div className="profile-info__list">
-              <div className="profile-info__item">
+              <div
+                className="profile-info__item"
+                onClick={() => navigate("/order-history")}
+              >
                 <div className="profile-info__icon">💳</div>
                 <div className="profile-info__content">
                   <h4>Історія замовлень</h4>
@@ -288,19 +291,14 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="profile-info__item">
+              <div
+                className="profile-info__item"
+                onClick={() => navigate("/wishlist")}
+              >
                 <div className="profile-info__icon">❤️</div>
                 <div className="profile-info__content">
                   <h4>Список бажань</h4>
                   <p>Зберігайте улюблені товари</p>
-                </div>
-              </div>
-
-              <div className="profile-info__item">
-                <div className="profile-info__icon">🔔</div>
-                <div className="profile-info__content">
-                  <h4>Сповіщення</h4>
-                  <p>Отримуйте новини та спеціальні пропозиції</p>
                 </div>
               </div>
             </div>

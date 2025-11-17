@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, Menu, X, User, Sparkles } from "lucide-react";
+import { ShoppingCart, Menu, X, User, Sparkles, Heart } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import { useQuiz } from "../contexts/QuizContext";
+import { useWishlist } from "../hooks/useWishlist";
 import CartSidePanel from "../components/Cart/CartSidePanel";
 import SideAuthPanel from "../components/SideAuthPanel/SideAuthPanel";
 import "../styles/layout/_header.scss";
@@ -18,6 +19,7 @@ const Header = () => {
   const { totals } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { openQuiz } = useQuiz();
+  const { wishlist } = useWishlist();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -114,6 +116,17 @@ const Header = () => {
           </nav>
 
           <div className="header__actions">
+            <Link
+              to="/wishlist"
+              className="header__wishlist"
+              aria-label="Список бажань"
+            >
+              <Heart size={20} />
+              {wishlist.length > 0 && (
+                <span className="header__wishlist__badge">{wishlist.length}</span>
+              )}
+            </Link>
+
             <button
               onClick={handleCartClick}
               className="header__cart"

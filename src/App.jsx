@@ -11,6 +11,8 @@ import Product from "./pages/Product";
 import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
+import OrderHistory from "./pages/OrderHistory";
+import Wishlist from "./pages/Wishlist";
 import NotFound from "./pages/NotFound";
 
 import "./styles/main.scss";
@@ -34,6 +36,8 @@ function App() {
                   <Route path="/contacts" element={<Contacts />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-history" element={<OrderHistory />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
