@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import {
   User,
@@ -10,6 +10,13 @@ import {
   Save,
   X,
   LogOut,
+  Package,
+  CreditCard,
+  Truck,
+  CheckCircle,
+  Clock,
+  XCircle,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages/_profile.scss";
@@ -27,13 +34,80 @@ const Profile = () => {
     address: user?.address || "",
     city: user?.city || "",
   });
+  const [orders, setOrders] = useState([]);
 
   // Якщо користувач не авторизований, перенаправляємо на головну
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
+
+  // Завантаження замовлень (mock дані)
+  useEffect(() => {
+    const mockOrders = [
+      {
+        id: "ORD-2024-001",
+        date: "2024-11-10",
+        status: "delivered",
+        total: 15980,
+        items: [
+          {
+            id: 1,
+            name: "Ортопедичний матрац AirFlow Pro",
+            size: "160×200",
+            quantity: 1,
+            price: 7990,
+            image: "/spring.png",
+          },
+          {
+            id: 2,
+            name: "Ортопедична подушка Memory Foam",
+            size: "50×70",
+            quantity: 2,
+            price: 3995,
+            image: "/pillow.png",
+          },
+        ],
+        deliveryAddress: "Київ, вул. Хрещатик, 1",
+      },
+      {
+        id: "ORD-2024-002",
+        date: "2024-11-15",
+        status: "processing",
+        total: 12990,
+        items: [
+          {
+            id: 3,
+            name: "Безпружинний матрац Eco Dream",
+            size: "140×200",
+            quantity: 1,
+            price: 12990,
+            image: "/springless.png",
+          },
+        ],
+        deliveryAddress: "Львів, пр. Свободи, 25",
+      },
+      {
+        id: "ORD-2024-003",
+        date: "2024-10-28",
+        status: "cancelled",
+        total: 8990,
+        items: [
+          {
+            id: 4,
+            name: "Дитячий матрац Baby Dream",
+            size: "120×60",
+            quantity: 1,
+            price: 8990,
+            image: "/kids.png",
+          },
+        ],
+        deliveryAddress: "Одеса, вул. Дерибасівська, 10",
+      },
+    ];
+    setOrders(mockOrders);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,11 +145,34 @@ const Profile = () => {
     navigate("/");
   };
 
-  if (!isAuthenticated) {
-    return null;
-  }
+  // Конфігурація статусів замовлень
+  const getStatusConfig = (status) => {
+    const configs = {
+      delivered: {
+        label: "Доставлено",
+        icon: CheckCircle,
+        color: "success",
+      },
+      processing: {
+        label: "Обробляється",
+        icon: Clock,
+        color: "warning",
+      },
+      shipping: {
+        label: "В дорозі",
+        icon: Truck,
+        color: "info",
+      },
+      cancelled: {
+        label: "Скасовано",
+        icon: XCircle,
+        color: "error",
+      },
+    };
+    return configs[status] || configs.processing;
+  };
 
-  // Форматування дати реєстрації
+  // Форматування дати
   const formatDate = (dateString) => {
     if (!dateString) return "Нещодавно";
     const date = new Date(dateString);
@@ -85,6 +182,10 @@ const Profile = () => {
       day: "numeric",
     });
   };
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="profile-page">
@@ -108,40 +209,34 @@ const Profile = () => {
           </button>
         </div>
 
-        <div className="profile-content">
-          {/* Аватар і основна інформація */}
-          <div className="profile-card profile-main">
-            <div className="profile-avatar">
-              <div className="profile-avatar__circle">
-                {user?.avatar ? (
-                  <img src={user.avatar} alt={user.name} />
-                ) : (
-                  <User size={48} />
-                )}
-              </div>
-
-              <div className="profile-avatar__info">
-                <h2 className="profile-avatar__name">
-                  {user?.name || "Користувач"}
-                </h2>
-                <p className="profile-avatar__email">
-                  {user?.email || user?.phone}
-                </p>
-              </div>
+        {/* Інформація про користувача */}
+        <div className="profile-user-info">
+          <div className="profile-user-info__left">
+            <div className="profile-user-info__avatar">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user.name} />
+              ) : (
+                <User size={40} />
+              )}
             </div>
-
-            <div className="profile-stats">
-              <div className="profile-stat">
-                <Calendar size={20} />
-                <div className="profile-stat__content">
-                  <span className="profile-stat__label">Дата реєстрації</span>
-                  <span className="profile-stat__value">
-                    {formatDate(user?.createdAt)}
-                  </span>
-                </div>
-              </div>
+            <div className="profile-user-info__details">
+              <h2 className="profile-user-info__name">
+                {user?.name || "Користувач"}
+              </h2>
+              <p className="profile-user-info__email">
+                {user?.email || user?.phone}
+              </p>
             </div>
           </div>
+          <div className="profile-user-info__right">
+            <Calendar size={18} />
+            <span className="profile-user-info__date">
+              Дата реєстрації: {formatDate(user?.createdAt)}
+            </span>
+          </div>
+        </div>
+
+        <div className="profile-content">
 
           {/* Персональні дані */}
           <div className="profile-card profile-details">
@@ -275,34 +370,95 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Додаткова інформація */}
-          <div className="profile-card profile-info">
-            <h3 className="profile-card__title-info">Корисна інформація</h3>
+        </div>
 
-            <div className="profile-info__list">
-              <div
-                className="profile-info__item"
-                onClick={() => navigate("/order-history")}
-              >
-                <div className="profile-info__icon">💳</div>
-                <div className="profile-info__content">
-                  <h4>Історія замовлень</h4>
-                  <p>Переглядайте свої попередні замовлення</p>
-                </div>
-              </div>
+        {/* Історія замовлень */}
+        <div className="profile-orders">
+          <h3 className="profile-orders__title">
+            <Package size={24} />
+            Історія замовлень
+          </h3>
 
-              <div
-                className="profile-info__item"
-                onClick={() => navigate("/wishlist")}
-              >
-                <div className="profile-info__icon">❤️</div>
-                <div className="profile-info__content">
-                  <h4>Список бажань</h4>
-                  <p>Зберігайте улюблені товари</p>
-                </div>
-              </div>
+          {orders.length === 0 ? (
+            <div className="profile-orders-empty">
+              <Package size={48} />
+              <p>У вас поки немає замовлень</p>
             </div>
-          </div>
+          ) : (
+            <div className="profile-orders-list">
+              {orders.map((order) => {
+                const statusConfig = getStatusConfig(order.status);
+                const StatusIcon = statusConfig.icon;
+
+                return (
+                  <div key={order.id} className="order-card">
+                    <div className="order-card__header">
+                      <div className="order-card__header-left">
+                        <div className="order-card__id">
+                          <Package size={20} />
+                          <span>Замовлення {order.id}</span>
+                        </div>
+                        <div className="order-card__date">
+                          <Calendar size={16} />
+                          <span>{formatDate(order.date)}</span>
+                        </div>
+                      </div>
+                      <div
+                        className={`order-card__status order-card__status--${statusConfig.color}`}
+                      >
+                        <StatusIcon size={18} />
+                        <span>{statusConfig.label}</span>
+                      </div>
+                    </div>
+
+                    <div className="order-card__items">
+                      {order.items.map((item) => (
+                        <div key={item.id} className="order-item">
+                          <div className="order-item__image">
+                            <img src={item.image} alt={item.name} />
+                          </div>
+                          <div className="order-item__details">
+                            <h4 className="order-item__name">{item.name}</h4>
+                            <p className="order-item__size">
+                              Розмір: {item.size}
+                            </p>
+                          </div>
+                          <div className="order-item__quantity">
+                            x{item.quantity}
+                          </div>
+                          <div className="order-item__price">
+                            {item.price.toLocaleString("uk-UA")} ₴
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="order-card__footer">
+                      <div className="order-card__info">
+                        <div className="order-card__delivery">
+                          <Truck size={16} />
+                          <span>{order.deliveryAddress}</span>
+                        </div>
+                        <div className="order-card__total">
+                          <CreditCard size={16} />
+                          <span className="order-card__total-label">
+                            Загальна сума:
+                          </span>
+                          <span className="order-card__total-value">
+                            {order.total.toLocaleString("uk-UA")} ₴
+                          </span>
+                        </div>
+                      </div>
+                      <button className="btn btn-outline btn-sm order-card__details-btn">
+                        <span>Деталі</span>
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
