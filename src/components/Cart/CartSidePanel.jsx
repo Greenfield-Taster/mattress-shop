@@ -198,33 +198,61 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                     onSubmit={handlePromoSubmit}
                     className="cart-side-panel__promo-form"
                   >
-                    <input
-                      type="text"
-                      className={`cart-side-panel__promo-input ${
-                        promoMessage.type === "error"
-                          ? "cart-side-panel__promo-input--error"
-                          : ""
-                      } ${
-                        promoMessage.type === "success"
-                          ? "cart-side-panel__promo-input--success"
-                          : ""
-                      }`}
-                      placeholder="ПРОМОКОД"
-                      value={promoInput}
-                      onChange={(e) => {
-                        const value = e.target.value
-                          .toUpperCase()
-                          .replace(/[^A-Z0-9]/g, "");
-                        if (value.length <= 6) {
-                          setPromoInput(value);
+                    <div className="cart-side-panel__promo-input-wrapper">
+                      <input
+                        type="text"
+                        className={`cart-side-panel__promo-input ${
+                          promoMessage.type === "error"
+                            ? "cart-side-panel__promo-input--error"
+                            : ""
+                        } ${
+                          promoMessage.type === "success"
+                            ? "cart-side-panel__promo-input--success"
+                            : ""
+                        }`}
+                        placeholder="ПРОМОКОД"
+                        value={promoInput}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .toUpperCase()
+                            .replace(/[^A-Z0-9]/g, "");
+                          if (value.length <= 6) {
+                            setPromoInput(value);
 
-                          if (promoMessage.text) {
-                            setPromoMessage({ text: "", type: "" });
+                            if (promoMessage.text) {
+                              setPromoMessage({ text: "", type: "" });
+                            }
                           }
-                        }
-                      }}
-                      maxLength={6}
-                    />
+                        }}
+                        maxLength={6}
+                      />
+                      {promoInput && (
+                        <button
+                          type="button"
+                          className="cart-side-panel__promo-clear"
+                          onClick={() => {
+                            setPromoInput("");
+                            setPromoMessage({ text: "", type: "" });
+                          }}
+                          aria-label="Очистити промокод"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12 4L4 12M4 4L12 12"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
                     <button
                       type="submit"
                       className="cart-side-panel__promo-button"
