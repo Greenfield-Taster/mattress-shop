@@ -50,7 +50,7 @@ const Catalog = () => {
     };
 
     loadProducts();
-  }, [searchParams, params]); // Перезавантажуємо при зміні URL
+  }, [searchParams]); // Перезавантажуємо при зміні URL
 
   const updateURL = (newParams) => {
     const query = new URLSearchParams();
