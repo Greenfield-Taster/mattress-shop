@@ -174,7 +174,12 @@ export const validateDeliveryData = (
     errors.deliveryCity = "Оберіть місто доставки";
   }
 
+  // Валідація для кур'єрської доставки - тільки Київ
   if (deliveryMethod === "courier") {
+    if (deliveryCity && !deliveryCity.toLowerCase().includes("київ")) {
+      errors.deliveryCity = "Кур'єрська доставка доступна тільки в межах Києва";
+    }
+
     if (!deliveryAddress.trim()) {
       errors.deliveryAddress = "Введіть адресу доставки";
     } else if (!validateAddress(deliveryAddress)) {

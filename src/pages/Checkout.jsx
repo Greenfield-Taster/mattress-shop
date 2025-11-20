@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -89,25 +89,19 @@ const Checkout = () => {
     {
       id: "meest",
       name: "Meest",
-      subtitle: "Відділення / Кур'єр",
+      subtitle: "Відділення",
       icon: "📮",
     },
     {
       id: "delivery",
       name: "Delivery",
-      subtitle: "Відділення / Кур'єр",
+      subtitle: "Відділення",
       icon: "🚚",
-    },
-    {
-      id: "intime",
-      name: "InTime",
-      subtitle: "Відділення / Кур'єр",
-      icon: "⏱️",
     },
     {
       id: "courier",
       name: "Кур'єр",
-      subtitle: "Адресна доставка",
+      subtitle: "Тільки Київ",
       icon: "🚴",
     },
     {
@@ -348,6 +342,21 @@ const Checkout = () => {
     clearError("deliveryWarehouse");
   };
 
+  // Автоматично встановлюємо Київ для кур'єрської доставки
+  useEffect(() => {
+    if (deliveryMethod === "courier") {
+      setDeliveryCity("Київ");
+      setDeliveryCityRef("kyiv");
+      clearError("deliveryCity");
+    } else if (deliveryMethod && deliveryMethod !== "pickup") {
+      // Для інших методів доставки скидаємо місто
+      if (deliveryCity === "Київ" && deliveryCityRef === "kyiv") {
+        setDeliveryCity("");
+        setDeliveryCityRef("");
+      }
+    }
+  }, [deliveryMethod]);
+
   const deliveryPrice =
     deliveryMethod === "pickup" ? 0 : "за тарифами перевізника";
 
@@ -495,20 +504,32 @@ const Checkout = () => {
               {/* Delivery details based on selection */}
               {deliveryMethod && deliveryMethod !== "pickup" && (
                 <div className="checkout__delivery-details">
-                  <div className="checkout__form-group">
-                    <label className="checkout__label">
-                      <MapPin size={18} />
-                      Місто
-                    </label>
-                    <DeliveryAutocomplete
-                      type="city"
-                      value={deliveryCity}
-                      onChange={handleCityChange}
-                      onSearch={handleCitySearch}
-                      placeholder="Почніть вводити назву міста"
-                      error={errors.deliveryCity}
-                    />
-                  </div>
+                  {/* Повідомлення для кур'єрської доставки */}
+                  {deliveryMethod === "courier" && (
+                    <div className="checkout__delivery-info-box">
+                      <p className="checkout__delivery-info-text">
+                        🚴 Кур'єрська доставка доступна тільки в межах Києва
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Для кур'єрської доставки не показуємо поле вибору міста */}
+                  {deliveryMethod !== "courier" && (
+                    <div className="checkout__form-group">
+                      <label className="checkout__label">
+                        <MapPin size={18} />
+                        Місто
+                      </label>
+                      <DeliveryAutocomplete
+                        type="city"
+                        value={deliveryCity}
+                        onChange={handleCityChange}
+                        onSearch={handleCitySearch}
+                        placeholder="Почніть вводити назву міста"
+                        error={errors.deliveryCity}
+                      />
+                    </div>
+                  )}
 
                   {deliveryMethod === "courier" ? (
                     <div className="checkout__form-group">

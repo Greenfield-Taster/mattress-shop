@@ -183,141 +183,271 @@ export const NovaPoshtaAPI = {
   },
 };
 
+const MEEST_API_KEY = import.meta.env.VITE_MEEST_API_KEY || "";
+const MEEST_API_URL = "https://api.meest.com/v1/";
+
 /**
  * Meest API
  * Документація: https://api.meest.com/
  */
 export const MeestAPI = {
   async searchCities(query) {
-    console.log("🔍 MeestAPI.searchCities:", query);
+    console.log("🔍 MeestAPI.searchCities викликано з query:", query);
+    console.log("🔑 API Key присутній:", !!MEEST_API_KEY);
 
-    // Демо-дані для тестування
-    const cities = [
-      { value: "kyiv", label: "Київ", area: "Київська область" },
-      { value: "lviv", label: "Львів", area: "Львівська область" },
-      { value: "odesa", label: "Одеса", area: "Одеська область" },
-      { value: "kharkiv", label: "Харків", area: "Харківська область" },
-      { value: "dnipro", label: "Дніпро", area: "Дніпропетровська область" },
-      { value: "zaporizhzhia", label: "Запоріжжя", area: "Запорізька область" },
-      { value: "vinnytsia", label: "Вінниця", area: "Вінницька область" },
-      { value: "poltava", label: "Полтава", area: "Полтавська область" },
-    ];
+    if (!MEEST_API_KEY) {
+      console.warn(
+        "⚠️ Meest API ключ не налаштовано. Використовується демо-режим."
+      );
+      // Fallback до демо-даних
+      const cities = [
+        { value: "kyiv", label: "Київ", area: "Київська область" },
+        { value: "lviv", label: "Львів", area: "Львівська область" },
+        { value: "odesa", label: "Одеса", area: "Одеська область" },
+        { value: "kharkiv", label: "Харків", area: "Харківська область" },
+        { value: "dnipro", label: "Дніпро", area: "Дніпропетровська область" },
+        { value: "zaporizhzhia", label: "Запоріжжя", area: "Запорізька область" },
+        { value: "vinnytsia", label: "Вінниця", area: "Вінницька область" },
+        { value: "poltava", label: "Полтава", area: "Полтавська область" },
+      ];
+      return cities.filter((city) =>
+        city.label.toLowerCase().includes(query.toLowerCase())
+      );
+    }
 
-    return cities.filter((city) =>
-      city.label.toLowerCase().includes(query.toLowerCase())
-    );
+    try {
+      const response = await fetch(`${MEEST_API_URL}location/cities`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${MEEST_API_KEY}`,
+        },
+        body: JSON.stringify({
+          search: query,
+          limit: 50,
+        }),
+      });
+
+      console.log("📥 Отримано відповідь, status:", response.status);
+
+      const data = await response.json();
+      console.log("📦 Дані від API:", data);
+
+      if (data.success && data.data) {
+        const cities = data.data.map((city) => ({
+          value: city.id,
+          label: city.name,
+          area: city.region,
+        }));
+        console.log("✅ Повертаємо міста:", cities.length, "шт.");
+        return cities;
+      }
+
+      console.warn("⚠️ Meest API повернула помилку:", data.errors);
+      return [];
+    } catch (error) {
+      console.error("❌ Помилка при отриманні міст Meest:", error);
+      return [];
+    }
   },
 
   async getWarehouses(cityRef, query = "") {
-    console.log("🔍 MeestAPI.getWarehouses:", { cityRef, query });
+    console.log("🔍 MeestAPI.getWarehouses викликано:", { cityRef, query });
+    console.log("🔑 API Key присутній:", !!MEEST_API_KEY);
 
-    const warehouses = [
-      { value: "1", label: "Відділення №1", address: "вул. Хрещатик, 1" },
-      {
-        value: "2",
-        label: "Відділення №2",
-        address: "вул. Саксаганського, 15",
-      },
-      {
-        value: "3",
-        label: "Відділення №3",
-        address: "вул. Велика Васильківська, 72",
-      },
-      { value: "4", label: "Відділення №4", address: "вул. Басейна, 8" },
-    ];
+    if (!MEEST_API_KEY) {
+      console.warn(
+        "⚠️ Meest API ключ не налаштовано. Використовується демо-режим."
+      );
+      // Fallback до демо-даних
+      const warehouses = [
+        { value: "1", label: "Відділення №1", address: "вул. Хрещатик, 1" },
+        {
+          value: "2",
+          label: "Відділення №2",
+          address: "вул. Саксаганського, 15",
+        },
+        {
+          value: "3",
+          label: "Відділення №3",
+          address: "вул. Велика Васильківська, 72",
+        },
+        { value: "4", label: "Відділення №4", address: "вул. Басейна, 8" },
+      ];
+      return warehouses.filter(
+        (warehouse) =>
+          !query ||
+          warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
+          warehouse.address.toLowerCase().includes(query.toLowerCase())
+      );
+    }
 
-    return warehouses.filter(
-      (warehouse) =>
-        !query ||
-        warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
-        warehouse.address.toLowerCase().includes(query.toLowerCase())
-    );
+    try {
+      const response = await fetch(`${MEEST_API_URL}location/branches`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${MEEST_API_KEY}`,
+        },
+        body: JSON.stringify({
+          city_id: cityRef,
+          search: query,
+          limit: 50,
+        }),
+      });
+
+      console.log("📥 Отримано відповідь, status:", response.status);
+
+      const data = await response.json();
+      console.log("📦 Дані від API:", data);
+
+      if (data.success && data.data) {
+        const warehouses = data.data.map((warehouse) => ({
+          value: warehouse.id,
+          label: `${warehouse.name}`,
+          address: warehouse.address,
+          number: warehouse.number,
+        }));
+        console.log("✅ Повертаємо відділення:", warehouses.length, "шт.");
+        return warehouses;
+      }
+
+      console.warn("⚠️ Meest API повернула помилку:", data.errors);
+      return [];
+    } catch (error) {
+      console.error("❌ Помилка при отриманні відділень Meest:", error);
+      return [];
+    }
   },
 };
+
+const DELIVERY_API_KEY = import.meta.env.VITE_DELIVERY_API_KEY || "";
+const DELIVERY_API_URL = "https://api.delivery-auto.com/v1/";
 
 /**
  * Delivery API
- * Документація: https://www.delivery-auto.com/
+ * Документація: https://www.delivery-auto.com/api
  */
 export const DeliveryAPI = {
   async searchCities(query) {
-    console.log("🔍 DeliveryAPI.searchCities:", query);
+    console.log("🔍 DeliveryAPI.searchCities викликано з query:", query);
+    console.log("🔑 API Key присутній:", !!DELIVERY_API_KEY);
 
-    const cities = [
-      { value: "kyiv", label: "Київ", area: "Київська область" },
-      { value: "lviv", label: "Львів", area: "Львівська область" },
-      { value: "odesa", label: "Одеса", area: "Одеська область" },
-      { value: "kharkiv", label: "Харків", area: "Харківська область" },
-      { value: "dnipro", label: "Дніпро", area: "Дніпропетровська область" },
-    ];
+    if (!DELIVERY_API_KEY) {
+      console.warn(
+        "⚠️ Delivery API ключ не налаштовано. Використовується демо-режим."
+      );
+      // Fallback до демо-даних
+      const cities = [
+        { value: "kyiv", label: "Київ", area: "Київська область" },
+        { value: "lviv", label: "Львів", area: "Львівська область" },
+        { value: "odesa", label: "Одеса", area: "Одеська область" },
+        { value: "kharkiv", label: "Харків", area: "Харківська область" },
+        { value: "dnipro", label: "Дніпро", area: "Дніпропетровська область" },
+      ];
+      return cities.filter((city) =>
+        city.label.toLowerCase().includes(query.toLowerCase())
+      );
+    }
 
-    return cities.filter((city) =>
-      city.label.toLowerCase().includes(query.toLowerCase())
-    );
+    try {
+      const response = await fetch(`${DELIVERY_API_URL}cities`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": DELIVERY_API_KEY,
+        },
+        body: JSON.stringify({
+          query: query,
+          limit: 50,
+        }),
+      });
+
+      console.log("📥 Отримано відповідь, status:", response.status);
+
+      const data = await response.json();
+      console.log("📦 Дані від API:", data);
+
+      if (data.success && data.cities) {
+        const cities = data.cities.map((city) => ({
+          value: city.city_id,
+          label: city.city_name,
+          area: city.region_name,
+        }));
+        console.log("✅ Повертаємо міста:", cities.length, "шт.");
+        return cities;
+      }
+
+      console.warn("⚠️ Delivery API повернула помилку:", data.error);
+      return [];
+    } catch (error) {
+      console.error("❌ Помилка при отриманні міст Delivery:", error);
+      return [];
+    }
   },
 
   async getWarehouses(cityRef, query = "") {
-    console.log("🔍 DeliveryAPI.getWarehouses:", { cityRef, query });
+    console.log("🔍 DeliveryAPI.getWarehouses викликано:", { cityRef, query });
+    console.log("🔑 API Key присутній:", !!DELIVERY_API_KEY);
 
-    const warehouses = [
-      { value: "1", label: "Відділення №1", address: "вул. Хрещатик, 1" },
-      { value: "2", label: "Відділення №2", address: "вул. Басейна, 8" },
-      {
-        value: "3",
-        label: "Відділення №3",
-        address: "вул. Велика Васильківська, 72",
-      },
-    ];
+    if (!DELIVERY_API_KEY) {
+      console.warn(
+        "⚠️ Delivery API ключ не налаштовано. Використовується демо-режим."
+      );
+      // Fallback до демо-даних
+      const warehouses = [
+        { value: "1", label: "Відділення №1", address: "вул. Хрещатик, 1" },
+        { value: "2", label: "Відділення №2", address: "вул. Басейна, 8" },
+        {
+          value: "3",
+          label: "Відділення №3",
+          address: "вул. Велика Васильківська, 72",
+        },
+      ];
+      return warehouses.filter(
+        (warehouse) =>
+          !query ||
+          warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
+          warehouse.address.toLowerCase().includes(query.toLowerCase())
+      );
+    }
 
-    return warehouses.filter(
-      (warehouse) =>
-        !query ||
-        warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
-        warehouse.address.toLowerCase().includes(query.toLowerCase())
-    );
-  },
-};
+    try {
+      const response = await fetch(`${DELIVERY_API_URL}warehouses`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": DELIVERY_API_KEY,
+        },
+        body: JSON.stringify({
+          city_id: cityRef,
+          query: query,
+          limit: 50,
+        }),
+      });
 
-/**
- * InTime API
- * Документація: https://www.intime.ua/
- */
-export const InTimeAPI = {
-  async searchCities(query) {
-    console.log("🔍 InTimeAPI.searchCities:", query);
+      console.log("📥 Отримано відповідь, status:", response.status);
 
-    const cities = [
-      { value: "kyiv", label: "Київ", area: "Київська область" },
-      { value: "lviv", label: "Львів", area: "Львівська область" },
-      { value: "odesa", label: "Одеса", area: "Одеська область" },
-      { value: "kharkiv", label: "Харків", area: "Харківська область" },
-      { value: "dnipro", label: "Дніпро", area: "Дніпропетровська область" },
-    ];
+      const data = await response.json();
+      console.log("📦 Дані від API:", data);
 
-    return cities.filter((city) =>
-      city.label.toLowerCase().includes(query.toLowerCase())
-    );
-  },
+      if (data.success && data.warehouses) {
+        const warehouses = data.warehouses.map((warehouse) => ({
+          value: warehouse.warehouse_id,
+          label: `${warehouse.warehouse_name}`,
+          address: warehouse.address,
+          number: warehouse.number,
+        }));
+        console.log("✅ Повертаємо відділення:", warehouses.length, "шт.");
+        return warehouses;
+      }
 
-  async getWarehouses(cityRef, query = "") {
-    console.log("🔍 InTimeAPI.getWarehouses:", { cityRef, query });
-
-    const warehouses = [
-      {
-        value: "1",
-        label: "Відділення №1",
-        address: "вул. Велика Васильківська, 10",
-      },
-      { value: "2", label: "Відділення №2", address: "вул. Жилянська, 45" },
-      { value: "3", label: "Відділення №3", address: "вул. Хрещатик, 5" },
-    ];
-
-    return warehouses.filter(
-      (warehouse) =>
-        !query ||
-        warehouse.label.toLowerCase().includes(query.toLowerCase()) ||
-        warehouse.address.toLowerCase().includes(query.toLowerCase())
-    );
+      console.warn("⚠️ Delivery API повернула помилку:", data.error);
+      return [];
+    } catch (error) {
+      console.error("❌ Помилка при отриманні відділень Delivery:", error);
+      return [];
+    }
   },
 };
 
@@ -331,8 +461,6 @@ export const getDeliveryAPI = (deliveryMethod) => {
       return MeestAPI;
     case "delivery":
       return DeliveryAPI;
-    case "intime":
-      return InTimeAPI;
     default:
       console.warn("⚠️ Невідомий метод доставки:", deliveryMethod);
       return null;

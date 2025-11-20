@@ -412,6 +412,25 @@
     }
   }
 
+  &__delivery-info-box {
+    background: v.$neutral-0;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-4;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__delivery-info-text {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-primary;
+    margin: 0;
+    line-height: 1.6;
+  }
+
   &__pickup-map {
     display: flex;
     flex-direction: column;
