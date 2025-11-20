@@ -6,7 +6,7 @@
   padding: v.$spacing-6;
   box-shadow: v.$shadow-sm;
   border: 1px solid v.$color-border-light;
-
+  margin-bottom: v.$spacing-2;
   // ========================================
   // HEADER
   // ========================================
@@ -56,7 +56,7 @@
 
   &__apply {
     width: 100%;
-    padding: v.$spacing-3 v.$spacing-4;
+    padding: v.$spacing-4;
     background: v.$brand-primary-500;
     color: v.$color-text-inverse;
     border: none;
@@ -65,7 +65,7 @@
     font-weight: v.$font-weight-semibold;
     cursor: pointer;
     transition: v.$transition-button;
-    margin-top: v.$spacing-6;
+    margin-top: v.$spacing-4;
     box-shadow: v.$shadow-sm;
 
     &:hover {
@@ -90,8 +90,8 @@
 // FILTER SECTION
 // ========================================
 .filter-section {
-  margin-bottom: v.$spacing-6;
-  padding-bottom: v.$spacing-6;
+  margin-bottom: v.$spacing-4;
+  padding-bottom: v.$spacing-4;
   border-bottom: 1px solid v.$color-border-light;
 
   &:last-child {
@@ -151,7 +151,7 @@
   &__checkboxes {
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-3;
+    gap: v.$spacing-1;
   }
 
   // ========================================
@@ -282,13 +282,13 @@
       content: "";
       position: absolute;
       display: none;
-      left: 6px;
-      top: 2px;
-      width: 5px;
-      height: 10px;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 12px;
       border: solid v.$color-text-inverse;
       border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
+      transform: translate(-42%, -65%) rotate(45deg);
     }
   }
 
