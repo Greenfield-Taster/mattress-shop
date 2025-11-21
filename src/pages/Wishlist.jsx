@@ -1,30 +1,13 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../hooks/useWishlist";
-import { useCart } from "../hooks/useCart";
-import { Heart, ShoppingCart, Trash2, ArrowRight } from "lucide-react";
+import { Heart, Trash2, ArrowRight } from "lucide-react";
+import ProductCard from "../components/ProductCard/ProductCard";
 import "../styles/pages/_wishlist.scss";
 
 const Wishlist = () => {
-  const { wishlist, removeFromWishlist, clearWishlist } = useWishlist();
-  const { addItem } = useCart();
+  const { wishlist, clearWishlist } = useWishlist();
   const navigate = useNavigate();
-
-  const handleAddToCart = (product) => {
-    addItem({
-      id: product.id,
-      title: product.name,
-      size: "Стандарт",
-      firmness: "Середня",
-      price: product.price,
-      image: product.image,
-      qty: 1,
-    });
-  };
-
-  const handleRemove = (productId) => {
-    removeFromWishlist(productId);
-  };
 
   const handleClearAll = () => {
     if (window.confirm("Ви впевнені, що хочете очистити весь список бажань?")) {
@@ -87,48 +70,7 @@ const Wishlist = () => {
         ) : (
           <div className="wishlist-grid">
             {wishlist.map((product) => (
-              <div key={product.id} className="wishlist-card">
-                <button
-                  className="wishlist-card__remove"
-                  onClick={() => handleRemove(product.id)}
-                  title="Видалити зі списку"
-                >
-                  <Trash2 size={18} />
-                </button>
-
-                <Link
-                  to={`/product/${product.id}`}
-                  className="wishlist-card__image-wrapper"
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="wishlist-card__image"
-                  />
-                </Link>
-
-                <div className="wishlist-card__content">
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="wishlist-card__title"
-                  >
-                    {product.name}
-                  </Link>
-
-                  <div className="wishlist-card__footer">
-                    <div className="wishlist-card__price">
-                      {product.price.toLocaleString("uk-UA")} ₴
-                    </div>
-                    <button
-                      className="btn btn-primary btn-sm wishlist-card__add-btn"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      <ShoppingCart size={16} />
-                      <span>В кошик</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
