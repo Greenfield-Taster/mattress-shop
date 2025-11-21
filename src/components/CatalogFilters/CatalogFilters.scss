@@ -6,6 +6,7 @@
   padding: v.$spacing-6;
   box-shadow: v.$shadow-sm;
   border: 1px solid v.$color-border-light;
+  margin-bottom: v.$spacing-1;
 
   // ========================================
   // HEADER
@@ -13,7 +14,7 @@
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: v.$spacing-6;
     padding-bottom: v.$spacing-4;
     border-bottom: 2px solid v.$color-border;
@@ -23,6 +24,7 @@
   &__title-wrapper {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: v.$spacing-4;
     flex: 1;
   }
@@ -98,7 +100,7 @@
     font-weight: v.$font-weight-semibold;
     cursor: pointer;
     transition: v.$transition-button;
-    margin-top: v.$spacing-4;
+    margin-top: v.$spacing-8;
     box-shadow: v.$shadow-sm;
 
     &:hover {
@@ -483,6 +485,7 @@
 @media (max-width: v.$breakpoint-lg) {
   .catalog-filters {
     padding: v.$spacing-5;
+    overflow-x: hidden;
 
     &__header {
       margin-bottom: v.$spacing-5;
@@ -496,6 +499,23 @@
   .filter-section {
     &__title {
       font-size: v.$font-size-sm;
+    }
+
+    // Інпути ціни в колонку на вузьких фільтрах
+    &__price-inputs {
+      grid-template-columns: 1fr;
+      gap: v.$spacing-2;
+    }
+
+    &__price-separator {
+      display: none;
+    }
+
+    &__price-input-group {
+      input {
+        width: 100%;
+        min-width: 0;
+      }
     }
   }
 
@@ -533,6 +553,7 @@
 
     &__title {
       font-size: v.$font-size-xl;
+      margin-top: v.$spacing-1;
     }
 
     &__title-wrapper {
@@ -560,21 +581,23 @@
     }
 
     &__apply {
-      margin-top: 0;
-      padding: v.$spacing-4 v.$spacing-5;
+      margin: v.$spacing-4;
+      padding: v.$spacing-4;
       font-size: v.$font-size-base;
       flex-shrink: 0;
-      border-radius: 0;
-      border-top: 1px solid v.$color-border;
+      border-radius: v.$radius-button;
+      width: calc(100% - v.$spacing-8);
     }
   }
 
   .filter-section {
-    margin-bottom: v.$spacing-4;
-    padding-bottom: v.$spacing-4;
+    margin-bottom: v.$spacing-5;
+    padding-bottom: v.$spacing-5;
 
+    // Заголовки - 16px
     &__title {
       font-size: v.$font-size-base;
+      font-weight: v.$font-weight-semibold;
       margin-bottom: v.$spacing-3;
     }
 
@@ -582,9 +605,30 @@
       gap: v.$spacing-2;
     }
 
+    // Блок розмірів з обмеженням висоти і скролом
     &__chips--grid {
-      max-height: none;
-      overflow-y: visible;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: v.$spacing-2;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: v.$neutral-100;
+        border-radius: v.$radius-full;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: v.$neutral-300;
+        border-radius: v.$radius-full;
+      }
+    }
+
+    // Лейбли під слайдером - 14px
+    &__slider-labels {
+      font-size: v.$font-size-sm;
     }
 
     &__price-inputs {
@@ -608,19 +652,22 @@
     }
   }
 
-  // Читабельні розміри шрифтів для chips
+  // Chips - 14px, font-weight 500
   .filter-chip {
     font-size: v.$font-size-sm !important;
+    font-weight: v.$font-weight-medium !important;
     padding: v.$spacing-2 v.$spacing-3 !important;
-    min-height: 36px !important;
+    min-height: 38px !important;
 
     &--size {
-      font-size: v.$font-size-xs !important;
-      min-height: 34px !important;
-      padding: v.$spacing-2 !important;
+      font-size: v.$font-size-sm !important;
+      font-weight: v.$font-weight-medium !important;
+      min-height: 36px !important;
+      padding: v.$spacing-2 v.$spacing-3 !important;
     }
   }
 
+  // Checkbox текст - 14px
   .filter-checkbox {
     padding: v.$spacing-2 0;
 
@@ -635,7 +682,8 @@
     }
 
     &__label {
-      font-size: v.$font-size-base;
+      font-size: v.$font-size-sm;
+      font-weight: v.$font-weight-medium;
       margin-left: v.$spacing-3;
     }
   }
@@ -656,15 +704,11 @@
 
 // SMALL MOBILE (< 480px)
 @media (max-width: 480px) {
-  .catalog-filters {
-    padding: v.$spacing-4;
-  }
-
   .filter-chip {
-    font-size: v.$font-size-xs !important;
+    font-size: v.$font-size-sm !important;
 
     &--size {
-      font-size: v.$font-size-xs !important;
+      font-size: v.$font-size-sm !important;
     }
   }
 }

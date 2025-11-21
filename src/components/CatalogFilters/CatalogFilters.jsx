@@ -294,6 +294,10 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
             onChange={(value) => handleSliderChange("price", value)}
             className="custom-slider"
           />
+          <div className="filter-section__slider-labels">
+            <span>0 грн</span>
+            <span>50 000 грн</span>
+          </div>
         </div>
 
         {/* Інпути для введення ціни */}
