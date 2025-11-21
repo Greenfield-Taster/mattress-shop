@@ -43,18 +43,14 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       : [0, 50000];
     const newRange = [...priceRange];
 
-    // Валідація та обмеження
-    let numValue = parseInt(value) || 0;
-    numValue = Math.max(0, Math.min(50000, numValue));
-
-    newRange[index] = numValue;
-
-    // Перевірка, щоб min не був більше max
-    if (index === 0 && newRange[0] > newRange[1]) {
-      newRange[1] = newRange[0];
-    }
-    if (index === 1 && newRange[1] < newRange[0]) {
-      newRange[0] = newRange[1];
+    // Дозволяємо порожнє значення для зручності введення
+    if (value === "") {
+      newRange[index] = index === 0 ? 0 : 50000;
+    } else {
+      // Обмежуємо тільки в межах 0-50000
+      let numValue = parseInt(value) || 0;
+      numValue = Math.max(0, Math.min(50000, numValue));
+      newRange[index] = numValue;
     }
 
     setDraft((prev) => ({ ...prev, price: `${newRange[0]}-${newRange[1]}` }));
