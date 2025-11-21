@@ -53,6 +53,21 @@ const Catalog = () => {
     loadProducts();
   }, [searchParams]); // Перезавантажуємо при зміні URL
 
+  // Блокування скролу при відкритій панелі фільтрів
+  useEffect(() => {
+    if (filtersOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [filtersOpen]);
+
   const updateURL = (newParams) => {
     const query = new URLSearchParams();
 

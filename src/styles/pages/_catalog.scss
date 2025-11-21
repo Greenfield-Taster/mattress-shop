@@ -414,17 +414,16 @@
     &__filters-panel {
       position: fixed;
       top: 0;
-      left: 0;
+      right: 0;
       width: 320px;
       max-width: 85vw;
       height: 100%;
       height: 100vh;
       height: 100dvh;
       background: v.$neutral-0;
-      transform: translateX(-100%);
+      transform: translateX(100%);
       transition: transform 0.3s ease;
       box-shadow: v.$shadow-xl;
-      // Без overflow тут - скрол буде в .catalog-filters
       overflow: hidden;
     }
   }
