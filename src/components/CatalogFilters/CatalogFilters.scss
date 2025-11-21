@@ -6,7 +6,7 @@
   padding: v.$spacing-6;
   box-shadow: v.$shadow-sm;
   border: 1px solid v.$color-border-light;
-  margin-bottom: v.$spacing-2;
+
   // ========================================
   // HEADER
   // ========================================
@@ -17,12 +17,14 @@
     margin-bottom: v.$spacing-6;
     padding-bottom: v.$spacing-4;
     border-bottom: 2px solid v.$color-border;
+    gap: v.$spacing-3;
   }
 
   &__title-wrapper {
     display: flex;
     align-items: center;
-    gap: v.$spacing-2;
+    gap: v.$spacing-4;
+    flex: 1;
   }
 
   &__title {
@@ -43,6 +45,7 @@
     transition: all v.$transition-fast;
     padding: v.$spacing-2 v.$spacing-3;
     border-radius: v.$radius-base;
+    white-space: nowrap;
 
     &:hover {
       color: v.$brand-primary-600;
@@ -52,6 +55,36 @@
     &:active {
       transform: translateY(1px);
     }
+  }
+
+  // Кнопка закриття (для мобільної версії)
+  &__close {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: v.$neutral-100;
+    border: none;
+    border-radius: v.$radius-full;
+    color: v.$color-text-primary;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+    flex-shrink: 0;
+
+    &:hover {
+      background: v.$neutral-200;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // Контейнер для секцій фільтрів (скрол на мобільних)
+  &__content {
+    // На десктопі без спеціальних стилів
   }
 
   &__apply {
@@ -434,7 +467,7 @@
 // RESPONSIVE
 // ========================================
 
-// DESKTOP (1024px - 1280px)
+// DESKTOP (< 1280px)
 @media (max-width: v.$breakpoint-xl) {
   .catalog-filters {
     padding: v.$spacing-5;
@@ -446,13 +479,17 @@
   }
 }
 
-// TABLET (768px - 1024px)
+// TABLET (< 1024px)
 @media (max-width: v.$breakpoint-lg) {
   .catalog-filters {
     padding: v.$spacing-5;
 
     &__header {
       margin-bottom: v.$spacing-5;
+    }
+
+    &__title {
+      font-size: v.$font-size-lg;
     }
   }
 
@@ -461,34 +498,93 @@
       font-size: v.$font-size-sm;
     }
   }
+
+  .filter-chip {
+    font-size: v.$font-size-xs !important;
+    padding: v.$spacing-2 v.$spacing-3 !important;
+    min-height: 32px !important;
+
+    &--size {
+      font-size: v.$font-size-xs !important;
+      min-height: 30px !important;
+    }
+  }
 }
 
-// MOBILE (< 768px)
+// MOBILE (< 768px) - бічна панель
 @media (max-width: v.$breakpoint-md) {
   .catalog-filters {
-    padding: v.$spacing-4;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
 
     &__header {
-      margin-bottom: v.$spacing-4;
-      flex-wrap: wrap;
-      gap: v.$spacing-2;
+      padding: v.$spacing-5;
+      padding-bottom: v.$spacing-4;
+      margin-bottom: 0;
+      border-bottom: 1px solid v.$color-border;
+      flex-shrink: 0;
+      background: v.$neutral-0;
     }
 
     &__title {
-      font-size: v.$font-size-lg;
+      font-size: v.$font-size-xl;
+    }
+
+    &__title-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: v.$spacing-2;
     }
 
     &__reset {
-      font-size: v.$font-size-xs;
+      font-size: v.$font-size-sm;
+      padding: v.$spacing-1 0;
+    }
+
+    // Показуємо кнопку закриття
+    &__close {
+      display: flex;
+    }
+
+    // Контейнер для скролу
+    &__content {
+      flex: 1;
+      overflow-y: auto;
+      padding: v.$spacing-5;
+      padding-bottom: v.$spacing-4;
+    }
+
+    &__apply {
+      margin-top: 0;
+      padding: v.$spacing-4 v.$spacing-5;
+      font-size: v.$font-size-base;
+      flex-shrink: 0;
+      border-radius: 0;
+      border-top: 1px solid v.$color-border;
     }
   }
 
   .filter-section {
-    margin-bottom: v.$spacing-5;
-    padding-bottom: v.$spacing-5;
+    margin-bottom: v.$spacing-4;
+    padding-bottom: v.$spacing-4;
+
+    &__title {
+      font-size: v.$font-size-base;
+      margin-bottom: v.$spacing-3;
+    }
+
+    &__chips {
+      gap: v.$spacing-2;
+    }
 
     &__chips--grid {
-      max-height: 250px;
+      max-height: none;
+      overflow-y: visible;
     }
 
     &__price-inputs {
@@ -502,66 +598,73 @@
 
     &__price-input-group {
       label {
-        font-size: v.$font-size-xs;
+        font-size: v.$font-size-sm;
+      }
+
+      input {
+        padding: v.$spacing-3;
+        font-size: v.$font-size-base;
       }
     }
   }
 
+  // Читабельні розміри шрифтів для chips
   .filter-chip {
-    font-size: 11px !important;
-    padding: v.$spacing-1 v.$spacing-3 !important;
-    min-height: 32px !important;
+    font-size: v.$font-size-sm !important;
+    padding: v.$spacing-2 v.$spacing-3 !important;
+    min-height: 36px !important;
 
     &--size {
-      font-size: 10px !important;
-      min-height: 30px !important;
+      font-size: v.$font-size-xs !important;
+      min-height: 34px !important;
+      padding: v.$spacing-2 !important;
     }
   }
 
   .filter-checkbox {
+    padding: v.$spacing-2 0;
+
     &__checkmark {
-      height: 18px;
-      width: 18px;
+      height: 22px;
+      width: 22px;
 
       &::after {
-        left: 5px;
-        top: 1px;
-        width: 4px;
-        height: 9px;
+        width: 6px;
+        height: 12px;
       }
     }
 
     &__label {
-      font-size: v.$font-size-sm;
-      margin-left: v.$spacing-2;
+      font-size: v.$font-size-base;
+      margin-left: v.$spacing-3;
+    }
+  }
+
+  .custom-slider {
+    .rc-slider-handle {
+      width: 24px !important;
+      height: 24px !important;
+      margin-top: -9px !important;
+    }
+
+    .rc-slider-track,
+    .rc-slider-rail {
+      height: 8px !important;
     }
   }
 }
 
-// MOBILE SMALL (< 480px)
+// SMALL MOBILE (< 480px)
 @media (max-width: 480px) {
-  .filter-section {
-    &__chips--grid {
-      max-height: 200px;
-    }
+  .catalog-filters {
+    padding: v.$spacing-4;
   }
 
   .filter-chip {
-    font-size: 10px !important;
+    font-size: v.$font-size-xs !important;
 
     &--size {
-      font-size: 9px !important;
+      font-size: v.$font-size-xs !important;
     }
-  }
-}
-
-// MOBILE EXTRA SMALL (< 360px)
-@media (max-width: 360px) {
-  .catalog-filters {
-    padding: v.$spacing-3;
-  }
-
-  .filter-chip {
-    font-size: 9px !important;
   }
 }

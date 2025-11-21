@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { X } from "lucide-react";
 import Chip from "@mui/material/Chip";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./CatalogFilters.scss";
 
-const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
+const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions }) => {
   const [draft, setDraft] = useState(params);
 
   // Синхронізуємо draft з params, коли змінюється ззовні
@@ -116,16 +117,27 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
       <div className="catalog-filters__header">
         <div className="catalog-filters__title-wrapper">
           <h2 className="catalog-filters__title">Фільтри</h2>
+          {activeCount > 0 && (
+            <button className="catalog-filters__reset" onClick={handleClear}>
+              Очистити все
+            </button>
+          )}
         </div>
-        {activeCount > 0 && (
-          <button className="catalog-filters__reset" onClick={handleClear}>
-            Очистити все
+        {onClose && (
+          <button
+            className="catalog-filters__close"
+            onClick={onClose}
+            aria-label="Закрити фільтри"
+          >
+            <X size={24} />
           </button>
         )}
       </div>
 
-      {/* Тип матрацу - CHIPS */}
-      <div className="filter-section">
+      {/* Контейнер для скролу на мобільних */}
+      <div className="catalog-filters__content">
+        {/* Тип матрацу - CHIPS */}
+        <div className="filter-section">
         <h3 className="filter-section__title">Тип матрацу</h3>
         <div className="filter-section__chips">
           {filterOptions.types.map((type) => (
@@ -318,6 +330,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, filterOptions }) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Кнопка застосувати */}

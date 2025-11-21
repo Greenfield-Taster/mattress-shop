@@ -381,6 +381,9 @@
       height: 100%;
       z-index: 1000;
       pointer-events: none;
+      // Скидаємо десктопні стилі
+      max-height: none;
+      overflow-y: visible;
 
       &--open {
         pointer-events: auto;
@@ -397,7 +400,7 @@
 
     &__filters-overlay {
       display: block;
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -408,24 +411,20 @@
     }
 
     &__filters-panel {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 85%;
-      max-width: 400px;
+      width: 320px;
+      max-width: 85vw;
       height: 100%;
+      height: 100vh;
+      height: 100dvh;
       background: v.$neutral-0;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
-      overflow-y: auto;
-      box-shadow: v.$shadow-lg;
-
-      .catalog-filters {
-        height: 100%;
-        border-radius: 0;
-        border: none;
-        box-shadow: none;
-      }
+      box-shadow: v.$shadow-xl;
+      // Без overflow тут - скрол буде в .catalog-filters
+      overflow: hidden;
     }
   }
 }

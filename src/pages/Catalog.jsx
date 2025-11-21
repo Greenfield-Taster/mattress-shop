@@ -215,6 +215,7 @@ const Catalog = () => {
                   handleClearAll();
                   setFiltersOpen(false);
                 }}
+                onClose={() => setFiltersOpen(false)}
                 filterOptions={filterOptions}
               />
             </div>
