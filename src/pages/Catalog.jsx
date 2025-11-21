@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { SlidersHorizontal } from "lucide-react";
 import ProductCard from "../components/ProductCard/ProductCard";
 import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
@@ -299,6 +300,15 @@ const Catalog = () => {
             )}
           </div>
         </div>
+
+        {/* Фіксована кнопка фільтрів для мобільних */}
+        <button
+          className="catalog__filters-toggle"
+          onClick={() => setFiltersOpen(true)}
+          aria-label="Відкрити фільтри"
+        >
+          <SlidersHorizontal size={24} />
+        </button>
       </div>
     </div>
   );
