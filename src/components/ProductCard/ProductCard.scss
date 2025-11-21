@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: v.$card-width-desktop;
   transition: transform v.$transition-base v.$transition-timing,
     box-shadow v.$transition-base v.$transition-timing,
     border-color v.$transition-base v.$transition-timing;
@@ -243,8 +242,6 @@
 // TABLET (768px - 1024px)
 @media (max-width: v.$breakpoint-lg) {
   .product-card {
-    max-width: v.$card-width-tablet;
-
     &__image-wrapper {
       aspect-ratio: 1 / 0.85; // Трохи нижче
     }
@@ -293,8 +290,6 @@
 // MOBILE LARGE (641px - 767px)
 @media (max-width: v.$breakpoint-md) {
   .product-card {
-    max-width: 280px;
-
     &__image-wrapper {
       aspect-ratio: 1 / 0.8; // Ще менша висота
     }
@@ -348,8 +343,6 @@
 // MOBILE (< 640px) - кнопки в колонку
 @media (max-width: v.$breakpoint-sm) {
   .product-card {
-    max-width: 280px;
-
     &__image-wrapper {
       aspect-ratio: 1 / 0.75; // Ще компактніше
     }
@@ -400,8 +393,6 @@
 // EXTRA SMALL (< 360px)
 @media (max-width: 360px) {
   .product-card {
-    max-width: 260px;
-
     &__image-wrapper {
       aspect-ratio: 1 / 0.75;
     }

@@ -206,24 +206,46 @@
 // ========================================
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  // Фіксовані розміри колонок для ідеального вирівнювання
+  grid-template-columns: repeat(4, minmax(0, 280px));
+  justify-content: center;
   gap: v.$spacing-6;
   margin-bottom: v.$spacing-8;
   width: 100%;
 
-  @media (max-width: 424px) {
-    grid-template-columns: 1fr;
+  // Large Desktop (< 1280px) - 3 cards
+  @media (max-width: v.$breakpoint-xl) {
+    grid-template-columns: repeat(3, minmax(0, 280px));
     gap: v.$spacing-5;
   }
 
-  @media (min-width: 425px) {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  // Desktop (< 1024px) - 2 cards
+  @media (max-width: v.$breakpoint-lg) {
+    grid-template-columns: repeat(2, minmax(0, 280px));
     gap: v.$spacing-5;
   }
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: v.$spacing-6;
+  // Tablet (< 768px) - 2 cards smaller
+  @media (max-width: v.$breakpoint-md) {
+    grid-template-columns: repeat(2, minmax(0, 260px));
+    gap: v.$spacing-4;
+  }
+
+  // Mobile (< 640px) - 2 cards compact
+  @media (max-width: v.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: v.$spacing-3;
+  }
+
+  // Small Mobile (< 480px) - 1 card centered
+  @media (max-width: 480px) {
+    grid-template-columns: minmax(0, 320px);
+    gap: v.$spacing-4;
+  }
+
+  // Extra Small (< 360px)
+  @media (max-width: 360px) {
+    grid-template-columns: minmax(0, 280px);
   }
 }
 
@@ -267,8 +289,8 @@
 // RESPONSIVE
 // ========================================
 
-// LARGE DESKTOP (1280px - 1620px)
-@media (max-width: 1440px) {
+// LARGE DESKTOP (1440px+)
+@media (max-width: v.$breakpoint-2xl) {
   .catalog {
     &__container {
       max-width: 1280px;
@@ -276,7 +298,7 @@
   }
 }
 
-// DESKTOP (1024px - 1280px) - фільтри збоку
+// DESKTOP (1280px - 1440px)
 @media (max-width: v.$breakpoint-xl) {
   .catalog {
     &__container {
@@ -293,13 +315,9 @@
       font-size: v.$font-size-3xl;
     }
   }
-
-  .filters {
-    padding: v.$spacing-5;
-  }
 }
 
-// TABLET (768px - 1024px) - фільтри збоку (вужчі)
+// TABLET LARGE (1024px - 1280px)
 @media (max-width: v.$breakpoint-lg) {
   .catalog {
     &__content {
@@ -309,7 +327,7 @@
   }
 }
 
-// MOBILE LARGE (640px - 768px) - фільтри зверху
+// TABLET (768px - 1024px) - фільтри у бічній панелі
 @media (max-width: v.$breakpoint-md) {
   .catalog {
     padding: v.$spacing-6 0;
@@ -320,24 +338,14 @@
 
     &__content {
       grid-template-columns: 1fr;
-      gap: v.$spacing-6;
+      gap: v.$spacing-5;
     }
 
     &__header {
       flex-direction: column;
       align-items: flex-start;
       gap: v.$spacing-4;
-      margin-bottom: v.$spacing-6;
-      position: sticky;
-      top: 0;
-      background: v.$color-background;
-      z-index: 50;
-      padding: v.$spacing-4 0;
-      margin-left: calc(-1 * v.$spacing-4);
-      margin-right: calc(-1 * v.$spacing-4);
-      padding-left: v.$spacing-4;
-      padding-right: v.$spacing-4;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: v.$spacing-5;
     }
 
     &__title {
@@ -352,7 +360,7 @@
 
     &__sort {
       flex: 1;
-      min-width: 200px;
+      min-width: 180px;
 
       .custom-select {
         width: 100%;
@@ -363,8 +371,6 @@
       width: 100%;
       order: 3;
     }
-
-    // Кнопка фільтрів вже налаштована фіксованою вище
 
     // Мобільна панель фільтрів
     &__filters {
@@ -422,44 +428,9 @@
       }
     }
   }
-
-  .products-grid {
-    width: 100%;
-  }
-
-  .filters {
-    padding: v.$spacing-4;
-
-    &__header {
-      margin-bottom: v.$spacing-4;
-    }
-  }
-
-  .filter-group {
-    margin-bottom: v.$spacing-5;
-    padding-bottom: v.$spacing-5;
-
-    &__title {
-      font-size: v.$font-size-sm;
-    }
-
-    &__options {
-      gap: v.$spacing-2;
-
-      &--grid {
-        grid-template-columns: repeat(3, 1fr);
-        max-height: 250px;
-      }
-    }
-  }
-
-  .filter-chip {
-    padding: v.$spacing-1 v.$spacing-2;
-    font-size: 10px;
-  }
 }
 
-// MOBILE MEDIUM (480px - 640px)
+// MOBILE (< 640px)
 @media (max-width: v.$breakpoint-sm) {
   .catalog {
     padding: v.$spacing-5 0;
@@ -468,52 +439,26 @@
       padding: 0 v.$spacing-3;
     }
 
-    &__header {
-      margin-left: calc(-1 * v.$spacing-3);
-      margin-right: calc(-1 * v.$spacing-3);
-      padding-left: v.$spacing-3;
-      padding-right: v.$spacing-3;
-    }
-
     &__title {
       font-size: v.$font-size-xl;
+    }
+
+    &__sort {
+      min-width: 150px;
     }
   }
 
   .pagination__button {
     min-width: 36px;
     height: 36px;
-    font-size: 12px;
+    font-size: v.$font-size-xs;
   }
 }
 
-// MOBILE SMALL (< 480px)
+// SMALL MOBILE (< 480px)
 @media (max-width: 480px) {
   .catalog {
     padding: v.$spacing-4 0;
-
-    &__container {
-      padding: 0 v.$spacing-3;
-    }
-
-    &__header {
-      margin-left: calc(-1 * v.$spacing-3);
-      margin-right: calc(-1 * v.$spacing-3);
-      padding-left: v.$spacing-3;
-      padding-right: v.$spacing-3;
-    }
-  }
-}
-
-// MOBILE EXTRA SMALL (< 360px)
-@media (max-width: 360px) {
-  .catalog {
-    &__header {
-      margin-left: calc(-1 * v.$spacing-3);
-      margin-right: calc(-1 * v.$spacing-3);
-      padding-left: v.$spacing-3;
-      padding-right: v.$spacing-3;
-    }
 
     &__title {
       font-size: v.$font-size-lg;
@@ -523,6 +468,5 @@
   .pagination__button {
     min-width: 32px;
     height: 32px;
-    font-size: 11px;
   }
 }
