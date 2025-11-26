@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: default;
 }
 
 html {
@@ -35,6 +36,55 @@ p {
 a {
   color: v.$brand-primary-500;
   text-decoration: none;
+  cursor: pointer !important;
+}
+
+// Заборона виділення тексту для інтерактивних елементів
+button,
+[role="button"],
+label {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer !important;
+}
+
+// Text cursor тільки для полів вводу
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text !important;
+  user-select: text;
+}
+
+// Для всіх інших елементів - default cursor і заборона виділення
+div, span, p, h1, h2, h3, h4, h5, h6, li, ul, ol, section, article, main, header, footer, nav, img, svg {
+  cursor: default !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+// Дозволяємо виділення тільки для текстових блоків контенту
+.content,
+.description,
+article p {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+// Заборона text cursor для MUI компонентів
+.MuiChip-root,
+.MuiChip-label,
+.MuiButtonBase-root,
+[class*="Mui"] {
+  cursor: pointer !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 .app {
