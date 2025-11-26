@@ -37,6 +37,15 @@ a {
   color: v.$brand-primary-500;
   text-decoration: none;
   cursor: pointer !important;
+
+  // Іконки всередині посилань не повинні перехоплювати події
+  svg,
+  img,
+  span,
+  i {
+    pointer-events: none;
+    cursor: inherit !important;
+  }
 }
 
 // Заборона виділення тексту для інтерактивних елементів
@@ -48,6 +57,15 @@ label {
   -moz-user-select: none;
   -ms-user-select: none;
   cursor: pointer !important;
+
+  // Іконки та зображення всередині кнопок не повинні перехоплювати події
+  svg,
+  img,
+  span,
+  i {
+    pointer-events: none;
+    cursor: inherit !important;
+  }
 }
 
 // Text cursor тільки для полів вводу
