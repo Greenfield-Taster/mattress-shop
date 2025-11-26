@@ -8,9 +8,17 @@ import "./CatalogFilters.scss";
 const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions }) => {
   const [draft, setDraft] = useState(params);
 
+  // Локальний стан для текстових полів ціни
+  const [priceInputs, setPriceInputs] = useState(() => {
+    const range = params.price ? params.price.split("-").map(Number) : [0, 50000];
+    return { min: String(range[0]), max: String(range[1]) };
+  });
+
   // Синхронізуємо draft з params, коли змінюється ззовні
   useEffect(() => {
     setDraft(params);
+    const range = params.price ? params.price.split("-").map(Number) : [0, 50000];
+    setPriceInputs({ min: String(range[0]), max: String(range[1]) });
   }, [params]);
 
   // Обробник для checkbox-фільтрів (множинний вибір)
@@ -31,29 +39,49 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
   // Обробник для слайдерів (range)
   const handleSliderChange = (key, value) => {
     setDraft((prev) => ({ ...prev, [key]: `${value[0]}-${value[1]}` }));
+
+    // Також оновлюємо стан інпутів ціни
+    if (key === "price") {
+      setPriceInputs({ min: String(value[0]), max: String(value[1]) });
+    }
   };
 
   const handleMaxWeightChange = (value) => {
     setDraft((prev) => ({ ...prev, maxWeight: `<=${value}` }));
   };
 
-  const handlePriceInputChange = (index, value) => {
-    const priceRange = draft.price
-      ? draft.price.split("-").map(Number)
-      : [0, 50000];
-    const newRange = [...priceRange];
-
-    // Дозволяємо порожнє значення для зручності введення
-    if (value === "") {
-      newRange[index] = index === 0 ? 0 : 50000;
-    } else {
-      // Обмежуємо тільки в межах 0-50000
-      let numValue = parseInt(value) || 0;
-      numValue = Math.max(0, Math.min(50000, numValue));
-      newRange[index] = numValue;
+  const handlePriceInputChange = (field, value) => {
+    // Дозволяємо тільки цифри або порожній рядок
+    if (value !== "" && !/^\d+$/.test(value)) {
+      return;
     }
 
-    setDraft((prev) => ({ ...prev, price: `${newRange[0]}-${newRange[1]}` }));
+    // Оновлюємо локальний стан інпуту
+    setPriceInputs((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    // Оновлюємо draft тільки якщо значення валідне
+    const numValue = value === "" ? (field === "min" ? 0 : 50000) : parseInt(value);
+    const currentMin = field === "min" ? numValue : (priceInputs.min === "" ? 0 : parseInt(priceInputs.min));
+    const currentMax = field === "max" ? numValue : (priceInputs.max === "" ? 50000 : parseInt(priceInputs.max));
+
+    setDraft((prev) => ({
+      ...prev,
+      price: `${currentMin}-${currentMax}`
+    }));
+  };
+
+  const handlePriceInputBlur = (field) => {
+    // При втраті фокуса, якщо поле порожнє, встановлюємо дефолтне значення
+    if (priceInputs[field] === "") {
+      const defaultValue = field === "min" ? "0" : "50000";
+      setPriceInputs((prev) => ({
+        ...prev,
+        [field]: defaultValue,
+      }));
+    }
   };
 
   // Підраховує кількість активних фільтрів для бейджу
@@ -92,6 +120,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       limit: 12,
     };
     setDraft(cleared);
+    setPriceInputs({ min: "0", max: "50000" });
     onClearAll();
   };
 
@@ -302,12 +331,12 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
             <label>Від</label>
             <div>
               <input
-                type="number"
-                min="0"
-                max="50000"
-                step="100"
-                value={priceRange[0]}
-                onChange={(e) => handlePriceInputChange(0, e.target.value)}
+                type="text"
+                inputMode="numeric"
+                placeholder="0"
+                value={priceInputs.min}
+                onChange={(e) => handlePriceInputChange("min", e.target.value)}
+                onBlur={() => handlePriceInputBlur("min")}
               />
               <span>грн</span>
             </div>
@@ -319,12 +348,12 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
             <label>До</label>
             <div>
               <input
-                type="number"
-                min="0"
-                max="50000"
-                step="100"
-                value={priceRange[1]}
-                onChange={(e) => handlePriceInputChange(1, e.target.value)}
+                type="text"
+                inputMode="numeric"
+                placeholder="50000"
+                value={priceInputs.max}
+                onChange={(e) => handlePriceInputChange("max", e.target.value)}
+                onBlur={() => handlePriceInputBlur("max")}
               />
               <span>грн</span>
             </div>

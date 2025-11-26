@@ -4,9 +4,18 @@
   background: v.$neutral-0;
   border-radius: v.$radius-lg;
   padding: v.$spacing-6;
+  padding-right: 0;
   box-shadow: v.$shadow-sm;
   border: 1px solid v.$color-border-light;
   margin-bottom: v.$spacing-1;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 180px);
+  position: sticky;
+  top: 88px;
 
   // ========================================
   // HEADER
@@ -17,8 +26,10 @@
     align-items: flex-start;
     margin-bottom: v.$spacing-6;
     padding-bottom: v.$spacing-4;
+    padding-right: v.$spacing-6;
     border-bottom: 2px solid v.$color-border;
     gap: v.$spacing-3;
+    flex-shrink: 0;
   }
 
   &__title-wrapper {
@@ -86,11 +97,38 @@
 
   // Контейнер для секцій фільтрів (скрол на мобільних)
   &__content {
-    // На десктопі без спеціальних стилів
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+    min-height: 0;
+    padding-right: v.$spacing-3;
+    margin-right: 0;
+
+    // Кастомний скролбар
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: v.$neutral-100;
+      border-radius: v.$radius-full;
+      margin-right: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: v.$neutral-300;
+      border-radius: v.$radius-full;
+
+      &:hover {
+        background: v.$neutral-400;
+      }
+    }
   }
 
   &__apply {
-    width: 100%;
+    width: calc(100% - v.$spacing-6);
     padding: v.$spacing-4;
     background: v.$brand-primary-500;
     color: v.$color-text-inverse;
@@ -100,8 +138,10 @@
     font-weight: v.$font-weight-semibold;
     cursor: pointer;
     transition: v.$transition-button;
-    margin-top: v.$spacing-8;
+    margin-top: v.$spacing-6;
+    margin-right: v.$spacing-6;
     box-shadow: v.$shadow-sm;
+    flex-shrink: 0;
 
     &:hover {
       background: v.$brand-primary-600;
@@ -128,6 +168,9 @@
   margin-bottom: v.$spacing-4;
   padding-bottom: v.$spacing-4;
   border-bottom: 1px solid v.$color-border-light;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 
   &:last-child {
     border-bottom: none;
@@ -194,6 +237,8 @@
   // ========================================
   &__slider {
     padding: v.$spacing-2 v.$spacing-1;
+    padding-right: v.$spacing-5;
+    padding-left: v.$spacing-2;
   }
 
   &__slider-labels {
@@ -213,12 +258,17 @@
     align-items: center;
     gap: v.$spacing-3;
     margin-top: v.$spacing-4;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   &__price-input-group {
     display: flex;
     flex-direction: column;
     gap: v.$spacing-2;
+    min-width: 0;
+    max-width: 100%;
 
     label {
       font-size: v.$font-size-xs;
@@ -231,10 +281,14 @@
       display: flex;
       align-items: center;
       gap: v.$spacing-2;
+      min-width: 0;
+      max-width: 100%;
     }
 
     input {
       flex: 1;
+      min-width: 0;
+      max-width: 100%;
       padding: v.$spacing-2 v.$spacing-3;
       border: 1px solid v.$color-border;
       border-radius: v.$radius-base;
@@ -541,6 +595,8 @@
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
+    position: static;
+    max-height: none;
 
     &__header {
       padding: v.$spacing-5;
@@ -578,6 +634,27 @@
       overflow-y: auto;
       padding: v.$spacing-5;
       padding-bottom: v.$spacing-4;
+      padding-right: v.$spacing-6;
+      margin-right: -#{v.$spacing-1};
+
+      // Кастомний скролбар
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: v.$neutral-100;
+        border-radius: v.$radius-full;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: v.$neutral-300;
+        border-radius: v.$radius-full;
+
+        &:hover {
+          background: v.$neutral-400;
+        }
+      }
     }
 
     &__apply {
