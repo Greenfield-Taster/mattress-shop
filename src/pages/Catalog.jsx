@@ -228,7 +228,6 @@ const Catalog = () => {
                 }}
                 onClearAll={() => {
                   handleClearAll();
-                  setFiltersOpen(false);
                 }}
                 onClose={() => setFiltersOpen(false)}
                 filterOptions={filterOptions}
