@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import OrderDetailsModal from "../components/OrderDetailsModal/OrderDetailsModal";
 import "../styles/pages/_profile.scss";
 
 const Profile = () => {
@@ -35,6 +36,7 @@ const Profile = () => {
     city: user?.city || "",
   });
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   // Якщо користувач не авторизований, перенаправляємо на головну
   useEffect(() => {
@@ -449,7 +451,10 @@ const Profile = () => {
                           </span>
                         </div>
                       </div>
-                      <button className="btn btn-outline btn-sm order-card__details-btn">
+                      <button
+                        className="btn btn-outline btn-sm order-card__details-btn"
+                        onClick={() => setSelectedOrder(order)}
+                      >
                         <span>Деталі</span>
                         <ChevronRight size={16} />
                       </button>
@@ -461,6 +466,12 @@ const Profile = () => {
           )}
         </div>
       </div>
+
+      <OrderDetailsModal
+        isOpen={!!selectedOrder}
+        onClose={() => setSelectedOrder(null)}
+        order={selectedOrder}
+      />
     </div>
   );
 };
