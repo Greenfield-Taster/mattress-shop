@@ -234,7 +234,7 @@ const Product = () => {
 
   const handleBuyNow = useCallback(() => {
     handleAddToCart();
-    navigate("/cart");
+    navigate("/checkout");
   }, [handleAddToCart, navigate]);
 
   const handleTabChange = useCallback((tab) => {
