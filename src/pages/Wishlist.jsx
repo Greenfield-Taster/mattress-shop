@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../hooks/useWishlist";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 import ProductCard from "../components/ProductCard/ProductCard";
+import ConfirmModal from "../components/ConfirmModal/ConfirmModal";
 import "../styles/pages/_wishlist.scss";
 
 const Wishlist = () => {
   const { wishlist, clearWishlist } = useWishlist();
   const navigate = useNavigate();
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const handleClearAll = () => {
-    if (window.confirm("Ви впевнені, що хочете очистити весь список бажань?")) {
-      clearWishlist();
-    }
+    setShowClearConfirm(true);
+  };
+
+  const handleConfirmClear = () => {
+    clearWishlist();
+    setShowClearConfirm(false);
   };
 
   return (
@@ -89,6 +94,16 @@ const Wishlist = () => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={showClearConfirm}
+        onClose={() => setShowClearConfirm(false)}
+        onConfirm={handleConfirmClear}
+        title="Очистити список бажань?"
+        message="Ви впевнені, що хочете видалити всі товари зі списку бажань? Цю дію не можна буде скасувати."
+        confirmText="Очистити"
+        cancelText="Скасувати"
+      />
     </div>
   );
 };

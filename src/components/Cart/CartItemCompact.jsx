@@ -1,7 +1,10 @@
+import { useState } from "react";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import "./CartItemCompact.scss";
 
 const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
   const { id, title, size, firmness, price, qty, image } = item;
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
 
   const handleQtyChange = (e) => {
     const newQty = parseInt(e.target.value, 10);
@@ -18,8 +21,13 @@ const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
     if (qty > 1) {
       onUpdateQty(id, size, firmness, qty - 1);
     } else {
-      onRemove(id, size, firmness);
+      setShowRemoveConfirm(true);
     }
+  };
+
+  const handleConfirmRemove = () => {
+    onRemove(id, size, firmness);
+    setShowRemoveConfirm(false);
   };
 
   const itemTotal = price * qty;
@@ -35,7 +43,7 @@ const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
           <h4 className="cart-item-compact__title">{title}</h4>
           <button
             className="cart-item-compact__remove"
-            onClick={() => onRemove(id, size, firmness)}
+            onClick={() => setShowRemoveConfirm(true)}
             aria-label="Видалити товар"
             type="button"
           >
@@ -130,6 +138,16 @@ const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
           </div>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={showRemoveConfirm}
+        onClose={() => setShowRemoveConfirm(false)}
+        onConfirm={handleConfirmRemove}
+        title="Видалити товар з кошика?"
+        message={`Ви впевнені, що хочете видалити "${title}" з кошика?`}
+        confirmText="Видалити"
+        cancelText="Скасувати"
+      />
     </div>
   );
 };
