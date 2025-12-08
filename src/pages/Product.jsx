@@ -25,7 +25,7 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState(null);
-  const [activeTab, setActiveTab] = useState("characteristics");
+  const [activeTab, setActiveTab] = useState("description");
   const [loading, setLoading] = useState(true);
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -326,6 +326,14 @@ const Product = () => {
                 <WishlistButton product={product} variant="default" />
               </div>
 
+              {/* Article ID */}
+              {product.articleId && (
+                <div className="product-info__article">
+                  <span className="product-info__article-label">Артикул:</span>
+                  <span className="product-info__article-value">{product.articleId}</span>
+                </div>
+              )}
+
               {/* Rating */}
               {mockReviews.length > 0 && (
                 <div className="product-info__rating">
@@ -375,23 +383,32 @@ const Product = () => {
               </div>
 
               <div className="product-info__price">
-                <span className="product-info__price-current">
-                  ₴{selectedVariant?.price.toLocaleString("uk-UA")}
-                </span>
-                {selectedVariant?.oldPrice && (
+                {selectedVariant?.isCustom ? (
+                  <div className="product-info__custom-price">
+                    <span className="product-info__custom-price-text">Під замовлення</span>
+                    <span className="product-info__custom-price-subtitle">Зв'яжіться з нами для уточнення ціни</span>
+                  </div>
+                ) : (
                   <>
-                    <span className="product-info__price-old">
-                      ₴{selectedVariant.oldPrice.toLocaleString("uk-UA")}
+                    <span className="product-info__price-current">
+                      ₴{selectedVariant?.price.toLocaleString("uk-UA")}
                     </span>
-                    <span className="product-info__discount">
-                      -
-                      {Math.round(
-                        ((selectedVariant.oldPrice - selectedVariant.price) /
-                          selectedVariant.oldPrice) *
-                          100
-                      )}
-                      %
-                    </span>
+                    {selectedVariant?.oldPrice && (
+                      <>
+                        <span className="product-info__price-old">
+                          ₴{selectedVariant.oldPrice.toLocaleString("uk-UA")}
+                        </span>
+                        <span className="product-info__discount">
+                          -
+                          {Math.round(
+                            ((selectedVariant.oldPrice - selectedVariant.price) /
+                              selectedVariant.oldPrice) *
+                              100
+                          )}
+                          %
+                        </span>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -404,6 +421,8 @@ const Product = () => {
                     <button
                       key={variant.id}
                       className={`size-button ${
+                        variant.isCustom ? "size-button--custom" : ""
+                      } ${
                         selectedVariant?.id === variant.id
                           ? "size-button--active"
                           : ""
@@ -412,7 +431,7 @@ const Product = () => {
                       aria-pressed={selectedVariant?.id === variant.id}
                       aria-label={`Розмір ${variant.size}`}
                     >
-                      {variant.size}
+                      {variant.isCustom ? "Нестандартний" : variant.size}
                     </button>
                   ))}
                 </div>
@@ -439,20 +458,41 @@ const Product = () => {
 
               {/* Actions */}
               <div className="product-info__actions">
-                <button
-                  className="btnProd btnProd--primary btnProd--large"
-                  onClick={handleAddToCart}
-                  aria-label="Додати товар у кошик"
-                >
-                  Додати в кошик
-                </button>
-                <button
-                  className="btnProd btnProd--secondary btnProd--large"
-                  onClick={handleBuyNow}
-                  aria-label="Швидка покупка товару"
-                >
-                  Купити зараз
-                </button>
+                {selectedVariant?.isCustom ? (
+                  <>
+                    <button
+                      className="btnProd btnProd--primary btnProd--large"
+                      onClick={() => window.location.href = '/contacts'}
+                      aria-label="Зв'язатися з нами"
+                    >
+                      Замовити консультацію
+                    </button>
+                    <button
+                      className="btnProd btnProd--secondary btnProd--large"
+                      onClick={() => window.location.href = 'tel:+380000000000'}
+                      aria-label="Зателефонувати"
+                    >
+                      Подзвонити
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btnProd btnProd--primary btnProd--large"
+                      onClick={handleAddToCart}
+                      aria-label="Додати товар у кошик"
+                    >
+                      Додати в кошик
+                    </button>
+                    <button
+                      className="btnProd btnProd--secondary btnProd--large"
+                      onClick={handleBuyNow}
+                      aria-label="Швидка покупка товару"
+                    >
+                      Купити зараз
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -464,6 +504,18 @@ const Product = () => {
         <div className="container">
           <div className="tabs">
             <div className="tabs__header" role="tablist">
+              <button
+                role="tab"
+                aria-selected={activeTab === "description"}
+                aria-controls="description-panel"
+                id="description-tab"
+                className={`tabs__button ${
+                  activeTab === "description" ? "tabs__button--active" : ""
+                }`}
+                onClick={() => handleTabChange("description")}
+              >
+                Опис
+              </button>
               <button
                 role="tab"
                 aria-selected={activeTab === "characteristics"}
@@ -503,6 +555,56 @@ const Product = () => {
             </div>
 
             <div className="tabs__content">
+              {/* Description Tab */}
+              {activeTab === "description" && (
+                <div
+                  role="tabpanel"
+                  id="description-panel"
+                  aria-labelledby="description-tab"
+                  className="tab-content"
+                >
+                  {/* Опис товару */}
+                  {product.description ? (
+                    <div className="product-description">
+                      <h3 className="section-subtitle">Опис товару</h3>
+                      <div className="product-description__content">
+                        <p className="product-description__text">{product.description.main}</p>
+
+                        {product.description.specs && product.description.specs.length > 0 && (
+                          <div className="product-description__specs">
+                            <h4 className="product-description__specs-title">Характеристики:</h4>
+                            <ul className="product-description__specs-list">
+                              {product.description.specs.map((spec, index) => (
+                                <li key={index}>{spec}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {product.description.care && (
+                          <div className="product-description__care">
+                            <h4 className="product-description__care-title">Догляд за матрацом:</h4>
+                            <p className="product-description__care-text">{product.description.care}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="empty-state">
+                      <div className="empty-state__icon">
+                        <ShieldCheck size={48} />
+                      </div>
+                      <h3 className="empty-state__title">
+                        Опис відсутній
+                      </h3>
+                      <p className="empty-state__text">
+                        Для даного товару детальний опис ще не додано. Зв'яжіться з нами для отримання додаткової інформації.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Characteristics Tab */}
               {activeTab === "characteristics" && (
                 <div

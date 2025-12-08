@@ -1,8 +1,49 @@
 import springMattress from "/spring.png";
 
+// Всі доступні розміри з базовими цінами
+const allAvailableSizes = [
+  { size: "60×120", priceModifier: -2500, category: "Дитячий" },
+  { size: "70×140", priceModifier: -2000, category: "Дитячий" },
+  { size: "70×160", priceModifier: -1500, category: "Дитячий" },
+  { size: "80×190", priceModifier: -1000, category: "Односпальний" },
+  { size: "80×200", priceModifier: -800, category: "Односпальний" },
+  { size: "90×190", priceModifier: -500, category: "Односпальний" },
+  { size: "90×200", priceModifier: -300, category: "Односпальний" },
+  { size: "120×190", priceModifier: 0, category: "Полуторний" },
+  { size: "120×200", priceModifier: 200, category: "Полуторний" },
+  { size: "140×190", priceModifier: 500, category: "Двоспальний" },
+  { size: "140×200", priceModifier: 700, category: "Двоспальний" },
+  { size: "160×190", priceModifier: 1000, category: "Двоспальний" },
+  { size: "160×200", priceModifier: 1200, category: "Двоспальний" },
+  { size: "180×190", priceModifier: 1500, category: "King Size" },
+  { size: "180×200", priceModifier: 1700, category: "King Size" },
+  { size: "200×200", priceModifier: 2000, category: "King Size XL" },
+  { size: "custom", priceModifier: 0, category: "Нестандартний", isCustom: true },
+];
+
+// Функція для генерації варіантів розмірів для продукту
+const generateVariants = (basePrice, hasOldPrice = false, oldPriceModifier = 1.25) => {
+  return allAvailableSizes.map((sizeData, index) => {
+    const price = sizeData.isCustom ? null : basePrice + sizeData.priceModifier;
+    const oldPrice = hasOldPrice && !sizeData.isCustom
+      ? Math.round((basePrice + sizeData.priceModifier) * oldPriceModifier)
+      : null;
+
+    return {
+      id: index + 1,
+      size: sizeData.size,
+      price: price,
+      oldPrice: oldPrice,
+      category: sizeData.category,
+      isCustom: sizeData.isCustom || false,
+    };
+  });
+};
+
 const mockProducts = [
   {
     id: 1,
+    articleId: "MAT-001-PRO",
     name: "Orthopedic AirFlow Pro",
     type: "Пружинні",
     height: 22,
@@ -26,27 +67,23 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 20,
-    variants: [
-      { id: 1, size: "140×200", price: 6990, oldPrice: 8990 },
-      { id: 2, size: "160×200", price: 7990, oldPrice: 9990 },
-      { id: 3, size: "180×200", price: 8990, oldPrice: 10990 },
-      { id: 4, size: "200×200", price: 9990, oldPrice: 11990 },
-      { id: 5, size: "140×200", price: 6990, oldPrice: 8990 },
-      { id: 6, size: "160×200", price: 7990, oldPrice: 9990 },
-      { id: 7, size: "180×200", price: 8990, oldPrice: 10990 },
-      { id: 8, size: "200×200", price: 9990, oldPrice: 11990 },
-      { id: 9, size: "140×200", price: 6990, oldPrice: 8990 },
-      { id: 10, size: "160×200", price: 7990, oldPrice: 9990 },
-      { id: 11, size: "180×200", price: 8990, oldPrice: 10990 },
-      { id: 12, size: "200×200", price: 9990, oldPrice: 11990 },
-      { id: 13, size: "140×200", price: 6990, oldPrice: 8990 },
-      { id: 14, size: "160×200", price: 7990, oldPrice: 9990 },
-      { id: 15, size: "180×200", price: 8990, oldPrice: 10990 },
-      { id: 16, size: "200×200", price: 9990, oldPrice: 11990 },
-    ],
+    description: {
+      main: "Матрац оптимальної жорсткості з ортопедичним ефектом. Основу моделі складає незалежний пружинний блок «Pocket Spring», який забезпечує індивідуальну підтримку кожної точки тіла. У комплектації використані сучасні матеріали — латекс та піна з пам'яттю, що створюють ідеальний баланс між м'якістю та підтримкою. Модель має чудове співвідношення ціни та якості, забезпечуючи здоровий та міцний сон. Знімний чохол спрощує догляд за виробом.",
+      care: "Виконувати глибоку чистку дозволяється тільки клінінговій компанії або хімчистці. Спеціалісти допоможуть зберегти м'якість та розміри виробу, забезпечити повне висихання наповнювачів та настилів. Не варто застосовувати засоби зі змістом хлору. Для екстреного видалення мокрих плям скористайтесь паперовими серветками. Рекомендується провітрювати матрац кожні 2-3 місяці.",
+      specs: [
+        "Допустиме навантаження на одне спальне місце - 120 кг",
+        "Рівень жорсткості - H3 (середня)",
+        "Регламентована висота - 22 см",
+        "Об'ємна висота - 24 см",
+        "Матрац двосторонньої конструкції",
+        "Вага 1м² виробу - 14,5 кг (±5%)",
+      ],
+    },
+    variants: generateVariants(7990, true, 1.25),
   },
   {
     id: 2,
+    articleId: "MAT-002-LTX",
     name: "Comfort Dream Latex",
     type: "Безпружинні",
     height: 18,
@@ -63,18 +100,23 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 1, size: "160×200", price: 11500 },
-      { id: 2, size: "180×200", price: 12500 },
-      { id: 3, size: "200×200", price: 13500 },
-      { id: 4, size: "160×200", price: 11500 },
-      { id: 5, size: "180×200", price: 12500 },
-      { id: 6, size: "200×200", price: 13500 },
-      { id: 7, size: "200×200", price: 13500 },
-    ],
+    description: {
+      main: "Безпружинний матрац середньої жорсткості з латексованою піною та кокосовим волокном. Латексована піна забезпечує комфортну підтримку та швидко відновлює форму, а кокосове полотно надає додаткову жорсткість та природну вентиляцію. Ідеально підходить для тих, хто цінує екологічні матеріали та природний комфорт. Матрац має чудові ортопедичні властивості та витримує навантаження до 140 кг на спальне місце.",
+      care: "Для догляду використовуйте м'яку щітку або пилосос з насадкою для меблів. У разі появи плям зверніться до професійної хімчистки. Не використовуйте агресивні хімічні засоби. Регулярно провітрюйте приміщення для підтримання оптимальної вологості. Рекомендується перевертати матрац раз на 3 місяці.",
+      specs: [
+        "Допустиме навантаження на одне спальне місце - 140 кг",
+        "Рівень жорсткості - H2 (нижче середньої)",
+        "Регламентована висота - 18 см",
+        "Безпружинна конструкція",
+        "Натуральні екологічні матеріали",
+        "Вага 1м² виробу - 12,8 кг (±5%)",
+      ],
+    },
+    variants: generateVariants(12500, false),
   },
   {
     id: 3,
+    articleId: "MAT-003-KID",
     name: "Kids Paradise Soft",
     type: "Дитячі",
     height: 12,
@@ -91,14 +133,23 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 21,
-    variants: [
-      { id: 8, size: "60×120", price: 4490, oldPrice: 5490 },
-      { id: 9, size: "70×140", price: 4990, oldPrice: 5990 },
-      { id: 10, size: "70×160", price: 5490, oldPrice: 6990 },
-    ],
+    description: {
+      main: "Дитячий ортопедичний матрац м'якої жорсткості, створений спеціально для здорового розвитку хребта дитини. Наповнювач з кокосового волокна забезпечує природну вентиляцію та гіпоалергенність. Знімний чохол легко прати, що особливо важливо для дитячих виробів. Рекомендований педіатрами та ортопедами для дітей віком від 3 років. Ідеальне поєднання безпеки, комфорту та доступної ціни.",
+      care: "Чохол можна прати в пральній машині при температурі до 40°C. Для видалення забруднень з матраца використовуйте вологу серветку з м'яким миючим засобом. Регулярно провітрюйте матрац. Уникайте прямих сонячних променів. Рекомендується використовувати наматрацник для додаткового захисту.",
+      specs: [
+        "Допустиме навантаження - 60 кг",
+        "Рівень жорсткості - H1 (м'який)",
+        "Висота - 12 см",
+        "Гіпоалергенні матеріали",
+        "Знімний чохол (можна прати)",
+        "Рекомендований вік - від 3 років",
+      ],
+    },
+    variants: generateVariants(5490, true, 1.27),
   },
   {
     id: 4,
+    articleId: "MAT-004-MEM",
     name: "Memory Foam Elite",
     type: "Безпружинні",
     height: 25,
@@ -121,14 +172,23 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 11, size: "160×200", price: 13990 },
-      { id: 12, size: "180×200", price: 14990 },
-      { id: 13, size: "200×200", price: 15990 },
-    ],
+    description: {
+      main: "Преміум матрац з піною з пам'яттю формоподібної конструкції. Memory Foam адаптується до контурів вашого тіла, забезпечуючи індивідуальну підтримку та максимальний комфорт. Латекс додає пружності та покращує вентиляцію. Ідеальний вибір для тих, хто шукає найвищий рівень комфорту та готовий інвестувати в якісний сон. Знімний чохол з тканини преміум-класу.",
+      care: "Знімний чохол можна прати при температурі до 30°C в делікатному режимі. Для матраца рекомендується регулярне провітрювання та використання наматрацника. У разі появи плям зверніться до професійної хімчистки. Уникайте прямих сонячних променів та високих температур.",
+      specs: [
+        "Допустиме навантаження - 150 кг",
+        "Рівень жорсткості - H3 (середня)",
+        "Висота - 25 см",
+        "Преміум матеріали Memory Foam",
+        "Анатомічна підтримка тіла",
+        "Вага 1м² виробу - 16,2 кг (±5%)",
+      ],
+    },
+    variants: generateVariants(15990, false),
   },
   {
     id: 5,
+    articleId: "MAT-005-CLS",
     name: "Spring Classic",
     type: "Пружинні",
     height: 20,
@@ -145,14 +205,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 14, size: "90×200", price: 5490 },
-      { id: 15, size: "140×200", price: 6990 },
-      { id: 16, size: "160×200", price: 7490 },
-    ],
+    variants: generateVariants(6990, false),
   },
   {
     id: 6,
+    articleId: "MAT-006-TOP",
     name: "Topper Ultra Soft",
     type: "Топери",
     height: 5,
@@ -169,14 +226,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 25,
-    variants: [
-      { id: 17, size: "140×200", price: 2490, oldPrice: 3490 },
-      { id: 18, size: "160×200", price: 2790, oldPrice: 3790 },
-      { id: 19, size: "180×200", price: 2990, oldPrice: 3990 },
-    ],
+    variants: generateVariants(2990, true, 1.33),
   },
   {
     id: 7,
+    articleId: "MAT-007-ROL",
     name: "Roll & Go Travel",
     type: "Скручені",
     height: 15,
@@ -193,13 +247,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 20, size: "80×190", price: 4490 },
-      { id: 21, size: "90×200", price: 4990 },
-    ],
+    variants: generateVariants(4990, false),
   },
   {
     id: 8,
+    articleId: "MAT-008-MAX",
     name: "Premium Ortho Max",
     type: "Пружинні",
     height: 28,
@@ -224,14 +276,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 17,
-    variants: [
-      { id: 22, size: "160×200", price: 16990, oldPrice: 20990 },
-      { id: 23, size: "180×200", price: 17990, oldPrice: 21990 },
-      { id: 24, size: "200×200", price: 18990, oldPrice: 22990 },
-    ],
+    variants: generateVariants(18990, true, 1.21),
   },
   {
     id: 9,
+    articleId: "MAT-009-ECO",
     name: "EcoNatural Coconut",
     type: "Безпружинні",
     height: 14,
@@ -248,14 +297,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 25, size: "140×200", price: 7990 },
-      { id: 26, size: "160×200", price: 8990 },
-      { id: 27, size: "180×200", price: 9990 },
-    ],
+    variants: generateVariants(8990, false),
   },
   {
     id: 10,
+    articleId: "MAT-010-BAB",
     name: "Baby Dream Comfort",
     type: "Дитячі",
     height: 10,
@@ -272,13 +318,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 28, size: "60×120", price: 4490 },
-      { id: 29, size: "70×140", price: 4990 },
-    ],
+    variants: generateVariants(4490, false),
   },
   {
     id: 11,
+    articleId: "MAT-011-DLX",
     name: "Deluxe Spring Pro",
     type: "Пружинні",
     height: 24,
@@ -301,14 +345,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 18,
-    variants: [
-      { id: 30, size: "160×200", price: 12990, oldPrice: 15990 },
-      { id: 31, size: "180×200", price: 13990, oldPrice: 16990 },
-      { id: 32, size: "200×200", price: 14990, oldPrice: 17990 },
-    ],
+    variants: generateVariants(13990, true, 1.21),
   },
   {
     id: 12,
+    articleId: "MAT-012-TOP",
     name: "Topper Memory 3cm",
     type: "Топери",
     height: 3,
@@ -325,14 +366,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 33, size: "140×200", price: 1790 },
-      { id: 34, size: "160×200", price: 1990 },
-      { id: 35, size: "180×200", price: 2190 },
-    ],
+    variants: generateVariants(1990, false),
   },
   {
     id: 13,
+    articleId: "MAT-013-CLD",
     name: "Cloud Comfort Plus",
     type: "Пружинні",
     height: 26,
@@ -349,14 +387,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 20,
-    variants: [
-      { id: 36, size: "140×200", price: 10990, oldPrice: 13990 },
-      { id: 37, size: "160×200", price: 11990, oldPrice: 14990 },
-      { id: 38, size: "180×200", price: 12990, oldPrice: 15990 },
-    ],
+    variants: generateVariants(11990, true, 1.25),
   },
   {
     id: 14,
+    articleId: "MAT-014-ROY",
     name: "Royal Latex Premium",
     type: "Безпружинні",
     height: 20,
@@ -379,14 +414,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 39, size: "160×200", price: 15990 },
-      { id: 40, size: "180×200", price: 16990 },
-      { id: 41, size: "200×200", price: 17990 },
-    ],
+    variants: generateVariants(16990, false),
   },
   {
     id: 15,
+    articleId: "MAT-015-SPT",
     name: "Sport Active",
     type: "Пружинні",
     height: 23,
@@ -403,14 +435,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 42, size: "140×200", price: 14990 },
-      { id: 43, size: "160×200", price: 15990 },
-      { id: 44, size: "180×200", price: 16990 },
-    ],
+    variants: generateVariants(14990, false),
   },
   {
     id: 16,
+    articleId: "MAT-016-TEN",
     name: "Teen Comfort",
     type: "Дитячі",
     height: 14,
@@ -427,13 +456,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 20,
-    variants: [
-      { id: 45, size: "80×190", price: 5990, oldPrice: 7490 },
-      { id: 46, size: "90×200", price: 6490, oldPrice: 7990 },
-    ],
+    variants: generateVariants(5990, true, 1.25),
   },
   {
     id: 17,
+    articleId: "MAT-017-GEL",
     name: "Gel Cool Breeze",
     type: "Безпружинні",
     height: 22,
@@ -450,13 +477,11 @@ const mockProducts = [
     inStock: true,
     isNew: true,
     discount: 0,
-    variants: [
-      { id: 47, size: "180×200", price: 18990 },
-      { id: 48, size: "200×200", price: 19990 },
-    ],
+    variants: generateVariants(19990, false),
   },
   {
     id: 18,
+    articleId: "MAT-018-BDG",
     name: "Budget Spring",
     type: "Пружинні",
     height: 18,
@@ -473,14 +498,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 49, size: "90×200", price: 4490 },
-      { id: 50, size: "140×200", price: 5490 },
-      { id: 51, size: "160×200", price: 5990 },
-    ],
+    variants: generateVariants(5490, false),
   },
   {
     id: 19,
+    articleId: "MAT-019-LTX",
     name: "Topper Latex Soft",
     type: "Топери",
     height: 4,
@@ -497,14 +519,11 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 22,
-    variants: [
-      { id: 52, size: "160×200", price: 3190, oldPrice: 4190 },
-      { id: 53, size: "180×200", price: 3490, oldPrice: 4490 },
-      { id: 54, size: "200×200", price: 3790, oldPrice: 4790 },
-    ],
+    variants: generateVariants(3490, true, 1.29),
   },
   {
     id: 20,
+    articleId: "MAT-020-TRV",
     name: "Holiday Travel Mat",
     type: "Скручені",
     height: 12,
@@ -521,10 +540,7 @@ const mockProducts = [
     inStock: true,
     isNew: false,
     discount: 0,
-    variants: [
-      { id: 55, size: "80×190", price: 3990 },
-      { id: 56, size: "90×200", price: 4290 },
-    ],
+    variants: generateVariants(3990, false),
   },
 ];
 
