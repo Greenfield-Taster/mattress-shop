@@ -60,7 +60,7 @@
     right: 24px;
     box-shadow: v.$shadow-lg;
     flex-shrink: 0;
-    z-index: 999;
+    z-index: v.$z-fixed;
 
     // Показуємо тільки на мобільних
     @media (max-width: v.$breakpoint-md) {
