@@ -60,25 +60,33 @@ const MattressQuiz = ({ onClose }) => {
   ];
 
   // Всі інші розміри
-  const otherSizes = allSizes
-    .filter((size) => !popularSizes.some((p) => p.value === size))
-    .map((size) => {
-      const [width, height] = size.split("х");
-      let subtitle = "";
-      const w = parseInt(width);
+  const otherSizes = [
+    ...allSizes
+      .filter((size) => !popularSizes.some((p) => p.value === size))
+      .map((size) => {
+        const [width, height] = size.split("х");
+        let subtitle = "";
+        const w = parseInt(width);
 
-      if (w >= 180) subtitle = "King Size";
-      else if (w >= 140) subtitle = "Двоспальний";
-      else if (w === 120) subtitle = "Полуторний";
-      else if (w >= 80 && w <= 90) subtitle = "Односпальний";
-      else subtitle = "Дитячий";
+        if (w >= 180) subtitle = "King Size";
+        else if (w >= 140) subtitle = "Двоспальний";
+        else if (w === 120) subtitle = "Полуторний";
+        else if (w >= 80 && w <= 90) subtitle = "Односпальний";
+        else subtitle = "Дитячий";
 
-      return {
-        value: size,
-        label: size.replace("х", "×") + " см",
-        subtitle,
-      };
-    });
+        return {
+          value: size,
+          label: size.replace("х", "×") + " см",
+          subtitle,
+        };
+      }),
+
+    {
+      value: "custom",
+      label: "Нестандартний розмір",
+      isCustom: true,
+    },
+  ];
 
   const steps = [
     {
@@ -116,23 +124,18 @@ const MattressQuiz = ({ onClose }) => {
       options: [
         {
           value: "light",
-          label: "До 60 кг",
+          label: "До 80 кг",
           subtitle: "Легке навантаження",
         },
         {
           value: "medium",
-          label: "60-90 кг",
+          label: "80-150 кг",
           subtitle: "Середнє навантаження",
         },
         {
-          value: "heavy",
-          label: "90-120 кг",
-          subtitle: "Високе навантаження",
-        },
-        {
-          value: "extra",
-          label: "Понад 120 кг",
-          subtitle: "Максимальне навантаження",
+          value: "unlimited",
+          label: "Без обмеження навантаження",
+          subtitle: "Максимальна міцність",
         },
       ],
     },
@@ -393,6 +396,8 @@ const MattressQuiz = ({ onClose }) => {
                     <button
                       key={option.value}
                       className={`mattress-quiz__option mattress-quiz__option--size mattress-quiz__option--compact ${
+                        option.isCustom ? "mattress-quiz__option--custom" : ""
+                      } ${
                         answers[currentStepData.id] === option.value
                           ? "mattress-quiz__option--selected"
                           : ""

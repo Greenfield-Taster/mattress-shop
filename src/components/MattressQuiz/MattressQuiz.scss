@@ -390,6 +390,71 @@
     }
   }
 
+  // Custom size option (nестандартний розмір)
+  &--custom {
+    background: linear-gradient(
+      135deg,
+      v.$brand-primary-50 0%,
+      v.$info-light 100%
+    );
+    border: 2px dashed v.$brand-primary-400;
+    border-width: 2px;
+    position: relative;
+    overflow: hidden;
+
+    // &::before {
+    //   content: "✨";
+    //   position: absolute;
+    //   top: v.$spacing-0;
+    //   right: v.$spacing-1;
+    //   font-size: v.$font-size-lg;
+    //   opacity: 0.7;
+    // }
+
+    .mattress-quiz__option-label {
+      color: v.$brand-primary-700;
+      font-weight: v.$font-weight-bold;
+    }
+
+    .mattress-quiz__option-subtitle {
+      color: v.$brand-primary-600;
+      font-weight: v.$font-weight-medium;
+    }
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        v.$brand-primary-100 0%,
+        v.$info-light 100%
+      );
+      border-color: v.$brand-primary-500;
+      transform: translateY(-3px);
+      box-shadow: v.$shadow-md;
+    }
+
+    &.mattress-quiz__option--selected {
+      background: linear-gradient(
+        135deg,
+        v.$brand-primary-100 0%,
+        v.$brand-primary-200 100%
+      );
+      border-color: v.$brand-primary-600;
+      border-style: solid;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      &::before {
+        font-size: v.$font-size-base;
+        top: v.$spacing-1;
+        right: v.$spacing-1;
+      }
+    }
+  }
+
   @media (max-width: v.$breakpoint-sm) {
     padding: v.$spacing-4;
     gap: v.$spacing-3;
