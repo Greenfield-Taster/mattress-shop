@@ -30,6 +30,7 @@ const Product = () => {
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [isAdded, setIsAdded] = useState(false);
 
   // Форма для коментарів
   const [commentForm, setCommentForm] = useState({
@@ -230,6 +231,12 @@ const Product = () => {
       image: product.images?.[0] || product.image,
       qty: 1,
     });
+
+    setIsAdded(true);
+
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   }, [product, selectedVariant, addItem]);
 
   const handleBuyNow = useCallback(() => {
@@ -478,11 +485,14 @@ const Product = () => {
                 ) : (
                   <>
                     <button
-                      className="btnProd btnProd--primary btnProd--large"
+                      className={`btnProd btnProd--primary btnProd--large ${
+                        isAdded ? "btnProd--added" : ""
+                      }`}
                       onClick={handleAddToCart}
                       aria-label="Додати товар у кошик"
+                      disabled={isAdded}
                     >
-                      Додати в кошик
+                      {isAdded ? "Додано! ✓" : "Додати в кошик"}
                     </button>
                     <button
                       className="btnProd btnProd--secondary btnProd--large"
