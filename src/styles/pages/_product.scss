@@ -204,23 +204,15 @@
     font-weight: v.$font-weight-bold;
     color: v.$brand-primary-600;
 
-    @media (max-width: v.$breakpoint-md) {
-      font-size: v.$font-size-2xl;
-    }
-
     @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xl;
+      font-size: v.$font-size-2xl;
     }
   }
 
   &__custom-price-subtitle {
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-base;
     color: v.$color-text-secondary;
     font-weight: v.$font-weight-medium;
-
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
-    }
   }
 
   &__size {
@@ -352,28 +344,49 @@
   }
 
   &--custom {
-    background: linear-gradient(135deg, v.$brand-primary-50 0%, v.$info-light 100%);
+    background: linear-gradient(
+      135deg,
+      v.$brand-primary-50 0%,
+      v.$info-light 100%
+    );
     border: 2px dashed v.$brand-primary-400;
     color: v.$brand-primary-700;
     font-weight: v.$font-weight-bold;
     grid-column: span 2;
 
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-sm;
+      padding: v.$spacing-2 v.$spacing-3;
+    }
+
     @media (max-width: v.$breakpoint-sm) {
-      grid-column: span 1;
+      padding: v.$spacing-2;
     }
 
     &:hover {
-      background: linear-gradient(135deg, v.$brand-primary-100 0%, v.$info-light 100%);
+      background: linear-gradient(
+        135deg,
+        v.$brand-primary-100 0%,
+        v.$info-light 100%
+      );
       border-color: v.$brand-primary-500;
     }
 
     &.size-button--active {
-      background: linear-gradient(135deg, v.$brand-primary-500 0%, v.$brand-primary-600 100%);
+      background: linear-gradient(
+        135deg,
+        v.$brand-primary-500 0%,
+        v.$brand-primary-600 100%
+      );
       border-style: solid;
       color: v.$neutral-0;
 
       &:hover {
-        background: linear-gradient(135deg, v.$brand-primary-600 0%, v.$brand-primary-700 100%);
+        background: linear-gradient(
+          135deg,
+          v.$brand-primary-600 0%,
+          v.$brand-primary-700 100%
+        );
       }
     }
   }
@@ -791,14 +804,14 @@
       align-items: center;
 
       @media (max-width: v.$breakpoint-sm) {
-        font-size: v.$font-size-xs;
+        font-size: v.$font-size-sm;
         padding-left: v.$spacing-4;
       }
 
       &::before {
         content: "•";
         position: absolute;
-        left: v.$spacing-2;
+        left: v.$spacing-1;
         top: 50%;
         transform: translateY(-50%);
         color: v.$brand-primary-500;
@@ -835,10 +848,6 @@
     line-height: v.$line-height-relaxed;
     color: v.$color-text-secondary;
     margin: 0;
-
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: v.$font-size-xs;
-    }
   }
 }
 
