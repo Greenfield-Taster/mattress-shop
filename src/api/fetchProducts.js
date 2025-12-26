@@ -1,5 +1,9 @@
 import springMattress from "/spring.png";
 
+// Визначаємо чи використовувати mock чи реальний API
+const USE_MOCK = import.meta.env.VITE_MOCK_AUTH === "true";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+
 // Всі доступні розміри з базовими цінами
 const allAvailableSizes = [
   { size: "60×120", priceModifier: -2500, category: "Дитячий" },
@@ -602,7 +606,10 @@ const sortProducts = (products, sortParam) => {
   }
 };
 
-export const fetchProducts = async (params) => {
+/**
+ * Отримує продукти з mock-даних
+ */
+const fetchProductsMock = async (params) => {
   await new Promise((resolve) => setTimeout(resolve, 300));
   const page = parseInt(params.page) || 1;
   const limit = parseInt(params.limit) || 12;
@@ -613,6 +620,135 @@ export const fetchProducts = async (params) => {
   const end = start + limit;
   const items = filtered.slice(start, end);
   return { items, total, page, limit };
+};
+
+/**
+ * Будує URL з параметрами для API запиту
+ */
+const buildApiUrl = (params) => {
+  const url = new URL(`${API_URL}/store/mattresses`);
+
+  // Додаємо параметри фільтрації
+  if (params.types?.length > 0) {
+    url.searchParams.set("types", params.types.join(","));
+  }
+  if (params.sizes?.length > 0) {
+    url.searchParams.set("sizes", params.sizes.join(","));
+  }
+  if (params.blockTypes?.length > 0) {
+    url.searchParams.set("blockTypes", params.blockTypes.join(","));
+  }
+  if (params.fillers?.length > 0) {
+    url.searchParams.set("fillers", params.fillers.join(","));
+  }
+  if (params.covers?.length > 0) {
+    url.searchParams.set("covers", params.covers.join(","));
+  }
+  if (params.height && params.height !== "3-45") {
+    url.searchParams.set("height", params.height);
+  }
+  if (params.maxWeight && params.maxWeight !== "<=250") {
+    url.searchParams.set("maxWeight", params.maxWeight);
+  }
+  if (params.price && params.price !== "0-50000") {
+    url.searchParams.set("price", params.price);
+  }
+  if (params.sort && params.sort !== "default") {
+    url.searchParams.set("sort", params.sort);
+  }
+
+  // Пагінація
+  url.searchParams.set("page", String(params.page || 1));
+  url.searchParams.set("limit", String(params.limit || 12));
+
+  return url.toString();
+};
+
+/**
+ * Отримує продукти з реального API
+ */
+const fetchProductsApi = async (params) => {
+  const url = buildApiUrl(params);
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // API повертає { items, total, page, limit }
+    return {
+      items: data.items || [],
+      total: data.total || 0,
+      page: data.page || 1,
+      limit: data.limit || 12,
+    };
+  } catch (error) {
+    console.error("Error fetching products from API:", error);
+    // Fallback до mock-даних при помилці
+    console.warn("Falling back to mock data");
+    return fetchProductsMock(params);
+  }
+};
+
+/**
+ * Головна функція для отримання продуктів
+ * Використовує mock або реальний API залежно від налаштувань
+ */
+export const fetchProducts = async (params) => {
+  if (USE_MOCK) {
+    return fetchProductsMock(params);
+  }
+  return fetchProductsApi(params);
+};
+
+/**
+ * Отримує продукт за ID або handle
+ */
+export const fetchProductById = async (idOrHandle) => {
+  if (USE_MOCK) {
+    // Mock: шукаємо по id
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const product = mockProducts.find(
+      (p) => p.id === parseInt(idOrHandle) || p.articleId === idOrHandle
+    );
+    return product || null;
+  }
+
+  // Real API
+  try {
+    const response = await fetch(`${API_URL}/store/mattresses/${idOrHandle}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.mattress || data;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    // Fallback до mock
+    const product = mockProducts.find(
+      (p) => p.id === parseInt(idOrHandle) || p.articleId === idOrHandle
+    );
+    return product || null;
+  }
 };
 
 export default fetchProducts;
