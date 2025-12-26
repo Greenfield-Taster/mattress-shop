@@ -29,7 +29,8 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editedUser, setEditedUser] = useState({
-    name: user?.name || "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
@@ -133,7 +134,8 @@ const Profile = () => {
 
   const handleCancel = () => {
     setEditedUser({
-      name: user?.name || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
       email: user?.email || "",
       phone: user?.phone || "",
       address: user?.address || "",
@@ -215,15 +217,19 @@ const Profile = () => {
         <div className="profile-user-info">
           <div className="profile-user-info__left">
             <div className="profile-user-info__avatar">
-              {user?.avatar ? (
-                <img src={user.avatar} alt={user.name} />
-              ) : (
-                <User size={40} />
-              )}
+              <img
+                src={user?.avatar || "https://ui-avatars.com/api/?name=" + encodeURIComponent((user?.firstName || "U") + "+" + (user?.lastName || "")) + "&background=1e3a5f&color=fff&size=128"}
+                alt={`${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Користувач"}
+                onError={(e) => {
+                  e.target.src = "https://ui-avatars.com/api/?name=U&background=1e3a5f&color=fff&size=128";
+                }}
+              />
             </div>
             <div className="profile-user-info__details">
               <h2 className="profile-user-info__name">
-                {user?.name || "Користувач"}
+                {user?.firstName || user?.lastName
+                  ? `${user?.firstName || ""} ${user?.lastName || ""}`.trim()
+                  : "Користувач"}
               </h2>
               <p className="profile-user-info__email">
                 {user?.email || user?.phone}
@@ -284,15 +290,36 @@ const Profile = () => {
                 {isEditing ? (
                   <input
                     type="text"
-                    name="name"
+                    name="firstName"
                     className="profile-form__input"
-                    value={editedUser.name}
+                    value={editedUser.firstName}
                     onChange={handleInputChange}
                     placeholder="Введіть ваше ім'я"
                   />
                 ) : (
                   <p className="profile-form__value">
-                    {user?.name || "Не вказано"}
+                    {user?.firstName || "Не вказано"}
+                  </p>
+                )}
+              </div>
+
+              <div className="profile-form__group">
+                <label className="profile-form__label">
+                  <User size={18} />
+                  <span>Прізвище</span>
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="lastName"
+                    className="profile-form__input"
+                    value={editedUser.lastName}
+                    onChange={handleInputChange}
+                    placeholder="Введіть ваше прізвище"
+                  />
+                ) : (
+                  <p className="profile-form__value">
+                    {user?.lastName || "Не вказано"}
                   </p>
                 )}
               </div>
