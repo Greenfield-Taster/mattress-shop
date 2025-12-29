@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import DeliveryAutocomplete from "../components/DeliveryAutocomplete/DeliveryAutocomplete";
 import { getDeliveryAPI } from "../api/deliveryServices";
+import { createOrder, formatOrderData } from "../api/orderApi";
 import {
   formatPhoneNumber,
   formatCardNumber,
@@ -30,8 +31,11 @@ import {
 } from "lucide-react";
 
 const Checkout = () => {
-  const { items, totals, currency } = useCart();
+  const { items, totals, currency, promoCode, clearCart } = useCart();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // Contact form state
   const [contactData, setContactData] = useState({
@@ -224,14 +228,16 @@ const Checkout = () => {
     // Here would be Google/Apple Pay integration
   };
 
-  const handleSubmitOrder = (e) => {
+  const handleSubmitOrder = async (e) => {
     e.preventDefault();
+    setSubmitError("");
 
     // Prepare form data for validation
     const formData = {
       contactData,
       deliveryMethod,
       deliveryCity,
+      deliveryCityRef,
       deliveryAddress,
       deliveryWarehouse,
       paymentMethod,
@@ -263,19 +269,30 @@ const Checkout = () => {
       return;
     }
 
-    // Here would be order submission logic
-    console.log("Order submitted:", {
-      contactData,
-      deliveryMethod,
-      deliveryCity,
-      deliveryAddress,
-      deliveryWarehouse,
-      paymentMethod,
-      items,
-      totals,
-    });
+    // Відправка замовлення на сервер
+    setIsSubmitting(true);
 
-    alert("Замовлення успішно оформлено! (це тестовий режим)");
+    try {
+      const orderData = formatOrderData(formData, items, totals, promoCode);
+      console.log("📦 Відправка замовлення:", orderData);
+
+      const result = await createOrder(orderData);
+      console.log("✅ Замовлення створено:", result);
+
+      // Очищуємо кошик
+      clearCart();
+
+      // Зберігаємо дані замовлення в localStorage для сторінки успіху
+      localStorage.setItem("lastOrder", JSON.stringify(result.order));
+
+      // Перенаправляємо на сторінку успіху
+      navigate(`/order-success/${result.order.order_number}`);
+    } catch (error) {
+      console.error("❌ Помилка створення замовлення:", error);
+      setSubmitError(error.message || "Помилка створення замовлення. Спробуйте ще раз.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Функції для пошуку міст та відділень
@@ -952,14 +969,23 @@ const Checkout = () => {
                 </div>
               </div>
 
+              {submitError && (
+                <div className="checkout__submit-error">
+                  {submitError}
+                </div>
+              )}
+
               <button
                 type="submit"
                 onClick={handleSubmitOrder}
                 className="checkout__submit-btn"
+                disabled={isSubmitting || items.length === 0}
               >
-                {paymentMethod === "card-online"
-                  ? "Оплатити зараз"
-                  : "Оформити замовлення"}
+                {isSubmitting
+                  ? "Оформлення..."
+                  : paymentMethod === "card-online"
+                    ? "Оплатити зараз"
+                    : "Оформити замовлення"}
               </button>
 
               <div className="checkout__help">

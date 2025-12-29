@@ -642,6 +642,17 @@
     font-weight: v.$font-weight-semibold;
   }
 
+  &__submit-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: v.$spacing-3;
+    border-radius: v.$radius-md;
+    margin-bottom: v.$spacing-4;
+    font-size: v.$font-size-sm;
+    text-align: center;
+  }
+
   &__submit-btn {
     width: 100%;
     max-width: 100%;
@@ -657,14 +668,20 @@
     box-shadow: v.$shadow-button;
     margin-bottom: v.$spacing-5;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: v.$brand-primary-600;
       box-shadow: v.$shadow-card;
       transform: translateY(-1px);
     }
 
-    &:active {
+    &:active:not(:disabled) {
       transform: translateY(0);
+    }
+
+    &:disabled {
+      background: v.$neutral-300;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     @media (max-width: v.$breakpoint-sm) {
