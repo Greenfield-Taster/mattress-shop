@@ -1,9 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { AuthContext } from "./AuthContext";
 
-export const AuthContext = createContext(null);
-
-// Налаштування
-// MedusaJS store API - default port 9000
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 const MOCK_MODE = import.meta.env.VITE_MOCK_AUTH === "true";
 
@@ -11,23 +8,16 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Перевірка токена при завантаженні
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     const token = localStorage.getItem("authToken");
 
     if (token) {
       if (MOCK_MODE) {
-        // Mock режим
         const mockUser = JSON.parse(localStorage.getItem("mockUser") || "null");
         if (mockUser) {
           setUser(mockUser);
         }
       } else {
-        // Реальний API - MedusaJS store endpoint
         try {
           const response = await fetch(`${API_BASE_URL}/auth/me`, {
             headers: {
@@ -49,9 +39,13 @@ export const AuthProvider = ({ children }) => {
     }
 
     setIsLoading(false);
-  };
+  }, []);
 
-  const sendCode = async (phone) => {
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  const sendCode = useCallback(async (phone) => {
     if (MOCK_MODE) {
       console.log("🔄 MOCK: Відправка коду на", phone);
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -87,9 +81,9 @@ export const AuthProvider = ({ children }) => {
         error: error.message,
       };
     }
-  };
+  }, []);
 
-  const login = async (phone, code) => {
+  const login = useCallback(async (phone, code) => {
     if (MOCK_MODE) {
       console.log("🔄 MOCK: Перевірка коду", code, "для", phone);
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -144,9 +138,9 @@ export const AuthProvider = ({ children }) => {
         error: error.message,
       };
     }
-  };
+  }, []);
 
-  const loginWithGoogle = async (credential) => {
+  const loginWithGoogle = useCallback(async (credential) => {
     if (MOCK_MODE) {
       console.log("🔄 MOCK: Google авторизація");
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -194,20 +188,22 @@ export const AuthProvider = ({ children }) => {
         error: error.message,
       };
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("mockUser");
     setUser(null);
     console.log("👋 Вихід виконано");
-  };
+  }, []);
 
-  const updateUser = async (userData) => {
+  const updateUser = useCallback(async (userData) => {
     if (MOCK_MODE) {
-      const updatedUser = { ...user, ...userData };
-      setUser(updatedUser);
-      localStorage.setItem("mockUser", JSON.stringify(updatedUser));
+      setUser((prevUser) => {
+        const updatedUser = { ...prevUser, ...userData };
+        localStorage.setItem("mockUser", JSON.stringify(updatedUser));
+        return updatedUser;
+      });
       return { success: true };
     }
 
@@ -238,24 +234,25 @@ export const AuthProvider = ({ children }) => {
         error: error.message,
       };
     }
-  };
+  }, []);
 
-  const value = {
-    user,
-    isAuthenticated: !!user,
-    isLoading,
-    sendCode,
-    login,
-    loginWithGoogle,
-    logout,
-    updateUser,
-  };
+  const value = useMemo(
+    () => ({
+      user,
+      isAuthenticated: !!user,
+      isLoading,
+      sendCode,
+      login,
+      loginWithGoogle,
+      logout,
+      updateUser,
+    }),
+    [user, isLoading, sendCode, login, loginWithGoogle, logout, updateUser]
+  );
 
-  if (MOCK_MODE) {
+  if (MOCK_MODE && !isLoading) {
     console.log("🧪 Auth працює в MOCK режимі. Код для входу: 123456");
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export default AuthProvider;
