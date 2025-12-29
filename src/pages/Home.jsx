@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Carousel from "../components/Carousel/Carousel";
-import { useQuiz } from "../contexts/QuizContext";
+import { useQuiz } from "../hooks/useQuiz";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "/heero-cat.png";

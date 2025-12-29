@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import MattressQuiz from "../components/MattressQuiz/MattressQuiz";
-import { useQuiz } from "../contexts/QuizContext";
+import { useQuiz } from "../hooks/useQuiz";
 
 const Layout = ({ children }) => {
   const { isQuizOpen, closeQuiz } = useQuiz();

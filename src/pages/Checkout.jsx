@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../contexts/CartContext";
-import { AuthContext } from "../contexts/AuthContext";
+import { useCart } from "../hooks/useCart";
+import { useAuth } from "../hooks/useAuth";
 import DeliveryAutocomplete from "../components/DeliveryAutocomplete/DeliveryAutocomplete";
 import { getDeliveryAPI } from "../api/deliveryServices";
 import {
@@ -30,8 +30,8 @@ import {
 } from "lucide-react";
 
 const Checkout = () => {
-  const { items, totals, currency } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
+  const { items, totals, currency } = useCart();
+  const { user } = useAuth();
 
   // Contact form state
   const [contactData, setContactData] = useState({

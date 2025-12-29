@@ -1,1 +1,1 @@
-export { useQuiz } from '../contexts/QuizContext';
+export { useQuiz } from "../contexts/quiz";
