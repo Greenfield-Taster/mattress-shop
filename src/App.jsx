@@ -13,6 +13,7 @@ import Product from "./pages/Product";
 import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 import Wishlist from "./pages/Wishlist";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +38,7 @@ function App() {
                   <Route path="/contacts" element={<Contacts />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-success/:orderNumber" element={<OrderSuccess />} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
