@@ -1,30 +1,17 @@
-import { createContext, useState, useCallback, useMemo } from "react";
-import pillowImage from "/pillow.png";
+import { useState, useCallback, useMemo } from "react";
+import { CartContext } from "./CartContext";
 
-export const CartContext = createContext(null);
+const PROMO_CODES = {
+  SAVE10: { discount: 10, type: "percentage" },
+  SAVE20: { discount: 20, type: "percentage" },
+  NEW100: { discount: 100, type: "fixed" },
+  BEST50: { discount: 50, type: "percentage" },
+  GIFT15: { discount: 15, type: "percentage" },
+  VIP500: { discount: 500, type: "fixed" },
+};
 
 export const CartProvider = ({ children, currency = "₴" }) => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      title: "Матрац Comfort Plus",
-      size: "160x200",
-      firmness: "Середня",
-      price: 12999,
-      image: pillowImage,
-      qty: 1,
-    },
-    {
-      id: 2,
-      title: "Матрац Premium Lux",
-      size: "140x200",
-      firmness: "Жорстка",
-      price: 15999,
-      image: pillowImage,
-      qty: 1,
-    },
-  ]);
-
+  const [items, setItems] = useState([]);
   const [promoCode, setPromoCode] = useState(null);
 
   const addItem = useCallback((item) => {
@@ -85,16 +72,7 @@ export const CartProvider = ({ children, currency = "₴" }) => {
   }, []);
 
   const applyPromoCode = useCallback((code) => {
-    const mockPromos = {
-      SAVE10: { discount: 10, type: "percentage" },
-      SAVE20: { discount: 20, type: "percentage" },
-      NEW100: { discount: 100, type: "fixed" },
-      BEST50: { discount: 50, type: "percentage" },
-      GIFT15: { discount: 15, type: "percentage" },
-      VIP500: { discount: 500, type: "fixed" },
-    };
-
-    const promo = mockPromos[code.toUpperCase()];
+    const promo = PROMO_CODES[code.toUpperCase()];
     if (promo) {
       setPromoCode({ code: code.toUpperCase(), ...promo });
       return { success: true, message: "" };
@@ -131,18 +109,32 @@ export const CartProvider = ({ children, currency = "₴" }) => {
     };
   }, [items, promoCode]);
 
-  const value = {
-    items,
-    addItem,
-    updateQty,
-    removeItem,
-    clearCart,
-    totals,
-    currency,
-    promoCode,
-    applyPromoCode,
-    removePromoCode,
-  };
+  const value = useMemo(
+    () => ({
+      items,
+      addItem,
+      updateQty,
+      removeItem,
+      clearCart,
+      totals,
+      currency,
+      promoCode,
+      applyPromoCode,
+      removePromoCode,
+    }),
+    [
+      items,
+      addItem,
+      updateQty,
+      removeItem,
+      clearCart,
+      totals,
+      currency,
+      promoCode,
+      applyPromoCode,
+      removePromoCode,
+    ]
+  );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
