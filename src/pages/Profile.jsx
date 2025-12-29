@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { getMyOrders } from "../api/orderApi";
 import {
   User,
   Mail,
@@ -17,6 +18,9 @@ import {
   Clock,
   XCircle,
   ChevronRight,
+  AlertCircle,
+  Loader,
+  RefreshCw,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import OrderDetailsModal from "../components/OrderDetailsModal/OrderDetailsModal";
@@ -37,6 +41,8 @@ const Profile = () => {
     city: user?.city || "",
   });
   const [orders, setOrders] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   // Якщо користувач не авторизований, перенаправляємо на головну
@@ -46,71 +52,49 @@ const Profile = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Завантаження замовлень (mock дані)
+  // Завантаження реальних замовлень з API
+  const fetchOrders = async () => {
+    setOrdersLoading(true);
+    setOrdersError(null);
+
+    try {
+      const response = await getMyOrders();
+
+      if (response.orders) {
+        // Перетворюємо формат API до формату компонента
+        const formattedOrders = response.orders.map((order) => ({
+          id: order.order_number || order.id,
+          date: order.created_at,
+          status: order.status,
+          total: order.total,
+          items: order.items.map((item) => ({
+            id: item.id,
+            name: item.title,
+            size: item.size || "Стандартний",
+            quantity: item.quantity,
+            price: item.unit_price,
+            image: item.image || "/spring.png",
+          })),
+          deliveryAddress: order.delivery_warehouse
+            ? `${order.delivery_city}, ${order.delivery_warehouse}`
+            : order.delivery_city || "Не вказано",
+        }));
+
+        setOrders(formattedOrders);
+      }
+    } catch (error) {
+      console.error("Помилка завантаження замовлень:", error);
+      setOrdersError("Не вдалося завантажити історію замовлень");
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const mockOrders = [
-      {
-        id: "ORD-2024-001",
-        date: "2024-11-10",
-        status: "delivered",
-        total: 15980,
-        items: [
-          {
-            id: 1,
-            name: "Ортопедичний матрац AirFlow Pro",
-            size: "160×200",
-            quantity: 1,
-            price: 7990,
-            image: "/spring.png",
-          },
-          {
-            id: 2,
-            name: "Ортопедична подушка Memory Foam",
-            size: "50×70",
-            quantity: 2,
-            price: 3995,
-            image: "/pillow.png",
-          },
-        ],
-        deliveryAddress: "Київ, вул. Хрещатик, 1",
-      },
-      {
-        id: "ORD-2024-002",
-        date: "2024-11-15",
-        status: "processing",
-        total: 12990,
-        items: [
-          {
-            id: 3,
-            name: "Безпружинний матрац Eco Dream",
-            size: "140×200",
-            quantity: 1,
-            price: 12990,
-            image: "/springless.png",
-          },
-        ],
-        deliveryAddress: "Львів, пр. Свободи, 25",
-      },
-      {
-        id: "ORD-2024-003",
-        date: "2024-10-28",
-        status: "cancelled",
-        total: 8990,
-        items: [
-          {
-            id: 4,
-            name: "Дитячий матрац Baby Dream",
-            size: "120×60",
-            quantity: 1,
-            price: 8990,
-            image: "/kids.png",
-          },
-        ],
-        deliveryAddress: "Одеса, вул. Дерибасівська, 10",
-      },
-    ];
-    setOrders(mockOrders);
-  }, []);
+    if (isAuthenticated) {
+      fetchOrders();
+    }
+  }, [isAuthenticated]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -152,10 +136,15 @@ const Profile = () => {
   // Конфігурація статусів замовлень
   const getStatusConfig = (status) => {
     const configs = {
-      delivered: {
-        label: "Доставлено",
+      pending: {
+        label: "Очікує обробки",
+        icon: Clock,
+        color: "warning",
+      },
+      confirmed: {
+        label: "Підтверджено",
         icon: CheckCircle,
-        color: "success",
+        color: "info",
       },
       processing: {
         label: "Обробляється",
@@ -167,13 +156,18 @@ const Profile = () => {
         icon: Truck,
         color: "info",
       },
+      delivered: {
+        label: "Доставлено",
+        icon: CheckCircle,
+        color: "success",
+      },
       cancelled: {
         label: "Скасовано",
         icon: XCircle,
         color: "error",
       },
     };
-    return configs[status] || configs.processing;
+    return configs[status] || configs.pending;
   };
 
   // Форматування дати
@@ -403,12 +397,37 @@ const Profile = () => {
 
         {/* Історія замовлень */}
         <div className="profile-orders">
-          <h3 className="profile-orders__title">
-            <Package size={24} />
-            Історія замовлень
-          </h3>
+          <div className="profile-orders__header">
+            <h3 className="profile-orders__title">
+              <Package size={24} />
+              Історія замовлень
+            </h3>
+            {!ordersLoading && (
+              <button
+                className="btn btn-sm btn-outline"
+                onClick={fetchOrders}
+                title="Оновити список замовлень"
+              >
+                <RefreshCw size={16} />
+                <span>Оновити</span>
+              </button>
+            )}
+          </div>
 
-          {orders.length === 0 ? (
+          {ordersLoading ? (
+            <div className="profile-orders-loading">
+              <Loader size={32} className="spinner" />
+              <p>Завантаження замовлень...</p>
+            </div>
+          ) : ordersError ? (
+            <div className="profile-orders-error">
+              <AlertCircle size={48} />
+              <p>{ordersError}</p>
+              <button className="btn btn-primary" onClick={fetchOrders}>
+                Спробувати ще раз
+              </button>
+            </div>
+          ) : orders.length === 0 ? (
             <div className="profile-orders-empty">
               <Package size={48} />
               <p>У вас поки немає замовлень</p>
