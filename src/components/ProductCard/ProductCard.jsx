@@ -1,18 +1,49 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import "./ProductCard.scss";
 
-const ProductCard = ({ product }) => {
-  const { id, name, type, height, hardness, price, oldPrice, image } = product;
+// Нормалізує розмір для порівняння (замінює різні варіанти "x" на кириличний "х")
+const normalizeSize = (size) => {
+  if (!size) return "";
+  return size.replace(/[×xXхХ]/g, "х");
+};
+
+const ProductCard = ({ product, selectedSize = null }) => {
+  const { id, name, type, height, hardness, image, variants } = product;
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
-  const hasDiscount = oldPrice && oldPrice > price;
-  const discountPercent = hasDiscount
-    ? Math.round(((oldPrice - price) / oldPrice) * 100)
-    : 0;
+  // Визначаємо ціну на основі вибраного розміру або використовуємо базову
+  const { displayPrice, displayOldPrice, displaySize } = useMemo(() => {
+    // Якщо є вибраний розмір і є варіанти - шукаємо відповідний варіант
+    if (selectedSize && variants?.length > 0) {
+      const normalizedSelectedSize = normalizeSize(selectedSize);
+      const matchedVariant = variants.find(
+        (v) => normalizeSize(v.size) === normalizedSelectedSize
+      );
+
+      if (matchedVariant) {
+        return {
+          displayPrice: matchedVariant.price,
+          displayOldPrice: matchedVariant.oldPrice,
+          displaySize: matchedVariant.size,
+        };
+      }
+    }
+
+    // Інакше використовуємо базову ціну продукту
+    return {
+      displayPrice: product.price,
+      displayOldPrice: product.oldPrice,
+      displaySize: product.size,
+    };
+  }, [product, selectedSize, variants]);
+
+  // Використовуємо знижку з API (discount або discountPercent), а не розраховуємо з цін
+  const discountPercent = product.discount || product.discountPercent || 0;
+  const hasDiscount = discountPercent > 0 && displayOldPrice && displayOldPrice > displayPrice;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -21,9 +52,9 @@ const ProductCard = ({ product }) => {
     addItem({
       id,
       title: name,
-      size: height ? `${height} см` : "Стандарт",
+      size: displaySize || (height ? `${height} см` : "Стандарт"),
       firmness: hardness || "Середня",
-      price,
+      price: displayPrice,
       image,
       qty: 1,
     });
@@ -85,11 +116,11 @@ const ProductCard = ({ product }) => {
 
         <div className="product-card__price-wrapper">
           <span className="product-card__price">
-            ₴{price.toLocaleString("uk-UA")}
+            ₴{displayPrice?.toLocaleString("uk-UA")}
           </span>
           {hasDiscount && (
             <span className="product-card__old-price">
-              ₴{oldPrice.toLocaleString("uk-UA")}
+              ₴{displayOldPrice?.toLocaleString("uk-UA")}
             </span>
           )}
         </div>

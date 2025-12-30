@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
-import { fetchProducts } from "../api/fetchProducts";
+import { fetchProducts, fetchProductById } from "../api/fetchProducts";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
 import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
@@ -132,55 +132,54 @@ const Product = () => {
     const loadProduct = async () => {
       setLoading(true);
       try {
-        const response = await fetchProducts({ limit: 100 });
-        const foundProduct = response.items.find(
-          (item) => item.id === parseInt(id)
-        );
+        // Спочатку пробуємо отримати продукт напряму за ID/handle
+        let foundProduct = await fetchProductById(id);
+
+        // Якщо не знайшли - шукаємо в списку (для сумісності з числовими ID)
+        if (!foundProduct) {
+          const response = await fetchProducts({ limit: 100 });
+          foundProduct = response.items.find(
+            (item) => item.id === id || item.id === parseInt(id) || item.handle === id
+          );
+        }
 
         if (foundProduct) {
-          const sizes = [
-            "80×190",
-            "80×200",
-            "90×190",
-            "90×200",
-            "120×190",
-            "120×200",
-            "140×190",
-            "140×200",
-            "160×190",
-            "160×200",
-            "180×190",
-            "180×200",
-            "200×200",
-          ];
-
-          const productWithVariants = {
+          // Нормалізуємо структуру даних для сумісності з mock і API
+          const normalizedProduct = {
             ...foundProduct,
-            variants:
-              foundProduct.variants ||
-              sizes
-                .slice(0, 8 + Math.floor(Math.random() * 5))
-                .map((size, index) => ({
-                  id: `${foundProduct.id}-${index + 1}`,
-                  size,
-                  price: foundProduct.price + index * 500,
-                  oldPrice: foundProduct.oldPrice
-                    ? foundProduct.oldPrice + index * 500
-                    : null,
-                })),
+            // Нормалізуємо description
+            description: foundProduct.description || {
+              main: foundProduct.descriptionMain || foundProduct.description_main || "",
+              care: foundProduct.descriptionCare || foundProduct.description_care || "",
+              specs: foundProduct.specs || [],
+            },
+            // Нормалізуємо variants
+            variants: foundProduct.variants || [],
+            // Нормалізуємо images
             images: foundProduct.images || [
-              foundProduct.image,
-              foundProduct.image,
-              foundProduct.image,
-            ],
-            // Додаємо рекомендації (якщо є в API)
-            recommendations: foundProduct.recommendations || null,
+              foundProduct.image || foundProduct.thumbnail,
+            ].filter(Boolean),
+            // cover може приходити як coverType
+            cover: foundProduct.cover || foundProduct.coverType,
           };
 
-          setProduct(productWithVariants);
-          setSelectedVariant(productWithVariants.variants[0]);
+          // Якщо description - рядок, перетворюємо в об'єкт
+          if (typeof normalizedProduct.description === "string") {
+            normalizedProduct.description = {
+              main: normalizedProduct.description,
+              care: foundProduct.descriptionCare || foundProduct.description_care || "",
+              specs: foundProduct.specs || [],
+            };
+          }
+
+          setProduct(normalizedProduct);
+
+          if (normalizedProduct.variants.length > 0) {
+            setSelectedVariant(normalizedProduct.variants[0]);
+          }
 
           // Завантажуємо схожі продукти
+          const response = await fetchProducts({ limit: 20 });
           const similar = response.items.filter(
             (item) =>
               item.type === foundProduct.type && item.id !== foundProduct.id
@@ -400,19 +399,13 @@ const Product = () => {
                     <span className="product-info__price-current">
                       ₴{selectedVariant?.price.toLocaleString("uk-UA")}
                     </span>
-                    {selectedVariant?.oldPrice && (
+                    {selectedVariant?.oldPrice && (product.discount || product.discountPercent) > 0 && (
                       <>
                         <span className="product-info__price-old">
                           ₴{selectedVariant.oldPrice.toLocaleString("uk-UA")}
                         </span>
                         <span className="product-info__discount">
-                          -
-                          {Math.round(
-                            ((selectedVariant.oldPrice - selectedVariant.price) /
-                              selectedVariant.oldPrice) *
-                              100
-                          )}
-                          %
+                          -{product.discount || product.discountPercent}%
                         </span>
                       </>
                     )}
@@ -574,22 +567,11 @@ const Product = () => {
                   className="tab-content"
                 >
                   {/* Опис товару */}
-                  {product.description ? (
+                  {product.description?.main ? (
                     <div className="product-description">
                       <h3 className="section-subtitle">Опис товару</h3>
                       <div className="product-description__content">
                         <p className="product-description__text">{product.description.main}</p>
-
-                        {product.description.specs && product.description.specs.length > 0 && (
-                          <div className="product-description__specs">
-                            <h4 className="product-description__specs-title">Характеристики:</h4>
-                            <ul className="product-description__specs-list">
-                              {product.description.specs.map((spec, index) => (
-                                <li key={index}>{spec}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
 
                         {product.description.care && (
                           <div className="product-description__care">
