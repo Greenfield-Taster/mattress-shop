@@ -133,6 +133,21 @@
     }
   }
 
+  &__track {
+    background: linear-gradient(135deg, v.$brand-primary-50 0%, #eff6ff 100%);
+    border: 2px solid v.$brand-primary-200;
+    border-radius: v.$radius-lg;
+    padding: v.$spacing-6;
+    margin-bottom: v.$spacing-6;
+    text-align: center;
+  }
+
+  &__track-hint {
+    color: v.$color-text-secondary;
+    font-size: v.$font-size-sm;
+    margin-top: v.$spacing-3;
+  }
+
   &__contact {
     margin-bottom: v.$spacing-8;
 
@@ -205,6 +220,20 @@
 
       &:hover {
         background: v.$neutral-200;
+      }
+    }
+
+    &--track {
+      background: linear-gradient(135deg, v.$brand-primary-500 0%, v.$brand-primary-600 100%);
+      color: v.$neutral-0;
+      padding: v.$spacing-4 v.$spacing-8;
+      font-size: v.$font-size-base;
+      box-shadow: v.$shadow-md;
+
+      &:hover {
+        background: linear-gradient(135deg, v.$brand-primary-600 0%, v.$brand-primary-700 100%);
+        transform: translateY(-2px);
+        box-shadow: v.$shadow-lg;
       }
     }
   }

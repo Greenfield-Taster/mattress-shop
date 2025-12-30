@@ -1,7 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { CheckCircle, Package, Phone, Mail, ArrowLeft } from "lucide-react";
+import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin } from "lucide-react";
 import "../styles/pages/_order-success.scss";
+
+// Ключ для збереження номерів замовлень в localStorage
+const SAVED_ORDERS_KEY = "savedOrderNumbers";
+
+// Функція збереження номера замовлення
+const saveOrderNumber = (orderNumber) => {
+  try {
+    const saved = localStorage.getItem(SAVED_ORDERS_KEY);
+    const orders = saved ? JSON.parse(saved) : [];
+    if (!orders.includes(orderNumber)) {
+      orders.unshift(orderNumber);
+      const trimmed = orders.slice(0, 10);
+      localStorage.setItem(SAVED_ORDERS_KEY, JSON.stringify(trimmed));
+    }
+  } catch (error) {
+    console.error("Error saving order number:", error);
+  }
+};
 
 const OrderSuccess = () => {
   const { orderNumber } = useParams();
@@ -13,7 +31,13 @@ const OrderSuccess = () => {
     if (lastOrder) {
       setOrder(JSON.parse(lastOrder));
     }
-  }, []);
+
+    // Зберігаємо номер замовлення для відстеження
+    const orderNum = orderNumber || JSON.parse(lastOrder)?.order_number;
+    if (orderNum) {
+      saveOrderNumber(orderNum);
+    }
+  }, [orderNumber]);
 
   return (
     <div className="order-success">
@@ -62,10 +86,16 @@ const OrderSuccess = () => {
             </div>
           )}
 
-          <div className="order-success__info">
-            <p>
-              Збережіть номер замовлення для відстеження статусу. Ви також
-              отримаєте підтвердження на вказаний email.
+          <div className="order-success__track">
+            <Link
+              to="/track-order"
+              className="order-success__btn order-success__btn--track"
+            >
+              <MapPin size={18} />
+              Відстежити замовлення
+            </Link>
+            <p className="order-success__track-hint">
+              Номер замовлення збережено. Ви завжди можете перевірити статус.
             </p>
           </div>
 
