@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, Menu, X, User, Heart } from "lucide-react";
+import { ShoppingCart, Menu, X, User, Heart, Package } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import { useWishlist } from "../hooks/useWishlist";
@@ -118,6 +118,15 @@ const Header = () => {
               )}
             </Link>
 
+            <Link
+              to="/track-order"
+              className="header__track-order"
+              aria-label="Відстеження замовлення"
+              title="Відстежити замовлення"
+            >
+              <Package size={20} />
+            </Link>
+
             <button
               onClick={handleCartClick}
               className="header__cart"
@@ -185,6 +194,16 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Контакти
+              </Link>
+              <Link
+                to="/track-order"
+                className={`header__nav-link ${
+                  isActiveLink("/track-order") ? "active" : ""
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Package size={16} />
+                Відстежити замовлення
               </Link>
               <div
                 style={{

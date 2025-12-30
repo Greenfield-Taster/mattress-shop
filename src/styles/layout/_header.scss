@@ -217,6 +217,33 @@
   box-shadow: v.$shadow-md;
 }
 
+.header__track-order {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: v.$radius-md;
+  border: none;
+  background: transparent;
+  color: v.$color-text-secondary;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all v.$transition-fast v.$transition-timing;
+
+  &:hover {
+    color: v.$brand-primary-500;
+    background: v.$brand-primary-50;
+    border-radius: v.$radius-full;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .header__auth {
   display: flex;
   align-items: center;
