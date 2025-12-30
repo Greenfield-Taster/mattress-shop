@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Carousel from "../components/Carousel/Carousel";
 import { useQuiz } from "../hooks/useQuiz";
+import { fetchPopularProducts } from "../api/fetchProducts";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "/heero-cat.png";
@@ -13,66 +15,23 @@ import pillowImage from "/pillow.png";
 
 const Home = () => {
   const { openQuiz } = useQuiz();
+  const [popularProducts, setPopularProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  //TODO: Replace with real data from backend
-  const popularProducts = [
-    {
-      id: 1,
-      name: "Orthopedic AirFlow Pro",
-      type: "Пружинний",
-      height: 22,
-      hardness: "H3",
-      price: 7990,
-      image: kidsImage,
-    },
-    {
-      id: 2,
-      name: "Cloud Foam",
-      type: "Безпружинний",
-      height: 20,
-      hardness: "H2",
-      price: 2490,
-      oldPrice: 6490,
-      image: toperImage,
-    },
-    {
-      id: 3,
-      name: "Latex Flex",
-      type: "Латекс",
-      height: 24,
-      hardness: "H3",
-      price: 8990,
-      image: springlessImage,
-    },
-    {
-      id: 4,
-      name: "Dream Sleep Pro",
-      type: "Пружинний",
-      height: 25,
-      hardness: "H4",
-      price: 9990,
-      image: springImage,
-    },
-    {
-      id: 5,
-      name: "Memory Comfort",
-      type: "Безпружинний",
-      height: 18,
-      hardness: "H2",
-      price: 5990,
-      oldPrice: 7990,
-      image: springlessImage,
-    },
-    {
-      id: 6,
-      name: "Eco Latex Premium",
-      type: "Латекс",
-      height: 26,
-      hardness: "H3",
-      price: 11990,
-      image: springlessImage,
-    },
-  ];
+  useEffect(() => {
+    const loadPopularProducts = async () => {
+      try {
+        const result = await fetchPopularProducts(6);
+        setPopularProducts(result.items);
+      } catch (error) {
+        console.error("Error loading popular products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPopularProducts();
+  }, []);
 
   const categories = [
     {
@@ -207,12 +166,14 @@ const Home = () => {
         </div>
       </section>
 
-      <Carousel
-        products={popularProducts}
-        title="Популярні товари"
-        showTitle={true}
-        showControls={true}
-      />
+      {!loading && popularProducts.length > 0 && (
+        <Carousel
+          products={popularProducts}
+          title="Популярні товари"
+          showTitle={true}
+          showControls={true}
+        />
+      )}
 
       <section className="benefits">
         <div className="container">

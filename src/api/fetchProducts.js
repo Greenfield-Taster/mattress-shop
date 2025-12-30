@@ -715,6 +715,52 @@ export const fetchProducts = async (params) => {
 };
 
 /**
+ * Отримує популярні товари для головної сторінки
+ * Логіка: спочатку нові товари, потім останні додані
+ */
+export const fetchPopularProducts = async (limit = 6) => {
+  if (USE_MOCK) {
+    // Mock: повертаємо товари з isNew або останні
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const newProducts = mockProducts.filter((p) => p.isNew);
+    const otherProducts = mockProducts.filter((p) => !p.isNew);
+    const popular = [...newProducts, ...otherProducts].slice(0, limit);
+    return { items: popular, total: popular.length };
+  }
+
+  // Real API
+  try {
+    const response = await fetch(
+      `${API_URL}/store/mattresses/popular?limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-publishable-api-key": API_KEY,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      items: data.items || [],
+      total: data.total || 0,
+    };
+  } catch (error) {
+    console.error("Error fetching popular products:", error);
+    // Fallback до mock
+    const newProducts = mockProducts.filter((p) => p.isNew);
+    const otherProducts = mockProducts.filter((p) => !p.isNew);
+    const popular = [...newProducts, ...otherProducts].slice(0, limit);
+    return { items: popular, total: popular.length };
+  }
+};
+
+/**
  * Отримує продукт за ID або handle
  */
 export const fetchProductById = async (idOrHandle) => {

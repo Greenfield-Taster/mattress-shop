@@ -178,13 +178,18 @@ const Product = () => {
             setSelectedVariant(normalizedProduct.variants[0]);
           }
 
-          // Завантажуємо схожі продукти
-          const response = await fetchProducts({ limit: 20 });
-          const similar = response.items.filter(
-            (item) =>
-              item.type === foundProduct.type && item.id !== foundProduct.id
-          );
-          setRelatedProducts(similar);
+          // Завантажуємо схожі продукти (по типу матраца)
+          const productType = normalizedProduct.type;
+          if (productType) {
+            const response = await fetchProducts({
+              types: [productType],
+              limit: 7, // +1 бо потенційно включатиме поточний товар
+            });
+            const similar = response.items
+              .filter((item) => item.id !== normalizedProduct.id)
+              .slice(0, 6);
+            setRelatedProducts(similar);
+          }
         }
       } catch (error) {
         console.error("Error loading product:", error);
