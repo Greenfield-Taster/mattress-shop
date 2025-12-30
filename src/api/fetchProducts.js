@@ -4,6 +4,9 @@ import springMattress from "/spring.png";
 const USE_MOCK = import.meta.env.VITE_MOCK_AUTH === "true";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 
+// Publishable API key для store endpoints
+const API_KEY = "pk_b11088232151fd94ff6c53ffb32616379865f9e7e90ffa27c8828d30f55ba98f";
+
 // Всі доступні розміри з базовими цінами
 const allAvailableSizes = [
   { size: "60×120", priceModifier: -2500, category: "Дитячий" },
@@ -675,6 +678,7 @@ const fetchProductsApi = async (params) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "x-publishable-api-key": API_KEY,
       },
     });
 
@@ -729,6 +733,7 @@ export const fetchProductById = async (idOrHandle) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "x-publishable-api-key": API_KEY,
       },
     });
 
