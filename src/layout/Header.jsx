@@ -120,7 +120,7 @@ const Header = () => {
 
             <Link
               to="/track-order"
-              className="header__track-order"
+              className="header__track-order hidden-mobile"
               aria-label="Відстеження замовлення"
               title="Відстежити замовлення"
             >
