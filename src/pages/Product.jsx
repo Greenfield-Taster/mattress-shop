@@ -204,7 +204,28 @@ const Product = () => {
 
   // Мемоїзовані значення
   const images = useMemo(() => product?.images || [], [product]);
-  const variants = useMemo(() => product?.variants || [], [product]);
+
+  // Варіанти продукту з обов'язковим "Нестандартний" розміром
+  const variants = useMemo(() => {
+    const productVariants = product?.variants || [];
+
+    // Перевіряємо чи вже є нестандартний розмір
+    const hasCustom = productVariants.some(v => v.isCustom || v.size === "custom" || v.size === "Нестандартний");
+
+    if (hasCustom) {
+      return productVariants;
+    }
+
+    // Додаємо нестандартний розмір в кінець списку
+    const customVariant = {
+      id: "custom",
+      size: "Нестандартний",
+      price: 0,
+      isCustom: true,
+    };
+
+    return [...productVariants, customVariant];
+  }, [product]);
 
   // Розраховуємо кількість відгуків для показу
   const visibleReviews = useMemo(() => {
