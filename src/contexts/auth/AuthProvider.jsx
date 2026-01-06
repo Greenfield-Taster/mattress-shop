@@ -150,7 +150,6 @@ export const AuthProvider = ({ children }) => {
         email: "test@gmail.com",
         firstName: "Google",
         lastName: "Користувач",
-        avatar: "https://via.placeholder.com/150",
       };
       const mockToken = "mock_google_token_" + Date.now();
 

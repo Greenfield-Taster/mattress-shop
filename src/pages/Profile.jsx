@@ -211,13 +211,7 @@ const Profile = () => {
         <div className="profile-user-info">
           <div className="profile-user-info__left">
             <div className="profile-user-info__avatar">
-              <img
-                src={user?.avatar || "https://ui-avatars.com/api/?name=" + encodeURIComponent((user?.firstName || "U") + "+" + (user?.lastName || "")) + "&background=1e3a5f&color=fff&size=128"}
-                alt={`${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Користувач"}
-                onError={(e) => {
-                  e.target.src = "https://ui-avatars.com/api/?name=U&background=1e3a5f&color=fff&size=128";
-                }}
-              />
+              <User size={48} />
             </div>
             <div className="profile-user-info__details">
               <h2 className="profile-user-info__name">
