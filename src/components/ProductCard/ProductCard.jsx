@@ -15,8 +15,21 @@ const ProductCard = ({ product, selectedSize = null }) => {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
+  // Перевіряємо чи вибрано нестандартний розмір
+  const isCustomSize = selectedSize === "нестандартний розмір" || selectedSize === "custom";
+
   // Визначаємо ціну на основі вибраного розміру або використовуємо базову
   const { displayPrice, displayOldPrice, displaySize } = useMemo(() => {
+    // Якщо вибрано нестандартний розмір - показуємо "Під замовлення"
+    if (isCustomSize) {
+      return {
+        displayPrice: null,
+        displayOldPrice: null,
+        displaySize: "Нестандартний",
+        isCustom: true,
+      };
+    }
+
     // Якщо є вибраний розмір і є варіанти - шукаємо відповідний варіант
     if (selectedSize && variants?.length > 0) {
       const normalizedSelectedSize = normalizeSize(selectedSize);
@@ -39,7 +52,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
       displayOldPrice: product.oldPrice,
       displaySize: product.size,
     };
-  }, [product, selectedSize, variants]);
+  }, [product, selectedSize, variants, isCustomSize]);
 
   // Використовуємо знижку з API (discount або discountPercent), а не розраховуємо з цін
   const discountPercent = product.discount || product.discountPercent || 0;
@@ -115,13 +128,19 @@ const ProductCard = ({ product, selectedSize = null }) => {
         </div>
 
         <div className="product-card__price-wrapper">
-          <span className="product-card__price">
-            ₴{displayPrice?.toLocaleString("uk-UA")}
-          </span>
-          {hasDiscount && (
-            <span className="product-card__old-price">
-              ₴{displayOldPrice?.toLocaleString("uk-UA")}
-            </span>
+          {isCustomSize ? (
+            <span className="product-card__custom-price">Під замовлення</span>
+          ) : (
+            <>
+              <span className="product-card__price">
+                ₴{displayPrice?.toLocaleString("uk-UA")}
+              </span>
+              {hasDiscount && (
+                <span className="product-card__old-price">
+                  ₴{displayOldPrice?.toLocaleString("uk-UA")}
+                </span>
+              )}
+            </>
           )}
         </div>
 
@@ -132,16 +151,25 @@ const ProductCard = ({ product, selectedSize = null }) => {
           >
             Детальніше
           </Link>
-          <button
-            className={`product-card__button product-card__button--secondary ${
-              isAdded ? "product-card__button--added" : ""
-            }`}
-            onClick={handleAddToCart}
-            aria-label={`Додати ${name} в кошик`}
-            disabled={isAdded}
-          >
-            {isAdded ? "Додано! ✓" : "Купити"}
-          </button>
+          {isCustomSize ? (
+            <Link
+              to="/contacts"
+              className="product-card__button product-card__button--secondary"
+            >
+              Замовити
+            </Link>
+          ) : (
+            <button
+              className={`product-card__button product-card__button--secondary ${
+                isAdded ? "product-card__button--added" : ""
+              }`}
+              onClick={handleAddToCart}
+              aria-label={`Додати ${name} в кошик`}
+              disabled={isAdded}
+            >
+              {isAdded ? "Додано! ✓" : "Купити"}
+            </button>
+          )}
         </div>
       </div>
     </div>

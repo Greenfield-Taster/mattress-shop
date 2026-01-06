@@ -166,6 +166,14 @@
     line-height: 1;
   }
 
+  &__custom-price {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+    color: v.$brand-primary-600;
+    line-height: 1;
+    letter-spacing: v.$letter-spacing-tight;
+  }
+
   &__actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
