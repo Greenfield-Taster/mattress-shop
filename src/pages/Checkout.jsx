@@ -39,8 +39,8 @@ const Checkout = () => {
 
   // Contact form state
   const [contactData, setContactData] = useState({
-    fullName: user?.name || "",
-    phone: "",
+    fullName: user?.firstName + " " + user?.lastName || "",
+    phone: user?.phone || "",
     email: user?.email || "",
     comment: "",
     createAccount: false,
@@ -289,7 +289,9 @@ const Checkout = () => {
       navigate(`/order-success/${result.order.order_number}`);
     } catch (error) {
       console.error("❌ Помилка створення замовлення:", error);
-      setSubmitError(error.message || "Помилка створення замовлення. Спробуйте ще раз.");
+      setSubmitError(
+        error.message || "Помилка створення замовлення. Спробуйте ще раз."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -970,9 +972,7 @@ const Checkout = () => {
               </div>
 
               {submitError && (
-                <div className="checkout__submit-error">
-                  {submitError}
-                </div>
+                <div className="checkout__submit-error">{submitError}</div>
               )}
 
               <button
@@ -984,8 +984,8 @@ const Checkout = () => {
                 {isSubmitting
                   ? "Оформлення..."
                   : paymentMethod === "card-online"
-                    ? "Оплатити зараз"
-                    : "Оформити замовлення"}
+                  ? "Оплатити зараз"
+                  : "Оформити замовлення"}
               </button>
 
               <div className="checkout__help">
