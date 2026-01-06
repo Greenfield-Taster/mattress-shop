@@ -7,24 +7,44 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 // Publishable API key для store endpoints
 const API_KEY = "pk_b11088232151fd94ff6c53ffb32616379865f9e7e90ffa27c8828d30f55ba98f";
 
-// Всі доступні розміри з базовими цінами
+// Всі доступні розміри з базовими цінами (29 стандартних розмірів + нестандартний, відповідає MattressQuiz)
 const allAvailableSizes = [
-  { size: "60×120", priceModifier: -2500, category: "Дитячий" },
-  { size: "70×140", priceModifier: -2000, category: "Дитячий" },
-  { size: "70×160", priceModifier: -1500, category: "Дитячий" },
+  // Дитячі (8 розмірів)
+  { size: "60×120", priceModifier: -3000, category: "Дитячий" },
+  { size: "70×140", priceModifier: -2800, category: "Дитячий" },
+  { size: "70×150", priceModifier: -2600, category: "Дитячий" },
+  { size: "70×160", priceModifier: -2400, category: "Дитячий" },
+  { size: "70×170", priceModifier: -2200, category: "Дитячий" },
+  { size: "70×180", priceModifier: -2000, category: "Дитячий" },
+  { size: "70×190", priceModifier: -1800, category: "Дитячий" },
+  { size: "70×200", priceModifier: -1600, category: "Дитячий" },
+  // Односпальні (8 розмірів)
+  { size: "80×150", priceModifier: -1400, category: "Односпальний" },
+  { size: "80×160", priceModifier: -1300, category: "Односпальний" },
+  { size: "80×170", priceModifier: -1200, category: "Односпальний" },
+  { size: "80×180", priceModifier: -1100, category: "Односпальний" },
   { size: "80×190", priceModifier: -1000, category: "Односпальний" },
   { size: "80×200", priceModifier: -800, category: "Односпальний" },
   { size: "90×190", priceModifier: -500, category: "Односпальний" },
   { size: "90×200", priceModifier: -300, category: "Односпальний" },
+  // Полуторні (2 розміри)
   { size: "120×190", priceModifier: 0, category: "Полуторний" },
   { size: "120×200", priceModifier: 200, category: "Полуторний" },
+  // Двоспальні (8 розмірів)
   { size: "140×190", priceModifier: 500, category: "Двоспальний" },
   { size: "140×200", priceModifier: 700, category: "Двоспальний" },
-  { size: "160×190", priceModifier: 1000, category: "Двоспальний" },
-  { size: "160×200", priceModifier: 1200, category: "Двоспальний" },
-  { size: "180×190", priceModifier: 1500, category: "King Size" },
-  { size: "180×200", priceModifier: 1700, category: "King Size" },
-  { size: "200×200", priceModifier: 2000, category: "King Size XL" },
+  { size: "150×190", priceModifier: 900, category: "Двоспальний" },
+  { size: "150×200", priceModifier: 1100, category: "Двоспальний" },
+  { size: "160×190", priceModifier: 1300, category: "Двоспальний" },
+  { size: "160×200", priceModifier: 1500, category: "Двоспальний" },
+  { size: "170×190", priceModifier: 1700, category: "Двоспальний" },
+  { size: "170×200", priceModifier: 1900, category: "Двоспальний" },
+  // King Size (2 розміри)
+  { size: "180×190", priceModifier: 2100, category: "King Size" },
+  { size: "180×200", priceModifier: 2300, category: "King Size" },
+  // King Size XL (1 розмір)
+  { size: "200×200", priceModifier: 2500, category: "King Size XL" },
+  // Нестандартний розмір (під замовлення)
   { size: "custom", priceModifier: 0, category: "Нестандартний", isCustom: true },
 ];
 
@@ -556,8 +576,19 @@ const filterProducts = (products, params) => {
     if (params.types?.length > 0 && !params.types.includes(product.type)) {
       return false;
     }
-    if (params.sizes?.length > 0 && !params.sizes.includes(product.size)) {
-      return false;
+    // Фільтр по розмірах: "нестандартний розмір" показує всі матраци (бо всі можуть бути на замовлення)
+    if (params.sizes?.length > 0) {
+      const hasCustomSize = params.sizes.includes("нестандартний розмір") || params.sizes.includes("custom");
+      // Якщо вибрано ТІЛЬКИ нестандартний розмір - показуємо всі матраци
+      if (hasCustomSize && params.sizes.length === 1) {
+        // Пропускаємо фільтр - показуємо всі
+      } else {
+        // Фільтруємо по стандартних розмірах (ігноруємо "нестандартний розмір" в списку)
+        const standardSizes = params.sizes.filter(s => s !== "нестандартний розмір" && s !== "custom");
+        if (standardSizes.length > 0 && !standardSizes.includes(product.size)) {
+          return false;
+        }
+      }
     }
     if (params.height) {
       const [min, max] = params.height.split("-").map(Number);
