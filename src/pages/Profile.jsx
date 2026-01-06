@@ -26,6 +26,30 @@ import { useNavigate } from "react-router-dom";
 import OrderDetailsModal from "../components/OrderDetailsModal/OrderDetailsModal";
 import "../styles/pages/_profile.scss";
 
+/**
+ * Форматувати номер телефону для відображення: +380 XX XXX XX XX
+ * Приймає формат 0XXXXXXXXX (10 цифр)
+ */
+const formatPhoneForDisplay = (phone) => {
+  if (!phone) return "Не вказано";
+
+  // Видаляємо все крім цифр
+  let cleaned = phone.replace(/\D/g, "");
+
+  // Якщо починається з 380, перетворюємо на 0XXXXXXXXX
+  if (cleaned.startsWith("380")) {
+    cleaned = "0" + cleaned.slice(3);
+  }
+
+  // Якщо 10 цифр і починається з 0 - форматуємо красиво
+  if (cleaned.length === 10 && cleaned.startsWith("0")) {
+    const digits = cleaned.slice(1); // Видаляємо перший 0
+    return `+380 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 7)} ${digits.slice(7)}`;
+  }
+
+  return phone; // Повертаємо як є
+};
+
 const Profile = () => {
   const { user, logout, updateUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -220,7 +244,7 @@ const Profile = () => {
                   : "Користувач"}
               </h2>
               <p className="profile-user-info__email">
-                {user?.email || user?.phone}
+                {user?.email || formatPhoneForDisplay(user?.phone)}
               </p>
             </div>
           </div>
@@ -339,7 +363,7 @@ const Profile = () => {
                   <span>Телефон</span>
                 </label>
                 <p className="profile-form__value profile-form__value--phone">
-                  {user?.phone || "Не вказано"}
+                  {formatPhoneForDisplay(user?.phone)}
                 </p>
               </div>
 

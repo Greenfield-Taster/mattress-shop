@@ -45,8 +45,9 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    const result = await sendCode('+380' + phoneNumber);
-    
+    // Формат 0XXXXXXXXX (10 цифр)
+    const result = await sendCode('0' + phoneNumber);
+
     setIsSubmitting(false);
 
     if (result.success) {
@@ -94,8 +95,9 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    const result = await sendCode('+380' + phoneNumber);
-    
+    // Формат 0XXXXXXXXX (10 цифр)
+    const result = await sendCode('0' + phoneNumber);
+
     setIsSubmitting(false);
 
     if (result.success) {
@@ -112,8 +114,9 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    const result = await login('+380' + phoneNumber, fullCode);
-    
+    // Формат 0XXXXXXXXX (10 цифр)
+    const result = await login('0' + phoneNumber, fullCode);
+
     setIsSubmitting(false);
 
     if (result.success) {
