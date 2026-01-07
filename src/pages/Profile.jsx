@@ -362,9 +362,20 @@ const Profile = () => {
                   <Phone size={18} />
                   <span>Телефон</span>
                 </label>
-                <p className="profile-form__value profile-form__value--phone">
-                  {formatPhoneForDisplay(user?.phone)}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="tel"
+                    name="phone"
+                    className="profile-form__input"
+                    value={editedUser.phone}
+                    onChange={handleInputChange}
+                    placeholder="0XX XXX XX XX"
+                  />
+                ) : (
+                  <p className="profile-form__value profile-form__value--phone">
+                    {formatPhoneForDisplay(user?.phone)}
+                  </p>
+                )}
               </div>
 
               <div className="profile-form__group">
