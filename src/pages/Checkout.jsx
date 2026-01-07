@@ -39,7 +39,9 @@ const Checkout = () => {
 
   // Contact form state
   const [contactData, setContactData] = useState({
-    fullName: user?.firstName + " " + user?.lastName || "",
+    fullName: user?.firstName && user?.lastName
+      ? `${user.firstName} ${user.lastName}`.trim()
+      : user?.firstName || user?.lastName || "",
     phone: user?.phone || "",
     email: user?.email || "",
     comment: "",
