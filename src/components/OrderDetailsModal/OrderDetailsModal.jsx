@@ -1,5 +1,16 @@
 import { useEffect } from "react";
-import { Package, Calendar, Truck, CreditCard, X, CheckCircle, Clock, XCircle, MapPin, Tag } from "lucide-react";
+import {
+  Package,
+  Calendar,
+  Truck,
+  CreditCard,
+  X,
+  CheckCircle,
+  Clock,
+  XCircle,
+  MapPin,
+  Tag,
+} from "lucide-react";
 import "./OrderDetailsModal.scss";
 
 // Мапа назв служб доставки
@@ -9,7 +20,7 @@ const DELIVERY_METHODS = {
   ukrposhta: "Укрпошта",
   delivery: "Delivery",
   intime: "Ін Тайм",
-  self_pickup: "Самовивіз",
+  pickup: "Самовивіз",
 };
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
@@ -75,7 +86,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
         <div className="order-details-modal__header">
           <div className="order-details-modal__header-left">
             <Package size={24} />
-            <h2 className="order-details-modal__title">Замовлення {order.id}</h2>
+            <h2 className="order-details-modal__title">
+              Замовлення {order.id}
+            </h2>
           </div>
           <button
             className="order-details-modal__close"
@@ -91,10 +104,16 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           <div className="order-details-modal__info">
             <div className="order-details-modal__info-item">
               <Calendar size={18} />
-              <span className="order-details-modal__info-label">Дата замовлення:</span>
-              <span className="order-details-modal__info-value">{formatDate(order.date)}</span>
+              <span className="order-details-modal__info-label">
+                Дата замовлення:
+              </span>
+              <span className="order-details-modal__info-value">
+                {formatDate(order.date)}
+              </span>
             </div>
-            <div className={`order-details-modal__status order-details-modal__status--${statusConfig.color}`}>
+            <div
+              className={`order-details-modal__status order-details-modal__status--${statusConfig.color}`}
+            >
               <StatusIcon size={18} />
               <span>{statusConfig.label}</span>
             </div>
@@ -102,7 +121,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
 
           {/* Список товарів */}
           <div className="order-details-modal__section">
-            <h3 className="order-details-modal__section-title">Товари в замовленні</h3>
+            <h3 className="order-details-modal__section-title">
+              Товари в замовленні
+            </h3>
             <div className="order-details-modal__items">
               {order.items.map((item) => (
                 <div key={item.id} className="order-details-item">
@@ -123,7 +144,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                         </span>
                       )}
                     </div>
-                    <p className="order-details-item__quantity">Кількість: {item.quantity} шт.</p>
+                    <p className="order-details-item__quantity">
+                      Кількість: {item.quantity} шт.
+                    </p>
                   </div>
                   <div className="order-details-item__price">
                     {(item.price * item.quantity).toLocaleString("uk-UA")} ₴
@@ -140,24 +163,35 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
               {order.deliveryMethod && (
                 <div className="order-details-modal__delivery-row">
                   <Truck size={18} />
-                  <span className="order-details-modal__delivery-label">Служба доставки:</span>
+                  <span className="order-details-modal__delivery-label">
+                    Служба доставки:
+                  </span>
                   <span className="order-details-modal__delivery-value">
-                    {DELIVERY_METHODS[order.deliveryMethod] || order.deliveryMethod}
+                    {DELIVERY_METHODS[order.deliveryMethod] ||
+                      order.deliveryMethod}
                   </span>
                 </div>
               )}
               {order.deliveryCity && (
                 <div className="order-details-modal__delivery-row">
                   <MapPin size={18} />
-                  <span className="order-details-modal__delivery-label">Місто:</span>
-                  <span className="order-details-modal__delivery-value">{order.deliveryCity}</span>
+                  <span className="order-details-modal__delivery-label">
+                    Місто:
+                  </span>
+                  <span className="order-details-modal__delivery-value">
+                    {order.deliveryCity}
+                  </span>
                 </div>
               )}
               {order.deliveryWarehouse && (
                 <div className="order-details-modal__delivery-row">
                   <Package size={18} />
-                  <span className="order-details-modal__delivery-label">Відділення:</span>
-                  <span className="order-details-modal__delivery-value">{order.deliveryWarehouse}</span>
+                  <span className="order-details-modal__delivery-label">
+                    Відділення:
+                  </span>
+                  <span className="order-details-modal__delivery-value">
+                    {order.deliveryWarehouse}
+                  </span>
                 </div>
               )}
               {!order.deliveryMethod && !order.deliveryCity && (
@@ -173,7 +207,9 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           <div className="order-details-modal__summary">
             <div className="order-details-modal__summary-row">
               <span>Сума товарів:</span>
-              <span>{(order.subtotal || order.total).toLocaleString("uk-UA")} ₴</span>
+              <span>
+                {(order.subtotal || order.total).toLocaleString("uk-UA")} ₴
+              </span>
             </div>
             {order.promoCode && (
               <div className="order-details-modal__summary-row order-details-modal__summary-row--promo">
