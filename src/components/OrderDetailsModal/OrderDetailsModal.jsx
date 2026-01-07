@@ -1,6 +1,16 @@
 import { useEffect } from "react";
-import { Package, Calendar, Truck, CreditCard, X, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Package, Calendar, Truck, CreditCard, X, CheckCircle, Clock, XCircle, MapPin, Tag } from "lucide-react";
 import "./OrderDetailsModal.scss";
+
+// Мапа назв служб доставки
+const DELIVERY_METHODS = {
+  nova_poshta: "Нова Пошта",
+  meest: "Meest",
+  ukrposhta: "Укрпошта",
+  delivery: "Delivery",
+  intime: "Ін Тайм",
+  self_pickup: "Самовивіз",
+};
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   // Блокування скролу body коли модальне вікно відкрите
@@ -101,7 +111,18 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                   </div>
                   <div className="order-details-item__info">
                     <h4 className="order-details-item__name">{item.name}</h4>
-                    <p className="order-details-item__size">Розмір: {item.size}</p>
+                    <div className="order-details-item__attributes">
+                      {item.size && (
+                        <span className="order-details-item__attribute">
+                          Розмір: {item.size}
+                        </span>
+                      )}
+                      {item.firmness && (
+                        <span className="order-details-item__attribute">
+                          Жорсткість: {item.firmness}
+                        </span>
+                      )}
+                    </div>
                     <p className="order-details-item__quantity">Кількість: {item.quantity} шт.</p>
                   </div>
                   <div className="order-details-item__price">
@@ -115,9 +136,36 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           {/* Адреса доставки */}
           <div className="order-details-modal__section">
             <h3 className="order-details-modal__section-title">Доставка</h3>
-            <div className="order-details-modal__delivery">
-              <Truck size={18} />
-              <span>{order.deliveryAddress}</span>
+            <div className="order-details-modal__delivery-info">
+              {order.deliveryMethod && (
+                <div className="order-details-modal__delivery-row">
+                  <Truck size={18} />
+                  <span className="order-details-modal__delivery-label">Служба доставки:</span>
+                  <span className="order-details-modal__delivery-value">
+                    {DELIVERY_METHODS[order.deliveryMethod] || order.deliveryMethod}
+                  </span>
+                </div>
+              )}
+              {order.deliveryCity && (
+                <div className="order-details-modal__delivery-row">
+                  <MapPin size={18} />
+                  <span className="order-details-modal__delivery-label">Місто:</span>
+                  <span className="order-details-modal__delivery-value">{order.deliveryCity}</span>
+                </div>
+              )}
+              {order.deliveryWarehouse && (
+                <div className="order-details-modal__delivery-row">
+                  <Package size={18} />
+                  <span className="order-details-modal__delivery-label">Відділення:</span>
+                  <span className="order-details-modal__delivery-value">{order.deliveryWarehouse}</span>
+                </div>
+              )}
+              {!order.deliveryMethod && !order.deliveryCity && (
+                <div className="order-details-modal__delivery-row">
+                  <Truck size={18} />
+                  <span>{order.deliveryAddress || "Не вказано"}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -125,8 +173,19 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           <div className="order-details-modal__summary">
             <div className="order-details-modal__summary-row">
               <span>Сума товарів:</span>
-              <span>{order.total.toLocaleString("uk-UA")} ₴</span>
+              <span>{(order.subtotal || order.total).toLocaleString("uk-UA")} ₴</span>
             </div>
+            {order.promoCode && (
+              <div className="order-details-modal__summary-row order-details-modal__summary-row--promo">
+                <span>
+                  <Tag size={14} />
+                  Промокод "{order.promoCode}":
+                </span>
+                <span className="order-details-modal__discount">
+                  -{(order.discount || 0).toLocaleString("uk-UA")} ₴
+                </span>
+              </div>
+            )}
             <div className="order-details-modal__summary-row">
               <span>Доставка:</span>
               <span>Безкоштовно</span>

@@ -91,14 +91,21 @@ const Profile = () => {
           date: order.created_at,
           status: order.status,
           total: order.total,
+          subtotal: order.subtotal,
+          discount: order.discount,
+          promoCode: order.promo_code,
           items: order.items.map((item) => ({
             id: item.id,
             name: item.title,
-            size: item.size || "Стандартний",
+            size: item.size || null,
+            firmness: item.firmness || null,
             quantity: item.quantity,
             price: item.unit_price,
             image: item.image || "/spring.png",
           })),
+          deliveryMethod: order.delivery_method,
+          deliveryCity: order.delivery_city,
+          deliveryWarehouse: order.delivery_warehouse,
           deliveryAddress: order.delivery_warehouse
             ? `${order.delivery_city}, ${order.delivery_warehouse}`
             : order.delivery_city || "Не вказано",
