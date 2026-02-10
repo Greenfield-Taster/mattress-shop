@@ -7,10 +7,10 @@ const MattressQuiz = ({ onClose }) => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({
+    type: null,
     size: null,
     hardness: null,
     load: null,
-    warranty: null,
   });
   const [isComplete, setIsComplete] = useState(false);
   const [showAllSizes, setShowAllSizes] = useState(false);
@@ -71,7 +71,7 @@ const MattressQuiz = ({ onClose }) => {
     ...allSizes
       .filter((size) => !popularSizes.some((p) => p.value === size))
       .map((size) => {
-        const [width, height] = size.split("х");
+        const [width] = size.split("х");
         let subtitle = "";
         const w = parseInt(width);
 
@@ -97,31 +97,50 @@ const MattressQuiz = ({ onClose }) => {
 
   const steps = [
     {
+      id: "type",
+      title: "Оберіть тип матрацу",
+      options: [
+        { value: "Безпружинні", label: "Безпружинні" },
+        { value: "Пружинні", label: "Пружинні" },
+        { value: "Дитячі", label: "Дитячі" },
+        { value: "Топери", label: "Топери" },
+        { value: "Скручені", label: "Скручені" },
+        { value: "Аксесуари", label: "Аксесуари" },
+      ],
+    },
+    {
       id: "size",
       title: "Оберіть розмір матраца",
-      isSize: true, // Спеціальний прапорець для розмірів
+      isSize: true,
     },
     {
       id: "hardness",
       title: "Яка жорсткість вам потрібна?",
       options: [
         {
-          value: "soft",
-          label: "М'який",
-          subtitle: "Для сну на боці",
-          icon: "🌙",
+          value: "H1",
+          label: "H1 — М'який",
+          subtitle: "Для сну на боці, вага до 60 кг",
         },
         {
-          value: "medium",
-          label: "Середній",
-          subtitle: "Універсальний",
-          icon: "⭐",
+          value: "H2",
+          label: "H2 — Помірно м'який",
+          subtitle: "Комфортна підтримка, вага 50-70 кг",
         },
         {
-          value: "hard",
-          label: "Жорсткий",
-          subtitle: "Для сну на спині",
-          icon: "💪",
+          value: "H3",
+          label: "H3 — Середньої жорсткості",
+          subtitle: "Універсальний, вага 60-90 кг",
+        },
+        {
+          value: "H4",
+          label: "H4 — Жорсткий",
+          subtitle: "При болях у спині, вага 90-120 кг",
+        },
+        {
+          value: "H5",
+          label: "H5 — Дуже жорсткий",
+          subtitle: "Максимальна підтримка, вага 120+ кг",
         },
       ],
     },
@@ -143,32 +162,6 @@ const MattressQuiz = ({ onClose }) => {
           value: "unlimited",
           label: "Без обмеження навантаження",
           subtitle: "Максимальна міцність",
-        },
-      ],
-    },
-    {
-      id: "warranty",
-      title: "Яка гарантія вам важлива?",
-      options: [
-        {
-          value: "1year",
-          label: "1 рік",
-          subtitle: "Базова гарантія",
-        },
-        {
-          value: "3years",
-          label: "3 роки",
-          subtitle: "Стандартна гарантія",
-        },
-        {
-          value: "5years",
-          label: "5 років",
-          subtitle: "Розширена гарантія",
-        },
-        {
-          value: "10years",
-          label: "10 років",
-          subtitle: "Максимальна гарантія",
         },
       ],
     },
@@ -202,9 +195,11 @@ const MattressQuiz = ({ onClose }) => {
   };
 
   const handleViewResults = () => {
-    // Формуємо параметри для каталогу на основі відповідей
     const params = new URLSearchParams();
 
+    if (answers.type) {
+      params.append("types", answers.type);
+    }
     if (answers.size) {
       params.append("sizes", answers.size);
     }
@@ -212,10 +207,12 @@ const MattressQuiz = ({ onClose }) => {
       params.append("hardness", answers.hardness);
     }
     if (answers.load) {
-      params.append("load", answers.load);
-    }
-    if (answers.warranty) {
-      params.append("warranty", answers.warranty);
+      if (answers.load === "light") {
+        params.append("maxWeight", "<=80");
+      } else if (answers.load === "medium") {
+        params.append("maxWeight", "<=150");
+      }
+      // "unlimited" — не додаємо обмеження
     }
 
     navigate(`/catalog?${params.toString()}`);
@@ -225,10 +222,10 @@ const MattressQuiz = ({ onClose }) => {
   const handleRestart = () => {
     setCurrentStep(0);
     setAnswers({
+      type: null,
       size: null,
       hardness: null,
       load: null,
-      warranty: null,
     });
     setIsComplete(false);
     setShowAllSizes(false);
@@ -266,6 +263,13 @@ const MattressQuiz = ({ onClose }) => {
               <h3>Ваш вибір:</h3>
               <ul>
                 <li>
+                  <span>Тип:</span>{" "}
+                  <strong>
+                    {steps[0].options.find((o) => o.value === answers.type)
+                      ?.label || "Не вибрано"}
+                  </strong>
+                </li>
+                <li>
                   <span>Розмір:</span>{" "}
                   <strong>
                     {popularSizes
@@ -277,21 +281,14 @@ const MattressQuiz = ({ onClose }) => {
                 <li>
                   <span>Жорсткість:</span>{" "}
                   <strong>
-                    {steps[1].options.find((o) => o.value === answers.hardness)
+                    {steps[2].options.find((o) => o.value === answers.hardness)
                       ?.label || "Не вибрано"}
                   </strong>
                 </li>
                 <li>
                   <span>Навантаження:</span>{" "}
                   <strong>
-                    {steps[2].options.find((o) => o.value === answers.load)
-                      ?.label || "Не вибрано"}
-                  </strong>
-                </li>
-                <li>
-                  <span>Гарантія:</span>{" "}
-                  <strong>
-                    {steps[3].options.find((o) => o.value === answers.warranty)
+                    {steps[3].options.find((o) => o.value === answers.load)
                       ?.label || "Не вибрано"}
                   </strong>
                 </li>

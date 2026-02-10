@@ -89,6 +89,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
     let count = 0;
 
     if (draft.types?.length > 0) count += draft.types.length;
+    if (draft.hardness?.length > 0) count += draft.hardness.length;
     if (draft.sizes?.length > 0) count += draft.sizes.length;
     if (draft.blockTypes?.length > 0) count += draft.blockTypes.length;
     if (draft.fillers?.length > 0) count += draft.fillers.length;
@@ -109,6 +110,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
     const cleared = {
       types: [],
       sizes: [],
+      hardness: [],
       blockTypes: [],
       fillers: [],
       covers: [],
@@ -177,6 +179,28 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
               }
               color={draft.types?.includes(type) ? "primary" : "default"}
               variant={draft.types?.includes(type) ? "filled" : "outlined"}
+              className="filter-chip"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Жорсткість - CHIPS */}
+      <div className="filter-section">
+        <h3 className="filter-section__title">Жорсткість</h3>
+        <div className="filter-section__chips">
+          {filterOptions.hardness.map((h) => (
+            <Chip
+              key={h}
+              label={h}
+              onClick={() => handleArrayToggle("hardness", h)}
+              onDelete={
+                draft.hardness?.includes(h)
+                  ? () => handleArrayToggle("hardness", h)
+                  : undefined
+              }
+              color={draft.hardness?.includes(h) ? "primary" : "default"}
+              variant={draft.hardness?.includes(h) ? "filled" : "outlined"}
               className="filter-chip"
             />
           ))}

@@ -18,6 +18,7 @@ const Catalog = () => {
     const params = {
       types: searchParams.get("types")?.split(",").filter(Boolean) || [],
       sizes: searchParams.get("sizes")?.split(",").filter(Boolean) || [],
+      hardness: searchParams.get("hardness")?.split(",").filter(Boolean) || [],
       blockTypes:
         searchParams.get("blockTypes")?.split(",").filter(Boolean) || [],
       fillers: searchParams.get("fillers")?.split(",").filter(Boolean) || [],
@@ -146,6 +147,7 @@ const Catalog = () => {
       "Скручені",
       "Аксесуари",
     ],
+    hardness: ["H1", "H2", "H3", "H4", "H5"],
     sizes: [
       // King Size XL
       "200х200",
