@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { CartContext } from "./CartContext";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
-const API_KEY = "pk_b11088232151fd94ff6c53ffb32616379865f9e7e90ffa27c8828d30f55ba98f";
+const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;
 
 const CART_STORAGE_KEY = "cart";
 const PROMO_STORAGE_KEY = "cart_promo";
