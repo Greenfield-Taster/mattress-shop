@@ -77,7 +77,9 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     }
   };
 
-  const handlePromoSubmit = (e) => {
+  const [promoLoading, setPromoLoading] = useState(false);
+
+  const handlePromoSubmit = async (e) => {
     e.preventDefault();
 
     if (!promoInput.trim()) {
@@ -85,7 +87,10 @@ const CartSidePanel = ({ isOpen, onClose }) => {
       return;
     }
 
-    const result = applyPromoCode(promoInput);
+    setPromoLoading(true);
+    const result = await applyPromoCode(promoInput);
+    setPromoLoading(false);
+
     setPromoMessage({
       text: result.message,
       type: result.success ? "success" : "error",
@@ -256,9 +261,9 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                     <button
                       type="submit"
                       className="cart-side-panel__promo-button"
-                      disabled={promoInput.length !== 6}
+                      disabled={promoInput.length !== 6 || promoLoading}
                     >
-                      Застосувати
+                      {promoLoading ? "Перевірка..." : "Застосувати"}
                     </button>
                   </form>
                 ) : (
