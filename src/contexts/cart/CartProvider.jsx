@@ -1,18 +1,35 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { CartContext } from "./CartContext";
 
-const PROMO_CODES = {
-  SAVE10: { discount: 10, type: "percentage" },
-  SAVE20: { discount: 20, type: "percentage" },
-  NEW100: { discount: 100, type: "fixed" },
-  BEST50: { discount: 50, type: "percentage" },
-  GIFT15: { discount: 15, type: "percentage" },
-  VIP500: { discount: 500, type: "fixed" },
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+
+const CART_STORAGE_KEY = "cart";
+const PROMO_STORAGE_KEY = "cart_promo";
+
+const loadFromStorage = (key, fallback) => {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : fallback;
+  } catch {
+    return fallback;
+  }
 };
 
 export const CartProvider = ({ children, currency = "₴" }) => {
-  const [items, setItems] = useState([]);
-  const [promoCode, setPromoCode] = useState(null);
+  const [items, setItems] = useState(() => loadFromStorage(CART_STORAGE_KEY, []));
+  const [promoCode, setPromoCode] = useState(() => loadFromStorage(PROMO_STORAGE_KEY, null));
+
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
+
+  useEffect(() => {
+    if (promoCode) {
+      localStorage.setItem(PROMO_STORAGE_KEY, JSON.stringify(promoCode));
+    } else {
+      localStorage.removeItem(PROMO_STORAGE_KEY);
+    }
+  }, [promoCode]);
 
   const addItem = useCallback((item) => {
     setItems((prev) => {
@@ -71,14 +88,44 @@ export const CartProvider = ({ children, currency = "₴" }) => {
     setPromoCode(null);
   }, []);
 
-  const applyPromoCode = useCallback((code) => {
-    const promo = PROMO_CODES[code.toUpperCase()];
-    if (promo) {
-      setPromoCode({ code: code.toUpperCase(), ...promo });
-      return { success: true, message: "" };
+  const applyPromoCode = useCallback(async (code) => {
+    try {
+      const subtotal = items.reduce(
+        (sum, item) => sum + item.price * item.qty,
+        0
+      );
+
+      const response = await fetch(`${API_BASE_URL}/store/promo-codes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: code.trim().toUpperCase(),
+          order_amount: subtotal,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.valid) {
+        setPromoCode({
+          code: data.code,
+          discount: data.discount_value,
+          type: data.discount_type,
+        });
+        return { success: true, message: data.message || "" };
+      }
+
+      return {
+        success: false,
+        message: data.message || "Невірний промокод. Спробуйте інший.",
+      };
+    } catch {
+      return {
+        success: false,
+        message: "Помилка перевірки промокоду. Спробуйте пізніше.",
+      };
     }
-    return { success: false, message: "Невірний промокод. Спробуйте інший." };
-  }, []);
+  }, [items]);
 
   const removePromoCode = useCallback(() => {
     setPromoCode(null);
@@ -93,7 +140,7 @@ export const CartProvider = ({ children, currency = "₴" }) => {
     let discount = 0;
     if (promoCode) {
       if (promoCode.type === "percentage") {
-        discount = (subtotal * promoCode.discount) / 100;
+        discount = Math.round((subtotal * promoCode.discount) / 100);
       } else {
         discount = promoCode.discount;
       }
