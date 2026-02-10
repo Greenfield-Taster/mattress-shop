@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
-import { TYPE_LABELS, HARDNESS_LABELS, t } from "../../utils/productLabels";
+import { TYPE_LABELS, t } from "../../utils/productLabels";
 import "./ProductCard.scss";
 
 // Нормалізує розмір для порівняння (замінює різні варіанти "x" на кириличний "х")
@@ -123,7 +123,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
               <span className="product-card__separator" aria-hidden="true">
                 •
               </span>
-              <span className="product-card__spec">{t(HARDNESS_LABELS, hardness)}</span>
+              <span className="product-card__spec">{hardness}</span>
             </>
           )}
         </div>
