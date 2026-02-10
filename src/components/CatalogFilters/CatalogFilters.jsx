@@ -167,21 +167,25 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
         <div className="filter-section">
         <h3 className="filter-section__title">Тип матрацу</h3>
         <div className="filter-section__chips">
-          {filterOptions.types.map((type) => (
-            <Chip
-              key={type}
-              label={type}
-              onClick={() => handleArrayToggle("types", type)}
-              onDelete={
-                draft.types?.includes(type)
-                  ? () => handleArrayToggle("types", type)
-                  : undefined
-              }
-              color={draft.types?.includes(type) ? "primary" : "default"}
-              variant={draft.types?.includes(type) ? "filled" : "outlined"}
-              className="filter-chip"
-            />
-          ))}
+          {filterOptions.types.map((type) => {
+            const value = type.value || type;
+            const label = type.label || type;
+            return (
+              <Chip
+                key={value}
+                label={label}
+                onClick={() => handleArrayToggle("types", value)}
+                onDelete={
+                  draft.types?.includes(value)
+                    ? () => handleArrayToggle("types", value)
+                    : undefined
+                }
+                color={draft.types?.includes(value) ? "primary" : "default"}
+                variant={draft.types?.includes(value) ? "filled" : "outlined"}
+                className="filter-chip"
+              />
+            );
+          })}
         </div>
       </div>
 

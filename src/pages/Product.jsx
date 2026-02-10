@@ -8,6 +8,15 @@ import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
 import "../styles/pages/_product.scss";
 
+const TYPE_LABELS = {
+  springless: "Безпружинні",
+  spring: "Пружинні",
+  children: "Дитячі",
+  topper: "Топери",
+  rolled: "Скручені",
+  accessories: "Аксесуари",
+};
+
 import {
   ChevronDown,
   ChevronUp,
@@ -653,7 +662,7 @@ const Product = () => {
                     <div className="characteristic-item">
                       <span className="characteristic-item__label">Тип:</span>
                       <span className="characteristic-item__value">
-                        {product.type}
+                        {TYPE_LABELS[product.type] || product.type}
                       </span>
                     </div>
                     <div className="characteristic-item">

@@ -140,12 +140,12 @@ const Catalog = () => {
 
   const filterOptions = {
     types: [
-      "Безпружинні",
-      "Пружинні",
-      "Дитячі",
-      "Топери",
-      "Скручені",
-      "Аксесуари",
+      { value: "springless", label: "Безпружинні" },
+      { value: "spring", label: "Пружинні" },
+      { value: "children", label: "Дитячі" },
+      { value: "topper", label: "Топери" },
+      { value: "rolled", label: "Скручені" },
+      { value: "accessories", label: "Аксесуари" },
     ],
     hardness: ["H1", "H2", "H3", "H4", "H5"],
     sizes: [
