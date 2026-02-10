@@ -751,3 +751,174 @@
     gap: v.$spacing-2;
   }
 }
+
+// ========================================
+// PRICE STEP
+// ========================================
+
+.mattress-quiz__price-step {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-5;
+  }
+}
+
+.mattress-quiz__price-presets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: v.$spacing-3;
+
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-2;
+  }
+}
+
+.mattress-quiz__price-preset {
+  padding: v.$spacing-4 v.$spacing-3;
+  background: v.$neutral-50;
+  border: 2px solid v.$neutral-200;
+  border-radius: v.$radius-lg;
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  color: v.$neutral-700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+
+  &:hover {
+    border-color: v.$brand-primary-300;
+    background: v.$neutral-0;
+    transform: translateY(-2px);
+    box-shadow: v.$shadow-sm;
+  }
+
+  &--active {
+    border-color: v.$brand-primary-500;
+    background: v.$brand-primary-50;
+    color: v.$brand-primary-700;
+    box-shadow: v.$shadow-sm;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-3 v.$spacing-2;
+    font-size: v.$font-size-xs;
+  }
+}
+
+.mattress-quiz__price-slider {
+  padding: v.$spacing-2 v.$spacing-1;
+}
+
+.quiz-price-slider {
+  .rc-slider-track {
+    background: v.$brand-primary-500 !important;
+    height: 6px !important;
+  }
+
+  .rc-slider-rail {
+    background: v.$neutral-200 !important;
+    height: 6px !important;
+  }
+
+  .rc-slider-handle {
+    width: 22px !important;
+    height: 22px !important;
+    background: v.$brand-primary-500 !important;
+    border: 3px solid v.$neutral-0 !important;
+    box-shadow: v.$shadow-sm !important;
+    margin-top: -8px !important;
+    opacity: 1 !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: 0 0 0 4px rgba(v.$brand-primary-500, 0.15) !important;
+    }
+
+    &-dragging {
+      box-shadow: 0 0 0 4px rgba(v.$brand-primary-500, 0.25) !important;
+    }
+  }
+}
+
+.mattress-quiz__price-inputs {
+  display: flex;
+  align-items: flex-end;
+  gap: v.$spacing-3;
+  justify-content: center;
+
+  @media (max-width: v.$breakpoint-sm) {
+    gap: v.$spacing-2;
+  }
+}
+
+.mattress-quiz__price-field {
+  flex: 1;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-1;
+}
+
+.mattress-quiz__price-field-label {
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
+  color: v.$neutral-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mattress-quiz__price-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: v.$neutral-50;
+  border: 2px solid v.$neutral-200;
+  border-radius: v.$radius-base;
+  padding: v.$spacing-3 v.$spacing-3;
+  transition: border-color 0.2s ease;
+
+  &:focus-within {
+    border-color: v.$brand-primary-400;
+    background: v.$neutral-0;
+  }
+}
+
+.mattress-quiz__price-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: v.$neutral-800;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+
+  &::placeholder {
+    color: v.$neutral-400;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-sm;
+  }
+}
+
+.mattress-quiz__price-currency {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$neutral-400;
+  margin-left: v.$spacing-2;
+  flex-shrink: 0;
+}
+
+.mattress-quiz__price-divider {
+  font-size: v.$font-size-lg;
+  color: v.$neutral-400;
+  padding-bottom: v.$spacing-2;
+  flex-shrink: 0;
+}

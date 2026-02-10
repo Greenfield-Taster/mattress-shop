@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 import "./MattressQuiz.scss";
 
 const MattressQuiz = ({ onClose }) => {
@@ -11,9 +13,12 @@ const MattressQuiz = ({ onClose }) => {
     size: null,
     hardness: null,
     load: null,
+    price: null,
   });
   const [isComplete, setIsComplete] = useState(false);
   const [showAllSizes, setShowAllSizes] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 50000]);
+  const [activePricePreset, setActivePricePreset] = useState(null);
 
   // Розміри з каталогу, розділені на категорії
   const allSizes = [
@@ -165,6 +170,18 @@ const MattressQuiz = ({ onClose }) => {
         },
       ],
     },
+    {
+      id: "price",
+      title: "Ваш бюджет",
+      isPrice: true,
+    },
+  ];
+
+  const pricePresets = [
+    { label: "До 5 000", min: 0, max: 5000 },
+    { label: "5 000 — 10 000", min: 5000, max: 10000 },
+    { label: "10 000 — 20 000", min: 10000, max: 20000 },
+    { label: "20 000+", min: 20000, max: 50000 },
   ];
 
   const handleSelectOption = (stepId, value) => {
@@ -185,6 +202,33 @@ const MattressQuiz = ({ onClose }) => {
         setIsComplete(true);
       }, 300);
     }
+  };
+
+  const handlePriceRangeChange = (value) => {
+    setPriceRange(value);
+    setActivePricePreset(null);
+  };
+
+  const handlePricePreset = (preset, index) => {
+    setPriceRange([preset.min, preset.max]);
+    setActivePricePreset(index);
+  };
+
+  const handlePriceInputChange = (index, value) => {
+    if (value !== "" && !/^\d+$/.test(value)) return;
+    const numValue = value === "" ? 0 : parseInt(value);
+    const newRange = [...priceRange];
+    newRange[index] = numValue;
+    setPriceRange(newRange);
+    setActivePricePreset(null);
+  };
+
+  const handlePriceConfirm = () => {
+    const priceValue = `${priceRange[0]}-${priceRange[1]}`;
+    setAnswers((prev) => ({ ...prev, price: priceValue }));
+    setTimeout(() => {
+      setIsComplete(true);
+    }, 300);
   };
 
   const handleBack = () => {
@@ -212,7 +256,9 @@ const MattressQuiz = ({ onClose }) => {
       } else if (answers.load === "medium") {
         params.append("maxWeight", "<=150");
       }
-      // "unlimited" — не додаємо обмеження
+    }
+    if (answers.price && answers.price !== "0-50000") {
+      params.append("price", answers.price);
     }
 
     navigate(`/catalog?${params.toString()}`);
@@ -226,9 +272,12 @@ const MattressQuiz = ({ onClose }) => {
       size: null,
       hardness: null,
       load: null,
+      price: null,
     });
     setIsComplete(false);
     setShowAllSizes(false);
+    setPriceRange([0, 50000]);
+    setActivePricePreset(null);
   };
 
   const progress = ((currentStep + 1) / steps.length) * 100;
@@ -292,6 +341,14 @@ const MattressQuiz = ({ onClose }) => {
                       ?.label || "Не вибрано"}
                   </strong>
                 </li>
+                <li>
+                  <span>Бюджет:</span>{" "}
+                  <strong>
+                    {answers.price
+                      ? `${parseInt(answers.price.split("-")[0]).toLocaleString("uk-UA")} — ${parseInt(answers.price.split("-")[1]).toLocaleString("uk-UA")} грн`
+                      : "Не вибрано"}
+                  </strong>
+                </li>
               </ul>
             </div>
 
@@ -350,7 +407,72 @@ const MattressQuiz = ({ onClose }) => {
         <div className="mattress-quiz__content">
           <h2 className="mattress-quiz__title">{currentStepData.title}</h2>
 
-          {currentStepData.isSize ? (
+          {currentStepData.isPrice ? (
+            <div className="mattress-quiz__price-step">
+              <div className="mattress-quiz__price-presets">
+                {pricePresets.map((preset, idx) => (
+                  <button
+                    key={idx}
+                    className={`mattress-quiz__price-preset ${
+                      activePricePreset === idx ? "mattress-quiz__price-preset--active" : ""
+                    }`}
+                    onClick={() => handlePricePreset(preset, idx)}
+                  >
+                    {preset.label} грн
+                  </button>
+                ))}
+              </div>
+
+              <div className="mattress-quiz__price-slider">
+                <Slider
+                  range
+                  min={0}
+                  max={50000}
+                  step={500}
+                  value={priceRange}
+                  onChange={handlePriceRangeChange}
+                  className="quiz-price-slider"
+                />
+              </div>
+
+              <div className="mattress-quiz__price-inputs">
+                <div className="mattress-quiz__price-field">
+                  <span className="mattress-quiz__price-field-label">Від</span>
+                  <div className="mattress-quiz__price-input-wrapper">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={priceRange[0]}
+                      onChange={(e) => handlePriceInputChange(0, e.target.value)}
+                      className="mattress-quiz__price-input"
+                    />
+                    <span className="mattress-quiz__price-currency">грн</span>
+                  </div>
+                </div>
+                <div className="mattress-quiz__price-divider">—</div>
+                <div className="mattress-quiz__price-field">
+                  <span className="mattress-quiz__price-field-label">До</span>
+                  <div className="mattress-quiz__price-input-wrapper">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={priceRange[1]}
+                      onChange={(e) => handlePriceInputChange(1, e.target.value)}
+                      className="mattress-quiz__price-input"
+                    />
+                    <span className="mattress-quiz__price-currency">грн</span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                className="mattress-quiz__button mattress-quiz__button--primary"
+                onClick={handlePriceConfirm}
+              >
+                Підтвердити бюджет
+              </button>
+            </div>
+          ) : currentStepData.isSize ? (
             <div className="mattress-quiz__sizes">
               <div className="mattress-quiz__options mattress-quiz__options--sizes">
                 {popularSizes.map((option) => (
