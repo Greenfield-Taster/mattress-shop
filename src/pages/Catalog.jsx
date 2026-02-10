@@ -147,7 +147,13 @@ const Catalog = () => {
       { value: "rolled", label: "Скручені" },
       { value: "accessories", label: "Аксесуари" },
     ],
-    hardness: ["H1", "H2", "H3", "H4", "H5"],
+    hardness: [
+      { value: "H1", label: "H1 (м'який)" },
+      { value: "H2", label: "H2 (помірно м'який)" },
+      { value: "H3", label: "H3 (середній)" },
+      { value: "H4", label: "H4 (жорсткий)" },
+      { value: "H5", label: "H5 (дуже жорсткий)" },
+    ],
     sizes: [
       // King Size XL
       "200х200",
@@ -187,14 +193,21 @@ const Catalog = () => {
       // Нестандартний
       "нестандартний розмір",
     ],
-    blockTypes: ["Безпружинний", "Незалежний пружинний блок"],
-    fillers: [
-      "Латекс",
-      "Латексована піна",
-      "Піна з пам'яттю",
-      "Кокосове полотно",
+    blockTypes: [
+      { value: "independent_spring", label: "Незалежний пружинний блок" },
+      { value: "bonnel_spring", label: "Залежний пружинний блок (Bonnel)" },
+      { value: "springless", label: "Безпружинний" },
     ],
-    covers: ["Знімний", "Незнімний"],
+    fillers: [
+      { value: "latex", label: "Латекс" },
+      { value: "latex_foam", label: "Латексована піна" },
+      { value: "memory_foam", label: "Піна з пам'яттю" },
+      { value: "coconut", label: "Кокосове полотно" },
+    ],
+    covers: [
+      { value: "removable", label: "Знімний" },
+      { value: "non_removable", label: "Незнімний" },
+    ],
   };
 
   const totalPages = Math.ceil(total / params.limit);

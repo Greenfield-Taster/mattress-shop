@@ -6,16 +6,8 @@ import ProductGallery from "../components/ProductGallery/ProductGallery";
 import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
+import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
 import "../styles/pages/_product.scss";
-
-const TYPE_LABELS = {
-  springless: "Безпружинні",
-  spring: "Пружинні",
-  children: "Дитячі",
-  topper: "Топери",
-  rolled: "Скручені",
-  accessories: "Аксесуари",
-};
 
 import {
   ChevronDown,
@@ -400,13 +392,13 @@ const Product = () => {
 
               <div className="product-info__features">
                 <span className="product-info__feature">
-                  {product.blockType}
+                  {t(BLOCK_TYPE_LABELS, product.blockType)}
                 </span>
                 <span className="product-info__separator" aria-hidden="true">
                   •
                 </span>
                 <span className="product-info__feature">
-                  {product.hardness}
+                  {t(HARDNESS_LABELS, product.hardness)}
                 </span>
                 {product.cover && (
                   <>
@@ -417,7 +409,7 @@ const Product = () => {
                       •
                     </span>
                     <span className="product-info__feature">
-                      {product.cover} чохол
+                      {t(COVER_TYPE_LABELS, product.cover)} чохол
                     </span>
                   </>
                 )}
@@ -678,22 +670,22 @@ const Product = () => {
                         Жорсткість:
                       </span>
                       <span className="characteristic-item__value">
-                        {product.hardness}
+                        {t(HARDNESS_LABELS, product.hardness)}
                       </span>
                     </div>
                     <div className="characteristic-item">
                       <span className="characteristic-item__label">Блок:</span>
                       <span className="characteristic-item__value">
-                        {product.blockType}
+                        {t(BLOCK_TYPE_LABELS, product.blockType)}
                       </span>
                     </div>
-                    {product.fillers && (
+                    {product.fillers?.length > 0 && (
                       <div className="characteristic-item">
                         <span className="characteristic-item__label">
                           Наповнювачі:
                         </span>
                         <span className="characteristic-item__value">
-                          {product.fillers.join(", ")}
+                          {product.fillers.map(f => t(FILLER_LABELS, f)).join(", ")}
                         </span>
                       </div>
                     )}
@@ -703,7 +695,7 @@ const Product = () => {
                           Чохол:
                         </span>
                         <span className="characteristic-item__value">
-                          {product.cover}
+                          {t(COVER_TYPE_LABELS, product.cover)}
                         </span>
                       </div>
                     )}

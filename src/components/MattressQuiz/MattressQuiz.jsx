@@ -100,12 +100,12 @@ const MattressQuiz = ({ onClose }) => {
       id: "type",
       title: "Оберіть тип матрацу",
       options: [
-        { value: "Безпружинні", label: "Безпружинні" },
-        { value: "Пружинні", label: "Пружинні" },
-        { value: "Дитячі", label: "Дитячі" },
-        { value: "Топери", label: "Топери" },
-        { value: "Скручені", label: "Скручені" },
-        { value: "Аксесуари", label: "Аксесуари" },
+        { value: "springless", label: "Безпружинні" },
+        { value: "spring", label: "Пружинні" },
+        { value: "children", label: "Дитячі" },
+        { value: "topper", label: "Топери" },
+        { value: "rolled", label: "Скручені" },
+        { value: "accessories", label: "Аксесуари" },
       ],
     },
     {

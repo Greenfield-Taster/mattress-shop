@@ -193,21 +193,25 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       <div className="filter-section">
         <h3 className="filter-section__title">Жорсткість</h3>
         <div className="filter-section__chips">
-          {filterOptions.hardness.map((h) => (
-            <Chip
-              key={h}
-              label={h}
-              onClick={() => handleArrayToggle("hardness", h)}
-              onDelete={
-                draft.hardness?.includes(h)
-                  ? () => handleArrayToggle("hardness", h)
-                  : undefined
-              }
-              color={draft.hardness?.includes(h) ? "primary" : "default"}
-              variant={draft.hardness?.includes(h) ? "filled" : "outlined"}
-              className="filter-chip"
-            />
-          ))}
+          {filterOptions.hardness.map((h) => {
+            const value = h.value || h;
+            const label = h.label || h;
+            return (
+              <Chip
+                key={value}
+                label={label}
+                onClick={() => handleArrayToggle("hardness", value)}
+                onDelete={
+                  draft.hardness?.includes(value)
+                    ? () => handleArrayToggle("hardness", value)
+                    : undefined
+                }
+                color={draft.hardness?.includes(value) ? "primary" : "default"}
+                variant={draft.hardness?.includes(value) ? "filled" : "outlined"}
+                className="filter-chip"
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -259,17 +263,21 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       <div className="filter-section">
         <h3 className="filter-section__title">Тип блоку</h3>
         <div className="filter-section__checkboxes">
-          {filterOptions.blockTypes.map((type) => (
-            <label key={type} className="filter-checkbox">
-              <input
-                type="checkbox"
-                checked={draft.blockTypes?.includes(type) || false}
-                onChange={() => handleArrayToggle("blockTypes", type)}
-              />
-              <span className="filter-checkbox__checkmark"></span>
-              <span className="filter-checkbox__label">{type}</span>
-            </label>
-          ))}
+          {filterOptions.blockTypes.map((bt) => {
+            const value = bt.value || bt;
+            const label = bt.label || bt;
+            return (
+              <label key={value} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={draft.blockTypes?.includes(value) || false}
+                  onChange={() => handleArrayToggle("blockTypes", value)}
+                />
+                <span className="filter-checkbox__checkmark"></span>
+                <span className="filter-checkbox__label">{label}</span>
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -277,17 +285,21 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       <div className="filter-section">
         <h3 className="filter-section__title">Наповнювачі</h3>
         <div className="filter-section__checkboxes">
-          {filterOptions.fillers.map((filler) => (
-            <label key={filler} className="filter-checkbox">
-              <input
-                type="checkbox"
-                checked={draft.fillers?.includes(filler) || false}
-                onChange={() => handleArrayToggle("fillers", filler)}
-              />
-              <span className="filter-checkbox__checkmark"></span>
-              <span className="filter-checkbox__label">{filler}</span>
-            </label>
-          ))}
+          {filterOptions.fillers.map((fl) => {
+            const value = fl.value || fl;
+            const label = fl.label || fl;
+            return (
+              <label key={value} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={draft.fillers?.includes(value) || false}
+                  onChange={() => handleArrayToggle("fillers", value)}
+                />
+                <span className="filter-checkbox__checkmark"></span>
+                <span className="filter-checkbox__label">{label}</span>
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -295,21 +307,25 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       <div className="filter-section">
         <h3 className="filter-section__title">Чохол</h3>
         <div className="filter-section__chips">
-          {filterOptions.covers.map((cover) => (
-            <Chip
-              key={cover}
-              label={cover}
-              onClick={() => handleArrayToggle("covers", cover)}
-              onDelete={
-                draft.covers?.includes(cover)
-                  ? () => handleArrayToggle("covers", cover)
-                  : undefined
-              }
-              color={draft.covers?.includes(cover) ? "primary" : "default"}
-              variant={draft.covers?.includes(cover) ? "filled" : "outlined"}
-              className="filter-chip"
-            />
-          ))}
+          {filterOptions.covers.map((cv) => {
+            const value = cv.value || cv;
+            const label = cv.label || cv;
+            return (
+              <Chip
+                key={value}
+                label={label}
+                onClick={() => handleArrayToggle("covers", value)}
+                onDelete={
+                  draft.covers?.includes(value)
+                    ? () => handleArrayToggle("covers", value)
+                    : undefined
+                }
+                color={draft.covers?.includes(value) ? "primary" : "default"}
+                variant={draft.covers?.includes(value) ? "filled" : "outlined"}
+                className="filter-chip"
+              />
+            );
+          })}
         </div>
       </div>
 
