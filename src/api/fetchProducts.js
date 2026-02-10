@@ -73,6 +73,7 @@ export const fetchProducts = async (params) => {
     total: data.total || 0,
     page: data.page || 1,
     limit: data.limit || 12,
+    maxPrice: data.maxPrice || 50000,
   };
 };
 

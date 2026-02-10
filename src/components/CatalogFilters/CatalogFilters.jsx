@@ -5,19 +5,20 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./CatalogFilters.scss";
 
-const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions }) => {
+const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, maxPrice: dynamicMaxPrice }) => {
+  const MAX_PRICE = dynamicMaxPrice || 50000;
   const [draft, setDraft] = useState(params);
 
   // Локальний стан для текстових полів ціни
   const [priceInputs, setPriceInputs] = useState(() => {
-    const range = params.price ? params.price.split("-").map(Number) : [0, 50000];
+    const range = params.price ? params.price.split("-").map(Number) : [0, MAX_PRICE];
     return { min: String(range[0]), max: String(range[1]) };
   });
 
   // Синхронізуємо draft з params, коли змінюється ззовні
   useEffect(() => {
     setDraft(params);
-    const range = params.price ? params.price.split("-").map(Number) : [0, 50000];
+    const range = params.price ? params.price.split("-").map(Number) : [0, MAX_PRICE];
     setPriceInputs({ min: String(range[0]), max: String(range[1]) });
   }, [params]);
 
@@ -63,9 +64,9 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
     }));
 
     // Оновлюємо draft тільки якщо значення валідне
-    const numValue = value === "" ? (field === "min" ? 0 : 50000) : parseInt(value);
+    const numValue = value === "" ? (field === "min" ? 0 : MAX_PRICE) : parseInt(value);
     const currentMin = field === "min" ? numValue : (priceInputs.min === "" ? 0 : parseInt(priceInputs.min));
-    const currentMax = field === "max" ? numValue : (priceInputs.max === "" ? 50000 : parseInt(priceInputs.max));
+    const currentMax = field === "max" ? numValue : (priceInputs.max === "" ? MAX_PRICE : parseInt(priceInputs.max));
 
     setDraft((prev) => ({
       ...prev,
@@ -76,7 +77,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
   const handlePriceInputBlur = (field) => {
     // При втраті фокуса, якщо поле порожнє, встановлюємо дефолтне значення
     if (priceInputs[field] === "") {
-      const defaultValue = field === "min" ? "0" : "50000";
+      const defaultValue = field === "min" ? "0" : String(MAX_PRICE);
       setPriceInputs((prev) => ({
         ...prev,
         [field]: defaultValue,
@@ -95,7 +96,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
     if (draft.fillers?.length > 0) count += draft.fillers.length;
     if (draft.covers?.length > 0) count += draft.covers.length;
     if (draft.height && draft.height !== "3-45") count++;
-    if (draft.price && draft.price !== "0-50000") count++;
+    if (draft.price && draft.price !== `0-${MAX_PRICE}`) count++;
     if (draft.maxWeight && draft.maxWeight !== "<=250") count++;
 
     return count;
@@ -116,13 +117,13 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
       covers: [],
       height: "3-45",
       maxWeight: "<=250",
-      price: "0-50000",
+      price: `0-${MAX_PRICE}`,
       sort: "default",
       page: 1,
       limit: 12,
     };
     setDraft(cleared);
-    setPriceInputs({ min: "0", max: "50000" });
+    setPriceInputs({ min: "0", max: String(MAX_PRICE) });
     onClearAll();
   };
 
@@ -132,7 +133,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
     : [3, 45];
   const priceRange = draft.price
     ? draft.price.split("-").map(Number)
-    : [0, 50000];
+    : [0, MAX_PRICE];
   const maxWeightValue = draft.maxWeight
     ? parseInt(draft.maxWeight.replace("<=", ""))
     : 250;
@@ -357,7 +358,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
           <Slider
             range
             min={0}
-            max={50000}
+            max={MAX_PRICE}
             step={500}
             value={priceRange}
             onChange={(value) => handleSliderChange("price", value)}
@@ -365,7 +366,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
           />
           <div className="filter-section__slider-labels">
             <span>0 грн</span>
-            <span>50 000 грн</span>
+            <span>{MAX_PRICE.toLocaleString("uk-UA")} грн</span>
           </div>
         </div>
 
@@ -394,7 +395,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions })
               <input
                 type="text"
                 inputMode="numeric"
-                placeholder="50000"
+                placeholder={String(MAX_PRICE)}
                 value={priceInputs.max}
                 onChange={(e) => handlePriceInputChange("max", e.target.value)}
                 onBlur={() => handlePriceInputBlur("max")}

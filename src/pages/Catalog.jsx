@@ -11,6 +11,7 @@ const Catalog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(50000);
   const [loading, setLoading] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -43,6 +44,7 @@ const Catalog = () => {
         const result = await fetchProducts(params);
         setProducts(result.items);
         setTotal(result.total);
+        if (result.maxPrice > 0) setMaxPrice(result.maxPrice);
       } catch (error) {
         console.error("Error loading products:", error);
         // 🔄 НА СЕРВЕРІ: Додати обробку помилок (toast, notification)
@@ -82,7 +84,7 @@ const Catalog = () => {
         else if (
           (key === "height" && value === "3-45") ||
           (key === "maxWeight" && value === "<=250") ||
-          (key === "price" && value === "0-50000") ||
+          (key === "price" && (value === `0-${maxPrice}` || value === "0-50000")) ||
           (key === "sort" && value === "default") ||
           (key === "page" && value === 1) ||
           (key === "limit" && value === 12)
@@ -245,6 +247,7 @@ const Catalog = () => {
             <div className="catalog__filters-panel">
               <CatalogFilters
                 params={params}
+                maxPrice={maxPrice}
                 onApply={(filters) => {
                   handleApplyFilters(filters);
                   setFiltersOpen(false);
