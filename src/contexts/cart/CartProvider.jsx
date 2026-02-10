@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { CartContext } from "./CartContext";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+const API_KEY = "pk_b11088232151fd94ff6c53ffb32616379865f9e7e90ffa27c8828d30f55ba98f";
 
 const CART_STORAGE_KEY = "cart";
 const PROMO_STORAGE_KEY = "cart_promo";
@@ -97,7 +98,10 @@ export const CartProvider = ({ children, currency = "₴" }) => {
 
       const response = await fetch(`${API_BASE_URL}/store/promo-codes`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-publishable-api-key": API_KEY,
+        },
         body: JSON.stringify({
           code: code.trim().toUpperCase(),
           order_amount: subtotal,
