@@ -22,6 +22,21 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     setPriceInputs({ min: String(range[0]), max: String(range[1]) });
   }, [params]);
 
+  // Коригуємо ціну при зміні динамічного максимуму з API
+  useEffect(() => {
+    if (!dynamicMaxPrice) return;
+    setDraft((prev) => {
+      const [min, max] = prev.price ? prev.price.split("-").map(Number) : [0, MAX_PRICE];
+      const clampedMax = Math.min(max, MAX_PRICE);
+      return { ...prev, price: `${min}-${clampedMax}` };
+    });
+    setPriceInputs((prev) => {
+      const max = parseInt(prev.max) || MAX_PRICE;
+      const clampedMax = Math.min(max, MAX_PRICE);
+      return { ...prev, max: String(clampedMax) };
+    });
+  }, [dynamicMaxPrice]);
+
   // Обробник для checkbox-фільтрів (множинний вибір)
   const handleArrayToggle = (key, value) => {
     setDraft((prev) => {

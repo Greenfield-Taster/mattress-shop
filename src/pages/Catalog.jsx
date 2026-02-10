@@ -26,7 +26,7 @@ const Catalog = () => {
       covers: searchParams.get("covers")?.split(",").filter(Boolean) || [],
       height: searchParams.get("height") || "3-45",
       maxWeight: searchParams.get("maxWeight") || "<=250",
-      price: searchParams.get("price") || "0-50000",
+      price: searchParams.get("price") || `0-${maxPrice}`,
       sort: searchParams.get("sort") || "default",
       page: parseInt(searchParams.get("page")) || 1,
       limit: parseInt(searchParams.get("limit")) || 12,
