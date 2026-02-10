@@ -142,14 +142,10 @@ const Header = () => {
               <button
                 onClick={handleAuthClick}
                 className="btn btn-primary btn-sm"
-                title={
-                  isAuthenticated
-                    ? `Профіль${user?.name ? ": " + user.name : ""}`
-                    : "Увійти"
-                }
+                title={isAuthenticated ? "Профіль" : "Увійти"}
               >
                 <User size={16} />
-                {isAuthenticated ? user?.name || "Профіль" : "Вхід"}
+                {!isAuthenticated && "Вхід"}
               </button>
             </div>
 
@@ -220,7 +216,7 @@ const Header = () => {
                   }}
                 >
                   <User size={16} />
-                  {isAuthenticated ? user?.name || "Профіль" : "Вхід"}
+                  {!isAuthenticated && "Вхід"}
                 </button>
               </div>
             </nav>
