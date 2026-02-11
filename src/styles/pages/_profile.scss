@@ -359,6 +359,7 @@
   }
 }
 
+.profile-loading,
 .profile-orders-empty,
 .profile-orders-loading,
 .profile-orders-error {
@@ -394,6 +395,7 @@
   }
 }
 
+.profile-loading,
 .profile-orders-loading {
   .spinner {
     animation: spin 1s linear infinite;

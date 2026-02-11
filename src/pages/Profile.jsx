@@ -51,7 +51,7 @@ const formatPhoneForDisplay = (phone) => {
 };
 
 const Profile = () => {
-  const { user, logout, updateUser, isAuthenticated } = useAuth();
+  const { user, logout, updateUser, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -71,10 +71,10 @@ const Profile = () => {
 
   // Якщо користувач не авторизований, перенаправляємо на головну
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       navigate("/");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isLoading, isAuthenticated, navigate]);
 
   // Завантаження реальних замовлень з API
   const fetchOrders = async () => {
@@ -211,6 +211,17 @@ const Profile = () => {
       day: "numeric",
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="profile-page">
+        <div className="profile-loading">
+          <Loader size={32} className="spinner" />
+          <p>Завантаження профілю...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return null;
