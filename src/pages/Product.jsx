@@ -154,8 +154,10 @@ const Product = () => {
               care: foundProduct.descriptionCare || foundProduct.description_care || "",
               specs: foundProduct.specs || [],
             },
-            // Нормалізуємо variants
-            variants: foundProduct.variants || [],
+            // Нормалізуємо variants (detail endpoint може повернути об'єкт замість масиву)
+            variants: Array.isArray(foundProduct.variants)
+              ? foundProduct.variants
+              : (foundProduct.allVariants || []),
             // Нормалізуємо images
             images: foundProduct.images || [
               foundProduct.image || foundProduct.thumbnail,
