@@ -149,7 +149,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                     </p>
                   </div>
                   <div className="order-details-item__price">
-                    {(item.price * item.quantity).toLocaleString("uk-UA")} ₴
+                    {(Number(item.price || 0) * item.quantity).toLocaleString("uk-UA")} ₴
                   </div>
                 </div>
               ))}
@@ -208,7 +208,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             <div className="order-details-modal__summary-row">
               <span>Сума товарів:</span>
               <span>
-                {(order.subtotal || order.total).toLocaleString("uk-UA")} ₴
+                {Number(order.subtotal || order.total || 0).toLocaleString("uk-UA")} ₴
               </span>
             </div>
             {order.promoCode && (
@@ -228,7 +228,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
             <div className="order-details-modal__summary-row order-details-modal__summary-row--total">
               <span>Загальна сума:</span>
-              <span>{order.total.toLocaleString("uk-UA")} ₴</span>
+              <span>{Number(order.total || 0).toLocaleString("uk-UA")} ₴</span>
             </div>
           </div>
         </div>

@@ -522,7 +522,7 @@ const Profile = () => {
                             x{item.quantity}
                           </div>
                           <div className="order-item__price">
-                            {item.price.toLocaleString("uk-UA")} ₴
+                            {Number(item.price || 0).toLocaleString("uk-UA")} ₴
                           </div>
                         </div>
                       ))}
@@ -540,7 +540,7 @@ const Profile = () => {
                             Загальна сума:
                           </span>
                           <span className="order-card__total-value">
-                            {order.total.toLocaleString("uk-UA")} ₴
+                            {Number(order.total || 0).toLocaleString("uk-UA")} ₴
                           </span>
                         </div>
                       </div>
