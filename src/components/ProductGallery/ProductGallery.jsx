@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import placeholderImg from "/mattress-placeholder.png";
 import "./ProductGallery.scss";
 
 const ProductGallery = ({ images, alt, priority = false }) => {
+  // Якщо немає зображень — показуємо placeholder
+  const safeImages = images?.length > 0 ? images : [placeholderImg];
+  const hasRealImages = images?.length > 0;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const thumbnailsRef = useRef(null);
@@ -15,44 +19,49 @@ const ProductGallery = ({ images, alt, priority = false }) => {
       img.src = src;
     };
 
-    const nextIndex = (selectedIndex + 1) % images.length;
-    const prevIndex = (selectedIndex - 1 + images.length) % images.length;
+    const nextIndex = (selectedIndex + 1) % safeImages.length;
+    const prevIndex =
+      (selectedIndex - 1 + safeImages.length) % safeImages.length;
 
-    if (images[nextIndex]) preloadImage(images[nextIndex]);
-    if (images[prevIndex]) preloadImage(images[prevIndex]);
-  }, [selectedIndex, images]);
+    if (safeImages[nextIndex]) preloadImage(safeImages[nextIndex]);
+    if (safeImages[prevIndex]) preloadImage(safeImages[prevIndex]);
+  }, [selectedIndex, safeImages]);
 
-  const goToImage = useCallback((index) => {
-    if (index === selectedIndex || isTransitioning) return;
-    
-    setIsTransitioning(true);
-    setSelectedIndex(index);
-    
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 300);
+  const goToImage = useCallback(
+    (index) => {
+      if (index === selectedIndex || isTransitioning) return;
 
-    if (thumbnailsRef.current) {
-      const thumbnail = thumbnailsRef.current.children[index];
-      if (thumbnail) {
-        thumbnail.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
+      setIsTransitioning(true);
+      setSelectedIndex(index);
+
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+
+      if (thumbnailsRef.current) {
+        const thumbnail = thumbnailsRef.current.children[index];
+        if (thumbnail) {
+          thumbnail.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center",
+          });
+        }
       }
-    }
-  }, [selectedIndex, isTransitioning]);
+    },
+    [selectedIndex, isTransitioning],
+  );
 
   const goToNext = useCallback(() => {
-    const nextIndex = (selectedIndex + 1) % images.length;
+    const nextIndex = (selectedIndex + 1) % safeImages.length;
     goToImage(nextIndex);
-  }, [selectedIndex, images.length, goToImage]);
+  }, [selectedIndex, safeImages.length, goToImage]);
 
   const goToPrevious = useCallback(() => {
-    const prevIndex = (selectedIndex - 1 + images.length) % images.length;
+    const prevIndex =
+      (selectedIndex - 1 + safeImages.length) % safeImages.length;
     goToImage(prevIndex);
-  }, [selectedIndex, images.length, goToImage]);
+  }, [selectedIndex, safeImages.length, goToImage]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -90,25 +99,41 @@ const ProductGallery = ({ images, alt, priority = false }) => {
     }
   };
 
-  const generateSrcSet = useMemo(() => (src) => {
-    return `${src} 1x, ${src} 2x`;
+  const generateSrcSet = useMemo(
+    () => (src) => {
+      return `${src} 1x, ${src} 2x`;
+    },
+    [],
+  );
+
+  const handleImageError = useCallback((e) => {
+    e.target.src = placeholderImg;
   }, []);
 
-  const showNavigation = images.length > 1;
+  const showNavigation = hasRealImages && safeImages.length > 1;
 
   return (
     <div className="product-gallery">
-      <div 
+      <div
         className="product-gallery__main"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <img
-          src={images[selectedIndex]}
-          srcSet={generateSrcSet(images[selectedIndex])}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-          alt={`${alt} - зображення ${selectedIndex + 1} з ${images.length}`}
+          src={safeImages[selectedIndex]}
+          srcSet={
+            hasRealImages
+              ? generateSrcSet(safeImages[selectedIndex])
+              : undefined
+          }
+          sizes={
+            hasRealImages
+              ? "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+              : undefined
+          }
+          alt={`${alt} - зображення ${selectedIndex + 1} з ${safeImages.length}`}
+          onError={handleImageError}
           className={`product-gallery__main-image ${
             isTransitioning ? "product-gallery__main-image--transitioning" : ""
           }`}
@@ -140,18 +165,20 @@ const ProductGallery = ({ images, alt, priority = false }) => {
 
         {showNavigation && (
           <div className="product-gallery__counter">
-            {selectedIndex + 1} / {images.length}
+            {selectedIndex + 1} / {safeImages.length}
           </div>
         )}
       </div>
 
       {showNavigation && (
         <div className="product-gallery__thumbnails" ref={thumbnailsRef}>
-          {images.map((image, index) => (
+          {safeImages.map((image, index) => (
             <button
               key={index}
               className={`product-gallery__thumbnail ${
-                index === selectedIndex ? "product-gallery__thumbnail--active" : ""
+                index === selectedIndex
+                  ? "product-gallery__thumbnail--active"
+                  : ""
               }`}
               onClick={() => goToImage(index)}
               disabled={isTransitioning}
@@ -164,6 +191,7 @@ const ProductGallery = ({ images, alt, priority = false }) => {
                 loading="lazy"
                 width={100}
                 height={100}
+                onError={handleImageError}
               />
             </button>
           ))}
