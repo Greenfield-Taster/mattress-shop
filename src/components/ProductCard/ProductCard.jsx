@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import { TYPE_LABELS, t } from "../../utils/productLabels";
+import placeholderImg from "/mattress-placeholder.png";
 import "./ProductCard.scss";
 
 // Нормалізує розмір для порівняння (замінює різні варіанти "x" на кириличний "х")
@@ -17,7 +18,8 @@ const ProductCard = ({ product, selectedSize = null }) => {
   const [isAdded, setIsAdded] = useState(false);
 
   // Перевіряємо чи вибрано нестандартний розмір
-  const isCustomSize = selectedSize === "нестандартний розмір" || selectedSize === "custom";
+  const isCustomSize =
+    selectedSize === "нестандартний розмір" || selectedSize === "custom";
 
   // Визначаємо ціну на основі вибраного розміру або використовуємо базову
   const { displayPrice, displayOldPrice, displaySize } = useMemo(() => {
@@ -35,7 +37,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
     if (selectedSize && variants?.length > 0) {
       const normalizedSelectedSize = normalizeSize(selectedSize);
       const matchedVariant = variants.find(
-        (v) => normalizeSize(v.size) === normalizedSelectedSize
+        (v) => normalizeSize(v.size) === normalizedSelectedSize,
       );
 
       if (matchedVariant) {
@@ -57,7 +59,8 @@ const ProductCard = ({ product, selectedSize = null }) => {
 
   // Використовуємо знижку з API (discount або discountPercent), а не розраховуємо з цін
   const discountPercent = product.discount || product.discountPercent || 0;
-  const hasDiscount = discountPercent > 0 && displayOldPrice && displayOldPrice > displayPrice;
+  const hasDiscount =
+    discountPercent > 0 && displayOldPrice && displayOldPrice > displayPrice;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -85,12 +88,15 @@ const ProductCard = ({ product, selectedSize = null }) => {
       <div className="product-card__image-wrapper">
         <Link to={`/product/${id}`} className="product-card__image-link">
           <img
-            src={image}
+            src={image || placeholderImg}
             alt={name}
             className="product-card__image"
             loading="lazy"
             width={290}
             height={290}
+            onError={(e) => {
+              e.target.src = placeholderImg;
+            }}
           />
         </Link>
 
@@ -109,7 +115,9 @@ const ProductCard = ({ product, selectedSize = null }) => {
         </Link>
 
         <div className="product-card__specs">
-          {type && <span className="product-card__spec">{t(TYPE_LABELS, type)}</span>}
+          {type && (
+            <span className="product-card__spec">{t(TYPE_LABELS, type)}</span>
+          )}
           {height && (
             <>
               <span className="product-card__separator" aria-hidden="true">
