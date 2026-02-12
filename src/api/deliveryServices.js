@@ -1,6 +1,11 @@
 // API для роботи з поштовими сервісами
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;
+
+const storeHeaders = {
+  "x-publishable-api-key": API_KEY,
+};
 
 /**
  * Нова Пошта API (через бекенд проксі — ключ зберігається на сервері)
@@ -11,7 +16,9 @@ export const NovaPoshtaAPI = {
 
     try {
       const params = new URLSearchParams({ q: query.trim() });
-      const response = await fetch(`${API_URL}/store/delivery/cities?${params}`);
+      const response = await fetch(`${API_URL}/store/delivery/cities?${params}`, {
+        headers: storeHeaders,
+      });
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -32,7 +39,9 @@ export const NovaPoshtaAPI = {
       const params = new URLSearchParams({ cityRef });
       if (query) params.set("q", query);
 
-      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`);
+      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`, {
+        headers: storeHeaders,
+      });
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -51,7 +60,9 @@ export const NovaPoshtaAPI = {
 
     try {
       const params = new URLSearchParams({ cityRef, type: "postomat" });
-      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`);
+      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`, {
+        headers: storeHeaders,
+      });
       const data = await response.json();
 
       if (data.success && data.data) {
