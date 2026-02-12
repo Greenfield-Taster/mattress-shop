@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { AuthContext } from "./AuthContext";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const MOCK_MODE = import.meta.env.VITE_MOCK_AUTH === "true";
 
 export const AuthProvider = ({ children }) => {

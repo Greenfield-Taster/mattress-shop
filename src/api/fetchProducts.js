@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Publishable API key для store endpoints
 const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;

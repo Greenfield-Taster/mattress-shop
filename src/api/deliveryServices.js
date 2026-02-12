@@ -1,6 +1,6 @@
 // API для роботи з поштовими сервісами
 
-const NOVA_POSHTA_API_KEY = import.meta.env.VITE_NOVA_POSHTA_API_KEY || "";
+const NOVA_POSHTA_API_KEY = import.meta.env.VITE_NOVA_POSHTA_API_KEY;
 const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
 /**
@@ -183,7 +183,7 @@ export const NovaPoshtaAPI = {
   },
 };
 
-const MEEST_API_KEY = import.meta.env.VITE_MEEST_API_KEY || "";
+const MEEST_API_KEY = import.meta.env.VITE_MEEST_API_KEY;
 const MEEST_API_URL = "https://api.meest.com/v1/";
 
 /**
@@ -321,7 +321,7 @@ export const MeestAPI = {
   },
 };
 
-const DELIVERY_API_KEY = import.meta.env.VITE_DELIVERY_API_KEY || "";
+const DELIVERY_API_KEY = import.meta.env.VITE_DELIVERY_API_KEY;
 const DELIVERY_API_URL = "https://api.delivery-auto.com/v1/";
 
 /**
