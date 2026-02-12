@@ -1,183 +1,66 @@
 // API для роботи з поштовими сервісами
 
-const NOVA_POSHTA_API_KEY = import.meta.env.VITE_NOVA_POSHTA_API_KEY;
-const NOVA_POSHTA_API_URL = "https://api.novaposhta.ua/v2.0/json/";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 
 /**
- * Нова Пошта API
+ * Нова Пошта API (через бекенд проксі — ключ зберігається на сервері)
  */
 export const NovaPoshtaAPI = {
   async searchCities(query) {
-    console.log("🔍 NovaPoshtaAPI.searchCities викликано з query:", query);
-    console.log("🔑 API Key присутній:", !!NOVA_POSHTA_API_KEY);
-
-    if (!NOVA_POSHTA_API_KEY) {
-      console.warn(
-        "⚠️ Нова Пошта API ключ не налаштовано. Використовується демо-режим."
-      );
-
-      return [];
-    }
+    if (!query?.trim()) return [];
 
     try {
-      const requestBody = {
-        apiKey: NOVA_POSHTA_API_KEY,
-        modelName: "Address",
-        calledMethod: "getCities",
-        methodProperties: {
-          FindByString: query,
-          Limit: 50,
-        },
-      };
-
-      console.log("📤 Відправляємо запит до Нової Пошти:", requestBody);
-
-      const response = await fetch(NOVA_POSHTA_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      console.log("📥 Отримано відповідь, status:", response.status);
-
+      const params = new URLSearchParams({ q: query.trim() });
+      const response = await fetch(`${API_URL}/store/delivery/cities?${params}`);
       const data = await response.json();
-      console.log("📦 Дані від API:", data);
 
       if (data.success && data.data) {
-        const cities = data.data.map((city) => ({
-          value: city.Ref,
-          label: city.Description,
-          area: city.Area,
-        }));
-        console.log("✅ Повертаємо міста:", cities.length, "шт.");
-        return cities;
+        return data.data;
       }
 
-      console.warn("⚠️ Нова Пошта API повернула помилку:", data.errors);
       return [];
     } catch (error) {
-      console.error("❌ Помилка при отриманні міст Нова Пошта:", error);
+      console.error("Помилка при отриманні міст Нова Пошта:", error);
       return [];
     }
   },
 
-  // Отримати список відділень
   async getWarehouses(cityRef, query = "") {
-    console.log("🔍 NovaPoshtaAPI.getWarehouses викликано:", {
-      cityRef,
-      query,
-    });
-    console.log("🔑 API Key присутній:", !!NOVA_POSHTA_API_KEY);
-
-    if (!NOVA_POSHTA_API_KEY) {
-      console.warn(
-        "⚠️ Нова Пошта API ключ не налаштовано. Використовується демо-режим."
-      );
-    }
+    if (!cityRef) return [];
 
     try {
-      const requestBody = {
-        apiKey: NOVA_POSHTA_API_KEY,
-        modelName: "Address",
-        calledMethod: "getWarehouses",
-        methodProperties: {
-          CityRef: cityRef,
-          FindByString: query,
-          Limit: 50,
-        },
-      };
+      const params = new URLSearchParams({ cityRef });
+      if (query) params.set("q", query);
 
-      console.log("📤 Відправляємо запит до Нової Пошти:", requestBody);
-
-      const response = await fetch(NOVA_POSHTA_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      console.log("📥 Отримано відповідь, status:", response.status);
-
+      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`);
       const data = await response.json();
-      console.log("📦 Дані від API:", data);
 
-      if (!response.ok || !data.success) {
-        console.warn("⚠️ Нова Пошта API помилка (код:", response.status, ") ");
+      if (data.success && data.data) {
+        return data.data;
       }
 
-      if (data.data) {
-        const warehouses = data.data.map((warehouse) => ({
-          value: warehouse.Ref,
-          label: `${warehouse.Description}`,
-          address: warehouse.ShortAddress,
-          number: warehouse.Number,
-        }));
-        console.log("✅ Повертаємо відділення:", warehouses.length, "шт.");
-        return warehouses;
-      }
-
-      console.warn("⚠️ Нова Пошта API повернула помилку:", data.errors);
       return [];
     } catch (error) {
-      console.error("❌ Помилка при отриманні відділень Нова Пошта:", error);
+      console.error("Помилка при отриманні відділень Нова Пошта:", error);
       return [];
     }
   },
 
-  // Отримати список поштоматів
   async getPostomats(cityRef) {
-    console.log("🔍 NovaPoshtaAPI.getPostomats викликано:", cityRef);
-
-    if (!NOVA_POSHTA_API_KEY) {
-      return [];
-    }
+    if (!cityRef) return [];
 
     try {
-      const requestBody = {
-        apiKey: NOVA_POSHTA_API_KEY,
-        modelName: "Address",
-        calledMethod: "getWarehouses",
-        methodProperties: {
-          CityRef: cityRef,
-          TypeOfWarehouseRef: "9a68df70-0267-42a8-bb5c-37f427e36ee4", // ID для поштоматів
-          Limit: 50,
-        },
-      };
-
-      console.log(
-        "📤 Відправляємо запит до Нової Пошти (поштомати):",
-        requestBody
-      );
-
-      const response = await fetch(NOVA_POSHTA_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      const params = new URLSearchParams({ cityRef, type: "postomat" });
+      const response = await fetch(`${API_URL}/store/delivery/warehouses?${params}`);
       const data = await response.json();
-      console.log("📦 Дані від API (поштомати):", data);
 
       if (data.success && data.data) {
-        return data.data.map((postomat) => ({
-          value: postomat.Ref,
-          label: `Поштомат ${postomat.Number}`,
-          address: postomat.ShortAddress,
-        }));
+        return data.data;
       }
 
       return [];
     } catch (error) {
-      console.error("❌ Помилка при отриманні поштоматів Нова Пошта:", error);
+      console.error("Помилка при отриманні поштоматів Нова Пошта:", error);
       return [];
     }
   },
