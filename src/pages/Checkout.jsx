@@ -301,51 +301,40 @@ const Checkout = () => {
 
   // Функції для пошуку міст та відділень
   const handleCitySearch = async (query) => {
-    console.log("🏙️ handleCitySearch викликано:", { query, deliveryMethod });
     const api = getDeliveryAPI(deliveryMethod);
-    console.log("📡 Отримано API:", api ? "Так" : "Ні");
-    if (!api) {
-      console.warn("⚠️ API не знайдено для методу:", deliveryMethod);
-      return [];
-    }
+    if (!api) return [];
     try {
-      const results = await api.searchCities(query);
-      console.log("✅ handleCitySearch повертає результати:", results.length);
-      return results;
+      return await api.searchCities(query);
     } catch (error) {
-      console.error("❌ Помилка в handleCitySearch:", error);
+      console.error("Помилка пошуку міст:", error);
       return [];
     }
   };
 
   const handleWarehouseSearch = async (query, cityRef) => {
-    // cityRef передається з компонента DeliveryAutocomplete
     const effectiveCityRef = cityRef || deliveryCityRef;
-    console.log("🏢 handleWarehouseSearch викликано:", {
-      query,
-      deliveryMethod,
-      cityRef,
-      deliveryCityRef,
-      effectiveCityRef,
-    });
     const api = getDeliveryAPI(deliveryMethod);
-    console.log("📡 Отримано API:", api ? "Так" : "Ні");
-    if (!api || !effectiveCityRef) {
-      console.warn("⚠️ API або cityRef відсутні:", {
-        api: !!api,
-        effectiveCityRef,
-      });
-      return [];
-    }
+    if (!api || !effectiveCityRef) return [];
+
     try {
-      const results = await api.getWarehouses(effectiveCityRef, query);
-      console.log(
-        "✅ handleWarehouseSearch повертає результати:",
-        results.length
-      );
-      return results;
+      // Завантажуємо відділення і поштомати паралельно
+      const [warehouses, postomats] = await Promise.all([
+        api.getWarehouses(effectiveCityRef, query),
+        api.getPostomats ? api.getPostomats(effectiveCityRef) : [],
+      ]);
+
+      // Якщо є пошуковий запит — фільтруємо поштомати теж
+      const filteredPostomats = query
+        ? postomats.filter((p) =>
+            p.label.toLowerCase().includes(query.toLowerCase()) ||
+            (p.address && p.address.toLowerCase().includes(query.toLowerCase()))
+          )
+        : postomats;
+
+      // Відділення першими, потім поштомати
+      return [...warehouses, ...filteredPostomats];
     } catch (error) {
-      console.error("❌ Помилка в handleWarehouseSearch:", error);
+      console.error("Помилка пошуку відділень:", error);
       return [];
     }
   };
