@@ -20,24 +20,63 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
   };
 
   const handleCodeChange = (index, value) => {
-    if (value.length > 1) return;
-    
+    const digits = value.replace(/\D/g, '');
+    if (!digits) return;
+
     setError('');
+
+    // Якщо вставлено кілька цифр — розкидати по полях
+    if (digits.length > 1) {
+      const newCode = [...code];
+      for (let i = 0; i < digits.length && index + i < 6; i++) {
+        newCode[index + i] = digits[i];
+      }
+      setCode(newCode);
+      const lastIdx = Math.min(index + digits.length, 5);
+      const target = document.getElementById(`code-${lastIdx}`);
+      if (target) target.focus();
+      return;
+    }
+
     const newCode = [...code];
-    newCode[index] = value;
+    newCode[index] = digits;
     setCode(newCode);
 
     // Автофокус на наступне поле
-    if (value && index < 5) {
+    if (digits && index < 5) {
       const nextInput = document.getElementById(`code-${index + 1}`);
       if (nextInput) nextInput.focus();
     }
+  };
+
+  const handleCodePaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (!pasted) return;
+
+    setError('');
+    const newCode = ['', '', '', '', '', ''];
+    for (let i = 0; i < pasted.length; i++) {
+      newCode[i] = pasted[i];
+    }
+    setCode(newCode);
+
+    const lastIdx = Math.min(pasted.length, 5);
+    const target = document.getElementById(`code-${lastIdx}`);
+    if (target) target.focus();
   };
 
   const handleCodeKeyDown = (index, e) => {
     if (e.key === 'Backspace' && !code[index] && index > 0) {
       const prevInput = document.getElementById(`code-${index - 1}`);
       if (prevInput) prevInput.focus();
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const fullCode = code.join('');
+      if (fullCode.length === 6 && !isSubmitting) {
+        handleSubmitCode();
+      }
     }
   };
 
@@ -225,6 +264,11 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                     placeholder="XX XXX XX XX"
                     value={phoneNumber}
                     onChange={handlePhoneChange}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && phoneNumber.length === 9 && !isSubmitting) {
+                        handleSubmitPhone();
+                      }
+                    }}
                     maxLength={9}
                     autoComplete="tel"
                     disabled={isSubmitting}
@@ -318,6 +362,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleCodeChange(idx, e.target.value)}
+                      onPaste={handleCodePaste}
                       onKeyDown={(e) => handleCodeKeyDown(idx, e)}
                       autoComplete="one-time-code"
                       disabled={isSubmitting}
