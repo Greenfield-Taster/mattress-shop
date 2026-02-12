@@ -20,8 +20,6 @@ const DeliveryAutocomplete = ({
   const wrapperRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
-  console.log('🔧 DeliveryAutocomplete render:', { type, value, disabled, cityRef, query, selectedLabel });
-
   // Закриття випадаючого списку при кліку поза компонентом
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,34 +34,30 @@ const DeliveryAutocomplete = ({
 
   // Пошук з debounce
   useEffect(() => {
-    console.log('🔄 useEffect пошуку спрацював:', { query, type, cityRef });
-    
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    if (query.length >= 2) {
-      console.log('✅ Довжина query >= 2, запускаємо пошук через 300мс');
+    // Для міст — мінімум 2 символи, для відділень — дозволяємо фільтрацію від 1 символу
+    const minLength = type === 'city' ? 2 : 1;
+
+    if (query.length >= minLength) {
       searchTimeoutRef.current = setTimeout(async () => {
         setIsLoading(true);
-        console.log('🚀 Викликаємо onSearch функцію:', { query, cityRef, type });
         try {
-          // Для відділень передаємо cityRef як другий параметр
-          const data = type === 'warehouse' 
+          const data = type === 'warehouse'
             ? await onSearch(query, cityRef)
             : await onSearch(query);
-          console.log('📦 Отримано результати пошуку:', data);
           setResults(data);
           setIsOpen(data.length > 0);
         } catch (error) {
-          console.error('❌ Помилка пошуку в компоненті:', error);
+          console.error('Помилка пошуку:', error);
           setResults([]);
         } finally {
           setIsLoading(false);
         }
       }, 300);
-    } else {
-      console.log('⏸️ Query занадто короткий, пошук не запускається');
+    } else if (query.length === 0 && type === 'city') {
       setResults([]);
       setIsOpen(false);
     }
@@ -75,18 +69,28 @@ const DeliveryAutocomplete = ({
     };
   }, [query, onSearch, cityRef, type]);
 
-  // Скидання при зміні cityRef (для відділень)
+  // При зміні cityRef: скидаємо вибір і автоматично завантажуємо відділення
   useEffect(() => {
     if (type === 'warehouse') {
-      console.log('🔄 cityRef змінився, скидаємо warehouse');
       setQuery('');
       setSelectedLabel('');
       setResults([]);
+
+      if (cityRef) {
+        setIsLoading(true);
+        onSearch('', cityRef).then((data) => {
+          setResults(data);
+          setIsOpen(data.length > 0);
+        }).catch(() => {
+          setResults([]);
+        }).finally(() => {
+          setIsLoading(false);
+        });
+      }
     }
   }, [cityRef, type]);
 
   const handleSelect = (item) => {
-    console.log('✅ Вибрано елемент:', item);
     setQuery('');
     setSelectedLabel(item.label);
     setIsOpen(false);
@@ -94,7 +98,6 @@ const DeliveryAutocomplete = ({
   };
 
   const handleClear = () => {
-    console.log('🗑️ Очищення поля');
     setQuery('');
     setSelectedLabel('');
     setResults([]);
@@ -103,14 +106,14 @@ const DeliveryAutocomplete = ({
 
   const handleInputChange = (e) => {
     const newQuery = e.target.value;
-    console.log('⌨️ Введення тексту:', newQuery);
-    setQuery(newQuery);
-    
-    // Якщо користувач очищає input і вже щось було вибрано
-    if (newQuery === '' && selectedLabel) {
+
+    // Якщо було вибрано значення і користувач почав друкувати/видаляти — скидаємо вибір
+    if (selectedLabel) {
       setSelectedLabel('');
       onChange({ value: '', label: '' });
     }
+
+    setQuery(newQuery);
   };
 
   return (
@@ -122,7 +125,6 @@ const DeliveryAutocomplete = ({
           value={selectedLabel || query}
           onChange={handleInputChange}
           onFocus={() => {
-            console.log('👆 Focus на input, results:', results.length);
             if (results.length > 0) setIsOpen(true);
           }}
           placeholder={placeholder}
