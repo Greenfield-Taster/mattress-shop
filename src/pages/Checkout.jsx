@@ -331,8 +331,12 @@ const Checkout = () => {
           )
         : postomats;
 
+      // Видаляємо дублікати (та ж локація може бути і відділенням, і поштоматом)
+      const warehouseRefs = new Set(warehouses.map((w) => w.value));
+      const uniquePostomats = filteredPostomats.filter((p) => !warehouseRefs.has(p.value));
+
       // Відділення першими, потім поштомати
-      return [...warehouses, ...filteredPostomats];
+      return [...warehouses, ...uniquePostomats];
     } catch (error) {
       console.error("Помилка пошуку відділень:", error);
       return [];
