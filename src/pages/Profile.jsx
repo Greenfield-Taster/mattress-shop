@@ -5,7 +5,6 @@ import {
   User,
   Mail,
   Phone,
-  MapPin,
   Calendar,
   Edit2,
   Save,
@@ -61,8 +60,6 @@ const Profile = () => {
     lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.phone || "",
-    address: user?.address || "",
-    city: user?.city || "",
   });
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
@@ -153,8 +150,6 @@ const Profile = () => {
       lastName: user?.lastName || "",
       email: user?.email || "",
       phone: user?.phone || "",
-      address: user?.address || "",
-      city: user?.city || "",
     });
     setIsEditing(false);
   };
@@ -396,47 +391,6 @@ const Profile = () => {
                 )}
               </div>
 
-              <div className="profile-form__group">
-                <label className="profile-form__label">
-                  <MapPin size={18} />
-                  <span>Місто</span>
-                </label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="city"
-                    className="profile-form__input"
-                    value={editedUser.city}
-                    onChange={handleInputChange}
-                    placeholder="Київ"
-                  />
-                ) : (
-                  <p className="profile-form__value">
-                    {user?.city || "Не вказано"}
-                  </p>
-                )}
-              </div>
-
-              <div className="profile-form__group profile-form__group--full">
-                <label className="profile-form__label">
-                  <MapPin size={18} />
-                  <span>Адреса доставки</span>
-                </label>
-                {isEditing ? (
-                  <textarea
-                    name="address"
-                    className="profile-form__textarea"
-                    value={editedUser.address}
-                    onChange={handleInputChange}
-                    placeholder="Введіть адресу доставки"
-                    rows={3}
-                  />
-                ) : (
-                  <p className="profile-form__value">
-                    {user?.address || "Не вказано"}
-                  </p>
-                )}
-              </div>
             </div>
           </div>
 
