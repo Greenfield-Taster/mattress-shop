@@ -252,6 +252,8 @@ const Product = () => {
 
     addItem({
       id: `${product.id}-${selectedVariant.id}`,
+      product_id: product.id,
+      variant_id: selectedVariant.id,
       title: product.name,
       size: selectedVariant.size,
       firmness: product.hardness,
