@@ -27,7 +27,7 @@ const Footer = () => {
 
             <div className="footer__brand-social">
               <a
-                href="https://facebook.com"
+                href="https://facebook.com/justsleep.ua"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -36,7 +36,7 @@ const Footer = () => {
                 <Facebook size={20} />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/justsleep.ua"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -45,7 +45,7 @@ const Footer = () => {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://t.me"
+                href="https://t.me/justsleep_ua"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
@@ -79,17 +79,17 @@ const Footer = () => {
           <div className="footer__section">
             <h3 className="footer__section-title">Контакти</h3>
             <div className="footer__contact-list">
-              <a href="tel:+380441234567" className="contact-item">
+              <a href="tel:+380501234567" className="contact-item">
                 <Phone size={18} />
-                <span>+380 (44) 123-45-67</span>
+                <span>+380 (50) 123-45-67</span>
               </a>
               <a href="tel:+380671234567" className="contact-item">
                 <Phone size={18} />
                 <span>+380 (67) 123-45-67</span>
               </a>
-              <a href="mailto:just.sleep@info.ua" className="contact-item">
+              <a href="mailto:info@just-sleep.com.ua" className="contact-item">
                 <Mail size={18} />
-                <span>just.sleep@info.ua</span>
+                <span>info@just-sleep.com.ua</span>
               </a>
               <div className="contact-item">
                 <MapPin size={18} />

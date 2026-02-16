@@ -517,7 +517,7 @@ const Product = () => {
                     </button>
                     <button
                       className="btnProd btnProd--secondary btnProd--large"
-                      onClick={() => window.location.href = 'tel:+380000000000'}
+                      onClick={() => window.location.href = 'tel:+380501234567'}
                       aria-label="Зателефонувати"
                     >
                       Подзвонити

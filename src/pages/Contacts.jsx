@@ -406,11 +406,11 @@ const Contacts = () => {
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Телефон:</span>
                   <div className="contacts__info-values">
-                    <a href="tel:+380500000000" className="contacts__info-link">
-                      +38 (050) 000-00-00
+                    <a href="tel:+380501234567" className="contacts__info-link">
+                      +380 (50) 123-45-67
                     </a>
-                    <a href="tel:+380670000000" className="contacts__info-link">
-                      +38 (067) 000-00-00
+                    <a href="tel:+380671234567" className="contacts__info-link">
+                      +380 (67) 123-45-67
                     </a>
                   </div>
                 </div>
@@ -418,10 +418,10 @@ const Contacts = () => {
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Email:</span>
                   <a
-                    href="mailto:info@matrac.store"
+                    href="mailto:info@just-sleep.com.ua"
                     className="contacts__info-link"
                   >
-                    info@matrac.store
+                    info@just-sleep.com.ua
                   </a>
                 </div>
 
@@ -434,14 +434,14 @@ const Contacts = () => {
 
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Графік:</span>
-                  <span className="contacts__info-text">Пн–Сб 10:00–20:00</span>
+                  <span className="contacts__info-text">Пн-Пт: 9:00-18:00, Сб: 10:00-16:00</span>
                 </div>
 
                 <div className="contacts__info-item contacts__info-item--socials">
                   <span className="contacts__info-label">Соцмережі:</span>
                   <div className="contacts__social">
                     <a
-                      href="#"
+                      href="https://t.me/justsleep_ua"
                       className="contacts__social-link"
                       aria-label="Telegram"
                       target="_blank"
@@ -459,7 +459,7 @@ const Contacts = () => {
                       <span className="contacts__social-text">Telegram</span>
                     </a>
                     <a
-                      href="#"
+                      href="https://instagram.com/justsleep.ua"
                       className="contacts__social-link"
                       aria-label="Instagram"
                       target="_blank"
@@ -477,7 +477,7 @@ const Contacts = () => {
                       <span className="contacts__social-text">Instagram</span>
                     </a>
                     <a
-                      href="#"
+                      href="https://facebook.com/justsleep.ua"
                       className="contacts__social-link"
                       aria-label="Facebook"
                       target="_blank"

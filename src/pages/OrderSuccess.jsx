@@ -106,11 +106,11 @@ const OrderSuccess = () => {
             <h3>Потрібна допомога?</h3>
             <div className="order-success__contact-row">
               <Phone size={18} />
-              <a href="tel:+380666666666">+38 (066) 666-66-66</a>
+              <a href="tel:+380501234567">+380 (50) 123-45-67</a>
             </div>
             <div className="order-success__contact-row">
               <Mail size={18} />
-              <a href="mailto:info@mattress-shop.ua">info@mattress-shop.ua</a>
+              <a href="mailto:info@just-sleep.com.ua">info@just-sleep.com.ua</a>
             </div>
           </div>
 

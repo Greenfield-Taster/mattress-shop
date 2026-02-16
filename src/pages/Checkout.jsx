@@ -1059,10 +1059,10 @@ const Checkout = () => {
                   <HelpCircle size={20} />
                   Потрібна допомога?
                 </h3>
-                <p className="checkout__help-phone">+38 (066) 666-66-66</p>
+                <p className="checkout__help-phone">+380 (50) 123-45-67</p>
                 <p className="checkout__help-time">
                   <Clock size={16} />
-                  Пн-Нд: 8:00-20:00
+                  Пн-Пт: 9:00-18:00, Сб: 10:00-16:00
                 </p>
 
                 <div className="checkout__help-faq">
