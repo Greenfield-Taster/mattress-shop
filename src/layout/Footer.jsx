@@ -64,10 +64,10 @@ const Footer = () => {
                 <Link to="/catalog">Каталог товарів</Link>
               </li>
               <li>
-                <Link to="/catalog?filter=discount">Акції</Link>
+                <Link to="/catalog?sort=discount">Акції</Link>
               </li>
               <li>
-                <Link to="/delivery">Доставка та оплата</Link>
+                <Link to="/contacts#faq">Доставка та оплата</Link>
               </li>
               <li>
                 <Link to="/contacts#faq">Обмін і повернення</Link>
