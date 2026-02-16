@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { HARDNESS_DETAILS } from "../../utils/productLabels";
 import "./MattressQuiz.scss";
 
 const MattressQuiz = ({ onClose }) => {
@@ -121,33 +122,11 @@ const MattressQuiz = ({ onClose }) => {
     {
       id: "hardness",
       title: "Яка жорсткість вам потрібна?",
-      options: [
-        {
-          value: "H1",
-          label: "H1 — М'який",
-          subtitle: "Для сну на боці, вага до 60 кг",
-        },
-        {
-          value: "H2",
-          label: "H2 — Помірно м'який",
-          subtitle: "Комфортна підтримка, вага 50-70 кг",
-        },
-        {
-          value: "H3",
-          label: "H3 — Середньої жорсткості",
-          subtitle: "Універсальний, вага 60-90 кг",
-        },
-        {
-          value: "H4",
-          label: "H4 — Жорсткий",
-          subtitle: "При болях у спині, вага 90-120 кг",
-        },
-        {
-          value: "H5",
-          label: "H5 — Дуже жорсткий",
-          subtitle: "Максимальна підтримка, вага 120+ кг",
-        },
-      ],
+      options: Object.entries(HARDNESS_DETAILS).map(([value, { label, subtitle }]) => ({
+        value,
+        label,
+        subtitle,
+      })),
     },
     {
       id: "load",

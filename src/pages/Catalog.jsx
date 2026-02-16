@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
 import { fetchProducts } from "../api/fetchProducts";
+import { HARDNESS_LABELS } from "../utils/productLabels";
 import "../styles/pages/_catalog.scss";
 
 const Catalog = () => {
@@ -149,13 +150,10 @@ const Catalog = () => {
       { value: "rolled", label: "Скручені" },
       { value: "accessories", label: "Аксесуари" },
     ],
-    hardness: [
-      { value: "H1", label: "H1 (м'який)" },
-      { value: "H2", label: "H2 (помірно м'який)" },
-      { value: "H3", label: "H3 (середній)" },
-      { value: "H4", label: "H4 (жорсткий)" },
-      { value: "H5", label: "H5 (дуже жорсткий)" },
-    ],
+    hardness: Object.entries(HARDNESS_LABELS).map(([value, label]) => ({
+      value,
+      label,
+    })),
     sizes: [
       // King Size XL
       "200х200",
