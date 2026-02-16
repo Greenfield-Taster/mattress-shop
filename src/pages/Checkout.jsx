@@ -14,6 +14,7 @@ import {
   validateCheckoutForm,
   clearFieldError,
 } from "../utils/checkoutValidation";
+import LegalModal from "../components/LegalModal/LegalModal";
 import "../styles/pages/_checkout.scss";
 
 // Import icons (lucide-react)
@@ -72,6 +73,8 @@ const Checkout = () => {
   const [companyName, setCompanyName] = useState("");
   const [edrpou, setEdrpou] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
+
+  const [legalModal, setLegalModal] = useState({ isOpen: false, type: 'terms' });
 
   const [errors, setErrors] = useState({
     fullName: "",
@@ -938,13 +941,27 @@ const Checkout = () => {
                 />
                 <label htmlFor="agreeTerms">
                   Погоджуюсь з{" "}
-                  <a href="/terms" className="checkout__link">
+                  <button
+                    type="button"
+                    className="checkout__link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setLegalModal({ isOpen: true, type: "terms" });
+                    }}
+                  >
                     умовами оферти
-                  </a>{" "}
+                  </button>{" "}
                   та{" "}
-                  <a href="/privacy" className="checkout__link">
+                  <button
+                    type="button"
+                    className="checkout__link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setLegalModal({ isOpen: true, type: "privacy" });
+                    }}
+                  >
                     політикою конфіденційності
-                  </a>
+                  </button>
                 </label>
               </div>
               {errors.agreeToTerms && (
@@ -1055,6 +1072,12 @@ const Checkout = () => {
           </aside>
         </div>
       </div>
+
+      <LegalModal
+        isOpen={legalModal.isOpen}
+        onClose={() => setLegalModal({ isOpen: false, type: legalModal.type })}
+        type={legalModal.type}
+      />
     </div>
   );
 };

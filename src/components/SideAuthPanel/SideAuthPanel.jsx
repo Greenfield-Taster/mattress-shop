@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import LegalModal from '../LegalModal/LegalModal';
 import './SideAuthPanel.scss';
 
 const SideAuthPanel = ({ isOpen = false, onClose }) => {
@@ -8,6 +9,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [legalModal, setLegalModal] = useState({ isOpen: false, type: 'terms' });
 
   const { sendCode, login, loginWithGoogle } = useAuth();
 
@@ -412,16 +414,30 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
         <div className="auth-footer">
           <p className="footer-text">
             Продовжуючи, ви приймаєте наші{' '}
-            <a href="/terms" className="footer-link">
+            <button
+              type="button"
+              className="footer-link"
+              onClick={() => setLegalModal({ isOpen: true, type: 'terms' })}
+            >
               Умови використання
-            </a>
+            </button>
             {' '}та{' '}
-            <a href="/privacy" className="footer-link">
+            <button
+              type="button"
+              className="footer-link"
+              onClick={() => setLegalModal({ isOpen: true, type: 'privacy' })}
+            >
               Політику конфіденційності
-            </a>
+            </button>
           </p>
         </div>
       </aside>
+
+      <LegalModal
+        isOpen={legalModal.isOpen}
+        onClose={() => setLegalModal({ isOpen: false, type: legalModal.type })}
+        type={legalModal.type}
+      />
     </>
   );
 };

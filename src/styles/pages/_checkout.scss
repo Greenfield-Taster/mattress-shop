@@ -773,6 +773,24 @@
     }
   }
 
+  &__link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    color: v.$brand-primary-500;
+    font-weight: v.$font-weight-medium;
+    text-decoration: none;
+    transition: v.$transition-button;
+
+    &:hover {
+      color: v.$brand-primary-600;
+      text-decoration: underline;
+    }
+  }
+
   &__payment-details {
     background: v.$neutral-50;
     padding: v.$spacing-5;
