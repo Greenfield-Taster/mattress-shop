@@ -275,7 +275,7 @@ const Checkout = () => {
     setIsSubmitting(true);
 
     try {
-      const orderData = formatOrderData(formData, items, totals, promoCode);
+      const orderData = formatOrderData(formData, items, totals, promoCode, deliveryInfo);
       console.log("📦 Відправка замовлення:", orderData);
 
       const result = await createOrder(orderData);
@@ -371,8 +371,33 @@ const Checkout = () => {
     }
   }, [deliveryMethod]);
 
-  const deliveryPrice =
-    deliveryMethod === "pickup" ? 0 : "за тарифами перевізника";
+  // Логіка ціни доставки на основі FAQ:
+  // - Самовивіз: безкоштовно
+  // - Кур'єр (Київ): безкоштовно від 8000 грн, інакше 500 грн
+  // - Нова Пошта: безкоштовно від 8000 грн, інакше за тарифами
+  // - Meest / Delivery: безкоштовно від 13000 грн, інакше за тарифами
+  const getDeliveryPrice = () => {
+    if (!deliveryMethod || deliveryMethod === "pickup") {
+      return { price: 0, type: "free" };
+    }
+    if (deliveryMethod === "courier") {
+      return totals.subtotal >= 8000
+        ? { price: 0, type: "free" }
+        : { price: 500, type: "fixed" };
+    }
+    if (deliveryMethod === "nova-poshta") {
+      return totals.subtotal >= 8000
+        ? { price: 0, type: "free" }
+        : { price: null, type: "carrier" };
+    }
+    // meest, delivery
+    return totals.subtotal >= 13000
+      ? { price: 0, type: "free" }
+      : { price: null, type: "carrier" };
+  };
+
+  const deliveryInfo = getDeliveryPrice();
+  const deliveryPrice = deliveryInfo.price;
 
   return (
     <div className="checkout">
@@ -953,15 +978,19 @@ const Checkout = () => {
                 <div className="checkout__total-row">
                   <span>Доставка:</span>
                   <span>
-                    {typeof deliveryPrice === "number"
-                      ? `${deliveryPrice} ${currency}`
-                      : deliveryPrice}
+                    {deliveryInfo.type === "free"
+                      ? "Безкоштовно"
+                      : deliveryInfo.type === "fixed"
+                        ? `${deliveryPrice} ${currency}`
+                        : !deliveryMethod
+                          ? "Оберіть спосіб доставки"
+                          : "За тарифами перевізника"}
                   </span>
                 </div>
                 <div className="checkout__total-row checkout__total-final">
                   <span>Разом:</span>
                   <span>
-                    {totals.total} {currency}
+                    {totals.total + (typeof deliveryPrice === "number" ? deliveryPrice : 0)} {currency}
                   </span>
                 </div>
               </div>
