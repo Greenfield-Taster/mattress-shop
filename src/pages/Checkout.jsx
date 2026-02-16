@@ -378,18 +378,18 @@ const Checkout = () => {
     clearError("deliveryWarehouse");
   };
 
-  // Автоматично встановлюємо Київ для кур'єрської доставки
+  // Скидаємо дані доставки при зміні способу
   useEffect(() => {
+    if (!deliveryMethod) return;
+
+    setDeliveryCity("");
+    setDeliveryCityRef("");
+    setDeliveryWarehouse("");
+    setDeliveryAddress("");
+
     if (deliveryMethod === "courier") {
       setDeliveryCity("Київ");
       setDeliveryCityRef("kyiv");
-      clearError("deliveryCity");
-    } else if (deliveryMethod && deliveryMethod !== "pickup") {
-      // Для інших методів доставки скидаємо місто
-      if (deliveryCity === "Київ" && deliveryCityRef === "kyiv") {
-        setDeliveryCity("");
-        setDeliveryCityRef("");
-      }
     }
   }, [deliveryMethod]);
 
