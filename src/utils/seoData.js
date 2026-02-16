@@ -1,7 +1,7 @@
 export const SITE_NAME = "Just Sleep";
 export const BASE_URL = (import.meta.env.VITE_SITE_URL || "https://just-sleep.com.ua").replace(/\/$/, "");
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
-export const DEFAULT_DESCRIPTION = "Інтернет-магазин ортопедичних матраців Just Sleep. Пружинні, безпружинні та дитячі матраци з доставкою по Україні. Гарантія до 10 років.";
+export const DEFAULT_DESCRIPTION = "Інтернет-магазин ортопедичних матраців Just Sleep. Пружинні, безпружинні та дитячі матраци від виробника з доставкою по Україні.";
 
 export const PAGE_SEO = {
   home: {
