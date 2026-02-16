@@ -105,6 +105,18 @@ const Checkout = () => {
       icon: "🚚",
     },
     {
+      id: "ukrposhta",
+      name: "Укрпошта",
+      subtitle: "Відділення",
+      icon: "📬",
+    },
+    {
+      id: "cat",
+      name: "CAT",
+      subtitle: "Відділення",
+      icon: "📦",
+    },
+    {
       id: "courier",
       name: "Кур'єр",
       subtitle: "Тільки Київ",
@@ -390,7 +402,7 @@ const Checkout = () => {
         ? { price: 0, type: "free" }
         : { price: null, type: "carrier" };
     }
-    // meest, delivery
+    // meest, delivery, ukrposhta, cat
     return totals.subtotal >= 13000
       ? { price: 0, type: "free" }
       : { price: null, type: "carrier" };

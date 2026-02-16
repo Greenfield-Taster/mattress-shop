@@ -16,11 +16,10 @@ import "./OrderDetailsModal.scss";
 // Мапа назв служб доставки
 const DELIVERY_METHODS = {
   "nova-poshta": "Нова Пошта",
-  nova_poshta: "Нова Пошта",
   meest: "Meest",
-  ukrposhta: "Укрпошта",
   delivery: "Delivery",
-  intime: "Ін Тайм",
+  ukrposhta: "Укрпошта",
+  cat: "CAT",
   courier: "Кур'єр",
   pickup: "Самовивіз",
 };
