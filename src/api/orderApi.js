@@ -119,7 +119,7 @@ export async function getMyOrders() {
  * @param {Object|null} promoCode - застосований промокод
  * @returns {Object} - дані для API
  */
-export function formatOrderData(formData, items, totals, promoCode = null) {
+export function formatOrderData(formData, items, totals, promoCode = null, deliveryInfo = null) {
   return {
     contactData: {
       fullName: formData.contactData.fullName,
@@ -134,6 +134,8 @@ export function formatOrderData(formData, items, totals, promoCode = null) {
     deliveryCityRef: formData.deliveryCityRef || null,
     deliveryAddress: formData.deliveryAddress || null,
     deliveryWarehouse: formData.deliveryWarehouse || null,
+    deliveryPrice: deliveryInfo?.price ?? 0,
+    deliveryPriceType: deliveryInfo?.type || "free",
 
     paymentMethod: formData.paymentMethod,
     paymentData: formData.paymentData || null,

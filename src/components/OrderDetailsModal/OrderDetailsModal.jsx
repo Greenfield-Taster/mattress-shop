@@ -15,11 +15,13 @@ import "./OrderDetailsModal.scss";
 
 // Мапа назв служб доставки
 const DELIVERY_METHODS = {
+  "nova-poshta": "Нова Пошта",
   nova_poshta: "Нова Пошта",
   meest: "Meest",
   ukrposhta: "Укрпошта",
   delivery: "Delivery",
   intime: "Ін Тайм",
+  courier: "Кур'єр",
   pickup: "Самовивіз",
 };
 
@@ -224,7 +226,13 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             )}
             <div className="order-details-modal__summary-row">
               <span>Доставка:</span>
-              <span>Безкоштовно</span>
+              <span>
+                {order.delivery_price_type === "carrier"
+                  ? "За тарифами перевізника"
+                  : order.delivery_price > 0
+                    ? `${Number(order.delivery_price).toLocaleString("uk-UA")} ₴`
+                    : "Безкоштовно"}
+              </span>
             </div>
             <div className="order-details-modal__summary-row order-details-modal__summary-row--total">
               <span>Загальна сума:</span>
