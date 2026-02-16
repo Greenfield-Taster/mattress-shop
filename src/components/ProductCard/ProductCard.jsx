@@ -13,7 +13,7 @@ const normalizeSize = (size) => {
 };
 
 const ProductCard = ({ product, selectedSize = null }) => {
-  const { id, name, type, height, hardness, image, variants } = product;
+  const { id, name, handle, type, height, hardness, image, variants } = product;
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
@@ -86,7 +86,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
   return (
     <div className="product-card">
       <div className="product-card__image-wrapper">
-        <Link to={`/product/${id}`} className="product-card__image-link">
+        <Link to={`/product/${handle || id}`} className="product-card__image-link">
           <img
             src={image || placeholderImg}
             alt={name}
@@ -110,7 +110,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
       </div>
 
       <div className="product-card__content">
-        <Link to={`/product/${id}`} className="product-card__title-link">
+        <Link to={`/product/${handle || id}`} className="product-card__title-link">
           <h3 className="product-card__title">{name}</h3>
         </Link>
 
@@ -155,7 +155,7 @@ const ProductCard = ({ product, selectedSize = null }) => {
 
         <div className="product-card__actions">
           <Link
-            to={`/product/${id}`}
+            to={`/product/${handle || id}`}
             className="product-card__button product-card__button--primary"
           >
             Детальніше

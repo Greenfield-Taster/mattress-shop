@@ -29,7 +29,7 @@ const Product = () => {
   usePageMeta({
     title: product?.name,
     description: product ? `Ортопедичний матрац ${product.name} від Just Sleep. Ціна від ${product.minPrice || product.price} ₴. Доставка по Україні.` : undefined,
-    path: product ? `/product/${id}` : undefined,
+    path: product ? `/product/${product.handle || id}` : undefined,
     ogType: "product",
     ogImage: product?.images?.[0],
     jsonLd: product ? [
