@@ -15,6 +15,7 @@ import {
   clearFieldError,
 } from "../utils/checkoutValidation";
 import LegalModal from "../components/LegalModal/LegalModal";
+import usePageTitle from "../hooks/usePageTitle";
 import "../styles/pages/_checkout.scss";
 
 // Import icons (lucide-react)
@@ -32,6 +33,7 @@ import {
 } from "lucide-react";
 
 const Checkout = () => {
+  usePageTitle("Оформлення замовлення");
   const { items, totals, currency, promoCode, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();

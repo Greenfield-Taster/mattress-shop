@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { getMyOrders } from "../api/orderApi";
+import usePageTitle from "../hooks/usePageTitle";
 import {
   User,
   Mail,
@@ -50,6 +51,7 @@ const formatPhoneForDisplay = (phone) => {
 };
 
 const Profile = () => {
+  usePageTitle("Профіль");
   const { user, logout, updateUser, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 

@@ -7,6 +7,7 @@ import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
 import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
+import usePageTitle from "../hooks/usePageTitle";
 import "../styles/pages/_product.scss";
 
 import {
@@ -24,6 +25,7 @@ const Product = () => {
   const { addItem } = useCart();
 
   const [product, setProduct] = useState(null);
+  usePageTitle(product?.name);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState("description");

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import FAQ from "../components/FAQ/FAQ";
 import { faqData } from "../data/faqData";
+import usePageTitle from "../hooks/usePageTitle";
 import "../styles/pages/_contacts.scss";
 
 const Contacts = () => {
+  usePageTitle("Контакти");
   // Scroll to FAQ section if hash is present
   useEffect(() => {
     if (window.location.hash === "#faq") {

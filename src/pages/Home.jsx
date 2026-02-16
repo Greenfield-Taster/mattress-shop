@@ -4,6 +4,7 @@ import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Carousel from "../components/Carousel/Carousel";
 import { useQuiz } from "../hooks/useQuiz";
 import { fetchPopularProducts } from "../api/fetchProducts";
+import usePageTitle from "../hooks/usePageTitle";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "/heero-cat.png";
@@ -14,6 +15,7 @@ import toperImage from "/toper.png";
 import pillowImage from "/pillow.png";
 
 const Home = () => {
+  usePageTitle("Ортопедичні матраци");
   const { openQuiz } = useQuiz();
   const [popularProducts, setPopularProducts] = useState([]);
   const [loading, setLoading] = useState(true);

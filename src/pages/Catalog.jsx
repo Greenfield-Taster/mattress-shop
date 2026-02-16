@@ -6,9 +6,11 @@ import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
 import { fetchProducts } from "../api/fetchProducts";
 import { HARDNESS_LABELS } from "../utils/productLabels";
+import usePageTitle from "../hooks/usePageTitle";
 import "../styles/pages/_catalog.scss";
 
 const Catalog = () => {
+  usePageTitle("Каталог");
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
