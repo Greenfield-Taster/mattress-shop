@@ -36,6 +36,13 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [orderPlaced, setOrderPlaced] = useState(false);
+
+  useEffect(() => {
+    if (items.length === 0 && !orderPlaced) {
+      navigate("/catalog", { replace: true });
+    }
+  }, [items.length, orderPlaced, navigate]);
 
   // Contact form state
   const [contactData, setContactData] = useState({
@@ -292,6 +299,9 @@ const Checkout = () => {
 
       const result = await createOrder(orderData);
       console.log("✅ Замовлення створено:", result);
+
+      // Позначаємо що замовлення оформлено (щоб useEffect не редіректив на каталог)
+      setOrderPlaced(true);
 
       // Очищуємо кошик
       clearCart();
