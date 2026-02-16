@@ -7,7 +7,8 @@ import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
 import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO, buildProductJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
 import "../styles/pages/_product.scss";
 
 import {
@@ -25,7 +26,21 @@ const Product = () => {
   const { addItem } = useCart();
 
   const [product, setProduct] = useState(null);
-  usePageTitle(product?.name);
+  usePageMeta({
+    title: product?.name,
+    description: product ? `Ортопедичний матрац ${product.name} від Just Sleep. Ціна від ${product.minPrice || product.price} ₴. Доставка по Україні.` : undefined,
+    path: product ? `/product/${id}` : undefined,
+    ogType: "product",
+    ogImage: product?.images?.[0],
+    jsonLd: product ? [
+      buildProductJsonLd(product),
+      buildBreadcrumbJsonLd([
+        { name: "Головна", url: "/" },
+        { name: "Каталог", url: "/catalog" },
+        { name: product.name },
+      ]),
+    ] : undefined,
+  });
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState("description");

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin } from "lucide-react";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_order-success.scss";
 
 // Ключ для збереження номерів замовлень в localStorage
@@ -23,7 +24,7 @@ const saveOrderNumber = (orderNumber) => {
 };
 
 const OrderSuccess = () => {
-  usePageTitle("Замовлення оформлено");
+  usePageMeta(PAGE_SEO.orderSuccess);
   const { orderNumber } = useParams();
   const [order, setOrder] = useState(null);
 

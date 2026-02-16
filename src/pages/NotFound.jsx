@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Home, ArrowLeft, Search, ShoppingBag } from "lucide-react";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_notfound.scss";
 
 const NotFound = () => {
-  usePageTitle("Сторінку не знайдено");
+  usePageMeta(PAGE_SEO.notFound);
   const navigate = useNavigate();
 
   return (

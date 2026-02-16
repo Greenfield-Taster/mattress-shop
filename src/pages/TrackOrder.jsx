@@ -13,7 +13,8 @@ import {
   Check,
 } from "lucide-react";
 import { getOrder } from "../api/orderApi";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_track-order.scss";
 
 // Конфігурація статусів замовлень
@@ -88,7 +89,7 @@ const removeOrderNumber = (orderNumber) => {
 };
 
 const TrackOrder = () => {
-  usePageTitle("Відстеження замовлення");
+  usePageMeta(PAGE_SEO.trackOrder);
   const [orderNumber, setOrderNumber] = useState("");
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);

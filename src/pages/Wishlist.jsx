@@ -4,11 +4,12 @@ import { useWishlist } from "../hooks/useWishlist";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 import ProductCard from "../components/ProductCard/ProductCard";
 import ConfirmModal from "../components/ConfirmModal/ConfirmModal";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_wishlist.scss";
 
 const Wishlist = () => {
-  usePageTitle("Обране");
+  usePageMeta(PAGE_SEO.wishlist);
   const { wishlist, clearWishlist } = useWishlist();
   const navigate = useNavigate();
   const [showClearConfirm, setShowClearConfirm] = useState(false);

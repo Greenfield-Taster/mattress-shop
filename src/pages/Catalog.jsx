@@ -6,11 +6,18 @@ import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
 import { fetchProducts } from "../api/fetchProducts";
 import { HARDNESS_LABELS } from "../utils/productLabels";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO, buildBreadcrumbJsonLd } from "../utils/seoData";
 import "../styles/pages/_catalog.scss";
 
 const Catalog = () => {
-  usePageTitle("Каталог");
+  usePageMeta({
+    ...PAGE_SEO.catalog,
+    jsonLd: [buildBreadcrumbJsonLd([
+      { name: "Головна", url: "/" },
+      { name: "Каталог" },
+    ])],
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { getMyOrders } from "../api/orderApi";
-import usePageTitle from "../hooks/usePageTitle";
+import usePageMeta from "../hooks/usePageMeta";
+import { PAGE_SEO } from "../utils/seoData";
 import {
   User,
   Mail,
@@ -51,7 +52,7 @@ const formatPhoneForDisplay = (phone) => {
 };
 
 const Profile = () => {
-  usePageTitle("Профіль");
+  usePageMeta(PAGE_SEO.profile);
   const { user, logout, updateUser, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
