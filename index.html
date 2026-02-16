@@ -1,19 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/heero-cat.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Just Sleep — Ортопедичні матраци у Києві</title>
+    <meta name="description" content="Інтернет-магазин ортопедичних матраців Just Sleep. Пружинні, безпружинні та дитячі матраци з доставкою по Україні. Гарантія до 10 років." />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#1e3a5f" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:site_name" content="Just Sleep" />
+    <meta property="og:title" content="Just Sleep — Ортопедичні матраци у Києві" />
+    <meta property="og:description" content="Інтернет-магазин ортопедичних матраців Just Sleep. Пружинні, безпружинні та дитячі матраци з доставкою по Україні." />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Just Sleep — Ортопедичні матраци у Києві" />
+    <meta name="twitter:description" content="Інтернет-магазин ортопедичних матраців Just Sleep. Пружинні, безпружинні та дитячі матраци з доставкою по Україні." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" href="/heero-cat.png" />
+    <link rel="apple-touch-icon" href="/heero-cat.png" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Just Sleep</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Static JSON-LD for non-JS crawlers -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Just Sleep",
+        "alternateName": "Джаст Сліп",
+        "url": "https://just-sleep.com.ua"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Just Sleep",
+        "url": "https://just-sleep.com.ua",
+        "logo": "https://just-sleep.com.ua/heero-cat.png",
+        "description": "Інтернет-магазин ортопедичних матраців з доставкою по Україні",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+380-XX-XXX-XX-XX",
+          "contactType": "customer service",
+          "availableLanguage": "Ukrainian"
+        }
+      }
+    </script>
   </body>
 </html>

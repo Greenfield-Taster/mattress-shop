@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /profile
+Disallow: /checkout
+Disallow: /order-success
+Disallow: /wishlist
+
+Sitemap: https://just-sleep.com.ua/sitemap.xml
