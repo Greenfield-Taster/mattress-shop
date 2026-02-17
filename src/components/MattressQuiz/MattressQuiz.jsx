@@ -300,7 +300,13 @@ const MattressQuiz = ({ onClose }) => {
     return (
       <div className="mattress-quiz">
         <div className="mattress-quiz__overlay" />
-        <div className="mattress-quiz__container" ref={containerRef}>
+        <div
+          className="mattress-quiz__container"
+          ref={containerRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Підбір матраца"
+        >
           <button className="mattress-quiz__close" onClick={onClose}>
             <svg
               width="24"
@@ -391,7 +397,13 @@ const MattressQuiz = ({ onClose }) => {
   return (
     <div className="mattress-quiz">
       <div className="mattress-quiz__overlay" />
-      <div className="mattress-quiz__container" ref={containerRef}>
+      <div
+        className="mattress-quiz__container"
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Підбір матраца"
+      >
         <div className="mattress-quiz__header">
           <div className="mattress-quiz__steps">
             Крок {currentStep + 1} з {steps.length}

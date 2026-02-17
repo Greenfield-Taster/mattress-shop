@@ -241,7 +241,13 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
       />
 
       {/* Side Panel */}
-      <aside className={`side-auth-panel ${isOpen ? 'open' : ''}`} ref={panelRef}>
+      <aside
+        className={`side-auth-panel ${isOpen ? 'open' : ''}`}
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Авторизація"
+      >
         {/* Close Button */}
         <button
           className="close-btn"
