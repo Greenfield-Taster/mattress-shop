@@ -105,6 +105,31 @@ article p {
   -webkit-user-select: none !important;
 }
 
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  z-index: v.$z-tooltip;
+  background: v.$brand-primary-500;
+  color: v.$color-text-inverse;
+  padding: v.$spacing-2 v.$spacing-4;
+  border-radius: v.$radius-button;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  text-decoration: none;
+  cursor: pointer !important;
+  user-select: none;
+
+  &:focus {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: v.$spacing-2;
+    outline: 2px solid v.$brand-primary-300;
+    outline-offset: 2px;
+  }
+}
+
 .app {
   min-height: 100vh;
   display: flex;
