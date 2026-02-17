@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   cursor: default;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -85,14 +86,35 @@ div, span, p, h1, h2, h3, h4, h5, h6, li, ul, ol, section, article, main, header
   -ms-user-select: none;
 }
 
-// Дозволяємо виділення тільки для текстових блоків контенту
+// Дозволяємо виділення тексту для контенту який користувачі можуть копіювати
 .content,
 .description,
-article p {
+article p,
+// Контактна інформація (телефон, email, адреса)
+.contact-item,
+.contacts__info-link,
+.contacts__info-text,
+.checkout__help-phone,
+// Номери замовлень
+.order-success__order-number,
+.track-order__result-number,
+.order-card__id,
+// Опис товару та характеристики
+.product-description__text,
+.product-description__care-text,
+.characteristic-item__value,
+.product-info__article-value,
+// Відгуки
+.review-card__comment,
+// Юридичний текст
+.legal-modal__text {
   user-select: text;
   -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
+
+  * {
+    user-select: text;
+    -webkit-user-select: text;
+  }
 }
 
 // Заборона text cursor для MUI компонентів
