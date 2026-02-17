@@ -2,15 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { Search, MapPin, X } from 'lucide-react';
 import './DeliveryAutocomplete.scss';
 
-const DeliveryAutocomplete = ({ 
+const DeliveryAutocomplete = ({
   type = 'city', // 'city' or 'warehouse'
-  value, 
-  onChange, 
-  onSearch, 
+  value,
+  onChange,
+  onSearch,
   placeholder,
   disabled = false,
   error = '',
   cityRef = null,
+  id,
 }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -122,6 +123,7 @@ const DeliveryAutocomplete = ({
         <Search size={18} className="delivery-autocomplete__icon" />
         <input
           type="text"
+          id={id}
           value={selectedLabel || query}
           onChange={handleInputChange}
           onFocus={() => {

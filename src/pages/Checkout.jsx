@@ -442,12 +442,13 @@ const Checkout = () => {
                 Заповніть ваші контактні дані
               </p>
               <div className="checkout__form-group">
-                <label className="checkout__label">
+                <label htmlFor="fullName" className="checkout__label">
                   <User size={18} />
                   ПІБ
                 </label>
                 <input
                   type="text"
+                  id="fullName"
                   name="fullName"
                   value={contactData.fullName}
                   onChange={handleContactChange}
@@ -464,12 +465,13 @@ const Checkout = () => {
 
               <div className="checkout__form-row">
                 <div className="checkout__form-group">
-                  <label className="checkout__label">
+                  <label htmlFor="phone" className="checkout__label">
                     <Phone size={18} />
                     Телефон
                   </label>
                   <input
                     type="tel"
+                    id="phone"
                     name="phone"
                     value={contactData.phone}
                     onChange={handleContactChange}
@@ -483,12 +485,13 @@ const Checkout = () => {
                 </div>
 
                 <div className="checkout__form-group">
-                  <label className="checkout__label">
+                  <label htmlFor="email" className="checkout__label">
                     <Mail size={18} />
                     Email
                   </label>
                   <input
                     type="email"
+                    id="email"
                     name="email"
                     value={contactData.email}
                     onChange={handleContactChange}
@@ -503,10 +506,11 @@ const Checkout = () => {
               </div>
 
               <div className="checkout__form-group">
-                <label className="checkout__label--comment">
+                <label htmlFor="comment" className="checkout__label--comment">
                   Коментар до замовлення
                 </label>
                 <textarea
+                  id="comment"
                   name="comment"
                   value={contactData.comment}
                   onChange={handleContactChange}
@@ -583,11 +587,12 @@ const Checkout = () => {
                   {/* Для кур'єрської доставки не показуємо поле вибору міста */}
                   {deliveryMethod !== "courier" && (
                     <div className="checkout__form-group">
-                      <label className="checkout__label">
+                      <label htmlFor="deliveryCity" className="checkout__label">
                         <MapPin size={18} />
                         Місто
                       </label>
                       <DeliveryAutocomplete
+                        id="deliveryCity"
                         type="city"
                         value={deliveryCity}
                         onChange={handleCityChange}
@@ -600,9 +605,10 @@ const Checkout = () => {
 
                   {deliveryMethod === "courier" ? (
                     <div className="checkout__form-group">
-                      <label className="checkout__label">Адреса доставки</label>
+                      <label htmlFor="deliveryAddress" className="checkout__label">Адреса доставки</label>
                       <input
                         type="text"
+                        id="deliveryAddress"
                         value={deliveryAddress}
                         onChange={(e) => {
                           setDeliveryAddress(e.target.value);
@@ -622,10 +628,11 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <div className="checkout__form-group">
-                      <label className="checkout__label">
+                      <label htmlFor="deliveryWarehouse" className="checkout__label">
                         Відділення / Поштомат
                       </label>
                       <DeliveryAutocomplete
+                        id="deliveryWarehouse"
                         type="warehouse"
                         value={deliveryWarehouse}
                         onChange={handleWarehouseChange}
@@ -719,12 +726,13 @@ const Checkout = () => {
               {paymentMethod === "card-online" && (
                 <div className="checkout__payment-details">
                   <div className="checkout__form-group">
-                    <label className="checkout__label">
+                    <label htmlFor="cardNumber" className="checkout__label">
                       <CreditCard size={18} />
                       Номер картки
                     </label>
                     <input
                       type="text"
+                      id="cardNumber"
                       name="cardNumber"
                       value={cardNumber}
                       onChange={handleCardNumberChange}
@@ -744,9 +752,10 @@ const Checkout = () => {
 
                   <div className="checkout__form-row">
                     <div className="checkout__form-group">
-                      <label className="checkout__label">Термін дії</label>
+                      <label htmlFor="cardExpiry" className="checkout__label">Термін дії</label>
                       <input
                         type="text"
+                        id="cardExpiry"
                         name="cardExpiry"
                         value={cardExpiry}
                         onChange={handleCardExpiryChange}
@@ -765,9 +774,10 @@ const Checkout = () => {
                     </div>
 
                     <div className="checkout__form-group">
-                      <label className="checkout__label">CVV</label>
+                      <label htmlFor="cardCvv" className="checkout__label">CVV</label>
                       <input
                         type="text"
+                        id="cardCvv"
                         name="cardCvv"
                         value={cardCvv}
                         onChange={handleCVVChange}
@@ -787,11 +797,12 @@ const Checkout = () => {
                   </div>
 
                   <div className="checkout__form-group">
-                    <label className="checkout__label">
+                    <label htmlFor="cardHolder" className="checkout__label">
                       Ім'я власника картки
                     </label>
                     <input
                       type="text"
+                      id="cardHolder"
                       name="cardHolder"
                       value={cardHolder}
                       onChange={(e) => {
@@ -858,9 +869,10 @@ const Checkout = () => {
               {paymentMethod === "invoice" && (
                 <div className="checkout__payment-details">
                   <div className="checkout__form-group">
-                    <label className="checkout__label">Назва компанії</label>
+                    <label htmlFor="companyName" className="checkout__label">Назва компанії</label>
                     <input
                       type="text"
+                      id="companyName"
                       name="companyName"
                       value={companyName}
                       onChange={(e) => {
@@ -881,9 +893,10 @@ const Checkout = () => {
                   </div>
 
                   <div className="checkout__form-group">
-                    <label className="checkout__label">ЄДРПОУ</label>
+                    <label htmlFor="edrpou" className="checkout__label">ЄДРПОУ</label>
                     <input
                       type="text"
+                      id="edrpou"
                       name="edrpou"
                       value={edrpou}
                       onChange={handleEDRPOUChange}
@@ -900,9 +913,10 @@ const Checkout = () => {
                   </div>
 
                   <div className="checkout__form-group">
-                    <label className="checkout__label">Юридична адреса</label>
+                    <label htmlFor="companyAddress" className="checkout__label">Юридична адреса</label>
                     <input
                       type="text"
+                      id="companyAddress"
                       name="companyAddress"
                       value={companyAddress}
                       onChange={(e) => {
