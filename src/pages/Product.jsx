@@ -298,7 +298,6 @@ const Product = () => {
   const handleCommentSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log("Comment submitted:", commentForm);
       setCommentForm({
         name: "",
         email: "",

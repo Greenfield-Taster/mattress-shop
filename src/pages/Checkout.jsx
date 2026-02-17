@@ -250,7 +250,6 @@ const Checkout = () => {
       return;
     }
 
-    console.log(`Initiating ${paymentType} payment...`);
     alert(`🔄 Перенаправлення на ${paymentType}...\n(це тестовий режим)`);
     // Here would be Google/Apple Pay integration
   };
@@ -301,10 +300,7 @@ const Checkout = () => {
 
     try {
       const orderData = formatOrderData(formData, items, totals, promoCode, deliveryInfo);
-      console.log("📦 Відправка замовлення:", orderData);
-
       const result = await createOrder(orderData);
-      console.log("✅ Замовлення створено:", result);
 
       // Позначаємо що замовлення оформлено (щоб useEffect не редіректив на каталог)
       setOrderPlaced(true);

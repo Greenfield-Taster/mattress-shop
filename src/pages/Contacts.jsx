@@ -225,8 +225,6 @@ const Contacts = () => {
 
       try {
         // Тут буде логіка відправки форми на сервер
-        console.log("Form submitted:", formData);
-
         // Симуляція відправки
         await new Promise((resolve) => setTimeout(resolve, 1500));
 

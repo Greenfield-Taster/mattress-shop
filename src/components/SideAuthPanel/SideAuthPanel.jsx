@@ -94,10 +94,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
     setIsSubmitting(false);
 
-    if (result.success) {
-      // Можна показати повідомлення про успішну відправку
-      console.log('Code sent successfully');
-    } else {
+    if (!result.success) {
       setError(result.error || 'Помилка відправки коду');
     }
   };
