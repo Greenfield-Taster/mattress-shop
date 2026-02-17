@@ -192,11 +192,13 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     onClose();
   };
 
-  // Focus trap + Escape
+  // Focus trap + Escape + scroll lock
   useEffect(() => {
     if (!isOpen) return;
 
     previousFocusRef.current = document.activeElement;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
 
     setTimeout(() => {
       closeButtonRef.current?.focus();
@@ -227,6 +229,8 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
       previousFocusRef.current?.focus();
     };
   }, [isOpen]);

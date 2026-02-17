@@ -55,18 +55,21 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Блокування скролу body
+  // Блокування скролу body + html
   useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 100);
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
 
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isOpen]);
