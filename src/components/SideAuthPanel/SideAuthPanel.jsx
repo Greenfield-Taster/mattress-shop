@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import LegalModal from '../LegalModal/LegalModal';
 import './SideAuthPanel.scss';
 
 const SideAuthPanel = ({ isOpen = false, onClose }) => {
+  const panelRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const [authStep, setAuthStep] = useState('phone'); // 'phone' | 'code'
   const [phoneNumber, setPhoneNumber] = useState('');
   const [code, setCode] = useState(['', '', '', '', '', '']);
@@ -189,6 +192,45 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     onClose();
   };
 
+  // Focus trap + Escape
+  useEffect(() => {
+    if (!isOpen) return;
+
+    previousFocusRef.current = document.activeElement;
+
+    setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 100);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+
+      if (e.key === 'Tab' && panelRef.current) {
+        const focusableElements = panelRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [isOpen]);
+
   return (
     <>
       {/* Backdrop */}
@@ -199,13 +241,14 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
       />
 
       {/* Side Panel */}
-      <aside className={`side-auth-panel ${isOpen ? 'open' : ''}`}>
+      <aside className={`side-auth-panel ${isOpen ? 'open' : ''}`} ref={panelRef}>
         {/* Close Button */}
-        <button 
-          className="close-btn" 
-          onClick={handleClose} 
+        <button
+          className="close-btn"
+          onClick={handleClose}
           aria-label="Закрити"
           type="button"
+          ref={closeButtonRef}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path 

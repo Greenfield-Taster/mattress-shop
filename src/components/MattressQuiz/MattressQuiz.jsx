@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Slider from "rc-slider";
@@ -8,6 +8,8 @@ import "./MattressQuiz.scss";
 
 const MattressQuiz = ({ onClose }) => {
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({
     type: null,
@@ -20,6 +22,39 @@ const MattressQuiz = ({ onClose }) => {
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 50000]);
   const [activePricePreset, setActivePricePreset] = useState(null);
+
+  // Focus trap + Escape
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+
+      if (e.key === 'Tab' && containerRef.current) {
+        const focusableElements = containerRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [onClose]);
 
   // Розміри з каталогу, розділені на категорії
   const allSizes = [
@@ -265,7 +300,7 @@ const MattressQuiz = ({ onClose }) => {
     return (
       <div className="mattress-quiz">
         <div className="mattress-quiz__overlay" />
-        <div className="mattress-quiz__container">
+        <div className="mattress-quiz__container" ref={containerRef}>
           <button className="mattress-quiz__close" onClick={onClose}>
             <svg
               width="24"
@@ -356,7 +391,7 @@ const MattressQuiz = ({ onClose }) => {
   return (
     <div className="mattress-quiz">
       <div className="mattress-quiz__overlay" />
-      <div className="mattress-quiz__container">
+      <div className="mattress-quiz__container" ref={containerRef}>
         <div className="mattress-quiz__header">
           <div className="mattress-quiz__steps">
             Крок {currentStep + 1} з {steps.length}
