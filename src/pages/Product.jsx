@@ -1,10 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useCart } from "../hooks/useCart";
+import { useAuth } from "../hooks/useAuth";
 import { fetchProducts, fetchProductById } from "../api/fetchProducts";
+import { getProductReviews, createReview } from "../api/reviewApi";
 import ProductGallery from "../components/ProductGallery/ProductGallery";
 import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
+import CustomSelect from "../components/CustomSelect/CustomSelect";
 import certificateIso from "../assets/images/certificate-ISO.jpg";
 import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
 import usePageMeta from "../hooks/usePageMeta";
@@ -24,6 +27,7 @@ const Product = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
   usePageMeta({
@@ -46,9 +50,19 @@ const Product = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [loading, setLoading] = useState(true);
   const [showAllSizes, setShowAllSizes] = useState(false);
-  const [showAllReviews, setShowAllReviews] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isAdded, setIsAdded] = useState(false);
+
+  // Відгуки — реальні дані з API
+  const [reviews, setReviews] = useState([]);
+  const [reviewStats, setReviewStats] = useState({ averageRating: 0, count: 0, distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } });
+  const [reviewSort, setReviewSort] = useState("newest");
+  const [reviewOffset, setReviewOffset] = useState(0);
+  const [reviewTotal, setReviewTotal] = useState(0);
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [reviewError, setReviewError] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
   // Форма для коментарів
   const [commentForm, setCommentForm] = useState({
@@ -57,67 +71,6 @@ const Product = () => {
     rating: 5,
     comment: "",
   });
-
-  // Мокові дані для відгуків (пізніше будуть з API)
-  const mockReviews = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "Олена Петренко",
-        rating: 5,
-        date: "2024-10-15",
-        comment:
-          "Чудовий матрац! Спина перестала боліти вже через тиждень. Сплю значно краще, прокидаюся відпочившою. Рекомендую всім, хто має проблеми зі спиною!",
-        verified: true,
-      },
-      {
-        id: 2,
-        name: "Андрій Коваленко",
-        rating: 4,
-        date: "2024-10-10",
-        comment:
-          "Якість відмінна, але доставка зайняла трохи більше часу, ніж очікувалося. Сам матрац дуже добрий, ортопедичний ефект відчувається.",
-        verified: true,
-      },
-      {
-        id: 3,
-        name: "Марія Сидоренко",
-        rating: 5,
-        date: "2024-10-05",
-        comment:
-          "Дуже задоволена покупкою. М'який та комфортний, але з хорошою підтримкою. Ціна повністю відповідає якості.",
-        verified: true,
-      },
-      {
-        id: 4,
-        name: "Ігор Мельник",
-        rating: 5,
-        date: "2024-09-28",
-        comment:
-          "Відмінний матрац за свою ціну. Сплю краще ніж на старому дорогому. Не жалію про покупку!",
-        verified: false,
-      },
-      {
-        id: 5,
-        name: "Наталія Іваненко",
-        rating: 4,
-        date: "2024-09-20",
-        comment:
-          "Гарний матрац, але перші дні був специфічний запах нового матеріалу. Швидко вивітрився після провітрювання.",
-        verified: true,
-      },
-      {
-        id: 6,
-        name: "Сергій Бондаренко",
-        rating: 5,
-        date: "2024-09-15",
-        comment:
-          "Купували для дитини. Дуже задоволені. Середньої жорсткості, як рекомендував ортопед.",
-        verified: true,
-      },
-    ],
-    []
-  );
 
   // Мокові дані для сертифікатів (пізніше з API)
   const mockCertificates = useMemo(
@@ -222,6 +175,41 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
+  // Завантаження відгуків з API
+  const loadReviews = useCallback(async (productId, sort = "newest", offset = 0, append = false) => {
+    try {
+      const data = await getProductReviews(productId, { sort, limit: 5, offset });
+      if (append) {
+        setReviews((prev) => [...prev, ...data.reviews]);
+      } else {
+        setReviews(data.reviews);
+      }
+      setReviewStats(data.stats);
+      setReviewTotal(data.count);
+    } catch (error) {
+      console.error("Error loading reviews:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (product?.id) {
+      setReviews([]);
+      setReviewOffset(0);
+      loadReviews(product.id, reviewSort, 0);
+    }
+  }, [product?.id, reviewSort, loadReviews]);
+
+  // Автозаповнення форми відгуку для авторизованих користувачів
+  useEffect(() => {
+    if (user && !reviewSubmitted) {
+      setCommentForm((prev) => ({
+        ...prev,
+        name: prev.name || [user.firstName, user.lastName].filter(Boolean).join(" "),
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, [user, reviewSubmitted]);
+
   // Мемоїзовані значення
   const images = useMemo(() => product?.images || [], [product]);
 
@@ -247,17 +235,8 @@ const Product = () => {
     return [...productVariants, customVariant];
   }, [product]);
 
-  // Розраховуємо кількість відгуків для показу
-  const visibleReviews = useMemo(() => {
-    return showAllReviews ? mockReviews : mockReviews.slice(0, 3);
-  }, [showAllReviews, mockReviews]);
-
-  // Розраховуємо середній рейтинг
-  const averageRating = useMemo(() => {
-    if (mockReviews.length === 0) return 0;
-    const sum = mockReviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / mockReviews.length).toFixed(1);
-  }, [mockReviews]);
+  const averageRating = reviewStats.averageRating;
+  const reviewCount = reviewStats.count;
 
   // Handlers
   const handleVariantChange = useCallback((variant) => {
@@ -295,25 +274,73 @@ const Product = () => {
     setActiveTab(tab);
   }, []);
 
+  // Валідація форми відгуку
+  const validateReviewForm = useCallback(() => {
+    const errors = {};
+    const { name, email, rating, comment } = commentForm;
+
+    if (!name || name.trim().length < 2) {
+      errors.name = "Ім'я має містити мінімум 2 символи";
+    } else if (name.trim().length > 50) {
+      errors.name = "Ім'я має містити максимум 50 символів";
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Невірний формат email";
+    }
+
+    if (!rating || rating < 1 || rating > 5) {
+      errors.rating = "Оберіть оцінку від 1 до 5";
+    }
+
+    if (!comment || comment.trim().length < 10) {
+      errors.comment = "Відгук має містити мінімум 10 символів";
+    } else if (comment.trim().length > 1000) {
+      errors.comment = "Відгук має містити максимум 1000 символів";
+    }
+
+    return errors;
+  }, [commentForm]);
+
   const handleCommentSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
-      setCommentForm({
-        name: "",
-        email: "",
-        rating: 5,
-        comment: "",
-      });
+      setReviewError("");
+      setFormErrors({});
+
+      const errors = validateReviewForm();
+      if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        return;
+      }
+
+      setReviewSubmitting(true);
+      try {
+        await createReview({
+          product_id: product.id,
+          name: commentForm.name.trim(),
+          email: commentForm.email.trim(),
+          rating: commentForm.rating,
+          comment: commentForm.comment.trim(),
+        });
+        setReviewSubmitted(true);
+      } catch (error) {
+        setReviewError(error.message || "Помилка відправки відгуку");
+      } finally {
+        setReviewSubmitting(false);
+      }
     },
-    [commentForm]
+    [commentForm, product, validateReviewForm]
   );
+
+  const handleLoadMoreReviews = useCallback(() => {
+    const newOffset = reviewOffset + 5;
+    setReviewOffset(newOffset);
+    loadReviews(product.id, reviewSort, newOffset, true);
+  }, [reviewOffset, product, reviewSort, loadReviews]);
 
   const toggleSizesVisibility = useCallback(() => {
     setShowAllSizes((prev) => !prev);
-  }, []);
-
-  const toggleReviewsVisibility = useCallback(() => {
-    setShowAllReviews((prev) => !prev);
   }, []);
 
   // Визначаємо, скільки розмірів показувати
@@ -388,7 +415,7 @@ const Product = () => {
               )}
 
               {/* Rating */}
-              {mockReviews.length > 0 && (
+              {reviewCount > 0 && (
                 <div className="product-info__rating">
                   <div className="rating-stars">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -405,7 +432,7 @@ const Product = () => {
                   </div>
                   <span className="rating-value">{averageRating}</span>
                   <span className="rating-count">
-                    ({mockReviews.length} відгуків)
+                    ({reviewCount} відгуків)
                   </span>
                 </div>
               )}
@@ -588,7 +615,7 @@ const Product = () => {
                 }`}
                 onClick={() => handleTabChange("reviews")}
               >
-                Відгуки {mockReviews.length > 0 && `(${mockReviews.length})`}
+                Відгуки {reviewCount > 0 && `(${reviewCount})`}
               </button>
               <button
                 role="tab"
@@ -757,7 +784,7 @@ const Product = () => {
                   className="tab-content"
                 >
                   {/* Відгуки */}
-                  {mockReviews.length > 0 ? (
+                  {reviewCount > 0 ? (
                     <div className="reviews-section">
                       <div className="reviews-summary">
                         <div className="reviews-summary__rating">
@@ -778,20 +805,57 @@ const Product = () => {
                             ))}
                           </div>
                           <span className="reviews-summary__text">
-                            Базується на {mockReviews.length} відгуках
+                            Базується на {reviewCount} відгуках
                           </span>
+                        </div>
+
+                        {/* Розподіл оцінок */}
+                        <div className="reviews-distribution">
+                          {[5, 4, 3, 2, 1].map((star) => {
+                            const count = reviewStats.distribution[star] || 0;
+                            const percentage = reviewCount > 0 ? Math.round((count / reviewCount) * 100) : 0;
+                            return (
+                              <div key={star} className="reviews-distribution__row">
+                                <span className="reviews-distribution__label">{star}★</span>
+                                <div className="reviews-distribution__bar">
+                                  <div
+                                    className="reviews-distribution__fill"
+                                    style={{ width: `${percentage}%` }}
+                                  />
+                                </div>
+                                <span className="reviews-distribution__count">{count}</span>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
 
+                      {/* Сортування */}
+                      <div className="reviews-sort">
+                        <span className="reviews-sort__label">Сортувати:</span>
+                        <CustomSelect
+                          value={reviewSort}
+                          onChange={(val) => {
+                            setReviewSort(val);
+                            setReviewOffset(0);
+                          }}
+                          options={[
+                            { value: "newest", label: "Нові спочатку" },
+                            { value: "highest", label: "Висока оцінка" },
+                            { value: "lowest", label: "Низька оцінка" },
+                          ]}
+                        />
+                      </div>
+
                       <div className="reviews-list">
-                        {visibleReviews.map((review) => (
+                        {reviews.map((review) => (
                           <div key={review.id} className="review-card">
                             <div className="review-card__header">
                               <div className="review-card__author">
                                 <span className="review-card__name">
                                   {review.name}
                                 </span>
-                                {review.verified && (
+                                {review.is_verified_purchase && (
                                   <span className="review-card__verified">
                                     <CheckCircle size={16} />
                                     Підтверджена покупка
@@ -799,7 +863,7 @@ const Product = () => {
                                 )}
                               </div>
                               <span className="review-card__date">
-                                {new Date(review.date).toLocaleDateString(
+                                {new Date(review.created_at).toLocaleDateString(
                                   "uk-UA",
                                   {
                                     year: "numeric",
@@ -829,22 +893,12 @@ const Product = () => {
                         ))}
                       </div>
 
-                      {mockReviews.length > 3 && (
+                      {reviews.length < reviewTotal && (
                         <button
                           className="show-more-reviews"
-                          onClick={toggleReviewsVisibility}
-                          aria-expanded={showAllReviews}
+                          onClick={handleLoadMoreReviews}
                         >
-                          {showAllReviews ? (
-                            <>
-                              Показати менше <ChevronUp size={18} />
-                            </>
-                          ) : (
-                            <>
-                              Показати всі відгуки ({mockReviews.length}){" "}
-                              <ChevronDown size={18} />
-                            </>
-                          )}
+                          Показати більше відгуків <ChevronDown size={18} />
                         </button>
                       )}
                     </div>
@@ -863,108 +917,140 @@ const Product = () => {
                   )}
 
                   {/* Форма додавання коментаря */}
-                  <div className="comment-form">
-                    <h3 className="comment-form__title">Залишити відгук</h3>
-                    <form onSubmit={handleCommentSubmit}>
-                      <div className="comment-form__row">
+                  {reviewSubmitted ? (
+                    <div className="review-success">
+                      <CheckCircle size={32} />
+                      <h3>Дякуємо за ваш відгук!</h3>
+                      <p>Ваш відгук буде опублікований після модерації.</p>
+                    </div>
+                  ) : (
+                    <div className="comment-form">
+                      <h3 className="comment-form__title">Залишити відгук</h3>
+
+                      {reviewError && (
+                        <div className="review-error">{reviewError}</div>
+                      )}
+
+                      <form onSubmit={handleCommentSubmit}>
+                        <div className="comment-form__row">
+                          <div className="comment-form__group">
+                            <label htmlFor="review-name" className="comment-form__label">
+                              Ваше ім'я *
+                            </label>
+                            <input
+                              id="review-name"
+                              type="text"
+                              className={`comment-form__input ${formErrors.name ? "comment-form__input--error" : ""}`}
+                              value={commentForm.name}
+                              onChange={(e) =>
+                                setCommentForm({
+                                  ...commentForm,
+                                  name: e.target.value,
+                                })
+                              }
+                              maxLength={50}
+                              disabled={reviewSubmitting}
+                            />
+                            {formErrors.name && (
+                              <span className="comment-form__field-error">{formErrors.name}</span>
+                            )}
+                          </div>
+
+                          <div className="comment-form__group">
+                            <label
+                              htmlFor="review-email"
+                              className="comment-form__label"
+                            >
+                              Email *
+                            </label>
+                            <input
+                              id="review-email"
+                              type="email"
+                              className={`comment-form__input ${formErrors.email ? "comment-form__input--error" : ""}`}
+                              value={commentForm.email}
+                              onChange={(e) =>
+                                setCommentForm({
+                                  ...commentForm,
+                                  email: e.target.value,
+                                })
+                              }
+                              disabled={reviewSubmitting}
+                            />
+                            {formErrors.email && (
+                              <span className="comment-form__field-error">{formErrors.email}</span>
+                            )}
+                          </div>
+                        </div>
+
                         <div className="comment-form__group">
-                          <label htmlFor="name" className="comment-form__label">
-                            Ваше ім'я *
-                          </label>
-                          <input
-                            id="name"
-                            type="text"
-                            className="comment-form__input"
-                            value={commentForm.name}
-                            onChange={(e) =>
-                              setCommentForm({
-                                ...commentForm,
-                                name: e.target.value,
-                              })
-                            }
-                            required
-                          />
+                          <label className="comment-form__label">Оцінка *</label>
+                          <div className="comment-form__rating" role="radiogroup">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                role="radio"
+                                aria-checked={star === commentForm.rating}
+                                aria-label={`${star} з 5 зірок`}
+                                className={`comment-form__star ${
+                                  star <= commentForm.rating
+                                    ? "comment-form__star--active"
+                                    : ""
+                                }`}
+                                onClick={() =>
+                                  setCommentForm({ ...commentForm, rating: star })
+                                }
+                                disabled={reviewSubmitting}
+                              >
+                                ★
+                              </button>
+                            ))}
+                          </div>
+                          {formErrors.rating && (
+                            <span className="comment-form__field-error">{formErrors.rating}</span>
+                          )}
                         </div>
 
                         <div className="comment-form__group">
                           <label
-                            htmlFor="email"
+                            htmlFor="review-comment"
                             className="comment-form__label"
                           >
-                            Email *
+                            Ваш відгук *
                           </label>
-                          <input
-                            id="email"
-                            type="email"
-                            className="comment-form__input"
-                            value={commentForm.email}
+                          <textarea
+                            id="review-comment"
+                            className={`comment-form__textarea ${formErrors.comment ? "comment-form__input--error" : ""}`}
+                            rows="5"
+                            value={commentForm.comment}
                             onChange={(e) =>
                               setCommentForm({
                                 ...commentForm,
-                                email: e.target.value,
+                                comment: e.target.value,
                               })
                             }
-                            required
-                          />
+                            placeholder="Поділіться своїми враженнями про цей матрац..."
+                            maxLength={1000}
+                            disabled={reviewSubmitting}
+                          ></textarea>
+                          <div className="comment-form__char-count">
+                            {commentForm.comment.length}/1000
+                          </div>
+                          {formErrors.comment && (
+                            <span className="comment-form__field-error">{formErrors.comment}</span>
+                          )}
                         </div>
-                      </div>
 
-                      <div className="comment-form__group">
-                        <label className="comment-form__label">Оцінка *</label>
-                        <div className="comment-form__rating" role="radiogroup">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <button
-                              key={star}
-                              type="button"
-                              role="radio"
-                              aria-checked={star === commentForm.rating}
-                              aria-label={`${star} з 5 зірок`}
-                              className={`comment-form__star ${
-                                star <= commentForm.rating
-                                  ? "comment-form__star--active"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                setCommentForm({ ...commentForm, rating: star })
-                              }
-                            >
-                              ★
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="comment-form__group">
-                        <label
-                          htmlFor="comment"
-                          className="comment-form__label"
+                        <button
+                          type="submit"
+                          className="btnProd btnProd--primary"
+                          disabled={reviewSubmitting}
                         >
-                          Ваш відгук *
-                        </label>
-                        <textarea
-                          id="comment"
-                          className="comment-form__textarea"
-                          rows="5"
-                          value={commentForm.comment}
-                          onChange={(e) =>
-                            setCommentForm({
-                              ...commentForm,
-                              comment: e.target.value,
-                            })
-                          }
-                          required
-                          placeholder="Поділіться своїми враженнями про цей матрац..."
-                        ></textarea>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="btnProd btnProd--primary"
-                      >
-                        Відправити відгук
-                      </button>
-                    </form>
-                  </div>
+                          {reviewSubmitting ? "Відправка..." : "Відправити відгук"}
+                        </button>
+                      </form>
+                    </div>
+                  )}
                 </div>
               )}
 
