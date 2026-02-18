@@ -1,3 +1,5 @@
+import { STORE_INFO } from "./storeInfo";
+
 export const SITE_NAME = "Just Sleep";
 export const BASE_URL = (import.meta.env.VITE_SITE_URL || "https://just-sleep.com.ua").replace(/\/$/, "");
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
@@ -68,7 +70,7 @@ export function buildOrganizationJsonLd() {
     description: "Інтернет-магазин ортопедичних матраців з доставкою по Україні",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+380-XX-XXX-XX-XX",
+      telephone: STORE_INFO.phones[0],
       contactType: "customer service",
       availableLanguage: "Ukrainian",
     },

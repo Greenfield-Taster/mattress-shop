@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import FAQ from "../components/FAQ/FAQ";
 import { faqData } from "../data/faqData";
+import { STORE_INFO } from "../utils/storeInfo";
 import usePageMeta from "../hooks/usePageMeta";
-import { PAGE_SEO, buildFAQJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
+import {
+  PAGE_SEO,
+  buildFAQJsonLd,
+  buildBreadcrumbJsonLd,
+} from "../utils/seoData";
 import "../styles/pages/_contacts.scss";
 
 const Contacts = () => {
@@ -27,7 +32,7 @@ const Contacts = () => {
 
           window.scrollTo({
             top: offsetPosition,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 100);
@@ -75,7 +80,7 @@ const Contacts = () => {
         }
         break;
 
-      case "phone":
+      case "phone": {
         // Видаляємо всі символи крім цифр і +
         const phoneDigits = value.replace(/[^\d+]/g, "");
         if (!value.trim()) {
@@ -88,6 +93,7 @@ const Contacts = () => {
           error = "Некоректний формат телефону (напр. +380501234567)";
         }
         break;
+      }
 
       case "email":
         if (!value.trim()) {
@@ -404,42 +410,49 @@ const Contacts = () => {
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Телефон:</span>
                   <div className="contacts__info-values">
-                    <a href="tel:+380501234567" className="contacts__info-link">
-                      +380 (50) 123-45-67
-                    </a>
-                    <a href="tel:+380671234567" className="contacts__info-link">
-                      +380 (67) 123-45-67
-                    </a>
+                    {STORE_INFO.phones.map((phone, i) => (
+                      <a
+                        key={phone}
+                        href={`tel:${phone}`}
+                        className="contacts__info-link"
+                      >
+                        {STORE_INFO.phonesFormatted[i]}
+                      </a>
+                    ))}
                   </div>
                 </div>
 
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Email:</span>
                   <a
-                    href="mailto:info@just-sleep.com.ua"
+                    href={`mailto:${STORE_INFO.email}`}
                     className="contacts__info-link"
                   >
-                    info@just-sleep.com.ua
+                    {STORE_INFO.email}
                   </a>
                 </div>
 
                 <div className="contacts__info-item">
-                  <span className="contacts__info-label">Адреса:</span>
+                  <span className="contacts__info-label">
+                    Адреса / Самовивіз:
+                  </span>
                   <span className="contacts__info-text">
-                    м. Київ, вул. Прикладна, 1
+                    {STORE_INFO.address}
                   </span>
                 </div>
 
                 <div className="contacts__info-item">
                   <span className="contacts__info-label">Графік:</span>
-                  <span className="contacts__info-text">Пн-Пт: 9:00-18:00, Сб: 10:00-16:00</span>
+                  <span className="contacts__info-text">
+                    {STORE_INFO.schedule}
+                  </span>
                 </div>
 
                 <div className="contacts__info-item contacts__info-item--socials">
                   <span className="contacts__info-label">Соцмережі:</span>
                   <div className="contacts__social">
                     <a
-                      href="https://t.me/justsleep_ua"
+                      href={STORE_INFO.social.telegram}
                       className="contacts__social-link"
                       aria-label="Telegram"
                       target="_blank"
@@ -457,7 +470,7 @@ const Contacts = () => {
                       <span className="contacts__social-text">Telegram</span>
                     </a>
                     <a
-                      href="https://instagram.com/justsleep.ua"
+                      href={STORE_INFO.social.instagram}
                       className="contacts__social-link"
                       aria-label="Instagram"
                       target="_blank"
@@ -475,7 +488,7 @@ const Contacts = () => {
                       <span className="contacts__social-text">Instagram</span>
                     </a>
                     <a
-                      href="https://facebook.com/justsleep.ua"
+                      href={STORE_INFO.social.facebook}
                       className="contacts__social-link"
                       aria-label="Facebook"
                       target="_blank"
@@ -499,17 +512,18 @@ const Contacts = () => {
 
             {/* Карта */}
             <div className="contacts__card contacts__map-card">
-              <h2 className="contacts__card-title">Мапа</h2>
+              <h2 className="contacts__card-title">Наш магазин / Самовивіз</h2>
+              <p className="contacts__map-address">{STORE_INFO.address}</p>
               <div className="contacts__map">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.1!2d30.5234!3d50.4501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDI3JzAwLjQiTiAzMMKwMzEnMjQuMiJF!5e0!3m2!1suk!2sua!4v1234567890123!5m2!1suk!2sua"
+                  src={STORE_INFO.map.embedUrl}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Google Maps"
+                  title="Магазин Just Sleep — самовивіз"
                 />
               </div>
             </div>

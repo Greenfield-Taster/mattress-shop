@@ -13,6 +13,7 @@ import {
   FileText,
 } from "lucide-react";
 
+import { STORE_INFO } from "../utils/storeInfo";
 import "../styles/layout/_footer.scss";
 
 const Footer = () => {
@@ -27,7 +28,7 @@ const Footer = () => {
 
             <div className="footer__brand-social">
               <a
-                href="https://facebook.com/justsleep.ua"
+                href={STORE_INFO.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -36,7 +37,7 @@ const Footer = () => {
                 <Facebook size={20} />
               </a>
               <a
-                href="https://instagram.com/justsleep.ua"
+                href={STORE_INFO.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -45,7 +46,7 @@ const Footer = () => {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://t.me/justsleep_ua"
+                href={STORE_INFO.social.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
@@ -79,27 +80,23 @@ const Footer = () => {
           <div className="footer__section">
             <h3 className="footer__section-title">Контакти</h3>
             <div className="footer__contact-list">
-              <a href="tel:+380501234567" className="contact-item">
-                <Phone size={18} />
-                <span>+380 (50) 123-45-67</span>
-              </a>
-              <a href="tel:+380671234567" className="contact-item">
-                <Phone size={18} />
-                <span>+380 (67) 123-45-67</span>
-              </a>
-              <a href="mailto:info@just-sleep.com.ua" className="contact-item">
+              {STORE_INFO.phones.map((phone, i) => (
+                <a key={phone} href={`tel:${phone}`} className="contact-item">
+                  <Phone size={18} />
+                  <span>{STORE_INFO.phonesFormatted[i]}</span>
+                </a>
+              ))}
+              <a href={`mailto:${STORE_INFO.email}`} className="contact-item">
                 <Mail size={18} />
-                <span>info@just-sleep.com.ua</span>
+                <span>{STORE_INFO.email}</span>
               </a>
               <div className="contact-item">
                 <MapPin size={18} />
-                <span>м. Київ, вул. Прикладна, 1</span>
+                <span>{STORE_INFO.address}</span>
               </div>
               <div className="contact-item">
                 <Clock size={18} />
-                <span>
-                  Пн-Пт: 9:00-18:00, <br /> Сб: 10:00-16:00
-                </span>
+                <span>{STORE_INFO.schedule}</span>
               </div>
             </div>
           </div>
