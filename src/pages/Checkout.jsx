@@ -15,6 +15,7 @@ import {
   clearFieldError,
 } from "../utils/checkoutValidation";
 import LegalModal from "../components/LegalModal/LegalModal";
+import { STORE_INFO } from "../utils/storeInfo";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_checkout.scss";
@@ -309,7 +310,14 @@ const Checkout = () => {
       clearCart();
 
       // Зберігаємо дані замовлення в localStorage для сторінки успіху
-      localStorage.setItem("lastOrder", JSON.stringify(result.order));
+      const lastOrderData = {
+        ...result.order,
+        delivery_method: deliveryMethod,
+        delivery_city: deliveryCity || null,
+        delivery_warehouse: deliveryWarehouse || null,
+        delivery_address: deliveryAddress || null,
+      };
+      localStorage.setItem("lastOrder", JSON.stringify(lastOrderData));
 
       // Перенаправляємо на сторінку успіху
       navigate(`/order-success/${result.order.order_number}`);
@@ -655,12 +663,23 @@ const Checkout = () => {
                 </div>
               )}
 
-              {/* Pickup map placeholder */}
               {deliveryMethod === "pickup" && (
-                <div className="checkout__pickup-map">
-                  <MapPin size={24} />
-                  <p>Карта з точками самовивозу</p>
-                  <small>вул. Прикладна, 1, Київ</small>
+                <div className="checkout__pickup-info">
+                  <div className="checkout__pickup-icon">
+                    <MapPin size={24} />
+                  </div>
+                  <div className="checkout__pickup-details">
+                    <h3 className="checkout__pickup-title">
+                      Точка самовивозу
+                    </h3>
+                    <p className="checkout__pickup-address">
+                      {STORE_INFO.pickupAddress}
+                    </p>
+                    <p className="checkout__pickup-hours">
+                      <Clock size={16} />
+                      {STORE_INFO.pickupHours}
+                    </p>
+                  </div>
                 </div>
               )}
             </section>
