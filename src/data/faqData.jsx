@@ -15,14 +15,12 @@ export const faqData = [
   },
   {
     question: "З якими перевізниками ви працюєте",
-    plainText: "Нова Пошта. Делівері. Міст Експресс. Укр. Пошта. CAT.",
+    plainText: "Нова Пошта. Delivery. SAT.",
     answer: (
       <ul>
         <li>Нова Пошта</li>
-        <li>Делівері</li>
-        <li>Міст Експресс</li>
-        <li>Укр. Пошта</li>
-        <li>CAT</li>
+        <li>Delivery</li>
+        <li>SAT</li>
       </ul>
     ),
   },

@@ -395,7 +395,7 @@ const Checkout = () => {
   // - Самовивіз: безкоштовно
   // - Кур'єр (Київ): безкоштовно від 8000 грн, інакше 500 грн
   // - Нова Пошта: безкоштовно від 8000 грн, інакше за тарифами
-  // - Meest / Delivery: безкоштовно від 13000 грн, інакше за тарифами
+  // - Delivery / SAT: безкоштовно від 13000 грн, інакше за тарифами
   const getDeliveryPrice = () => {
     if (!deliveryMethod || deliveryMethod === "pickup") {
       return { price: 0, type: "free" };
@@ -410,7 +410,7 @@ const Checkout = () => {
         ? { price: 0, type: "free" }
         : { price: null, type: "carrier" };
     }
-    // meest, delivery, ukrposhta, cat
+    // delivery, cat (SAT)
     return totals.subtotal >= 13000
       ? { price: 0, type: "free" }
       : { price: null, type: "carrier" };
