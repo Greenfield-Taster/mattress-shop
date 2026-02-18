@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
   Package,
   Search,
@@ -7,12 +6,13 @@ import {
   CheckCircle,
   Truck,
   XCircle,
-  ArrowLeft,
   Trash2,
   Copy,
   Check,
+  MapPin,
 } from "lucide-react";
 import { getOrder } from "../api/orderApi";
+import { STORE_INFO, DELIVERY_METHOD_LABELS, getDeliveryDestination } from "../utils/storeInfo";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_track-order.scss";
@@ -195,10 +195,6 @@ const TrackOrder = () => {
     <div className="track-order">
       <div className="track-order__container">
         <div className="track-order__header">
-          <Link to="/" className="track-order__back">
-            <ArrowLeft size={20} />
-            На головну
-          </Link>
           <h1 className="track-order__title">
             <Package size={32} />
             Відстеження замовлення
@@ -302,11 +298,43 @@ const TrackOrder = () => {
                 </div>
               )}
 
-              {order.delivery_address && (
+              {order.delivery_method && (
                 <div className="track-order__detail-row">
-                  <span>Адреса доставки:</span>
-                  <span>{order.delivery_address}</span>
+                  <span>Спосіб доставки:</span>
+                  <span>
+                    {DELIVERY_METHOD_LABELS[order.delivery_method] ||
+                      order.delivery_method}
+                  </span>
                 </div>
+              )}
+
+              {order.delivery_method === "pickup" ? (
+                <div className="track-order__pickup-info">
+                  <MapPin size={18} />
+                  <div>
+                    <p className="track-order__pickup-address">
+                      {STORE_INFO.pickupAddress}
+                    </p>
+                    <p className="track-order__pickup-hours">
+                      <Clock size={14} />
+                      {STORE_INFO.pickupHours}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                (() => {
+                  const dest = getDeliveryDestination(order);
+                  return dest ? (
+                    <div className="track-order__detail-row">
+                      <span>
+                        {order.delivery_method === "courier"
+                          ? "Адреса доставки:"
+                          : "Відділення:"}
+                      </span>
+                      <span>{dest}</span>
+                    </div>
+                  ) : null;
+                })()
               )}
 
               {order.contact_data?.fullName && (

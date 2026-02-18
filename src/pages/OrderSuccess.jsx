@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin } from "lucide-react";
+import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin, Truck, Clock } from "lucide-react";
+import { STORE_INFO, DELIVERY_METHOD_LABELS, getDeliveryDestination } from "../utils/storeInfo";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_order-success.scss";
@@ -86,6 +87,48 @@ const OrderSuccess = () => {
                   })}
                 </span>
               </div>
+            </div>
+          )}
+
+          {order?.delivery_method && (
+            <div className="order-success__delivery">
+              <h3>
+                <Truck size={18} />
+                Доставка
+              </h3>
+              <div className="order-success__detail-row">
+                <span>Спосіб:</span>
+                <span>
+                  {DELIVERY_METHOD_LABELS[order.delivery_method] ||
+                    order.delivery_method}
+                </span>
+              </div>
+              {order.delivery_method === "pickup" ? (
+                <div className="order-success__pickup-info">
+                  <MapPin size={16} />
+                  <div>
+                    <p>{STORE_INFO.pickupAddress}</p>
+                    <p className="order-success__pickup-hours">
+                      <Clock size={14} />
+                      {STORE_INFO.pickupHours}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                (() => {
+                  const dest = getDeliveryDestination(order);
+                  return dest ? (
+                    <div className="order-success__detail-row">
+                      <span>
+                        {order.delivery_method === "courier"
+                          ? "Адреса:"
+                          : "Відділення:"}
+                      </span>
+                      <span>{dest}</span>
+                    </div>
+                  ) : null;
+                })()
+              )}
             </div>
           )}
 
