@@ -121,13 +121,16 @@
     background: v.$neutral-0;
     border-radius: v.$radius-lg;
     padding: v.$spacing-8;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(v.$brand-primary-500, 0.1);
     transition: all 0.3s ease;
     position: relative;
 
     &:hover {
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12),
+      box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.12),
         0 4px 12px rgba(0, 0, 0, 0.06);
       transform: translateY(-2px);
     }
@@ -304,7 +307,9 @@
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
       transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
+      transition:
+        width 0.6s,
+        height 0.6s;
     }
 
     &:hover:not(:disabled) {
@@ -434,6 +439,12 @@
     @media (max-width: v.$breakpoint-sm) {
       font-size: v.$font-size-sm;
     }
+  }
+
+  &__map-address {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    margin-bottom: v.$spacing-3;
   }
 
   &__social {

@@ -133,6 +133,59 @@
     }
   }
 
+  &__delivery {
+    background: v.$neutral-50;
+    border-radius: v.$radius-md;
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-6;
+    text-align: left;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: v.$spacing-2;
+      font-size: v.$font-size-sm;
+      font-weight: v.$font-weight-semibold;
+      color: v.$color-text-primary;
+      margin-bottom: v.$spacing-3;
+
+      svg {
+        color: v.$brand-primary-500;
+      }
+    }
+  }
+
+  &__pickup-info {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$spacing-3;
+    padding: v.$spacing-3;
+    background: v.$brand-primary-50;
+    border-radius: v.$radius-sm;
+    margin-top: v.$spacing-2;
+
+    svg {
+      color: v.$brand-primary-500;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    p {
+      font-size: v.$font-size-sm;
+      color: v.$color-text-primary;
+      margin: 0;
+    }
+  }
+
+  &__pickup-hours {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-1;
+    font-size: v.$font-size-xs !important;
+    color: v.$color-text-secondary !important;
+    margin-top: v.$spacing-1 !important;
+  }
+
   &__track {
     background: linear-gradient(135deg, v.$brand-primary-50 0%, #eff6ff 100%);
     border: 2px solid v.$brand-primary-200;

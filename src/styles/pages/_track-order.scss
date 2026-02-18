@@ -21,20 +21,6 @@
     margin-bottom: v.$spacing-8;
   }
 
-  &__back {
-    display: inline-flex;
-    align-items: center;
-    gap: v.$spacing-2;
-    color: v.$color-text-secondary;
-    font-size: v.$font-size-sm;
-    margin-bottom: v.$spacing-6;
-    transition: color v.$transition-fast;
-
-    &:hover {
-      color: v.$brand-primary-500;
-    }
-  }
-
   &__title {
     display: flex;
     align-items: center;
@@ -418,6 +404,41 @@
     font-weight: v.$font-weight-semibold;
     color: v.$brand-primary-600;
     white-space: nowrap;
+  }
+
+  &__pickup-info {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$spacing-3;
+    padding: v.$spacing-3;
+    background: v.$brand-primary-50;
+    border-radius: v.$radius-md;
+    margin: v.$spacing-2 0;
+
+    svg {
+      color: v.$brand-primary-500;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+  }
+
+  &__pickup-address {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-primary;
+    margin: 0 0 v.$spacing-1;
+  }
+
+  &__pickup-hours {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-1;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-secondary;
+    margin: 0;
+
+    svg {
+      margin-top: 0;
+    }
   }
 
   &__new-search {
