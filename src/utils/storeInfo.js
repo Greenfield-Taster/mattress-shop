@@ -32,7 +32,7 @@ export const DELIVERY_METHOD_LABELS = {
   meest: "Meest",
   delivery: "Delivery",
   ukrposhta: "Укрпошта",
-  cat: "CAT",
+  cat: "SAT",
   courier: "Кур'єр (Київ)",
   pickup: "Самовивіз",
 };

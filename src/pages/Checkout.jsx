@@ -126,7 +126,7 @@ const Checkout = () => {
     },
     {
       id: "cat",
-      name: "CAT",
+      name: "SAT",
       subtitle: "Відділення",
       icon: "📦",
     },
@@ -633,7 +633,7 @@ const Checkout = () => {
                   ) : (
                     <div className="checkout__form-group">
                       <label htmlFor="deliveryWarehouse" className="checkout__label">
-                        Відділення / Поштомат
+                        {deliveryMethod === "nova-poshta" ? "Відділення / Поштомат" : "Відділення"}
                       </label>
                       <DeliveryAutocomplete
                         id="deliveryWarehouse"
