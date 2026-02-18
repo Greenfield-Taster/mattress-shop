@@ -104,31 +104,31 @@ const Checkout = () => {
       id: "nova-poshta",
       name: "Нова Пошта",
       subtitle: "Відділення / Поштомат",
-      icon: "📦",
+      icon: <img src="/nova-poshta.png" alt="Нова Пошта" className="checkout__delivery-logo" />,
     },
     {
       id: "delivery",
       name: "Delivery",
       subtitle: "Відділення",
-      icon: "🚚",
+      icon: <img src="/delivery.png" alt="Delivery" className="checkout__delivery-logo" />,
     },
     {
       id: "cat",
       name: "SAT",
       subtitle: "Відділення",
-      icon: "📦",
+      icon: <img src="/sat.png" alt="SAT" className="checkout__delivery-logo" />,
     },
     {
       id: "courier",
       name: "Кур'єр",
       subtitle: "Тільки Київ",
-      icon: "🚴",
+      icon: <Truck size={32} />,
     },
     {
       id: "pickup",
       name: "Самовивіз",
       subtitle: "Зі складу / магазину",
-      icon: "🏪",
+      icon: <Package size={32} />,
     },
   ];
 
