@@ -418,10 +418,14 @@ const Contacts = () => {
 
                 <button
                   type="submit"
-                  className="contacts__submit-btn"
-                  disabled={isSubmitting}
+                  className={`contacts__submit-btn${submitSuccess ? " contacts__submit-btn--sent" : ""}`}
+                  disabled={isSubmitting || submitSuccess}
                 >
-                  {isSubmitting ? "Надсилання..." : "Надіслати"}
+                  {isSubmitting
+                    ? "Надсилання..."
+                    : submitSuccess
+                      ? "Надіслано ✓"
+                      : "Надіслати"}
                 </button>
 
                 <p className="contacts__form-note">

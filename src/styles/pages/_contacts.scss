@@ -339,6 +339,14 @@
       box-shadow: none;
     }
 
+    &--sent {
+      background: linear-gradient(135deg, v.$success 0%, v.$success-dark 100%);
+      box-shadow: 0 4px 12px rgba(v.$success, 0.3);
+      opacity: 1;
+      cursor: default;
+      pointer-events: none;
+    }
+
     @media (max-width: v.$breakpoint-sm) {
       padding: v.$spacing-3 v.$spacing-6;
     }
