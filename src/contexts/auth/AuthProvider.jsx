@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { AuthContext } from "./AuthContext";
+import { authenticatedFetch, proactiveRefresh } from "../../api/apiClient";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -12,11 +13,7 @@ export const AuthProvider = ({ children }) => {
 
     if (token) {
       try {
-        const response = await fetch(`${API_BASE_URL}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await authenticatedFetch(`${API_BASE_URL}/auth/me`);
 
         if (response.ok) {
           const data = await response.json();
@@ -36,6 +33,27 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  // Listen for forced logout from apiClient (refresh failed)
+  useEffect(() => {
+    const handleForceLogout = () => {
+      setUser(null);
+    };
+    window.addEventListener("auth:logout", handleForceLogout);
+    return () => window.removeEventListener("auth:logout", handleForceLogout);
+  }, []);
+
+  // Proactive token refresh every 30 minutes
+  const refreshIntervalRef = useRef(null);
+  useEffect(() => {
+    refreshIntervalRef.current = setInterval(() => {
+      if (localStorage.getItem("authToken")) {
+        proactiveRefresh();
+      }
+    }, 30 * 60 * 1000);
+
+    return () => clearInterval(refreshIntervalRef.current);
+  }, []);
 
   const sendCode = useCallback(async (phone) => {
     try {
@@ -131,12 +149,10 @@ export const AuthProvider = ({ children }) => {
 
   const updateUser = useCallback(async (userData) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await fetch(`${API_BASE_URL}/auth/update`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/auth/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userData),
       });

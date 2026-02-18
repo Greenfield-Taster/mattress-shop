@@ -3,6 +3,8 @@
  * Сервіс для роботи з замовленнями
  */
 
+import { authenticatedFetch } from "./apiClient";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 // Publishable API key для store endpoints
@@ -21,13 +23,11 @@ export async function createOrder(orderData) {
     "x-publishable-api-key": API_KEY,
   };
 
-  // Якщо користувач авторизований - додаємо токен
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
   try {
-    const response = await fetch(`${API_BASE_URL}/store/orders`, {
+    // Use authenticatedFetch if logged in (handles token refresh),
+    // otherwise plain fetch for guest orders
+    const fetchFn = token ? authenticatedFetch : fetch;
+    const response = await fetchFn(`${API_BASE_URL}/store/orders`, {
       method: "POST",
       headers,
       body: JSON.stringify(orderData),
@@ -58,12 +58,9 @@ export async function getOrder(orderId) {
     "x-publishable-api-key": API_KEY,
   };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
   try {
-    const response = await fetch(`${API_BASE_URL}/store/orders/${orderId}`, {
+    const fetchFn = token ? authenticatedFetch : fetch;
+    const response = await fetchFn(`${API_BASE_URL}/store/orders/${orderId}`, {
       headers,
     });
 
@@ -92,11 +89,7 @@ export async function getMyOrders() {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/shop-orders`, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    });
+    const response = await authenticatedFetch(`${API_BASE_URL}/shop-orders`);
 
     const data = await response.json();
 
