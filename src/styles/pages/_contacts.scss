@@ -631,6 +631,30 @@
     }
   }
 
+  &__error-message {
+    background: linear-gradient(
+      135deg,
+      v.$error-light 0%,
+      color.scale(v.$error-light, $lightness: 5%) 100%
+    );
+    border: 2px solid v.$error;
+    color: v.$error-dark;
+    padding: v.$spacing-4;
+    border-radius: v.$radius-base;
+    margin-bottom: v.$spacing-5;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-semibold;
+    line-height: v.$line-height-relaxed;
+    text-align: center;
+    animation: slideDown 0.3s ease-out;
+    box-shadow: 0 4px 12px rgba(v.$error, 0.2);
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: v.$font-size-sm;
+      padding: v.$spacing-3;
+    }
+  }
+
   @keyframes slideDown {
     from {
       opacity: 0;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import FAQ from "../components/FAQ/FAQ";
 import { faqData } from "../data/faqData";
 import { STORE_INFO } from "../utils/storeInfo";
@@ -62,6 +63,7 @@ const Contacts = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // Валідація окремого поля
   const validateField = (name, value) => {
@@ -228,13 +230,29 @@ const Contacts = () => {
 
     if (!hasErrors) {
       setIsSubmitting(true);
+      setSubmitError("");
 
       try {
-        // Тут буде логіка відправки форми на сервер
-        // Симуляція відправки
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-        // Успішна відправка
+        if (!serviceId || !templateId || !publicKey) {
+          throw new Error("EmailJS не налаштовано");
+        }
+
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: formData.name,
+            from_phone: formData.phone,
+            from_email: formData.email,
+            message: formData.message,
+          },
+          publicKey
+        );
+
         setSubmitSuccess(true);
 
         // Очищення форми
@@ -258,7 +276,11 @@ const Contacts = () => {
         }, 5000);
       } catch (error) {
         console.error("Error submitting form:", error);
-        alert("Помилка при відправці форми. Спробуйте ще раз.");
+        setSubmitError(
+          error.message === "EmailJS не налаштовано"
+            ? "Сервіс тимчасово недоступний. Зв'яжіться з нами за телефоном."
+            : "Помилка при відправці форми. Спробуйте ще раз."
+        );
       } finally {
         setIsSubmitting(false);
       }
@@ -288,6 +310,12 @@ const Contacts = () => {
                 <div className="contacts__success-message">
                   ✓ Дякуємо! Ваше повідомлення успішно надіслано. Ми зв'яжемось
                   з вами найближчим часом.
+                </div>
+              )}
+
+              {submitError && (
+                <div className="contacts__error-message">
+                  {submitError}
                 </div>
               )}
 
