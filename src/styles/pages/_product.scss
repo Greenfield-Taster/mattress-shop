@@ -1055,6 +1055,127 @@
 }
 
 // ========================================
+// REVIEWS DISTRIBUTION (rating bars)
+// ========================================
+
+.reviews-distribution {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-2;
+  margin-top: v.$spacing-6;
+  max-width: 320px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-3;
+  }
+
+  &__label {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-secondary;
+    min-width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  &__bar {
+    flex: 1;
+    height: 8px;
+    background-color: v.$neutral-200;
+    border-radius: v.$radius-full;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background-color: #fbbf24;
+    border-radius: v.$radius-full;
+    transition: width 0.3s ease;
+  }
+
+  &__count {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-tertiary;
+    min-width: 20px;
+    text-align: left;
+    flex-shrink: 0;
+  }
+}
+
+// ========================================
+// REVIEWS SORT
+// ========================================
+
+.reviews-sort {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+  margin-bottom: v.$spacing-6;
+
+  &__label {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-secondary;
+    flex-shrink: 0;
+  }
+
+  .custom-select {
+    min-width: 180px;
+    width: auto;
+  }
+}
+
+// ========================================
+// REVIEW SUCCESS & ERROR
+// ========================================
+
+.review-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$spacing-3;
+  padding: v.$spacing-10 v.$spacing-6;
+  background-color: v.$success-light;
+  border: 2px solid v.$success;
+  border-radius: v.$radius-lg;
+  text-align: center;
+  color: v.$success-dark;
+
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-8 v.$spacing-4;
+  }
+
+  h3 {
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-bold;
+    margin: 0;
+    color: v.$success-dark;
+  }
+
+  p {
+    font-size: v.$font-size-base;
+    margin: 0;
+    color: v.$success-dark;
+  }
+}
+
+.review-error {
+  padding: v.$spacing-3 v.$spacing-4;
+  background-color: v.$error-light;
+  border: 1px solid v.$error;
+  border-radius: v.$radius-base;
+  color: v.$error-dark;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  margin-bottom: v.$spacing-4;
+}
+
+// ========================================
 // COMMENT FORM
 // ========================================
 
@@ -1138,6 +1259,30 @@
     &::placeholder {
       color: v.$color-text-tertiary;
     }
+
+    &--error {
+      border-color: v.$error;
+
+      &:focus {
+        border-color: v.$error;
+        box-shadow: 0 0 0 3px rgba(v.$error, 0.1);
+      }
+    }
+  }
+
+  &__field-error {
+    display: block;
+    font-size: v.$font-size-xs;
+    color: v.$error;
+    margin-top: v.$spacing-1;
+    font-weight: v.$font-weight-medium;
+  }
+
+  &__char-count {
+    text-align: right;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-tertiary;
+    margin-top: v.$spacing-1;
   }
 
   &__textarea {
