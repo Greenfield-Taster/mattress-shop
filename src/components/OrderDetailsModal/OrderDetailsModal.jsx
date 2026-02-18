@@ -11,18 +11,8 @@ import {
   MapPin,
   Tag,
 } from "lucide-react";
+import { STORE_INFO, DELIVERY_METHOD_LABELS } from "../../utils/storeInfo";
 import "./OrderDetailsModal.scss";
-
-// Мапа назв служб доставки
-const DELIVERY_METHODS = {
-  "nova-poshta": "Нова Пошта",
-  meest: "Meest",
-  delivery: "Delivery",
-  ukrposhta: "Укрпошта",
-  cat: "CAT",
-  courier: "Кур'єр",
-  pickup: "Самовивіз",
-};
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   // Блокування скролу body коли модальне вікно відкрите
@@ -157,7 +147,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
           </div>
 
-          {/* Адреса доставки */}
+          {/* Доставка */}
           <div className="order-details-modal__section">
             <h3 className="order-details-modal__section-title">Доставка</h3>
             <div className="order-details-modal__delivery-info">
@@ -168,32 +158,46 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                     Служба доставки:
                   </span>
                   <span className="order-details-modal__delivery-value">
-                    {DELIVERY_METHODS[order.deliveryMethod] ||
+                    {DELIVERY_METHOD_LABELS[order.deliveryMethod] ||
                       order.deliveryMethod}
                   </span>
                 </div>
               )}
-              {order.deliveryCity && (
+              {order.deliveryMethod === "pickup" ? (
                 <div className="order-details-modal__delivery-row">
                   <MapPin size={18} />
                   <span className="order-details-modal__delivery-label">
-                    Місто:
+                    Адреса:
                   </span>
                   <span className="order-details-modal__delivery-value">
-                    {order.deliveryCity}
+                    {STORE_INFO.pickupAddress}
                   </span>
                 </div>
-              )}
-              {order.deliveryWarehouse && (
-                <div className="order-details-modal__delivery-row">
-                  <Package size={18} />
-                  <span className="order-details-modal__delivery-label">
-                    Відділення:
-                  </span>
-                  <span className="order-details-modal__delivery-value">
-                    {order.deliveryWarehouse}
-                  </span>
-                </div>
+              ) : (
+                <>
+                  {order.deliveryCity && (
+                    <div className="order-details-modal__delivery-row">
+                      <MapPin size={18} />
+                      <span className="order-details-modal__delivery-label">
+                        Місто:
+                      </span>
+                      <span className="order-details-modal__delivery-value">
+                        {order.deliveryCity}
+                      </span>
+                    </div>
+                  )}
+                  {order.deliveryWarehouse && (
+                    <div className="order-details-modal__delivery-row">
+                      <Package size={18} />
+                      <span className="order-details-modal__delivery-label">
+                        Відділення:
+                      </span>
+                      <span className="order-details-modal__delivery-value">
+                        {order.deliveryWarehouse}
+                      </span>
+                    </div>
+                  )}
+                </>
               )}
               {!order.deliveryMethod && !order.deliveryCity && (
                 <div className="order-details-modal__delivery-row">
