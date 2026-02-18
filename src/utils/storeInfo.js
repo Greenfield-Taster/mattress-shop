@@ -29,9 +29,7 @@ export const STORE_INFO = {
 
 export const DELIVERY_METHOD_LABELS = {
   "nova-poshta": "Нова Пошта",
-  meest: "Meest",
   delivery: "Delivery",
-  ukrposhta: "Укрпошта",
   cat: "SAT",
   courier: "Кур'єр (Київ)",
   pickup: "Самовивіз",

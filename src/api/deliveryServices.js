@@ -136,22 +136,12 @@ function createCarrierAPI(carrier) {
 }
 
 /**
- * Meest API (через бекенд проксі)
- */
-export const MeestAPI = createCarrierAPI("meest");
-
-/**
  * Delivery Auto API (через бекенд проксі)
  */
 export const DeliveryAPI = createCarrierAPI("delivery-auto");
 
 /**
- * Укрпошта API (через бекенд проксі)
- */
-export const UkrposhtaAPI = createCarrierAPI("ukrposhta");
-
-/**
- * CAT API (через бекенд проксі)
+ * SAT API (через бекенд проксі)
  */
 export const CatAPI = createCarrierAPI("cat");
 
@@ -159,12 +149,8 @@ export const getDeliveryAPI = (deliveryMethod) => {
   switch (deliveryMethod) {
     case "nova-poshta":
       return NovaPoshtaAPI;
-    case "meest":
-      return MeestAPI;
     case "delivery":
       return DeliveryAPI;
-    case "ukrposhta":
-      return UkrposhtaAPI;
     case "cat":
       return CatAPI;
     default:

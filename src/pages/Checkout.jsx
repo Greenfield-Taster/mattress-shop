@@ -107,22 +107,10 @@ const Checkout = () => {
       icon: "📦",
     },
     {
-      id: "meest",
-      name: "Meest",
-      subtitle: "Відділення",
-      icon: "📮",
-    },
-    {
       id: "delivery",
       name: "Delivery",
       subtitle: "Відділення",
       icon: "🚚",
-    },
-    {
-      id: "ukrposhta",
-      name: "Укрпошта",
-      subtitle: "Відділення",
-      icon: "📬",
     },
     {
       id: "cat",
