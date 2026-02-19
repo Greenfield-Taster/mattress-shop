@@ -12,6 +12,7 @@ import certificateIso from "../assets/images/certificate-ISO.jpg";
 import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO, buildProductJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
+import { STORE_INFO } from "../utils/storeInfo";
 import "../styles/pages/_product.scss";
 
 import {
@@ -543,7 +544,7 @@ const Product = () => {
                     </button>
                     <button
                       className="btnProd btnProd--secondary btnProd--large"
-                      onClick={() => window.location.href = 'tel:+380501234567'}
+                      onClick={() => window.location.href = `tel:${STORE_INFO.phones[0]}`}
                       aria-label="Зателефонувати"
                     >
                       Подзвонити

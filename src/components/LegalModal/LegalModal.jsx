@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { X, FileText, Shield } from "lucide-react";
+import { STORE_INFO } from "../../utils/storeInfo";
 import "./LegalModal.scss";
 
 const termsContent = (
@@ -36,7 +37,7 @@ const termsContent = (
         <p>Замовлення можна оформити наступними способами:</p>
         <ul>
           <li>Через кошик на сайті — цілодобово</li>
-          <li>За телефоном: +380 (50) 123-45-67 (Пн-Пт 9:00-18:00, Сб 10:00-16:00)</li>
+          <li>За телефоном: {STORE_INFO.phonesFormatted[0]} ({STORE_INFO.schedule})</li>
           <li>Через месенджери (Telegram)</li>
         </ul>
         <p>
@@ -83,7 +84,7 @@ const termsContent = (
           <li>Delivery — відділення</li>
           <li>SAT — відділення</li>
           <li>Кур'єрська доставка — в межах м. Київ</li>
-          <li>Самовивіз — зі складу за адресою: м. Київ, вул. Прикладна, 1</li>
+          <li>Самовивіз — зі складу за адресою: {STORE_INFO.pickupAddress}</li>
         </ul>
         <p>
           Орієнтовний термін доставки — 1-5 робочих днів залежно від регіону та
@@ -167,12 +168,12 @@ const termsContent = (
         Контактна інформація
       </h3>
       <div className="legal-modal__text">
-        <p>Інтернет-магазин «Just Sleep»</p>
+        <p>Інтернет-магазин «{STORE_INFO.name}»</p>
         <ul>
-          <li>Адреса: м. Київ, вул. Прикладна, 1</li>
-          <li>Телефон: +380 (50) 123-45-67</li>
-          <li>Email: info@just-sleep.com.ua</li>
-          <li>Графік роботи: Пн-Пт: 9:00-18:00, Сб: 10:00-16:00</li>
+          <li>Адреса: {STORE_INFO.address}</li>
+          <li>Телефон: {STORE_INFO.phonesFormatted[0]}</li>
+          <li>Email: {STORE_INFO.email}</li>
+          <li>Графік роботи: {STORE_INFO.schedule}</li>
         </ul>
       </div>
     </section>
@@ -337,9 +338,9 @@ const privacyContent = (
           З питань щодо обробки персональних даних звертайтесь:
         </p>
         <ul>
-          <li>Email: info@just-sleep.com.ua</li>
-          <li>Телефон: +380 (50) 123-45-67</li>
-          <li>Адреса: м. Київ, вул. Прикладна, 1</li>
+          <li>Email: {STORE_INFO.email}</li>
+          <li>Телефон: {STORE_INFO.phonesFormatted[0]}</li>
+          <li>Адреса: {STORE_INFO.address}</li>
         </ul>
         <p>
           Ми розглянемо ваше звернення протягом 10 робочих днів.
