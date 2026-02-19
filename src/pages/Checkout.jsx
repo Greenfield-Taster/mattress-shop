@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import DeliveryAutocomplete from "../components/DeliveryAutocomplete/DeliveryAutocomplete";
 import { getDeliveryAPI } from "../api/deliveryServices";
 import { createOrder, formatOrderData } from "../api/orderApi";
+import { sendOrderConfirmationEmail } from "../api/orderEmailService";
 import {
   formatPhoneNumber,
   formatCardNumber,
@@ -306,6 +307,21 @@ const Checkout = () => {
         delivery_address: deliveryAddress || null,
       };
       localStorage.setItem("lastOrder", JSON.stringify(lastOrderData));
+
+      // Відправляємо email з підтвердженням (fire-and-forget)
+      sendOrderConfirmationEmail({
+        orderNumber: result.order.order_number,
+        email: formData.contactData.email,
+        fullName: formData.contactData.fullName,
+        items,
+        totals,
+        deliveryMethod,
+        deliveryCity: deliveryCity || null,
+        deliveryWarehouse: deliveryWarehouse || null,
+        deliveryAddress: deliveryAddress || null,
+        deliveryPrice: deliveryInfo?.price ?? 0,
+        deliveryPriceType: deliveryInfo?.type || "free",
+      });
 
       // Перенаправляємо на сторінку успіху
       navigate(`/order-success/${result.order.order_number}`);
