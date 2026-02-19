@@ -1,0 +1,109 @@
+@use "../../styles/variables" as v;
+
+.error-boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: v.$spacing-8 v.$spacing-4;
+  text-align: center;
+}
+
+.error-boundary__icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: v.$error-light;
+  color: v.$error;
+  border-radius: v.$radius-full;
+  margin-bottom: v.$spacing-6;
+
+  @media (max-width: v.$breakpoint-sm) {
+    width: 64px;
+    height: 64px;
+
+    svg {
+      width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+.error-boundary__title {
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-primary;
+  margin-bottom: v.$spacing-3;
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xl;
+  }
+}
+
+.error-boundary__text {
+  font-size: v.$font-size-base;
+  color: v.$color-text-secondary;
+  line-height: v.$line-height-relaxed;
+  max-width: 480px;
+  margin-bottom: v.$spacing-8;
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-sm;
+    margin-bottom: v.$spacing-6;
+  }
+}
+
+.error-boundary__actions {
+  display: flex;
+  gap: v.$spacing-3;
+
+  @media (max-width: v.$breakpoint-sm) {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+.error-boundary__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-6;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  border: none;
+  border-radius: v.$radius-button;
+  cursor: pointer;
+  transition: v.$transition-button;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &--primary {
+    background: v.$brand-primary-500;
+    color: v.$neutral-0;
+    box-shadow: v.$shadow-button;
+
+    &:hover {
+      background: v.$brand-primary-600;
+      box-shadow: v.$shadow-md;
+      transform: translateY(-2px);
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    color: v.$brand-primary-500;
+    border: 2px solid v.$brand-primary-500;
+
+    &:hover {
+      background: rgba(v.$brand-primary-500, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {
   QuizProvider,
 } from "./contexts";
 import Layout from "./layout/Layout";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import ScrollToTop from "./utils/ScrollToTop";
 import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
@@ -32,18 +33,20 @@ function App() {
             <Router basename={basename}>
               <ScrollToTop />
               <Layout>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/catalog" element={<Catalog />} />
-                  <Route path="/product/:id" element={<Product />} />
-                  <Route path="/contacts" element={<Contacts />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/order-success/:orderNumber" element={<OrderSuccess />} />
-                  <Route path="/track-order" element={<TrackOrder />} />
-                  <Route path="/wishlist" element={<Wishlist />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <ErrorBoundary>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/product/:id" element={<Product />} />
+                    <Route path="/contacts" element={<Contacts />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/order-success/:orderNumber" element={<OrderSuccess />} />
+                    <Route path="/track-order" element={<TrackOrder />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </ErrorBoundary>
               </Layout>
             </Router>
           </QuizProvider>
