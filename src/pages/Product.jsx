@@ -8,7 +8,6 @@ import ProductGallery from "../components/ProductGallery/ProductGallery";
 import Carousel from "../components/Carousel/Carousel";
 import WishlistButton from "../components/WishlistButton/WishlistButton";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
-import certificateIso from "../assets/images/certificate-ISO.jpg";
 import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDNESS_LABELS, t } from "../utils/productLabels";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO, buildProductJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
@@ -73,30 +72,10 @@ const Product = () => {
     comment: "",
   });
 
-  // Мокові дані для сертифікатів (пізніше з API)
-  const mockCertificates = useMemo(
-    () => [
-      {
-        id: 1,
-        title: "Сертифікат якості ISO 9001",
-        image: certificateIso,
-        description: "Міжнародний стандарт системи управління якістю",
-      },
-      {
-        id: 2,
-        title: "Екологічний сертифікат",
-        image: certificateIso,
-        description:
-          "Підтвердження екологічності матеріалів та безпечності для здоров'я",
-      },
-      {
-        id: 3,
-        title: "Гігієнічний сертифікат",
-        image: certificateIso,
-        description: "Відповідність санітарно-гігієнічним нормам України",
-      },
-    ],
-    []
+  // Сертифікати з API
+  const productCertificates = useMemo(
+    () => (Array.isArray(product?.certificates) ? product.certificates : []),
+    [product]
   );
 
   // Завантаження продукту та схожих товарів
@@ -618,18 +597,20 @@ const Product = () => {
               >
                 Відгуки {reviewCount > 0 && `(${reviewCount})`}
               </button>
-              <button
-                role="tab"
-                aria-selected={activeTab === "certificates"}
-                aria-controls="certificates-panel"
-                id="certificates-tab"
-                className={`tabs__button ${
-                  activeTab === "certificates" ? "tabs__button--active" : ""
-                }`}
-                onClick={() => handleTabChange("certificates")}
-              >
-                Сертифікати
-              </button>
+              {productCertificates.length > 0 && (
+                <button
+                  role="tab"
+                  aria-selected={activeTab === "certificates"}
+                  aria-controls="certificates-panel"
+                  id="certificates-tab"
+                  className={`tabs__button ${
+                    activeTab === "certificates" ? "tabs__button--active" : ""
+                  }`}
+                  onClick={() => handleTabChange("certificates")}
+                >
+                  Сертифікати
+                </button>
+              )}
             </div>
 
             <div className="tabs__content">
@@ -1063,58 +1044,45 @@ const Product = () => {
                   aria-labelledby="certificates-tab"
                   className="tab-content"
                 >
-                  {mockCertificates.length > 0 ? (
-                    <div className="certificates-grid">
-                      {mockCertificates.map((cert) => (
-                        <div
-                          key={cert.id}
-                          className="certificate-card"
-                          onClick={() => setSelectedCertificate(cert)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              setSelectedCertificate(cert);
-                            }
-                          }}
-                        >
-                          <div className="certificate-card__image-wrapper">
-                            <img
-                              src={cert.image}
-                              alt={cert.title}
-                              className="certificate-card__image"
-                              loading="lazy"
-                            />
-                            <div className="certificate-card__overlay">
-                              <Award size={32} />
-                              <span>Переглянути</span>
-                            </div>
+                  <div className="certificates-grid">
+                    {productCertificates.map((cert, index) => (
+                      <div
+                        key={index}
+                        className="certificate-card"
+                        onClick={() => setSelectedCertificate(cert)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setSelectedCertificate(cert);
+                          }
+                        }}
+                      >
+                        <div className="certificate-card__image-wrapper">
+                          <img
+                            src={cert.image}
+                            alt={cert.title}
+                            className="certificate-card__image"
+                            loading="lazy"
+                          />
+                          <div className="certificate-card__overlay">
+                            <Award size={32} />
+                            <span>Переглянути</span>
                           </div>
-                          <div className="certificate-card__content">
-                            <h4 className="certificate-card__title">
-                              {cert.title}
-                            </h4>
+                        </div>
+                        <div className="certificate-card__content">
+                          <h4 className="certificate-card__title">
+                            {cert.title}
+                          </h4>
+                          {cert.description && (
                             <p className="certificate-card__description">
                               {cert.description}
                             </p>
-                          </div>
+                          )}
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="empty-state">
-                      <div className="empty-state__icon">
-                        <Award size={48} />
                       </div>
-                      <h3 className="empty-state__title">
-                        Сертифікати відсутні
-                      </h3>
-                      <p className="empty-state__text">
-                        Для даного товару сертифікати ще не додані. Зв'яжіться з
-                        нами для отримання додаткової інформації.
-                      </p>
-                    </div>
-                  )}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -1154,9 +1122,11 @@ const Product = () => {
               >
                 {selectedCertificate.title}
               </h3>
-              <p className="certificate-modal__description">
-                {selectedCertificate.description}
-              </p>
+              {selectedCertificate.description && (
+                <p className="certificate-modal__description">
+                  {selectedCertificate.description}
+                </p>
+              )}
             </div>
           </div>
         </div>
