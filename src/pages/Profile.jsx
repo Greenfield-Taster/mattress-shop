@@ -22,10 +22,26 @@ import {
   AlertCircle,
   Loader,
   RefreshCw,
+  Banknote,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import OrderDetailsModal from "../components/OrderDetailsModal/OrderDetailsModal";
+import { DELIVERY_METHOD_LABELS } from "../utils/storeInfo";
 import "../styles/pages/_profile.scss";
+
+const PAYMENT_METHOD_LABELS = {
+  "cash-on-delivery": "Накладений платіж",
+  "card-online": "Карткою онлайн",
+  "google-apple-pay": "Google/Apple Pay",
+  invoice: "Рахунок (юр. особа)",
+};
+
+const PAYMENT_STATUS_LABELS = {
+  pending: { label: "Очікує", color: "warning" },
+  paid: { label: "Оплачено", color: "success" },
+  failed: { label: "Помилка", color: "error" },
+  refunded: { label: "Повернено", color: "neutral" },
+};
 
 /**
  * Форматувати номер телефону для відображення: +380 XX XXX XX XX
@@ -94,6 +110,10 @@ const Profile = () => {
           subtotal: order.subtotal,
           discount: order.discount,
           promoCode: order.promo_code,
+          payment_status: order.payment_status || "pending",
+          payment_method: order.payment_method || null,
+          delivery_price: order.delivery_price || 0,
+          delivery_price_type: order.delivery_price_type || "free",
           items: order.items.map((item) => ({
             id: item.id,
             name: item.title,
@@ -101,14 +121,13 @@ const Profile = () => {
             firmness: item.firmness || null,
             quantity: item.quantity,
             price: item.unit_price,
+            total: item.total || item.unit_price * item.quantity,
             image: item.image || "/spring.png",
           })),
           deliveryMethod: order.delivery_method,
           deliveryCity: order.delivery_city,
           deliveryWarehouse: order.delivery_warehouse,
-          deliveryAddress: order.delivery_warehouse
-            ? `${order.delivery_city}, ${order.delivery_warehouse}`
-            : order.delivery_city || "Не вказано",
+          deliveryAddress: order.delivery_address,
         }));
 
         setOrders(formattedOrders);
@@ -471,15 +490,31 @@ const Profile = () => {
                           </div>
                           <div className="order-item__details">
                             <h4 className="order-item__name">{item.name}</h4>
-                            <p className="order-item__size">
-                              Розмір: {item.size}
-                            </p>
+                            <div className="order-item__meta">
+                              {item.size && (
+                                <span className="order-item__attr">
+                                  {item.size}
+                                </span>
+                              )}
+                              {item.firmness && (
+                                <span className="order-item__attr">
+                                  {item.firmness}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <div className="order-item__quantity">
-                            x{item.quantity}
-                          </div>
-                          <div className="order-item__price">
-                            {Number(item.price || 0).toLocaleString("uk-UA")} ₴
+                          <div className="order-item__pricing">
+                            <span className="order-item__qty-price">
+                              {item.quantity} x{" "}
+                              {Number(item.price || 0).toLocaleString("uk-UA")}{" "}
+                              ₴
+                            </span>
+                            <span className="order-item__total">
+                              {Number(
+                                item.total || item.price * item.quantity || 0
+                              ).toLocaleString("uk-UA")}{" "}
+                              ₴
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -489,8 +524,31 @@ const Profile = () => {
                       <div className="order-card__info">
                         <div className="order-card__delivery">
                           <Truck size={16} />
-                          <span>{order.deliveryAddress}</span>
+                          <span>
+                            {DELIVERY_METHOD_LABELS[order.deliveryMethod] ||
+                              order.deliveryMethod}
+                          </span>
                         </div>
+                        {order.payment_method && (
+                          <div className="order-card__payment">
+                            <Banknote size={16} />
+                            <span>
+                              {PAYMENT_METHOD_LABELS[order.payment_method] ||
+                                order.payment_method}
+                            </span>
+                            {order.payment_status && (
+                              <span
+                                className={`order-card__payment-badge order-card__payment-badge--${
+                                  PAYMENT_STATUS_LABELS[order.payment_status]
+                                    ?.color || "warning"
+                                }`}
+                              >
+                                {PAYMENT_STATUS_LABELS[order.payment_status]
+                                  ?.label || order.payment_status}
+                              </span>
+                            )}
+                          </div>
+                        )}
                         <div className="order-card__total">
                           <CreditCard size={16} />
                           <span className="order-card__total-label">

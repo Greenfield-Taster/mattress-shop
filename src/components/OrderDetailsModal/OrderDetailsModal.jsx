@@ -10,19 +10,37 @@ import {
   XCircle,
   MapPin,
   Tag,
+  Banknote,
 } from "lucide-react";
 import { STORE_INFO, DELIVERY_METHOD_LABELS } from "../../utils/storeInfo";
+
+const PAYMENT_METHOD_LABELS = {
+  "cash-on-delivery": "Накладений платіж",
+  "card-online": "Карткою онлайн",
+  "google-apple-pay": "Google/Apple Pay",
+  invoice: "Рахунок (юр. особа)",
+};
+
+const PAYMENT_STATUS_CONFIG = {
+  pending: { label: "Очікує оплати", color: "warning" },
+  paid: { label: "Оплачено", color: "success" },
+  failed: { label: "Помилка оплати", color: "error" },
+  refunded: { label: "Повернено", color: "neutral" },
+};
 import "./OrderDetailsModal.scss";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   // Блокування скролу body коли модальне вікно відкрите
   useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isOpen]);
@@ -32,6 +50,16 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   // Конфігурація статусів
   const getStatusConfig = (status) => {
     const configs = {
+      pending: {
+        label: "Очікує обробки",
+        icon: Clock,
+        color: "warning",
+      },
+      confirmed: {
+        label: "Підтверджено",
+        icon: CheckCircle,
+        color: "info",
+      },
       delivered: {
         label: "Доставлено",
         icon: CheckCircle,
@@ -53,7 +81,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
         color: "error",
       },
     };
-    return configs[status] || configs.processing;
+    return configs[status] || configs.pending;
   };
 
   const statusConfig = getStatusConfig(order.status);
@@ -126,21 +154,25 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                     <div className="order-details-item__attributes">
                       {item.size && (
                         <span className="order-details-item__attribute">
-                          Розмір: {item.size}
+                          {item.size}
                         </span>
                       )}
                       {item.firmness && (
                         <span className="order-details-item__attribute">
-                          Жорсткість: {item.firmness}
+                          {item.firmness}
                         </span>
                       )}
                     </div>
                     <p className="order-details-item__quantity">
-                      Кількість: {item.quantity} шт.
+                      {item.quantity} x{" "}
+                      {Number(item.price || 0).toLocaleString("uk-UA")} ₴
                     </p>
                   </div>
                   <div className="order-details-item__price">
-                    {(Number(item.price || 0) * item.quantity).toLocaleString("uk-UA")} ₴
+                    {Number(
+                      item.total || (item.price || 0) * item.quantity
+                    ).toLocaleString("uk-UA")}{" "}
+                    ₴
                   </div>
                 </div>
               ))}
@@ -173,6 +205,31 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                     {STORE_INFO.pickupAddress}
                   </span>
                 </div>
+              ) : order.deliveryMethod === "courier" ? (
+                <>
+                  {order.deliveryCity && (
+                    <div className="order-details-modal__delivery-row">
+                      <MapPin size={18} />
+                      <span className="order-details-modal__delivery-label">
+                        Місто:
+                      </span>
+                      <span className="order-details-modal__delivery-value">
+                        {order.deliveryCity}
+                      </span>
+                    </div>
+                  )}
+                  {order.deliveryAddress && (
+                    <div className="order-details-modal__delivery-row">
+                      <MapPin size={18} />
+                      <span className="order-details-modal__delivery-label">
+                        Адреса:
+                      </span>
+                      <span className="order-details-modal__delivery-value">
+                        {order.deliveryAddress}
+                      </span>
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
                   {order.deliveryCity && (
@@ -199,14 +256,44 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                   )}
                 </>
               )}
-              {!order.deliveryMethod && !order.deliveryCity && (
-                <div className="order-details-modal__delivery-row">
-                  <Truck size={18} />
-                  <span>{order.deliveryAddress || "Не вказано"}</span>
-                </div>
-              )}
             </div>
           </div>
+
+          {/* Оплата */}
+          {order.payment_method && (
+            <div className="order-details-modal__section">
+              <h3 className="order-details-modal__section-title">Оплата</h3>
+              <div className="order-details-modal__payment-info">
+                <div className="order-details-modal__payment-row">
+                  <Banknote size={18} />
+                  <span className="order-details-modal__payment-label">
+                    Спосіб оплати:
+                  </span>
+                  <span className="order-details-modal__payment-value">
+                    {PAYMENT_METHOD_LABELS[order.payment_method] ||
+                      order.payment_method}
+                  </span>
+                </div>
+                {order.payment_status && (
+                  <div className="order-details-modal__payment-row">
+                    <CreditCard size={18} />
+                    <span className="order-details-modal__payment-label">
+                      Статус:
+                    </span>
+                    <span
+                      className={`order-details-modal__payment-status order-details-modal__payment-status--${
+                        PAYMENT_STATUS_CONFIG[order.payment_status]?.color ||
+                        "warning"
+                      }`}
+                    >
+                      {PAYMENT_STATUS_CONFIG[order.payment_status]?.label ||
+                        order.payment_status}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Підсумок */}
           <div className="order-details-modal__summary">

@@ -251,7 +251,7 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   @media (max-width: v.$breakpoint-sm) {
@@ -364,6 +364,69 @@
 .order-details-modal__delivery-value {
   color: v.$neutral-800;
   font-weight: v.$font-weight-semibold;
+}
+
+.order-details-modal__payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-3;
+  padding: v.$spacing-4;
+  background: v.$neutral-50;
+  border-radius: v.$radius-lg;
+}
+
+.order-details-modal__payment-row {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-2;
+  font-size: v.$font-size-sm;
+  color: v.$neutral-600;
+
+  svg {
+    color: v.$brand-primary-500;
+    flex-shrink: 0;
+  }
+}
+
+.order-details-modal__payment-label {
+  font-weight: v.$font-weight-medium;
+  min-width: 130px;
+
+  @media (max-width: v.$breakpoint-sm) {
+    min-width: auto;
+  }
+}
+
+.order-details-modal__payment-value {
+  color: v.$neutral-800;
+  font-weight: v.$font-weight-semibold;
+}
+
+.order-details-modal__payment-status {
+  font-weight: v.$font-weight-semibold;
+  padding: v.$spacing-1 v.$spacing-2;
+  border-radius: v.$radius-base;
+  font-size: v.$font-size-xs;
+
+  &--success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+  }
+
+  &--warning {
+    background: rgba(251, 191, 36, 0.1);
+    color: #d97706;
+  }
+
+  &--error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+  }
+
+  &--neutral {
+    background: v.$neutral-100;
+    color: v.$neutral-600;
+  }
 }
 
 .order-details-modal__summary {
