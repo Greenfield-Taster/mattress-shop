@@ -10,7 +10,7 @@
   }
 
   &__container {
-    max-width: 700px;
+    max-width: 740px;
     width: 100%;
     margin: 0 auto;
     padding: 0 v.$spacing-4;
@@ -49,6 +49,8 @@
     color: v.$color-text-secondary;
     font-size: v.$font-size-base;
   }
+
+  // ===== Форма пошуку =====
 
   &__form {
     display: flex;
@@ -131,7 +133,8 @@
     font-size: v.$font-size-sm;
   }
 
-  // Збережені замовлення
+  // ===== Збережені замовлення =====
+
   &__saved {
     background: v.$neutral-0;
     border-radius: v.$radius-card;
@@ -199,12 +202,13 @@
     }
   }
 
-  // Результат пошуку
+  // ===== Результат — картка замовлення =====
+
   &__result {
     background: v.$neutral-0;
     border-radius: v.$radius-card;
     box-shadow: v.$shadow-card;
-    padding: v.$spacing-6;
+    overflow: hidden;
   }
 
   &__result-header {
@@ -213,14 +217,15 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: v.$spacing-4;
-    margin-bottom: v.$spacing-6;
-    padding-bottom: v.$spacing-4;
+    padding: v.$spacing-6;
+    background: linear-gradient(135deg, v.$brand-primary-50 0%, v.$neutral-50 100%);
     border-bottom: 1px solid v.$color-border;
 
     @media (max-width: v.$breakpoint-sm) {
       flex-direction: column;
       align-items: flex-start;
       gap: v.$spacing-3;
+      padding: v.$spacing-4;
     }
   }
 
@@ -231,9 +236,11 @@
   }
 
   &__result-label {
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-xs;
     color: v.$color-text-secondary;
     font-weight: v.$font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   &__result-number {
@@ -257,6 +264,12 @@
     }
   }
 
+  &__result-date {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-secondary;
+    margin-top: v.$spacing-1;
+  }
+
   &__copy-btn {
     display: flex;
     align-items: center;
@@ -264,12 +277,13 @@
     width: 32px;
     height: 32px;
     border: none;
-    background: v.$neutral-100;
+    background: v.$neutral-0;
     color: v.$color-text-secondary;
     border-radius: v.$radius-md;
     cursor: pointer;
     transition: all v.$transition-fast;
     flex-shrink: 0;
+    box-shadow: v.$shadow-xs;
 
     &:hover {
       background: v.$brand-primary-50;
@@ -294,21 +308,22 @@
     padding: v.$spacing-2 v.$spacing-4;
     border-radius: v.$radius-full;
     font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-medium;
+    font-weight: v.$font-weight-semibold;
+    white-space: nowrap;
 
     &--warning {
       background: #fef3c7;
-      color: #d97706;
+      color: #b45309;
     }
 
     &--info {
       background: #dbeafe;
-      color: #2563eb;
+      color: #1d4ed8;
     }
 
     &--success {
       background: #dcfce7;
-      color: #16a34a;
+      color: #15803d;
     }
 
     &--error {
@@ -317,93 +332,245 @@
     }
   }
 
-  &__result-details {
-    margin-bottom: v.$spacing-6;
+  // ===== Прогрес-бар =====
+
+  &__progress {
+    display: flex;
+    align-items: flex-start;
+    padding: v.$spacing-6;
+    gap: 0;
+    overflow-x: auto;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-4 v.$spacing-3;
+    }
+  }
+
+  &__progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+
+    &:last-child {
+      .track-order__progress-line {
+        display: none;
+      }
+    }
+  }
+
+  &__progress-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: v.$neutral-200;
+    color: v.$color-text-tertiary;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    position: relative;
+    z-index: 1;
+    transition: all v.$transition-base;
+    flex-shrink: 0;
+
+    .track-order__progress-step--completed & {
+      background: v.$brand-primary-500;
+      color: v.$neutral-0;
+    }
+
+    .track-order__progress-step--current & {
+      background: v.$brand-primary-500;
+      color: v.$neutral-0;
+      box-shadow: 0 0 0 4px rgba(v.$brand-primary-500, 0.2);
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      width: 24px;
+      height: 24px;
+      font-size: 10px;
+    }
+  }
+
+  &__progress-label {
+    font-size: 11px;
+    color: v.$color-text-tertiary;
+    margin-top: v.$spacing-2;
+    text-align: center;
+    line-height: 1.2;
+
+    .track-order__progress-step--completed & {
+      color: v.$brand-primary-600;
+      font-weight: v.$font-weight-medium;
+    }
+
+    .track-order__progress-step--current & {
+      color: v.$brand-primary-600;
+      font-weight: v.$font-weight-semibold;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      font-size: 10px;
+    }
+  }
+
+  &__progress-line {
+    position: absolute;
+    top: 14px;
+    left: calc(50% + 14px);
+    right: calc(-50% + 14px);
+    height: 3px;
+    background: v.$neutral-200;
+    border-radius: 2px;
+    transition: background v.$transition-base;
+
+    &--filled {
+      background: v.$brand-primary-500;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      top: 12px;
+      left: calc(50% + 12px);
+      right: calc(-50% + 12px);
+      height: 2px;
+    }
+  }
+
+  // ===== Банер скасованого замовлення =====
+
+  &__cancelled-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$spacing-2;
+    padding: v.$spacing-4;
+    margin: 0 v.$spacing-6;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: v.$radius-md;
+    color: #dc2626;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+
+    @media (max-width: v.$breakpoint-sm) {
+      margin: 0 v.$spacing-4;
+    }
+  }
+
+  // ===== Секції з деталями =====
+
+  &__sections {
+    padding: 0 v.$spacing-6;
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-1;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: 0 v.$spacing-4;
+    }
+  }
+
+  &__section {
+    border-bottom: 1px solid v.$neutral-100;
+    padding-bottom: v.$spacing-4;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-2;
+    margin-bottom: v.$spacing-3;
+    padding-top: v.$spacing-3;
+
+    svg {
+      color: v.$brand-primary-500;
+      flex-shrink: 0;
+    }
+
+    h4 {
+      font-size: v.$font-size-sm;
+      font-weight: v.$font-weight-semibold;
+      color: v.$color-text-primary;
+      margin: 0;
+    }
+  }
+
+  &__section-body {
+    padding-left: calc(18px + v.$spacing-2); // icon width + gap
   }
 
   &__detail-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: v.$spacing-3 0;
-    border-bottom: 1px solid v.$neutral-100;
+    padding: v.$spacing-2 0;
     font-size: v.$font-size-sm;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    gap: v.$spacing-3;
 
     span:first-child {
       color: v.$color-text-secondary;
+      flex-shrink: 0;
     }
 
     span:last-child,
     strong {
       color: v.$color-text-primary;
       text-align: right;
-      max-width: 60%;
+      word-break: break-word;
     }
   }
 
-  // Товари
-  &__items {
-    margin-bottom: v.$spacing-6;
-
-    h4 {
-      font-size: v.$font-size-sm;
-      font-weight: v.$font-weight-semibold;
-      color: v.$color-text-primary;
-      margin-bottom: v.$spacing-4;
-    }
-  }
-
-  &__items-list {
-    display: flex;
-    flex-direction: column;
-    gap: v.$spacing-3;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: v.$spacing-3;
-    padding: v.$spacing-3;
-    background: v.$neutral-50;
-    border-radius: v.$radius-md;
-  }
-
-  &__item-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: v.$radius-sm;
-    flex-shrink: 0;
-  }
-
-  &__item-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: v.$spacing-1;
-  }
-
-  &__item-title {
-    font-size: v.$font-size-sm;
+  &__free-delivery {
+    color: v.$success-dark !important;
     font-weight: v.$font-weight-medium;
-    color: v.$color-text-primary;
   }
 
-  &__item-size,
-  &__item-qty {
+  &__carrier-note {
+    color: v.$color-text-secondary !important;
+    font-style: italic;
+  }
+
+  &__payment-badge {
+    display: inline-block;
+    padding: v.$spacing-1 v.$spacing-2;
+    border-radius: v.$radius-sm;
     font-size: v.$font-size-xs;
-    color: v.$color-text-secondary;
+    font-weight: v.$font-weight-medium;
+
+    &--pending {
+      background: v.$warning-light;
+      color: v.$warning-dark;
+    }
+
+    &--paid {
+      background: v.$success-light;
+      color: v.$success-dark;
+    }
+
+    &--failed {
+      background: v.$error-light;
+      color: v.$error-dark;
+    }
+
+    &--refunded {
+      background: v.$neutral-100;
+      color: v.$color-text-secondary;
+    }
   }
 
-  &__item-price {
+  &__comment {
     font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-semibold;
-    color: v.$brand-primary-600;
-    white-space: nowrap;
+    color: v.$color-text-primary;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
   }
 
   &__pickup-info {
@@ -441,10 +608,155 @@
     }
   }
 
-  &__new-search {
-    width: 100%;
-    padding: v.$spacing-4;
+  // ===== Товари =====
+
+  &__items {
+    padding: v.$spacing-4 v.$spacing-6;
+    border-top: 1px solid v.$neutral-100;
+
+    @media (max-width: v.$breakpoint-sm) {
+      padding: v.$spacing-4;
+    }
+  }
+
+  &__items-title {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-2;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-primary;
+    margin-bottom: v.$spacing-4;
+  }
+
+  &__items-count {
     background: v.$neutral-100;
+    color: v.$color-text-secondary;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+    padding: v.$spacing-1 v.$spacing-2;
+    border-radius: v.$radius-full;
+  }
+
+  &__items-list {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-3;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-3;
+    padding: v.$spacing-3;
+    background: v.$neutral-50;
+    border-radius: v.$radius-md;
+    transition: background v.$transition-fast;
+  }
+
+  &__item-image {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: v.$radius-sm;
+    flex-shrink: 0;
+    border: 1px solid v.$neutral-200;
+  }
+
+  &__item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__item-title {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__item-meta {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-secondary;
+  }
+
+  &__item-qty {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-tertiary;
+  }
+
+  &__item-total {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$brand-primary-600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  // ===== Підсумок (чек) =====
+
+  &__summary {
+    margin: 0 v.$spacing-6 v.$spacing-6;
+    padding: v.$spacing-4;
+    background: v.$neutral-50;
+    border-radius: v.$radius-md;
+    border: 1px solid v.$neutral-200;
+
+    @media (max-width: v.$breakpoint-sm) {
+      margin: 0 v.$spacing-4 v.$spacing-4;
+    }
+  }
+
+  &__summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: v.$spacing-2 0;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+
+    &--discount {
+      color: v.$success-dark;
+
+      span:last-child {
+        font-weight: v.$font-weight-medium;
+      }
+    }
+  }
+
+  &__summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: v.$spacing-3;
+    margin-top: v.$spacing-2;
+    border-top: 2px solid v.$brand-primary-200;
+    font-weight: v.$font-weight-bold;
+    font-size: v.$font-size-base;
+    color: v.$color-text-primary;
+
+    span:last-child {
+      font-size: v.$font-size-lg;
+      color: v.$brand-primary-600;
+    }
+  }
+
+  // ===== Кнопка нового пошуку =====
+
+  &__new-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$spacing-2;
+    width: calc(100% - v.$spacing-12);
+    margin: 0 v.$spacing-6 v.$spacing-6;
+    padding: v.$spacing-4;
+    background: v.$neutral-0;
     color: v.$color-text-primary;
     border: 1px solid v.$neutral-200;
     border-radius: v.$radius-md;
@@ -454,7 +766,14 @@
     transition: all v.$transition-fast;
 
     &:hover {
-      background: v.$neutral-200;
+      background: v.$neutral-50;
+      border-color: v.$brand-primary-300;
+      color: v.$brand-primary-600;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+      width: calc(100% - v.$spacing-8);
+      margin: 0 v.$spacing-4 v.$spacing-4;
     }
   }
 }
