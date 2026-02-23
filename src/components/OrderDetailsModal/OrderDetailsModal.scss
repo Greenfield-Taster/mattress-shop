@@ -187,23 +187,23 @@
   font-weight: v.$font-weight-semibold;
 
   &--success {
-    background: #10b98114;
-    color: #059669;
+    background: rgba(v.$success, 0.08);
+    color: v.$success-dark;
   }
 
   &--warning {
-    background: #f59e0b14;
-    color: #d97706;
+    background: rgba(v.$warning, 0.08);
+    color: v.$warning-dark;
   }
 
   &--info {
-    background: #3b82f614;
-    color: #2563eb;
+    background: rgba(v.$info, 0.08);
+    color: v.$info-dark;
   }
 
   &--error {
-    background: #ef444414;
-    color: #dc2626;
+    background: rgba(v.$error, 0.08);
+    color: v.$error-dark;
   }
 }
 
@@ -416,13 +416,13 @@
   }
 
   &--warning {
-    background: rgba(251, 191, 36, 0.1);
-    color: #d97706;
+    background: rgba(v.$warning, 0.1);
+    color: v.$warning-dark;
   }
 
   &--error {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    background: rgba(v.$error, 0.1);
+    color: v.$error-dark;
   }
 
   &--neutral {
@@ -470,7 +470,7 @@
 }
 
 .order-details-modal__discount {
-  color: #059669;
+  color: v.$success-dark;
   font-weight: v.$font-weight-semibold;
 }
 

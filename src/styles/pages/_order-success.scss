@@ -111,8 +111,8 @@
   }
 
   &__status {
-    background: #fef3c7;
-    color: #d97706;
+    background: v.$warning-light;
+    color: v.$warning-dark;
     padding: v.$spacing-1 v.$spacing-2;
     border-radius: v.$radius-sm;
     font-size: v.$font-size-xs;

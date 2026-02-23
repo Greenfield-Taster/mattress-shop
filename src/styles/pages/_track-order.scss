@@ -125,7 +125,7 @@
   &__error {
     background: #fef2f2;
     border: 1px solid #fecaca;
-    color: #dc2626;
+    color: v.$error-dark;
     padding: v.$spacing-4;
     border-radius: v.$radius-md;
     margin-bottom: v.$spacing-6;
@@ -198,7 +198,7 @@
 
     &:hover {
       background: #fef2f2;
-      color: #dc2626;
+      color: v.$error-dark;
     }
   }
 
@@ -312,12 +312,12 @@
     white-space: nowrap;
 
     &--warning {
-      background: #fef3c7;
+      background: v.$warning-light;
       color: #b45309;
     }
 
     &--info {
-      background: #dbeafe;
+      background: v.$info-light;
       color: #1d4ed8;
     }
 
@@ -328,7 +328,7 @@
 
     &--error {
       background: #fef2f2;
-      color: #dc2626;
+      color: v.$error-dark;
     }
   }
 
@@ -447,7 +447,7 @@
     background: #fef2f2;
     border: 1px solid #fecaca;
     border-radius: v.$radius-md;
-    color: #dc2626;
+    color: v.$error-dark;
     font-size: v.$font-size-sm;
     font-weight: v.$font-weight-medium;
 

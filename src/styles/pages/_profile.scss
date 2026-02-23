@@ -547,28 +547,28 @@
 
   &--warning {
     background: rgba(251, 191, 36, 0.1);
-    color: #d97706;
+    color: v.$warning-dark;
 
     svg {
-      color: #d97706;
+      color: v.$warning-dark;
     }
   }
 
   &--info {
     background: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
+    color: v.$info-dark;
 
     svg {
-      color: #2563eb;
+      color: v.$info-dark;
     }
   }
 
   &--error {
     background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    color: v.$error-dark;
 
     svg {
-      color: #dc2626;
+      color: v.$error-dark;
     }
   }
 
@@ -755,12 +755,12 @@
 
   &--warning {
     background: rgba(251, 191, 36, 0.1);
-    color: #d97706;
+    color: v.$warning-dark;
   }
 
   &--error {
     background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    color: v.$error-dark;
   }
 
   &--neutral {

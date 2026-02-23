@@ -159,19 +159,19 @@
   &__error {
     display: block;
     font-size: v.$font-size-xs;
-    color: #ef4444;
+    color: v.$error;
     margin-top: v.$spacing-1;
     font-weight: v.$font-weight-medium;
   }
 
   &__section-error {
-    background: rgba(#ef4444, 0.1);
-    border: 1px solid #ef4444;
+    background: rgba(v.$error, 0.1);
+    border: 1px solid v.$error;
     border-radius: v.$radius-base;
     padding: v.$spacing-3 v.$spacing-4;
     margin-bottom: v.$spacing-4;
     font-size: v.$font-size-sm;
-    color: #dc2626;
+    color: v.$error-dark;
     font-weight: v.$font-weight-medium;
     display: flex;
     align-items: center;
@@ -214,12 +214,12 @@
     }
 
     &.error {
-      border-color: #ef4444;
-      background: rgba(#ef4444, 0.05);
+      border-color: v.$error;
+      background: rgba(v.$error, 0.05);
 
       &:focus {
-        border-color: #ef4444;
-        box-shadow: 0 0 0 3px rgba(#ef4444, 0.1);
+        border-color: v.$error;
+        box-shadow: 0 0 0 3px rgba(v.$error, 0.1);
       }
     }
 
@@ -683,7 +683,7 @@
   &__submit-error {
     background: #fef2f2;
     border: 1px solid #fecaca;
-    color: #dc2626;
+    color: v.$error-dark;
     padding: v.$spacing-3;
     border-radius: v.$radius-md;
     margin-bottom: v.$spacing-4;
