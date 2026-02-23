@@ -156,8 +156,19 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
-    setIsSaving(true);
     setSaveMessage(null);
+
+    // Клієнтська валідація
+    if (!editedUser.firstName?.trim()) {
+      setSaveMessage({ type: "error", text: "Введіть ім'я" });
+      return;
+    }
+    if (editedUser.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editedUser.email)) {
+      setSaveMessage({ type: "error", text: "Невірний формат email" });
+      return;
+    }
+
+    setIsSaving(true);
 
     const result = await updateUser(editedUser);
 

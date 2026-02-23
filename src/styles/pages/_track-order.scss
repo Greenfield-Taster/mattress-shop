@@ -2,7 +2,7 @@
 
 .track-order {
   background: v.$color-background;
-  min-height: 100vh;
+  min-height: 60vh;
   padding: v.$spacing-12 0;
 
   @media (max-width: v.$breakpoint-sm) {
@@ -117,7 +117,8 @@
     }
 
     &:disabled {
-      background: v.$neutral-300;
+      background: v.$neutral-200;
+      color: v.$color-text-tertiary;
       cursor: not-allowed;
     }
   }

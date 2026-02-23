@@ -31,13 +31,19 @@ const OrderSuccess = () => {
 
   useEffect(() => {
     // Отримуємо дані замовлення з localStorage
-    const lastOrder = localStorage.getItem("lastOrder");
-    if (lastOrder) {
-      setOrder(JSON.parse(lastOrder));
+    let parsed = null;
+    try {
+      const lastOrder = localStorage.getItem("lastOrder");
+      if (lastOrder) {
+        parsed = JSON.parse(lastOrder);
+        setOrder(parsed);
+      }
+    } catch {
+      // Пошкоджені дані — ігноруємо
     }
 
     // Зберігаємо номер замовлення для відстеження
-    const orderNum = orderNumber || JSON.parse(lastOrder)?.order_number;
+    const orderNum = orderNumber || parsed?.order_number;
     if (orderNum) {
       saveOrderNumber(orderNum);
     }

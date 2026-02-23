@@ -11,7 +11,7 @@
 
 .footer__container {
   width: 100%;
-  max-width: 1920px;
+  max-width: v.$breakpoint-3xl;
   margin-inline: auto;
   padding: v.$spacing-24 v.$spacing-20 v.$spacing-8;
 

@@ -124,7 +124,7 @@
 
     @media (max-width: v.$breakpoint-sm) {
       grid-template-columns: 1fr;
-      gap: v.$spacing-0;
+      gap: v.$spacing-3;
     }
   }
 
