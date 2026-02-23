@@ -116,11 +116,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: v.$neutral-300;
+      background: v.$brand-primary-200;
       border-radius: v.$radius-full;
 
       &:hover {
-        background: v.$neutral-400;
+        background: v.$brand-primary-300;
       }
     }
   }
@@ -206,16 +206,16 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: v.$neutral-50;
+        background: v.$brand-primary-50;
         border-radius: v.$radius-full;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$neutral-300;
+        background: v.$brand-primary-200;
         border-radius: v.$radius-full;
 
         &:hover {
-          background: v.$neutral-400;
+          background: v.$brand-primary-300;
         }
       }
     }
@@ -234,9 +234,7 @@
   // SLIDER
   // ========================================
   &__slider {
-    padding: v.$spacing-2 v.$spacing-1;
-    padding-right: v.$spacing-5;
-    padding-left: v.$spacing-2;
+    padding: v.$spacing-2 v.$spacing-3;
   }
 
   &__slider-labels {
@@ -435,12 +433,12 @@
 
   // Default (outlined) стан
   &.MuiChip-outlined {
-    background: v.$neutral-50 !important;
-    border-color: v.$color-border !important;
+    background: v.$brand-primary-50 !important;
+    border-color: v.$brand-primary-100 !important;
     color: v.$color-text-primary !important;
 
     &:hover {
-      background: v.$neutral-100 !important;
+      background: v.$brand-primary-100 !important;
       border-color: v.$brand-primary-300 !important;
     }
   }
@@ -646,11 +644,11 @@
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$neutral-300;
+        background: v.$brand-primary-200;
         border-radius: v.$radius-full;
 
         &:hover {
-          background: v.$neutral-400;
+          background: v.$brand-primary-300;
         }
       }
     }
@@ -696,9 +694,14 @@
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$neutral-300;
+        background: v.$brand-primary-200;
         border-radius: v.$radius-full;
       }
+    }
+
+    // Збільшений padding для повзунка (ручки 24px — потрібно 12px+ з кожного боку)
+    &__slider {
+      padding: v.$spacing-2 v.$spacing-4;
     }
 
     // Лейбли під слайдером - 14px
