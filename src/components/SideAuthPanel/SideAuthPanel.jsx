@@ -270,7 +270,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
         {/* Logo / Header */}
         <div className="auth-header">
           <div className="logo-icon">🛏️</div>
-          <h2 className="auth-title">Вітаємо в Mattress Shop</h2>
+          <h2 className="auth-title">Вітаємо в Just Sleep</h2>
           <p className="auth-subtitle">
             {authStep === 'phone' 
               ? 'Увійдіть або створіть акаунт' 
