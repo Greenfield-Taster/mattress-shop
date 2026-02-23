@@ -96,6 +96,11 @@
     transform: scale(0.95);
   }
 
+  &:focus-visible {
+    outline: 2px solid v.$brand-primary-300;
+    outline-offset: 2px;
+  }
+
   svg {
     width: 24px;
     height: 24px;
@@ -294,12 +299,12 @@
   background: v.$neutral-0;
   color: v.$color-text-primary;
   border: 2px solid v.$color-border;
-  box-shadow: v.$shadow-xs;
+  box-shadow: v.$shadow-sm;
 
   &:hover {
     background: v.$neutral-50;
     border-color: v.$neutral-300;
-    box-shadow: v.$shadow-sm;
+    box-shadow: v.$shadow-md;
     transform: translateY(-1px);
   }
 

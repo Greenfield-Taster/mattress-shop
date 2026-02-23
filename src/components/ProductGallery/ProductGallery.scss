@@ -26,11 +26,13 @@
     justify-content: center;
 
     @media (max-width: v.$breakpoint-md) {
-      aspect-ratio: 1 / 1;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       border-radius: v.$radius-base;
+      max-width: 100%;
       aspect-ratio: 1 / 1;
     }
   }

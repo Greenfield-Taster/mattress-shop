@@ -32,17 +32,16 @@ const Wishlist = () => {
               <Heart size={40} />
               Список бажань
             </h1>
-            <p className="wishlist-header__subtitle">
-              {wishlist.length > 0
-                ? `У вашому списку ${wishlist.length} ${
-                    wishlist.length === 1
-                      ? "товар"
-                      : wishlist.length < 5
-                      ? "товари"
-                      : "товарів"
-                  }`
-                : "Ваш список бажань порожній"}
-            </p>
+            {wishlist.length > 0 && (
+              <p className="wishlist-header__subtitle">
+                У вашому списку {wishlist.length}{" "}
+                {wishlist.length === 1
+                  ? "товар"
+                  : wishlist.length < 5
+                  ? "товари"
+                  : "товарів"}
+              </p>
+            )}
           </div>
           {wishlist.length > 0 && (
             <button
