@@ -40,14 +40,19 @@
   font-weight: v.$font-weight-bold;
   color: v.$brand-primary-500;
   text-decoration: none;
+  white-space: nowrap;
   transition: color v.$transition-fast v.$transition-timing;
 
   &:hover {
     color: v.$brand-primary-600;
   }
 
-  @media (max-width: #{v.$breakpoint-md - 1px}) {
+  @media (max-width: v.$breakpoint-lg) {
     font-size: v.$font-size-xl;
+  }
+
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    font-size: v.$font-size-lg;
   }
 }
 
@@ -55,6 +60,10 @@
   display: flex;
   align-items: center;
   gap: v.$spacing-8;
+
+  @media (max-width: v.$breakpoint-lg) {
+    gap: v.$spacing-4;
+  }
 
   @media (max-width: #{v.$breakpoint-md - 1px}) {
     display: none;
