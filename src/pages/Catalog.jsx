@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, AlertCircle, RefreshCw } from "lucide-react";
 import ProductCard from "../components/ProductCard/ProductCard";
 import CatalogFilters from "../components/CatalogFilters/CatalogFilters";
 import CustomSelect from "../components/CustomSelect/CustomSelect";
@@ -23,6 +23,7 @@ const Catalog = () => {
   const [total, setTotal] = useState(0);
   const [maxPrice, setMaxPrice] = useState(50000);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const parseParams = () => {
@@ -47,24 +48,25 @@ const Catalog = () => {
   const params = parseParams();
 
   // Завантаження продуктів при зміні параметрів
-  useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-      try {
-        const result = await fetchProducts(params);
-        setProducts(result.items);
-        setTotal(result.total);
-        if (result.maxPrice > 0) setMaxPrice(result.maxPrice);
-      } catch (error) {
-        console.error("Error loading products:", error);
-        // 🔄 НА СЕРВЕРІ: Додати обробку помилок (toast, notification)
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadProducts = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await fetchProducts(params);
+      setProducts(result.items);
+      setTotal(result.total);
+      if (result.maxPrice > 0) setMaxPrice(result.maxPrice);
+    } catch (err) {
+      console.error("Error loading products:", err);
+      setError("Не вдалося завантажити товари. Перевірте з'єднання з інтернетом.");
+    } finally {
+      setLoading(false);
+    }
+  }, [searchParams]);
 
+  useEffect(() => {
     loadProducts();
-  }, [searchParams]); // Перезавантажуємо при зміні URL
+  }, [loadProducts]);
 
   // Блокування скролу при відкритій панелі фільтрів
   useEffect(() => {
@@ -273,6 +275,16 @@ const Catalog = () => {
               <div className="catalog__loader">
                 <div className="loader-spinner"></div>
                 <p>Завантаження товарів...</p>
+              </div>
+            ) : error ? (
+              <div className="catalog__error">
+                <AlertCircle size={48} />
+                <h2>Помилка завантаження</h2>
+                <p>{error}</p>
+                <button onClick={loadProducts} className="catalog__error-button">
+                  <RefreshCw size={18} />
+                  Спробувати ще раз
+                </button>
               </div>
             ) : products.length > 0 ? (
               <>
