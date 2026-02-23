@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { AuthContext } from "./AuthContext";
 import { authenticatedFetch, proactiveRefresh } from "../../api/apiClient";
+import { normalizeError } from "../../utils/errorMessages";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -79,7 +80,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Send code error:", error);
       return {
         success: false,
-        error: error.message,
+        error: normalizeError(error, "Не вдалося відправити код. Спробуйте пізніше."),
       };
     }
   }, []);
@@ -108,7 +109,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Login error:", error);
       return {
         success: false,
-        error: error.message,
+        error: normalizeError(error, "Помилка авторизації. Спробуйте ще раз."),
       };
     }
   }, []);
@@ -126,7 +127,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Google authentication failed");
+        throw new Error(data.error || "Помилка авторизації через Google");
       }
 
       localStorage.setItem("authToken", data.token);
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Google login error:", error);
       return {
         success: false,
-        error: error.message,
+        error: normalizeError(error, "Помилка авторизації через Google. Спробуйте ще раз."),
       };
     }
   }, []);
@@ -160,7 +161,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to update user");
+        throw new Error(data.error || "Не вдалося оновити профіль");
       }
 
       setUser(data.user);
@@ -170,7 +171,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Update user error:", error);
       return {
         success: false,
-        error: error.message,
+        error: normalizeError(error, "Не вдалося оновити профіль. Спробуйте ще раз."),
       };
     }
   }, []);
