@@ -396,7 +396,7 @@
   }
 
   &__progress-label {
-    font-size: 11px;
+    font-size: v.$font-size-xs;
     color: v.$color-text-tertiary;
     margin-top: v.$spacing-2;
     text-align: center;
@@ -410,10 +410,6 @@
     .track-order__progress-step--current & {
       color: v.$brand-primary-600;
       font-weight: v.$font-weight-semibold;
-    }
-
-    @media (max-width: v.$breakpoint-sm) {
-      font-size: 10px;
     }
   }
 
