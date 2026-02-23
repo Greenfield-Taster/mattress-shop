@@ -74,6 +74,7 @@ const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState(null);
   const [editedUser, setEditedUser] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -156,11 +157,16 @@ const Profile = () => {
 
   const handleSave = async () => {
     setIsSaving(true);
+    setSaveMessage(null);
 
     const result = await updateUser(editedUser);
 
     if (result.success) {
       setIsEditing(false);
+      setSaveMessage({ type: "success", text: "Дані успішно збережено" });
+      setTimeout(() => setSaveMessage(null), 4000);
+    } else {
+      setSaveMessage({ type: "error", text: result.error || "Не вдалося зберегти дані" });
     }
 
     setIsSaving(false);
@@ -327,6 +333,13 @@ const Profile = () => {
                 </div>
               )}
             </div>
+
+            {saveMessage && (
+              <div className={`profile-save-message profile-save-message--${saveMessage.type}`}>
+                {saveMessage.type === "success" ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
+                <span>{saveMessage.text}</span>
+              </div>
+            )}
 
             <div className="profile-form">
               <div className="profile-form__group">

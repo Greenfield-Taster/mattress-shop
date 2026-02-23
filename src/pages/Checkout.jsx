@@ -17,6 +17,7 @@ import {
 } from "../utils/checkoutValidation";
 import LegalModal from "../components/LegalModal/LegalModal";
 import { STORE_INFO } from "../utils/storeInfo";
+import { normalizeError } from "../utils/errorMessages";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_checkout.scss";
@@ -328,7 +329,7 @@ const Checkout = () => {
     } catch (error) {
       console.error("❌ Помилка створення замовлення:", error);
       setSubmitError(
-        error.message || "Помилка створення замовлення. Спробуйте ще раз."
+        normalizeError(error, "Помилка створення замовлення. Спробуйте ще раз.")
       );
     } finally {
       setIsSubmitting(false);

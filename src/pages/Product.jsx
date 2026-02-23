@@ -12,6 +12,7 @@ import { TYPE_LABELS, BLOCK_TYPE_LABELS, COVER_TYPE_LABELS, FILLER_LABELS, HARDN
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO, buildProductJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
 import { STORE_INFO } from "../utils/storeInfo";
+import { normalizeError } from "../utils/errorMessages";
 import "../styles/pages/_product.scss";
 
 import {
@@ -49,6 +50,7 @@ const Product = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState("description");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isAdded, setIsAdded] = useState(false);
@@ -82,6 +84,7 @@ const Product = () => {
   useEffect(() => {
     const loadProduct = async () => {
       setLoading(true);
+      setLoadError(false);
       try {
         // Спочатку пробуємо отримати продукт напряму за ID/handle
         let foundProduct = await fetchProductById(id);
@@ -146,6 +149,7 @@ const Product = () => {
         }
       } catch (error) {
         console.error("Error loading product:", error);
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
@@ -305,7 +309,7 @@ const Product = () => {
         });
         setReviewSubmitted(true);
       } catch (error) {
-        setReviewError(error.message || "Помилка відправки відгуку");
+        setReviewError(normalizeError(error, "Помилка відправки відгуку. Спробуйте пізніше."));
       } finally {
         setReviewSubmitting(false);
       }
@@ -343,6 +347,24 @@ const Product = () => {
             <div className="spinner"></div>
             <p>Завантаження...</p>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (loadError) {
+    return (
+      <div className="product-not-found">
+        <div className="container">
+          <h2>Помилка завантаження</h2>
+          <p>Не вдалося завантажити товар. Перевірте з'єднання з інтернетом.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="btnProd btnProd--primary"
+          >
+            Спробувати ще раз
+          </button>
         </div>
       </div>
     );
