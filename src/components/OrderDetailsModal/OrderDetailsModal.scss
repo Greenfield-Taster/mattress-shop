@@ -39,6 +39,7 @@
   width: 100%;
   max-width: 700px;
   max-height: 90vh;
+  max-height: 90dvh;
   background: v.$neutral-0;
   border-radius: v.$radius-xl;
   box-shadow: v.$shadow-xl;
@@ -59,7 +60,8 @@
 
   @media (max-width: v.$breakpoint-sm) {
     max-width: 100%;
-    max-height: 75vh;
+    max-height: 85vh;
+    max-height: 85dvh;
   }
 }
 
