@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { X, FileText, Shield } from "lucide-react";
 import { STORE_INFO } from "../../utils/storeInfo";
 import "./LegalModal.scss";
@@ -364,16 +364,55 @@ const MODAL_CONFIG = {
 };
 
 const LegalModal = ({ isOpen, onClose, type = "terms" }) => {
+  const containerRef = useRef(null);
+  const previousFocusRef = useRef(null);
+
   useEffect(() => {
     if (isOpen) {
+      previousFocusRef.current = document.activeElement;
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+
+      if (e.key === 'Tab' && containerRef.current) {
+        const focusableElements = containerRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -383,7 +422,13 @@ const LegalModal = ({ isOpen, onClose, type = "terms" }) => {
   return (
     <div className="legal-modal">
       <div className="legal-modal__overlay" onClick={onClose} />
-      <div className="legal-modal__container">
+      <div
+        className="legal-modal__container"
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={config.title}
+      >
         <div className="legal-modal__header">
           <div className="legal-modal__header-left">
             <Icon size={24} />
