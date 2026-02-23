@@ -125,28 +125,7 @@
   // ========================================
   &__filters {
     position: sticky;
-    top: v.$spacing-6;
-    max-height: calc(100vh - v.$spacing-12);
-    overflow-y: auto;
-
-    // Кастомний скролбар
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: v.$neutral-100;
-      border-radius: v.$radius-full;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: v.$neutral-300;
-      border-radius: v.$radius-full;
-
-      &:hover {
-        background: v.$neutral-400;
-      }
-    }
+    top: calc(64px + v.$spacing-6);
   }
 
   &__filters-overlay {

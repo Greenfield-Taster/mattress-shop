@@ -55,6 +55,10 @@
   @media (max-width: v.$breakpoint-md) {
     font-size: v.$font-size-3xl;
   }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-2xl;
+  }
 }
 
 .profile-header__subtitle {
