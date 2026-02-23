@@ -236,7 +236,8 @@
       height: 370px;
     }
     @media (max-width: v.$breakpoint-md) {
-      width: 550px;
+      width: 100%;
+      max-width: 550px;
       height: 350px;
     }
     @media (max-width: v.$breakpoint-sm) {
@@ -320,7 +321,8 @@
       height: 330px;
     }
     @media (max-width: v.$breakpoint-md) {
-      width: 480px;
+      width: 100%;
+      max-width: 480px;
       height: 300px;
     }
     @media (max-width: v.$breakpoint-sm) {
