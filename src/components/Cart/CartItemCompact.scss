@@ -220,6 +220,25 @@
     &__specs {
       margin-bottom: v.$spacing-2;
     }
+
+    &__qty-btn {
+      width: 32px;
+      height: 32px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    &__qty-input {
+      height: 32px;
+    }
+
+    &__remove {
+      width: 32px;
+      height: 32px;
+    }
   }
 }
 
@@ -242,7 +261,7 @@
     }
 
     &__specs {
-      font-size: 11px;
+      font-size: v.$font-size-xs;
     }
 
     &__price {
