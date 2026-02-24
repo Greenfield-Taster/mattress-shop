@@ -9,6 +9,7 @@ const ProductGallery = ({ images, alt, priority = false }) => {
   const hasRealImages = images?.length > 0;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
   const thumbnailsRef = useRef(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -32,6 +33,7 @@ const ProductGallery = ({ images, alt, priority = false }) => {
       if (index === selectedIndex || isTransitioning) return;
 
       setIsTransitioning(true);
+      setMainImageLoaded(false);
       setSelectedIndex(index);
 
       setTimeout(() => {
@@ -115,7 +117,7 @@ const ProductGallery = ({ images, alt, priority = false }) => {
   return (
     <div className="product-gallery">
       <div
-        className="product-gallery__main"
+        className={`product-gallery__main ${!mainImageLoaded ? "product-gallery__main--loading" : ""}`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -133,10 +135,14 @@ const ProductGallery = ({ images, alt, priority = false }) => {
               : undefined
           }
           alt={`${alt} - зображення ${selectedIndex + 1} з ${safeImages.length}`}
-          onError={handleImageError}
+          onLoad={() => setMainImageLoaded(true)}
+          onError={(e) => {
+            handleImageError(e);
+            setMainImageLoaded(true);
+          }}
           className={`product-gallery__main-image ${
             isTransitioning ? "product-gallery__main-image--transitioning" : ""
-          }`}
+          } ${mainImageLoaded ? "product-gallery__main-image--loaded" : ""}`}
           loading={priority ? "eager" : "lazy"}
           width={800}
           height={600}

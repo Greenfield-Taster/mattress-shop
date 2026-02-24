@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import { TYPE_LABELS, t } from "../../utils/productLabels";
@@ -16,6 +16,9 @@ const ProductCard = ({ product, selectedSize = null }) => {
   const { id, name, handle, type, height, hardness, image, variants } = product;
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   // Перевіряємо чи вибрано нестандартний розмір
   const isCustomSize =
@@ -85,17 +88,19 @@ const ProductCard = ({ product, selectedSize = null }) => {
 
   return (
     <div className="product-card">
-      <div className="product-card__image-wrapper">
+      <div className={`product-card__image-wrapper ${!imageLoaded ? "product-card__image-wrapper--loading" : ""}`}>
         <Link to={`/product/${handle || id}`} className="product-card__image-link">
           <img
             src={image || placeholderImg}
             alt={name}
-            className="product-card__image"
+            className={`product-card__image ${imageLoaded ? "product-card__image--loaded" : ""}`}
             loading="lazy"
             width={290}
             height={290}
+            onLoad={handleImageLoad}
             onError={(e) => {
               e.target.src = placeholderImg;
+              setImageLoaded(true);
             }}
           />
         </Link>

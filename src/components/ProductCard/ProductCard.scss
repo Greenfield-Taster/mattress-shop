@@ -39,10 +39,23 @@
   &__image-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1; // Квадратное изображение для единообразия
-    background: v.$neutral-50;
+    aspect-ratio: 1 / 1;
+    background: v.$neutral-200;
     overflow: hidden;
     flex-shrink: 0;
+
+    &--loading::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 100%
+      );
+      animation: shimmer 1.5s infinite;
+    }
   }
 
   &__image-link,
@@ -59,7 +72,12 @@
     height: 100%;
     object-fit: contain;
     padding: v.$spacing-4;
-    transition: transform v.$transition-slow v.$transition-timing;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform v.$transition-slow v.$transition-timing;
+
+    &--loaded {
+      opacity: 1;
+    }
 
     .product-card:hover & {
       transform: scale(1.05);
@@ -438,5 +456,14 @@
       height: 44px;
       font-size: v.$font-size-sm; // 14px
     }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
