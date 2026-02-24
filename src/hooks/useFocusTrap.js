@@ -5,6 +5,8 @@ const FOCUSABLE_SELECTOR =
 
 const useFocusTrap = (containerRef, { isActive = true, onClose, autoFocusRef } = {}) => {
   const previousFocusRef = useRef(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (!isActive) return;
@@ -16,8 +18,8 @@ const useFocusTrap = (containerRef, { isActive = true, onClose, autoFocusRef } =
     }
 
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" && onClose) {
-        onClose();
+      if (e.key === "Escape" && onCloseRef.current) {
+        onCloseRef.current();
       }
 
       if (e.key === "Tab" && containerRef.current) {
@@ -41,7 +43,7 @@ const useFocusTrap = (containerRef, { isActive = true, onClose, autoFocusRef } =
       document.removeEventListener("keydown", handleKeyDown);
       previousFocusRef.current?.focus();
     };
-  }, [isActive, onClose]);
+  }, [isActive]);
 };
 
 export default useFocusTrap;
