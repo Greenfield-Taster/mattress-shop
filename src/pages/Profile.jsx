@@ -124,7 +124,7 @@ const Profile = () => {
             quantity: item.quantity,
             price: item.unit_price,
             total: item.total || item.unit_price * item.quantity,
-            image: item.image || "/spring.png",
+            image: item.image || "/spring.webp",
           })),
           deliveryMethod: order.delivery_method,
           deliveryCity: order.delivery_city,

@@ -19,18 +19,38 @@
     flex-shrink: 0;
     width: 80px;
     height: 80px;
-    background: v.$neutral-50;
+    background: v.$neutral-200;
     border-radius: v.$radius-base;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    &--loading::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 100%
+      );
+      animation: shimmer 1.5s infinite;
+    }
   }
 
   &__image {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &--loaded {
+      opacity: 1;
+    }
 
     user-select: none;
     -webkit-user-drag: none;
@@ -275,5 +295,14 @@
     &__footer {
       margin-top: v.$spacing-2;
     }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

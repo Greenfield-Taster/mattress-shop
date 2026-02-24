@@ -3,7 +3,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useCart } from "../../hooks/useCart";
 import WishlistButton from "../WishlistButton/WishlistButton";
 import { TYPE_LABELS, t } from "../../utils/productLabels";
-import placeholderImg from "/mattress-placeholder.png";
+import placeholderImg from "/mattress-placeholder.webp";
 import "./ProductCard.scss";
 
 // Нормалізує розмір для порівняння (замінює різні варіанти "x" на кириличний "х")

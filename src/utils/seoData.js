@@ -66,7 +66,7 @@ export function buildOrganizationJsonLd() {
     "@type": "Organization",
     name: SITE_NAME,
     url: BASE_URL,
-    logo: `${BASE_URL}/heero-cat.png`,
+    logo: `${BASE_URL}/heero-cat.webp`,
     description: "Інтернет-магазин ортопедичних матраців з доставкою по Україні",
     contactPoint: {
       "@type": "ContactPoint",
@@ -83,7 +83,7 @@ export function buildLocalBusinessJsonLd() {
     "@type": "FurnitureStore",
     name: SITE_NAME,
     url: BASE_URL,
-    logo: `${BASE_URL}/heero-cat.png`,
+    logo: `${BASE_URL}/heero-cat.webp`,
     image: DEFAULT_OG_IMAGE,
     description: DEFAULT_DESCRIPTION,
     address: {

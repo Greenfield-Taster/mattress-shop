@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import placeholderImg from "/mattress-placeholder.png";
+import placeholderImg from "/mattress-placeholder.webp";
 import "./ProductGallery.scss";
 
 const ProductGallery = ({ images, alt, priority = false }) => {

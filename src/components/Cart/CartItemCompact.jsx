@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import "./CartItemCompact.scss";
 
 const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
   const { id, title, size, firmness, price, qty, image } = item;
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   const handleQtyChange = (e) => {
     const newQty = parseInt(e.target.value, 10);
@@ -34,8 +36,14 @@ const CartItemCompact = ({ item, onUpdateQty, onRemove, currency = "₴" }) => {
 
   return (
     <div className="cart-item-compact">
-      <div className="cart-item-compact__image-wrapper">
-        <img src={image} alt={title} className="cart-item-compact__image" />
+      <div className={`cart-item-compact__image-wrapper ${!imageLoaded ? "cart-item-compact__image-wrapper--loading" : ""}`}>
+        <img
+          src={image}
+          alt={title}
+          className={`cart-item-compact__image ${imageLoaded ? "cart-item-compact__image--loaded" : ""}`}
+          onLoad={handleImageLoad}
+          onError={handleImageLoad}
+        />
       </div>
 
       <div className="cart-item-compact__content">

@@ -9,12 +9,12 @@ import { PAGE_SEO, buildOrganizationJsonLd, buildLocalBusinessJsonLd, buildWebSi
 import { SkeletonCarousel } from "../components/Skeleton/Skeleton";
 import "../styles/pages/_home.scss";
 
-import heroCatImage from "/heero-cat.png";
-import springImage from "/spring.png";
-import springlessImage from "/springless.png";
-import kidsImage from "/kids.png";
-import toperImage from "/toper.png";
-import pillowImage from "/pillow.png";
+import heroCatImage from "/heero-cat.webp";
+import springImage from "/spring.webp";
+import springlessImage from "/springless.webp";
+import kidsImage from "/kids.webp";
+import toperImage from "/toper.webp";
+import pillowImage from "/pillow.webp";
 
 const Home = () => {
   usePageMeta({
