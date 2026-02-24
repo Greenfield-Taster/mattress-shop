@@ -57,7 +57,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Navigation Links */}
           <div className="footer__section">
             <h3 className="footer__section-title">Навігація</h3>
             <ul className="footer__section-links">
@@ -76,7 +75,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div className="footer__section">
             <h3 className="footer__section-title">Контакти</h3>
             <div className="footer__contact-list">
@@ -101,7 +99,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Payment Methods */}
           <div className="footer__section">
             <h3 className="footer__section-title">Способи оплати</h3>
             <div className="footer__payment-methods">

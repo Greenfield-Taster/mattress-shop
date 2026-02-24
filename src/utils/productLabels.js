@@ -1,10 +1,3 @@
-/**
- * Єдине джерело перекладів для атрибутів матраців.
- * Бекенд завжди повертає англійські ключі — фронт перекладає тут.
- *
- * Використовується в: Catalog, CatalogFilters, ProductCard, Product, MattressQuiz
- */
-
 export const TYPE_LABELS = {
   springless: "Безпружинні",
   spring: "Пружинні",
@@ -48,7 +41,4 @@ export const HARDNESS_DETAILS = {
   H5: { label: "Н5 — Дуже жорсткий", subtitle: "Максимальна підтримка, вага 120+ кг" },
 };
 
-/**
- * Хелпер: переклад ключа через таблицю, fallback на сам ключ
- */
 export const t = (labels, key) => labels[key] || key;

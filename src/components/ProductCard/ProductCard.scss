@@ -15,13 +15,11 @@
   border: 1px solid v.$color-border;
   height: 100%;
 
-  // Запрет выделения текста и изображений
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 
-  // Запрет перетаскивания изображений
   img {
     pointer-events: none;
     -webkit-user-drag: none;
@@ -127,7 +125,7 @@
     font-weight: v.$font-weight-bold;
     letter-spacing: v.$letter-spacing-tight;
     line-height: 1.3;
-    font-size: v.$font-size-lg; // 18px
+    font-size: v.$font-size-lg;
     color: v.$color-text-primary;
     height: auto;
     min-height: 24px;
@@ -143,8 +141,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: v.$spacing-2;
-    font-size: v.$font-size-sm; // 14px
-    color: v.$color-text-secondary;
+    font-size: v.$font-size-sm;    color: v.$color-text-secondary;
     line-height: 1.4;
     min-height: 20px;
     margin-bottom: v.$spacing-3;
@@ -169,16 +166,14 @@
   }
 
   &__price {
-    font-size: v.$font-size-2xl; // 24px
-    font-weight: v.$font-weight-bold;
+    font-size: v.$font-size-2xl;    font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     line-height: 1;
     letter-spacing: v.$letter-spacing-tight;
   }
 
   &__old-price {
-    font-size: v.$font-size-base; // 16px
-    color: v.$color-text-tertiary;
+    font-size: v.$font-size-base;    color: v.$color-text-tertiary;
     text-decoration: line-through;
     font-weight: v.$font-weight-regular;
     line-height: 1;
@@ -205,8 +200,7 @@
     border-radius: v.$radius-button;
     border: 1px solid transparent;
     font-family: v.$font-family-base;
-    font-size: v.$font-size-sm; // 14px
-    font-weight: v.$font-weight-semibold;
+    font-size: v.$font-size-sm;    font-weight: v.$font-weight-semibold;
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -265,11 +259,10 @@
   }
 }
 
-// TABLET (768px - 1024px)
 @media (max-width: v.$breakpoint-lg) {
   .product-card {
     &__image-wrapper {
-      aspect-ratio: 1 / 0.85; // Трохи нижче
+      aspect-ratio: 1 / 0.85;
     }
 
     &__content {
@@ -277,24 +270,20 @@
     }
 
     &__title {
-      font-size: v.$font-size-sm; // 14px
-      margin-bottom: v.$spacing-2;
+      font-size: v.$font-size-sm;      margin-bottom: v.$spacing-2;
       min-height: 20px;
     }
 
     &__specs {
-      font-size: v.$font-size-xs; // 12px
-      gap: v.$spacing-1;
+      font-size: v.$font-size-xs;      gap: v.$spacing-1;
       margin-bottom: v.$spacing-2;
     }
 
     &__price {
-      font-size: v.$font-size-xl; // 20px
-    }
+      font-size: v.$font-size-xl;    }
 
     &__old-price {
-      font-size: v.$font-size-sm; // 14px
-    }
+      font-size: v.$font-size-sm;    }
 
     &__price-wrapper {
       margin-bottom: v.$spacing-2;
@@ -308,16 +297,14 @@
     &__button {
       height: 40px;
       padding: 0 v.$spacing-3;
-      font-size: v.$font-size-sm; // 14px
-    }
+      font-size: v.$font-size-sm;    }
   }
 }
 
-// MOBILE LARGE (641px - 767px)
 @media (max-width: v.$breakpoint-md) {
   .product-card {
     &__image-wrapper {
-      aspect-ratio: 1 / 0.8; // Ще менша висота
+      aspect-ratio: 1 / 0.8;
     }
 
     &__content {
@@ -325,8 +312,7 @@
     }
 
     &__title {
-      font-size: v.$font-size-base; // 16px
-      line-height: 1.3;
+      font-size: v.$font-size-base;      line-height: 1.3;
       min-height: 22px;
       margin-bottom: v.$spacing-2;
     }
@@ -336,18 +322,15 @@
     }
 
     &__specs {
-      font-size: v.$font-size-sm; // 14px
-      margin-bottom: v.$spacing-3;
+      font-size: v.$font-size-sm;      margin-bottom: v.$spacing-3;
       gap: v.$spacing-2;
     }
 
     &__price {
-      font-size: v.$font-size-xl; // 20px
-    }
+      font-size: v.$font-size-xl;    }
 
     &__old-price {
-      font-size: v.$font-size-sm; // 14px
-    }
+      font-size: v.$font-size-sm;    }
 
     &__price-wrapper {
       margin-bottom: v.$spacing-3;
@@ -360,17 +343,15 @@
 
     &__button {
       height: 40px;
-      font-size: v.$font-size-sm; // 14px
-      padding: 0 v.$spacing-3;
+      font-size: v.$font-size-sm;      padding: 0 v.$spacing-3;
     }
   }
 }
 
-// MOBILE (< 640px) - кнопки в колонку
 @media (max-width: v.$breakpoint-sm) {
   .product-card {
     &__image-wrapper {
-      aspect-ratio: 1 / 0.75; // Ще компактніше
+      aspect-ratio: 1 / 0.75;
     }
 
     &__content {
@@ -385,29 +366,24 @@
     &__button {
       width: 100%;
       height: 44px;
-      font-size: v.$font-size-sm; // 14px
-      padding: 0 v.$spacing-4;
+      font-size: v.$font-size-sm;      padding: 0 v.$spacing-4;
     }
 
     &__title {
-      font-size: v.$font-size-base; // 16px
-      line-height: 1.35;
+      font-size: v.$font-size-base;      line-height: 1.35;
       min-height: 22px;
       margin-bottom: v.$spacing-2;
     }
 
     &__specs {
-      font-size: v.$font-size-sm; // 14px
-      margin-bottom: v.$spacing-3;
+      font-size: v.$font-size-sm;      margin-bottom: v.$spacing-3;
     }
 
     &__price {
-      font-size: v.$font-size-xl; // 20px
-    }
+      font-size: v.$font-size-xl;    }
 
     &__old-price {
-      font-size: v.$font-size-sm; // 14px
-    }
+      font-size: v.$font-size-sm;    }
 
     &__price-wrapper {
       margin-bottom: v.$spacing-3;
@@ -416,7 +392,6 @@
   }
 }
 
-// EXTRA SMALL (< 360px)
 @media (max-width: 360px) {
   .product-card {
     &__image-wrapper {
@@ -435,8 +410,7 @@
     }
 
     &__specs {
-      font-size: v.$font-size-xs; // 12px
-      margin-bottom: v.$spacing-3;
+      font-size: v.$font-size-xs;      margin-bottom: v.$spacing-3;
     }
 
     &__price {
@@ -444,8 +418,7 @@
     }
 
     &__old-price {
-      font-size: v.$font-size-xs; // 12px
-    }
+      font-size: v.$font-size-xs;    }
 
     &__price-wrapper {
       gap: v.$spacing-2;
@@ -454,8 +427,7 @@
 
     &__button {
       height: 44px;
-      font-size: v.$font-size-sm; // 14px
-    }
+      font-size: v.$font-size-sm;    }
   }
 }
 

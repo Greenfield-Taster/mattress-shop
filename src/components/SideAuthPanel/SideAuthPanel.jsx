@@ -8,7 +8,7 @@ import './SideAuthPanel.scss';
 const SideAuthPanel = ({ isOpen = false, onClose }) => {
   const panelRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const [authStep, setAuthStep] = useState('phone'); // 'phone' | 'code'
+  const [authStep, setAuthStep] = useState('phone');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [error, setError] = useState('');
@@ -31,7 +31,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
     setError('');
 
-    // Якщо вставлено кілька цифр — розкидати по полях
     if (digits.length > 1) {
       const newCode = [...code];
       for (let i = 0; i < digits.length && index + i < 6; i++) {
@@ -48,7 +47,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     newCode[index] = digits;
     setCode(newCode);
 
-    // Автофокус на наступне поле
     if (digits && index < 5) {
       const nextInput = document.getElementById(`code-${index + 1}`);
       if (nextInput) nextInput.focus();
@@ -90,7 +88,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    // Формат 0XXXXXXXXX (10 цифр)
     const result = await sendCode('0' + phoneNumber);
 
     setIsSubmitting(false);
@@ -103,7 +100,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
   const handleGoogleAuth = async () => {
     setError('');
     
-    // Ініціалізація Google OAuth
     if (window.google) {
       window.google.accounts.id.initialize({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -124,7 +120,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
     if (result.success) {
       onClose();
-      // Скинути форму
       resetForm();
     } else {
       setError(result.error || 'Помилка авторизації через Google');
@@ -137,7 +132,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    // Формат 0XXXXXXXXX (10 цифр)
     const result = await sendCode('0' + phoneNumber);
 
     setIsSubmitting(false);
@@ -156,14 +150,12 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setError('');
     setIsSubmitting(true);
 
-    // Формат 0XXXXXXXXX (10 цифр)
     const result = await login('0' + phoneNumber, fullCode);
 
     setIsSubmitting(false);
 
     if (result.success) {
       onClose();
-      // Скинути форму
       resetForm();
     } else {
       setError(result.error || 'Невірний код');
@@ -184,7 +176,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     setIsSubmitting(false);
   };
 
-  // Скинути форму при закритті
   const handleClose = () => {
     resetForm();
     onClose();
@@ -195,14 +186,12 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
   return (
     <>
-      {/* Backdrop */}
-      <div 
+      <div
         className={`auth-backdrop ${isOpen ? 'active' : ''}`}
         onClick={handleClose}
         aria-hidden="true"
       />
 
-      {/* Side Panel */}
       <aside
         className={`side-auth-panel ${isOpen ? 'open' : ''}`}
         ref={panelRef}
@@ -210,7 +199,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
         aria-modal="true"
         aria-label="Авторизація"
       >
-        {/* Close Button */}
         <button
           className="close-btn"
           onClick={handleClose}
@@ -228,7 +216,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
           </svg>
         </button>
 
-        {/* Logo / Header */}
         <div className="auth-header">
           <div className="logo-icon">🛏️</div>
           <h2 className="auth-title">Вітаємо в Just Sleep</h2>
@@ -239,9 +226,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
           </p>
         </div>
 
-        {/* Auth Content */}
         <div className="auth-content">
-          {/* Error Message */}
           {error && (
             <div className="error-message">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -263,7 +248,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
           {authStep === 'phone' ? (
             <>
-              {/* Phone Input */}
               <div className="input-group">
                 <label htmlFor="phone" className="input-label">
                   Номер телефону
@@ -289,8 +273,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <button 
+              <button
                 className="btn btn-primary"
                 onClick={handleSubmitPhone}
                 disabled={phoneNumber.length !== 9 || isSubmitting}
@@ -310,13 +293,11 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                 )}
               </button>
 
-              {/* Divider */}
               <div className="divider">
                 <span>або</span>
               </div>
 
-              {/* Google Auth Button */}
-              <button 
+              <button
                 className="btn btn-google"
                 onClick={handleGoogleAuth}
                 type="button"
@@ -333,8 +314,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
             </>
           ) : (
             <>
-              {/* Back Button */}
-              <button 
+              <button
                 className="back-btn"
                 onClick={handleBackToPhone}
                 type="button"
@@ -352,13 +332,11 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                 <span>Назад</span>
               </button>
 
-              {/* Phone Number Display */}
               <div className="phone-display">
                 <span className="phone-display-label">Код надіслано на:</span>
                 <span className="phone-display-number">+380 {phoneNumber}</span>
               </div>
 
-              {/* Code Inputs */}
               <div className="code-input-group">
                 <label className="input-label">
                   Код підтвердження
@@ -384,7 +362,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                 </div>
               </div>
 
-              {/* Resend Code */}
               <div className="resend-wrapper">
                 <span className="resend-text">Не отримали код?</span>
                 <button 
@@ -397,8 +374,7 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
                 </button>
               </div>
 
-              {/* Submit Button */}
-              <button 
+              <button
                 className="btn btn-primary"
                 onClick={handleSubmitCode}
                 disabled={code.join('').length !== 6 || isSubmitting}
@@ -421,7 +397,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
           )}
         </div>
 
-        {/* Footer */}
         <div className="auth-footer">
           <p className="footer-text">
             Продовжуючи, ви приймаєте наші{' '}

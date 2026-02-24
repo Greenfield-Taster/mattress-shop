@@ -20,7 +20,6 @@ import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_track-order.scss";
 
-// Конфігурація статусів замовлень
 const ORDER_STATUS_CONFIG = {
   pending: {
     label: "Очікує обробки",
@@ -54,7 +53,6 @@ const ORDER_STATUS_CONFIG = {
   },
 };
 
-// Порядок кроків для прогрес-бару (без cancelled)
 const STATUS_STEPS = [
   { key: "pending", label: "Нове" },
   { key: "confirmed", label: "Підтверджено" },
@@ -77,10 +75,8 @@ const PAYMENT_METHOD_LABELS = {
   invoice: "Рахунок",
 };
 
-// Ключ для збереження номерів замовлень в localStorage
 const SAVED_ORDERS_KEY = "savedOrderNumbers";
 
-// Функції для роботи з localStorage
 const getSavedOrders = () => {
   try {
     const saved = localStorage.getItem(SAVED_ORDERS_KEY);
@@ -221,7 +217,6 @@ const TrackOrder = () => {
     return `${Number(amount).toLocaleString("uk-UA")} ₴`;
   };
 
-  // Визначаємо поточний індекс статусу для прогрес-бару
   const getStatusStepIndex = (status) => {
     const idx = STATUS_STEPS.findIndex((s) => s.key === status);
     return idx >= 0 ? idx : -1;
@@ -276,7 +271,6 @@ const TrackOrder = () => {
 
         {error && <div className="track-order__error">{error}</div>}
 
-        {/* Збережені замовлення */}
         {savedOrders.length > 0 && !order && (
           <div className="track-order__saved">
             <h3 className="track-order__saved-title">Ваші замовлення</h3>
@@ -302,10 +296,8 @@ const TrackOrder = () => {
           </div>
         )}
 
-        {/* Результат пошуку */}
         {order && (
           <div className="track-order__result">
-            {/* Шапка замовлення */}
             <div className="track-order__result-header">
               <div className="track-order__result-info">
                 <span className="track-order__result-label">Замовлення</span>
@@ -338,7 +330,6 @@ const TrackOrder = () => {
               </div>
             </div>
 
-            {/* Прогрес-бар статусу */}
             {order.status !== "cancelled" && (
               <div className="track-order__progress">
                 {STATUS_STEPS.map((step, index) => {
@@ -369,7 +360,6 @@ const TrackOrder = () => {
               </div>
             )}
 
-            {/* Скасоване замовлення */}
             {order.status === "cancelled" && (
               <div className="track-order__cancelled-banner">
                 <XCircle size={20} />
@@ -377,9 +367,7 @@ const TrackOrder = () => {
               </div>
             )}
 
-            {/* Секції з деталями */}
             <div className="track-order__sections">
-              {/* Отримувач */}
               {customerName && (
                 <div className="track-order__section">
                   <div className="track-order__section-header">
@@ -407,7 +395,6 @@ const TrackOrder = () => {
                 </div>
               )}
 
-              {/* Доставка */}
               {order.delivery_method && (
                 <div className="track-order__section">
                   <div className="track-order__section-header">
@@ -469,7 +456,6 @@ const TrackOrder = () => {
                 </div>
               )}
 
-              {/* Оплата (для власника) */}
               {(order.payment_method || order.payment_status) && (
                 <div className="track-order__section">
                   <div className="track-order__section-header">
@@ -501,7 +487,6 @@ const TrackOrder = () => {
                 </div>
               )}
 
-              {/* Коментар (для власника) */}
               {isOwner && order.comment && (
                 <div className="track-order__section">
                   <div className="track-order__section-header">
@@ -515,7 +500,6 @@ const TrackOrder = () => {
               )}
             </div>
 
-            {/* Товари в замовленні */}
             {order.items && order.items.length > 0 && (
               <div className="track-order__items">
                 <h4 className="track-order__items-title">
@@ -556,7 +540,6 @@ const TrackOrder = () => {
               </div>
             )}
 
-            {/* Підсумок — чек */}
             <div className="track-order__summary">
               <div className="track-order__summary-row">
                 <span>Сума товарів</span>

@@ -1,20 +1,8 @@
-/**
- * Order API Service
- * Сервіс для роботи з замовленнями
- */
-
 import { authenticatedFetch } from "./apiClient";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-
-// Publishable API key для store endpoints
 const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;
 
-/**
- * Створити нове замовлення
- * @param {Object} orderData - дані замовлення
- * @returns {Promise<Object>} - результат створення
- */
 export async function createOrder(orderData) {
   const token = localStorage.getItem("authToken");
 
@@ -24,8 +12,6 @@ export async function createOrder(orderData) {
   };
 
   try {
-    // Use authenticatedFetch if logged in (handles token refresh),
-    // otherwise plain fetch for guest orders
     const fetchFn = token ? authenticatedFetch : fetch;
     const response = await fetchFn(`${API_BASE_URL}/store/orders`, {
       method: "POST",
@@ -46,11 +32,6 @@ export async function createOrder(orderData) {
   }
 }
 
-/**
- * Отримати замовлення за ID або номером
- * @param {string} orderId - ID або номер замовлення (ORD-YYYY-XXXXX)
- * @returns {Promise<Object>} - дані замовлення
- */
 export async function getOrder(orderId) {
   const token = localStorage.getItem("authToken");
 
@@ -77,10 +58,6 @@ export async function getOrder(orderId) {
   }
 }
 
-/**
- * Отримати історію замовлень авторизованого користувача
- * @returns {Promise<Object>} - список замовлень
- */
 export async function getMyOrders() {
   const token = localStorage.getItem("authToken");
 
@@ -104,14 +81,6 @@ export async function getMyOrders() {
   }
 }
 
-/**
- * Форматувати дані checkout форми для API
- * @param {Object} formData - дані з форми checkout
- * @param {Array} items - товари з кошика
- * @param {Object} totals - суми
- * @param {Object|null} promoCode - застосований промокод
- * @returns {Object} - дані для API
- */
 export function formatOrderData(formData, items, totals, promoCode = null, deliveryInfo = null) {
   return {
     contactData: {

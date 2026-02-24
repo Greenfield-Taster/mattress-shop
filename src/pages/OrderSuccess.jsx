@@ -6,10 +6,8 @@ import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_order-success.scss";
 
-// Ключ для збереження номерів замовлень в localStorage
 const SAVED_ORDERS_KEY = "savedOrderNumbers";
 
-// Функція збереження номера замовлення
 const saveOrderNumber = (orderNumber) => {
   try {
     const saved = localStorage.getItem(SAVED_ORDERS_KEY);
@@ -30,7 +28,6 @@ const OrderSuccess = () => {
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    // Отримуємо дані замовлення з localStorage
     let parsed = null;
     try {
       const lastOrder = localStorage.getItem("lastOrder");
@@ -39,10 +36,8 @@ const OrderSuccess = () => {
         setOrder(parsed);
       }
     } catch {
-      // Пошкоджені дані — ігноруємо
     }
 
-    // Зберігаємо номер замовлення для відстеження
     const orderNum = orderNumber || parsed?.order_number;
     if (orderNum) {
       saveOrderNumber(orderNum);

@@ -4,7 +4,6 @@ import placeholderImg from "/mattress-placeholder.webp";
 import "./ProductGallery.scss";
 
 const ProductGallery = ({ images, alt, priority = false }) => {
-  // Якщо немає зображень — показуємо placeholder
   const safeImages = images?.length > 0 ? images : [placeholderImg];
   const hasRealImages = images?.length > 0;
   const [selectedIndex, setSelectedIndex] = useState(0);

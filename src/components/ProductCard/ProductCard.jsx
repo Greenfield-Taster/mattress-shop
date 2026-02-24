@@ -6,7 +6,6 @@ import { TYPE_LABELS, t } from "../../utils/productLabels";
 import placeholderImg from "/mattress-placeholder.webp";
 import "./ProductCard.scss";
 
-// Нормалізує розмір для порівняння (замінює різні варіанти "x" на кириличний "х")
 const normalizeSize = (size) => {
   if (!size) return "";
   return size.replace(/[×xXхХ]/g, "х");
@@ -20,13 +19,10 @@ const ProductCard = ({ product, selectedSize = null }) => {
 
   const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
-  // Перевіряємо чи вибрано нестандартний розмір
   const isCustomSize =
     selectedSize === "нестандартний розмір" || selectedSize === "custom";
 
-  // Визначаємо ціну на основі вибраного розміру або використовуємо базову
   const { displayPrice, displayOldPrice, displaySize } = useMemo(() => {
-    // Якщо вибрано нестандартний розмір - показуємо "Під замовлення"
     if (isCustomSize) {
       return {
         displayPrice: null,
@@ -36,7 +32,6 @@ const ProductCard = ({ product, selectedSize = null }) => {
       };
     }
 
-    // Якщо є вибраний розмір і є варіанти - шукаємо відповідний варіант
     if (selectedSize && variants?.length > 0) {
       const normalizedSelectedSize = normalizeSize(selectedSize);
       const matchedVariant = variants.find(
@@ -52,7 +47,6 @@ const ProductCard = ({ product, selectedSize = null }) => {
       }
     }
 
-    // Інакше використовуємо базову ціну продукту
     return {
       displayPrice: product.price,
       displayOldPrice: product.oldPrice,
@@ -60,7 +54,6 @@ const ProductCard = ({ product, selectedSize = null }) => {
     };
   }, [product, selectedSize, variants, isCustomSize]);
 
-  // Використовуємо знижку з API (discount або discountPercent), а не розраховуємо з цін
   const discountPercent = product.discount || product.discountPercent || 0;
   const hasDiscount =
     discountPercent > 0 && displayOldPrice && displayOldPrice > displayPrice;

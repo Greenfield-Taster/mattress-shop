@@ -56,7 +56,6 @@ const Product = () => {
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isAdded, setIsAdded] = useState(false);
 
-  // Відгуки — реальні дані з API
   const [reviews, setReviews] = useState([]);
   const [reviewStats, setReviewStats] = useState({ averageRating: 0, count: 0, distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } });
   const [reviewSort, setReviewSort] = useState("newest");
@@ -67,7 +66,6 @@ const Product = () => {
   const [reviewError, setReviewError] = useState("");
   const [formErrors, setFormErrors] = useState({});
 
-  // Форма для коментарів
   const [commentForm, setCommentForm] = useState({
     name: "",
     email: "",
@@ -75,22 +73,18 @@ const Product = () => {
     comment: "",
   });
 
-  // Сертифікати з API
   const productCertificates = useMemo(
     () => (Array.isArray(product?.certificates) ? product.certificates : []),
     [product]
   );
 
-  // Завантаження продукту та схожих товарів
   useEffect(() => {
     const loadProduct = async () => {
       setLoading(true);
       setLoadError(false);
       try {
-        // Спочатку пробуємо отримати продукт напряму за ID/handle
         let foundProduct = await fetchProductById(id);
 
-        // Якщо не знайшли - шукаємо в списку (для сумісності з числовими ID)
         if (!foundProduct) {
           const response = await fetchProducts({ limit: 100 });
           foundProduct = response.items.find(
@@ -99,28 +93,22 @@ const Product = () => {
         }
 
         if (foundProduct) {
-          // Нормалізуємо структуру даних для сумісності з mock і API
           const normalizedProduct = {
             ...foundProduct,
-            // Нормалізуємо description
             description: foundProduct.description || {
               main: foundProduct.descriptionMain || foundProduct.description_main || "",
               care: foundProduct.descriptionCare || foundProduct.description_care || "",
               specs: foundProduct.specs || [],
             },
-            // Нормалізуємо variants (detail endpoint може повернути об'єкт замість масиву)
             variants: Array.isArray(foundProduct.variants)
               ? foundProduct.variants
               : (foundProduct.allVariants || []),
-            // Нормалізуємо images
             images: foundProduct.images || [
               foundProduct.image || foundProduct.thumbnail,
             ].filter(Boolean),
-            // cover може приходити як coverType
             cover: foundProduct.cover || foundProduct.coverType,
           };
 
-          // Якщо description - рядок, перетворюємо в об'єкт
           if (typeof normalizedProduct.description === "string") {
             normalizedProduct.description = {
               main: normalizedProduct.description,
@@ -135,12 +123,11 @@ const Product = () => {
             setSelectedVariant(normalizedProduct.variants[0]);
           }
 
-          // Завантажуємо схожі продукти (по типу матраца)
           const productType = normalizedProduct.type;
           if (productType) {
             const response = await fetchProducts({
               types: [productType],
-              limit: 7, // +1 бо потенційно включатиме поточний товар
+              limit: 7,
             });
             const similar = response.items
               .filter((item) => item.id !== normalizedProduct.id)
@@ -160,7 +147,6 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // Завантаження відгуків з API
   const loadReviews = useCallback(async (productId, sort = "newest", offset = 0, append = false) => {
     try {
       const data = await getProductReviews(productId, { sort, limit: 5, offset });
@@ -184,7 +170,6 @@ const Product = () => {
     }
   }, [product?.id, reviewSort, loadReviews]);
 
-  // Автозаповнення форми відгуку для авторизованих користувачів
   useEffect(() => {
     if (user && !reviewSubmitted) {
       setCommentForm((prev) => ({
@@ -195,21 +180,17 @@ const Product = () => {
     }
   }, [user, reviewSubmitted]);
 
-  // Мемоїзовані значення
   const images = useMemo(() => product?.images || [], [product]);
 
-  // Варіанти продукту з обов'язковим "Нестандартний" розміром
   const variants = useMemo(() => {
     const productVariants = product?.variants || [];
 
-    // Перевіряємо чи вже є нестандартний розмір
     const hasCustom = productVariants.some(v => v.isCustom || v.size === "custom" || v.size === "Нестандартний");
 
     if (hasCustom) {
       return productVariants;
     }
 
-    // Додаємо нестандартний розмір в кінець списку
     const customVariant = {
       id: "custom",
       size: "Нестандартний",
@@ -223,7 +204,6 @@ const Product = () => {
   const averageRating = reviewStats.averageRating;
   const reviewCount = reviewStats.count;
 
-  // Handlers
   const handleVariantChange = useCallback((variant) => {
     setSelectedVariant(variant);
   }, []);
@@ -259,7 +239,6 @@ const Product = () => {
     setActiveTab(tab);
   }, []);
 
-  // Валідація форми відгуку
   const validateReviewForm = useCallback(() => {
     const errors = {};
     const { name, email, rating, comment } = commentForm;
@@ -328,7 +307,6 @@ const Product = () => {
     setShowAllSizes((prev) => !prev);
   }, []);
 
-  // Визначаємо, скільки розмірів показувати
   const visibleVariants = useMemo(() => {
     const threshold = 6;
     if (variants.length <= threshold || showAllSizes) {
@@ -339,12 +317,10 @@ const Product = () => {
 
   const hasMoreSizes = variants.length > 6;
 
-  // Loading state
   if (loading) {
     return <SkeletonProductDetail />;
   }
 
-  // Error state
   if (loadError) {
     return (
       <div className="product-not-found">
@@ -362,7 +338,6 @@ const Product = () => {
     );
   }
 
-  // Not found state
   if (!product) {
     return (
       <div className="product-not-found">
@@ -382,25 +357,21 @@ const Product = () => {
 
   return (
     <div className="product-page">
-      {/* Product Details Section */}
       <section className="product-details">
         <div className="container">
           <div className="product-details__grid">
-            {/* Image Gallery */}
             <ProductGallery
               images={images}
               alt={product.name}
               priority={true}
             />
 
-            {/* Product Info */}
             <div className="product-info">
               <div className="product-info__header">
                 <h1 className="product-info__title">{product.name}</h1>
                 <WishlistButton product={product} variant="default" />
               </div>
 
-              {/* Article ID */}
               {product.articleId && (
                 <div className="product-info__article">
                   <span className="product-info__article-label">Артикул:</span>
@@ -408,7 +379,6 @@ const Product = () => {
                 </div>
               )}
 
-              {/* Rating */}
               {reviewCount > 0 && (
                 <div className="product-info__rating">
                   <div className="rating-stars">
@@ -481,7 +451,6 @@ const Product = () => {
                 )}
               </div>
 
-              {/* Size Variants */}
               <div className="product-info__size">
                 <label className="product-info__label">Розмір (см)</label>
                 <div className="product-info__size-options">
@@ -524,7 +493,6 @@ const Product = () => {
                 )}
               </div>
 
-              {/* Actions */}
               <div className="product-info__actions">
                 {selectedVariant?.isCustom ? (
                   <>
@@ -570,7 +538,6 @@ const Product = () => {
         </div>
       </section>
 
-      {/* Tabs Section */}
       <section className="product-tabs">
         <div className="container">
           <div className="tabs">
@@ -628,7 +595,6 @@ const Product = () => {
             </div>
 
             <div className="tabs__content">
-              {/* Description Tab */}
               {activeTab === "description" && (
                 <div
                   role="tabpanel"
@@ -636,7 +602,6 @@ const Product = () => {
                   aria-labelledby="description-tab"
                   className="tab-content"
                 >
-                  {/* Опис товару */}
                   {product.description?.main ? (
                     <div className="product-description">
                       <h3 className="section-subtitle">Опис товару</h3>
@@ -667,7 +632,6 @@ const Product = () => {
                 </div>
               )}
 
-              {/* Characteristics Tab */}
               {activeTab === "characteristics" && (
                 <div
                   role="tabpanel"
@@ -675,7 +639,6 @@ const Product = () => {
                   aria-labelledby="characteristics-tab"
                   className="tab-content"
                 >
-                  {/* Рекомендації (якщо є) */}
                   {product.recommendations && (
                     <div className="recommendations-block">
                       <div className="recommendations-block__icon">
@@ -771,7 +734,6 @@ const Product = () => {
                 </div>
               )}
 
-              {/* Reviews Tab */}
               {activeTab === "reviews" && (
                 <div
                   role="tabpanel"
@@ -779,7 +741,6 @@ const Product = () => {
                   aria-labelledby="reviews-tab"
                   className="tab-content"
                 >
-                  {/* Відгуки */}
                   {reviewCount > 0 ? (
                     <div className="reviews-section">
                       <div className="reviews-summary">
@@ -805,7 +766,6 @@ const Product = () => {
                           </span>
                         </div>
 
-                        {/* Розподіл оцінок */}
                         <div className="reviews-distribution">
                           {[5, 4, 3, 2, 1].map((star) => {
                             const count = reviewStats.distribution[star] || 0;
@@ -826,7 +786,6 @@ const Product = () => {
                         </div>
                       </div>
 
-                      {/* Сортування */}
                       <div className="reviews-sort">
                         <span className="reviews-sort__label">Сортувати:</span>
                         <CustomSelect
@@ -912,7 +871,6 @@ const Product = () => {
                     </div>
                   )}
 
-                  {/* Форма додавання коментаря */}
                   {reviewSubmitted ? (
                     <div className="review-success">
                       <CheckCircle size={32} />
@@ -1050,7 +1008,6 @@ const Product = () => {
                 </div>
               )}
 
-              {/* Certificates Tab */}
               {activeTab === "certificates" && (
                 <div
                   role="tabpanel"
@@ -1104,7 +1061,6 @@ const Product = () => {
         </div>
       </section>
 
-      {/* Certificate Modal */}
       {selectedCertificate && (
         <div
           className="certificate-modal"

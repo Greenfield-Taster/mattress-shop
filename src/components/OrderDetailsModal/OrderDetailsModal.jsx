@@ -34,7 +34,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
 
   if (!isOpen || !order) return null;
 
-  // Конфігурація статусів
   const getStatusConfig = (status) => {
     const configs = {
       pending: {
@@ -74,7 +73,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   const statusConfig = getStatusConfig(order.status);
   const StatusIcon = statusConfig.icon;
 
-  // Форматування дати
   const formatDate = (dateString) => {
     if (!dateString) return "Нещодавно";
     const date = new Date(dateString);
@@ -106,7 +104,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
         </div>
 
         <div className="order-details-modal__content">
-          {/* Статус та дата */}
           <div className="order-details-modal__info">
             <div className="order-details-modal__info-item">
               <Calendar size={18} />
@@ -125,7 +122,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
           </div>
 
-          {/* Список товарів */}
           <div className="order-details-modal__section">
             <h3 className="order-details-modal__section-title">
               Товари в замовленні
@@ -166,7 +162,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
           </div>
 
-          {/* Доставка */}
           <div className="order-details-modal__section">
             <h3 className="order-details-modal__section-title">Доставка</h3>
             <div className="order-details-modal__delivery-info">
@@ -246,7 +241,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
           </div>
 
-          {/* Оплата */}
           {order.payment_method && (
             <div className="order-details-modal__section">
               <h3 className="order-details-modal__section-title">Оплата</h3>
@@ -282,7 +276,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </div>
           )}
 
-          {/* Підсумок */}
           <div className="order-details-modal__summary">
             <div className="order-details-modal__summary-row">
               <span>Сума товарів:</span>

@@ -75,7 +75,6 @@ const CartSidePanel = ({ isOpen, onClose }) => {
         aria-labelledby="cart-panel-title"
         aria-modal="true"
       >
-        {/* Header */}
         <div className="cart-side-panel__header">
           <h2 id="cart-panel-title" className="cart-side-panel__title">
             Кошик
@@ -109,7 +108,6 @@ const CartSidePanel = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="cart-side-panel__content">
           {items.length === 0 ? (
             <div className="cart-side-panel__empty">
@@ -141,7 +139,6 @@ const CartSidePanel = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <>
-              {/* Items List */}
               <div className="cart-side-panel__items">
                 {items.map((item, index) => (
                   <CartItemCompact
@@ -154,7 +151,6 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                 ))}
               </div>
 
-              {/* Promo Code */}
               <div className="cart-side-panel__promo">
                 {!promoCode ? (
                   <form
@@ -271,7 +267,6 @@ const CartSidePanel = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Footer */}
         {items.length > 0 && (
           <div className="cart-side-panel__footer">
             <div className="cart-side-panel__totals">

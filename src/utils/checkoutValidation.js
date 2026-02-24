@@ -14,20 +14,15 @@ export const formatPhoneNumber = (value) => {
 
   let formatted = "";
   if (limitedDigits.length > 0) {
-    formatted = limitedDigits[0]; // 0
-  }
+    formatted = limitedDigits[0];  }
   if (limitedDigits.length > 1) {
-    formatted += limitedDigits.slice(1, 3); // XX
-  }
+    formatted += limitedDigits.slice(1, 3);  }
   if (limitedDigits.length > 3) {
-    formatted += " " + limitedDigits.slice(3, 6); // XXX
-  }
+    formatted += " " + limitedDigits.slice(3, 6);  }
   if (limitedDigits.length > 6) {
-    formatted += " " + limitedDigits.slice(6, 8); // XX
-  }
+    formatted += " " + limitedDigits.slice(6, 8);  }
   if (limitedDigits.length > 8) {
-    formatted += " " + limitedDigits.slice(8, 10); // XX
-  }
+    formatted += " " + limitedDigits.slice(8, 10);  }
 
   return formatted;
 };
@@ -59,11 +54,9 @@ export const formatCardExpiry = (value) => {
 
   let formatted = "";
   if (limitedDigits.length > 0) {
-    formatted = limitedDigits.slice(0, 2); // MM
-  }
+    formatted = limitedDigits.slice(0, 2);  }
   if (limitedDigits.length > 2) {
-    formatted += "/" + limitedDigits.slice(2, 4); // YY
-  }
+    formatted += "/" + limitedDigits.slice(2, 4);  }
 
   return formatted;
 };
@@ -83,7 +76,7 @@ export const validateCardExpiry = (expiry) => {
   }
 
   const now = new Date();
-  const currentYear = now.getFullYear() % 100; // Last 2 digits
+  const currentYear = now.getFullYear() % 100;
   const currentMonth = now.getMonth() + 1;
 
   if (year < currentYear || (year === currentYear && month < currentMonth)) {
@@ -174,7 +167,6 @@ export const validateDeliveryData = (
     errors.deliveryCity = "Оберіть місто доставки";
   }
 
-  // Валідація для кур'єрської доставки - тільки Київ
   if (deliveryMethod === "courier") {
     if (deliveryCity && !deliveryCity.toLowerCase().includes("київ")) {
       errors.deliveryCity = "Кур'єрська доставка доступна тільки в межах Києва";
@@ -207,7 +199,6 @@ export const validatePaymentData = (paymentMethod, paymentData) => {
   }
 
   if (paymentMethod === "card-online") {
-    // Card number validation
     if (!paymentData.cardNumber.trim()) {
       errors.cardNumber = "Введіть номер картки";
     } else if (!validateCardNumber(paymentData.cardNumber)) {

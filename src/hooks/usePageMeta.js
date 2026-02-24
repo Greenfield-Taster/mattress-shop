@@ -21,19 +21,6 @@ function setCanonical(url) {
   el.setAttribute("href", url);
 }
 
-/**
- * usePageMeta — sets document title, meta description, OG tags,
- * Twitter Card, canonical URL, robots, and JSON-LD structured data.
- *
- * @param {Object} options
- * @param {string} options.title - Page title (appended with " — Just Sleep")
- * @param {string} [options.description] - Meta description
- * @param {string} [options.path] - Path for canonical URL (e.g. "/catalog")
- * @param {boolean} [options.noindex] - If true, sets robots to "noindex, nofollow"
- * @param {string} [options.ogImage] - OG image URL
- * @param {string} [options.ogType] - OG type (default: "website")
- * @param {Array} [options.jsonLd] - Array of JSON-LD objects to inject
- */
 const usePageMeta = ({
   title,
   description,
@@ -49,16 +36,11 @@ const usePageMeta = ({
     const canonicalUrl = path ? `${BASE_URL}${path}` : BASE_URL;
     const image = ogImage || DEFAULT_OG_IMAGE;
 
-    // Title
     document.title = fullTitle;
 
-    // Meta description
     setMetaTag("description", desc, "name");
-
-    // Robots
     setMetaTag("robots", noindex ? "noindex, nofollow" : "index, follow", "name");
 
-    // Open Graph
     setMetaTag("og:title", fullTitle);
     setMetaTag("og:description", desc);
     setMetaTag("og:url", canonicalUrl);
@@ -67,16 +49,13 @@ const usePageMeta = ({
     setMetaTag("og:locale", "uk_UA");
     setMetaTag("og:site_name", SITE_NAME);
 
-    // Twitter Card
     setMetaTag("twitter:card", "summary_large_image", "name");
     setMetaTag("twitter:title", fullTitle, "name");
     setMetaTag("twitter:description", desc, "name");
     setMetaTag("twitter:image", image, "name");
 
-    // Canonical
     setCanonical(canonicalUrl);
 
-    // JSON-LD
     const scriptElements = [];
     if (jsonLd && jsonLd.length > 0) {
       jsonLd.forEach((data) => {
@@ -89,9 +68,7 @@ const usePageMeta = ({
     }
 
     return () => {
-      // Reset title
       document.title = SITE_NAME;
-      // Remove injected JSON-LD scripts
       scriptElements.forEach((el) => el.remove());
     };
   }, [title, description, path, noindex, ogImage, ogType, jsonLd]);

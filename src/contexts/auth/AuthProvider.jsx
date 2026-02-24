@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [checkAuth]);
 
-  // Listen for forced logout from apiClient (refresh failed)
   useEffect(() => {
     const handleForceLogout = () => {
       setUser(null);
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }) => {
     return () => window.removeEventListener("auth:logout", handleForceLogout);
   }, []);
 
-  // Proactive token refresh every 30 minutes
   const refreshIntervalRef = useRef(null);
   useEffect(() => {
     refreshIntervalRef.current = setInterval(() => {

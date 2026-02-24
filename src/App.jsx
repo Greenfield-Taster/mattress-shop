@@ -22,7 +22,6 @@ import NotFound from "./pages/NotFound";
 import "./styles/main.scss";
 
 function App() {
-  // Використовуємо basename тільки в продакшні
   const basename = import.meta.env.PROD ? "/mattress-shop" : "";
 
   return (

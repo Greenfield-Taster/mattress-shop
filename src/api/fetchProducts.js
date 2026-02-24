@@ -1,15 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL;
-
-// Publishable API key для store endpoints
 const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;
 
-/**
- * Будує URL з параметрами для API запиту
- */
 const buildApiUrl = (params) => {
   const url = new URL(`${API_URL}/store/mattresses`);
 
-  // Додаємо параметри фільтрації
   if (params.types?.length > 0) {
     url.searchParams.set("types", params.types.join(","));
   }
@@ -41,16 +35,12 @@ const buildApiUrl = (params) => {
     url.searchParams.set("sort", params.sort);
   }
 
-  // Пагінація
   url.searchParams.set("page", String(params.page || 1));
   url.searchParams.set("limit", String(params.limit || 12));
 
   return url.toString();
 };
 
-/**
- * Головна функція для отримання продуктів
- */
 export const fetchProducts = async (params) => {
   const url = buildApiUrl(params);
 
@@ -77,9 +67,6 @@ export const fetchProducts = async (params) => {
   };
 };
 
-/**
- * Отримує популярні товари для головної сторінки
- */
 export const fetchPopularProducts = async (limit = 6) => {
   const response = await fetch(
     `${API_URL}/store/mattresses/popular?limit=${limit}`,
@@ -103,9 +90,6 @@ export const fetchPopularProducts = async (limit = 6) => {
   };
 };
 
-/**
- * Отримує продукт за ID або handle
- */
 export const fetchProductById = async (idOrHandle) => {
   const response = await fetch(`${API_URL}/store/mattresses/${idOrHandle}`, {
     method: "GET",

@@ -978,13 +978,11 @@
     max-width: 100%;
   }
 
-  /* запобігання горизонтальному скролу через довгі рядки/URL */
   &__section,
   &__summary {
     overflow-wrap: anywhere;
   }
 
-  /* картинки та скрол-контейнер не розтягують ширину */
   &__item-image {
     max-width: 100%;
     height: auto;
@@ -993,12 +991,10 @@
     max-width: 100%;
   }
 
-  /* кнопки/інпути точно в межах */
   &__payment-button {
     max-width: 100%;
   }
 
-  /* липкий сайдбар не ширший за колонку */
   &__summary {
     position: sticky;
     top: v.$spacing-6;

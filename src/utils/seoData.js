@@ -58,8 +58,6 @@ export const PAGE_SEO = {
   },
 };
 
-// --- JSON-LD Builders ---
-
 export function buildOrganizationJsonLd() {
   return {
     "@context": "https://schema.org",

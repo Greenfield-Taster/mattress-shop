@@ -39,7 +39,6 @@ a {
   text-decoration: none;
   cursor: pointer !important;
 
-  // Іконки всередині посилань не повинні перехоплювати події
   svg,
   img,
   span,
@@ -49,7 +48,6 @@ a {
   }
 }
 
-// Заборона виділення тексту для інтерактивних елементів
 button,
 [role="button"],
 label {
@@ -59,7 +57,6 @@ label {
   -ms-user-select: none;
   cursor: pointer !important;
 
-  // Іконки та зображення всередині кнопок не повинні перехоплювати події
   svg,
   img,
   span,
@@ -69,7 +66,6 @@ label {
   }
 }
 
-// Text cursor тільки для полів вводу
 input,
 textarea,
 [contenteditable="true"] {
@@ -77,7 +73,6 @@ textarea,
   user-select: text;
 }
 
-// Для всіх інших елементів - default cursor і заборона виділення
 div, span, p, h1, h2, h3, h4, h5, h6, li, ul, ol, section, article, main, header, footer, nav, img, svg {
   cursor: default !important;
   user-select: none;
@@ -86,27 +81,21 @@ div, span, p, h1, h2, h3, h4, h5, h6, li, ul, ol, section, article, main, header
   -ms-user-select: none;
 }
 
-// Дозволяємо виділення тексту для контенту який користувачі можуть копіювати
 .content,
 .description,
 article p,
-// Контактна інформація (телефон, email, адреса)
 .contact-item,
 .contacts__info-link,
 .contacts__info-text,
 .checkout__help-phone,
-// Номери замовлень
 .order-success__order-number,
 .track-order__result-number,
 .order-card__id,
-// Опис товару та характеристики
 .product-description__text,
 .product-description__care-text,
 .characteristic-item__value,
 .product-info__article-value,
-// Відгуки
 .review-card__comment,
-// Юридичний текст
 .legal-modal__text {
   user-select: text;
   -webkit-user-select: text;
@@ -117,7 +106,6 @@ article p,
   }
 }
 
-// Заборона text cursor для MUI компонентів
 .MuiChip-root,
 .MuiChip-label,
 .MuiButtonBase-root,

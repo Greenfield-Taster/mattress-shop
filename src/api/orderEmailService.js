@@ -1,28 +1,6 @@
-/**
- * Order Email Service
- * Відправка email з підтвердженням замовлення через EmailJS
- */
-
 import emailjs from "@emailjs/browser";
 import { DELIVERY_METHOD_LABELS } from "../utils/storeInfo";
 
-/**
- * Відправити email з підтвердженням замовлення
- * Виклик — fire-and-forget (не блокує оформлення замовлення)
- *
- * @param {Object} params
- * @param {string} params.orderNumber - Номер замовлення
- * @param {string} params.email - Email отримувача
- * @param {string} params.fullName - ПІБ отримувача
- * @param {Array} params.items - Товари [{title, size, qty, price}]
- * @param {Object} params.totals - {subtotal, discount, total}
- * @param {string} params.deliveryMethod - Спосіб доставки (ключ)
- * @param {string|null} params.deliveryCity - Місто доставки
- * @param {string|null} params.deliveryWarehouse - Відділення
- * @param {string|null} params.deliveryAddress - Адреса (для кур'єра)
- * @param {number} params.deliveryPrice - Вартість доставки
- * @param {string} params.deliveryPriceType - Тип ціни (free/fixed/carrier)
- */
 export async function sendOrderConfirmationEmail({
   orderNumber,
   email,
@@ -45,7 +23,6 @@ export async function sendOrderConfirmationEmail({
     return;
   }
 
-  // Формуємо текстовий список товарів
   const itemsList = items
     .map((item) => {
       const size = item.size ? ` (${item.size})` : "";
@@ -54,7 +31,6 @@ export async function sendOrderConfirmationEmail({
     })
     .join("\n");
 
-  // Формуємо рядок доставки
   const deliveryLabel = DELIVERY_METHOD_LABELS[deliveryMethod] || deliveryMethod;
   let deliveryDestination = "";
   if (deliveryMethod === "pickup") {
@@ -69,7 +45,6 @@ export async function sendOrderConfirmationEmail({
     deliveryDestination = deliveryCity;
   }
 
-  // Формуємо вартість доставки
   let deliveryCost = "Безкоштовно";
   if (deliveryPriceType === "carrier") {
     deliveryCost = "За тарифами перевізника";
@@ -93,7 +68,6 @@ export async function sendOrderConfirmationEmail({
   try {
     await emailjs.send(serviceId, templateId, templateParams, publicKey);
   } catch (error) {
-    // Не кидаємо помилку — email не повинен блокувати замовлення
     console.error("[orderEmail] Failed to send confirmation email:", error);
   }
 }

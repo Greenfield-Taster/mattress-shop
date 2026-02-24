@@ -1,10 +1,3 @@
-/**
- * Store information — single source of truth for contact data and pickup address.
- * Used across: Footer, Contacts, Checkout (pickup), OrderSuccess, TrackOrder, seoData.
- *
- * When real data is available, update values here — all pages will reflect changes.
- */
-
 export const STORE_INFO = {
   name: "Just Sleep",
   phones: ["+380501234567", "+380671234567"],
@@ -35,10 +28,6 @@ export const DELIVERY_METHOD_LABELS = {
   pickup: "Самовивіз",
 };
 
-/**
- * Get human-readable delivery destination string.
- * Used in OrderSuccess and TrackOrder.
- */
 export function getDeliveryDestination(order) {
   if (!order) return null;
 

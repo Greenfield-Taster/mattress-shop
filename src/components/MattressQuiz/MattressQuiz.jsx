@@ -25,14 +25,10 @@ const MattressQuiz = ({ onClose }) => {
 
   useFocusTrap(containerRef, { onClose });
 
-  // Розміри з каталогу, розділені на категорії
   const allSizes = [
-    // King Size XL
     "200х200",
-    // King Size
     "180х200",
     "180х190",
-    // Двоспальні
     "170х200",
     "170х190",
     "160х200",
@@ -41,10 +37,8 @@ const MattressQuiz = ({ onClose }) => {
     "150х190",
     "140х200",
     "140х190",
-    // Полуторні
     "120х200",
     "120х190",
-    // Односпальні
     "90х200",
     "90х190",
     "80х200",
@@ -53,7 +47,6 @@ const MattressQuiz = ({ onClose }) => {
     "80х170",
     "80х160",
     "80х150",
-    // Дитячі
     "70х200",
     "70х190",
     "70х180",
@@ -64,7 +57,6 @@ const MattressQuiz = ({ onClose }) => {
     "60х120",
   ];
 
-  // Популярні розміри (показуються спочатку)
   const popularSizes = [
     { value: "200х200", label: "200×200 см", subtitle: "King Size XL" },
     { value: "180х200", label: "180×200 см", subtitle: "King Size" },
@@ -76,7 +68,6 @@ const MattressQuiz = ({ onClose }) => {
     { value: "60х120", label: "60×120 см", subtitle: "Дитячий" },
   ];
 
-  // Всі інші розміри
   const otherSizes = [
     ...allSizes
       .filter((size) => !popularSizes.some((p) => p.value === size))
@@ -173,14 +164,12 @@ const MattressQuiz = ({ onClose }) => {
       [stepId]: value,
     }));
 
-    // Переходимо до наступного кроку
     if (currentStep < steps.length - 1) {
       setTimeout(() => {
         setCurrentStep(currentStep + 1);
-        setShowAllSizes(false); // Скидаємо стан показу всіх розмірів
+        setShowAllSizes(false);
       }, 300);
     } else {
-      // Завершуємо квіз
       setTimeout(() => {
         setIsComplete(true);
       }, 300);

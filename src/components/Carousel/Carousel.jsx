@@ -18,7 +18,6 @@ const Carousel = ({
   const momentumRef = useRef(null);
   const lastScrollTimeRef = useRef(0);
 
-  // Проверка возможности скролла
   const checkScrollability = useCallback(() => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
@@ -27,7 +26,6 @@ const Carousel = ({
     }
   }, []);
 
-  // Скролл по кнопкам
   const scroll = useCallback((direction) => {
     if (carouselRef.current) {
       const scrollAmount = 305;
@@ -43,7 +41,6 @@ const Carousel = ({
     }
   }, []);
 
-  // Drag to scroll - начало
   const handleMouseDown = useCallback((e) => {
     if (!carouselRef.current) return;
 
@@ -53,7 +50,6 @@ const Carousel = ({
     scrollLeftRef.current = carouselRef.current.scrollLeft;
     lastScrollTimeRef.current = Date.now();
 
-    // Відміняємо momentum якщо він є
     if (momentumRef.current) {
       cancelAnimationFrame(momentumRef.current);
       momentumRef.current = null;
@@ -62,7 +58,6 @@ const Carousel = ({
     carouselRef.current.style.scrollBehavior = "auto";
   }, []);
 
-  // Drag to scroll - движение
   const handleMouseMove = useCallback((e) => {
     if (!isDraggingRef.current || !carouselRef.current) return;
 
@@ -79,7 +74,6 @@ const Carousel = ({
     lastScrollTimeRef.current = Date.now();
   }, []);
 
-  // Drag to scroll - конец
   const handleMouseUp = useCallback(() => {
     isDraggingRef.current = false;
 
@@ -87,13 +81,11 @@ const Carousel = ({
       carouselRef.current.style.scrollBehavior = "";
     }
 
-    // Сбрасываем флаг через небольшую задержку
     setTimeout(() => {
       hasDraggedRef.current = false;
     }, 100);
   }, []);
 
-  // Drag to scroll - покинул область
   const handleMouseLeave = useCallback(() => {
     if (isDraggingRef.current) {
       isDraggingRef.current = false;
@@ -108,7 +100,6 @@ const Carousel = ({
     }
   }, []);
 
-  // Touch events для мобільних
   const handleTouchStart = useCallback((e) => {
     if (!carouselRef.current) return;
 
@@ -152,9 +143,7 @@ const Carousel = ({
     }, 100);
   }, []);
 
-  // Обработчик клика на элементе карточки
   const handleCardClick = useCallback((e) => {
-    // Если был драг - блокируем только переходы по ссылкам
     if (hasDraggedRef.current) {
       const target = e.target.closest("a");
       if (target) {
@@ -164,7 +153,6 @@ const Carousel = ({
     }
   }, []);
 
-  // Обработчик скролла
   useEffect(() => {
     const carousel = carouselRef.current;
     if (carousel) {

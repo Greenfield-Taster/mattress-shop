@@ -6,10 +6,8 @@ const CustomSelect = ({ value, onChange, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
 
-  // Знайти вибрану опцію
   const selectedOption = options.find((opt) => opt.value === value);
 
-  // Закриття при кліку поза селектом
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (selectRef.current && !selectRef.current.contains(event.target)) {

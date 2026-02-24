@@ -1,5 +1,3 @@
-// API для роботи з поштовими сервісами (всі через бекенд проксі)
-
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 const API_KEY = import.meta.env.VITE_PUBLISHABLE_API_KEY;
 
@@ -7,9 +5,6 @@ const storeHeaders = {
   "x-publishable-api-key": API_KEY,
 };
 
-/**
- * Нова Пошта API (через бекенд проксі — ключ зберігається на сервері)
- */
 export const NovaPoshtaAPI = {
   async searchCities(query) {
     if (!query?.trim()) return [];
@@ -77,10 +72,6 @@ export const NovaPoshtaAPI = {
   },
 };
 
-/**
- * Створює API-об'єкт для перевізника через бекенд проксі.
- * carrier — ідентифікатор для параметра ?carrier=
- */
 function createCarrierAPI(carrier) {
   return {
     async searchCities(query) {
@@ -135,14 +126,8 @@ function createCarrierAPI(carrier) {
   };
 }
 
-/**
- * Delivery Auto API (через бекенд проксі)
- */
 export const DeliveryAPI = createCarrierAPI("delivery-auto");
 
-/**
- * SAT API (через бекенд проксі)
- */
 export const CatAPI = createCarrierAPI("cat");
 
 export const getDeliveryAPI = (deliveryMethod) => {

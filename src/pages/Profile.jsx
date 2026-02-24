@@ -44,28 +44,21 @@ const PAYMENT_STATUS_LABELS = {
   refunded: { label: "Повернено", color: "neutral" },
 };
 
-/**
- * Форматувати номер телефону для відображення: +380 XX XXX XX XX
- * Приймає формат 0XXXXXXXXX (10 цифр)
- */
 const formatPhoneForDisplay = (phone) => {
   if (!phone) return "Не вказано";
 
-  // Видаляємо все крім цифр
   let cleaned = phone.replace(/\D/g, "");
 
-  // Якщо починається з 380, перетворюємо на 0XXXXXXXXX
   if (cleaned.startsWith("380")) {
     cleaned = "0" + cleaned.slice(3);
   }
 
-  // Якщо 10 цифр і починається з 0 - форматуємо красиво
   if (cleaned.length === 10 && cleaned.startsWith("0")) {
-    const digits = cleaned.slice(1); // Видаляємо перший 0
+    const digits = cleaned.slice(1);
     return `+380 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 7)} ${digits.slice(7)}`;
   }
 
-  return phone; // Повертаємо як є
+  return phone;
 };
 
 const Profile = () => {
@@ -87,14 +80,12 @@ const Profile = () => {
   const [ordersError, setOrdersError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  // Якщо користувач не авторизований, перенаправляємо на головну
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       navigate("/");
     }
   }, [isLoading, isAuthenticated, navigate]);
 
-  // Завантаження реальних замовлень з API
   const fetchOrders = async () => {
     setOrdersLoading(true);
     setOrdersError(null);
@@ -103,7 +94,6 @@ const Profile = () => {
       const response = await getMyOrders();
 
       if (response.orders) {
-        // Перетворюємо формат API до формату компонента
         const formattedOrders = response.orders.map((order) => ({
           id: order.order_number || order.id,
           date: order.created_at,
@@ -159,7 +149,6 @@ const Profile = () => {
   const handleSave = async () => {
     setSaveMessage(null);
 
-    // Клієнтська валідація
     if (!editedUser.firstName?.trim()) {
       setSaveMessage({ type: "error", text: "Введіть ім'я" });
       return;
@@ -199,7 +188,6 @@ const Profile = () => {
     navigate("/");
   };
 
-  // Конфігурація статусів замовлень
   const getStatusConfig = (status) => {
     const configs = {
       pending: {
@@ -236,7 +224,6 @@ const Profile = () => {
     return configs[status] || configs.pending;
   };
 
-  // Форматування дати
   const formatDate = (dateString) => {
     if (!dateString) return "Нещодавно";
     const date = new Date(dateString);
@@ -262,7 +249,6 @@ const Profile = () => {
   return (
     <div className="profile-page">
       <div className="profile-container">
-        {/* Заголовок */}
         <div className="profile-header">
           <div className="profile-header__content">
             <h1 className="profile-header__title">Мій профіль</h1>
@@ -281,7 +267,6 @@ const Profile = () => {
           </button>
         </div>
 
-        {/* Інформація про користувача */}
         <div className="profile-user-info">
           <div className="profile-user-info__left">
             <div className="profile-user-info__avatar">
@@ -308,7 +293,6 @@ const Profile = () => {
 
         <div className="profile-content">
 
-          {/* Персональні дані */}
           <div className="profile-card profile-details">
             <div className="profile-card__header">
               <h3 className="profile-card__title">Персональні дані</h3>
@@ -440,7 +424,6 @@ const Profile = () => {
 
         </div>
 
-        {/* Історія замовлень */}
         <div className="profile-orders">
           <div className="profile-orders__header">
             <h3 className="profile-orders__title">

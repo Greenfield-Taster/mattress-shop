@@ -9,20 +9,17 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
   const MAX_PRICE = dynamicMaxPrice || 50000;
   const [draft, setDraft] = useState(params);
 
-  // Локальний стан для текстових полів ціни
   const [priceInputs, setPriceInputs] = useState(() => {
     const range = params.price ? params.price.split("-").map(Number) : [0, MAX_PRICE];
     return { min: String(range[0]), max: String(range[1]) };
   });
 
-  // Синхронізуємо draft з params, коли змінюється ззовні
   useEffect(() => {
     setDraft(params);
     const range = params.price ? params.price.split("-").map(Number) : [0, MAX_PRICE];
     setPriceInputs({ min: String(range[0]), max: String(range[1]) });
   }, [params]);
 
-  // Коригуємо ціну при зміні динамічного максимуму з API
   useEffect(() => {
     if (!dynamicMaxPrice) return;
     setDraft((prev) => {
@@ -37,7 +34,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     });
   }, [dynamicMaxPrice]);
 
-  // Обробник для checkbox-фільтрів (множинний вибір)
   const handleArrayToggle = (key, value) => {
     setDraft((prev) => {
       const current = prev[key] || [];
@@ -52,11 +48,9 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     });
   };
 
-  // Обробник для слайдерів (range)
   const handleSliderChange = (key, value) => {
     setDraft((prev) => ({ ...prev, [key]: `${value[0]}-${value[1]}` }));
 
-    // Також оновлюємо стан інпутів ціни
     if (key === "price") {
       setPriceInputs({ min: String(value[0]), max: String(value[1]) });
     }
@@ -67,18 +61,15 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
   };
 
   const handlePriceInputChange = (field, value) => {
-    // Дозволяємо тільки цифри або порожній рядок
     if (value !== "" && !/^\d+$/.test(value)) {
       return;
     }
 
-    // Оновлюємо локальний стан інпуту
     setPriceInputs((prev) => ({
       ...prev,
       [field]: value,
     }));
 
-    // Оновлюємо draft тільки якщо значення валідне
     const numValue = value === "" ? (field === "min" ? 0 : MAX_PRICE) : parseInt(value);
     const currentMin = field === "min" ? numValue : (priceInputs.min === "" ? 0 : parseInt(priceInputs.min));
     const currentMax = field === "max" ? numValue : (priceInputs.max === "" ? MAX_PRICE : parseInt(priceInputs.max));
@@ -90,7 +81,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
   };
 
   const handlePriceInputBlur = (field) => {
-    // При втраті фокуса, якщо поле порожнє, встановлюємо дефолтне значення
     if (priceInputs[field] === "") {
       const defaultValue = field === "min" ? "0" : String(MAX_PRICE);
       setPriceInputs((prev) => ({
@@ -100,7 +90,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     }
   };
 
-  // Підраховує кількість активних фільтрів для бейджу
   const getActiveCount = () => {
     let count = 0;
 
@@ -117,7 +106,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     return count;
   };
 
-  // Застосувати фільтри → передати в батьківський компонент
   const handleApply = () => {
     onApply(draft);
   };
@@ -142,7 +130,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
     onClearAll();
   };
 
-  // Парсинг значень для слайдерів
   const heightRange = draft.height
     ? draft.height.split("-").map(Number)
     : [3, 45];
@@ -177,9 +164,7 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         )}
       </div>
 
-      {/* Контейнер для скролу на мобільних */}
       <div className="catalog-filters__content">
-        {/* Тип матрацу - CHIPS */}
         <div className="filter-section">
         <h3 className="filter-section__title">Тип матрацу</h3>
         <div className="filter-section__chips">
@@ -205,7 +190,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Жорсткість - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Жорсткість</h3>
         <div className="filter-section__chips">
@@ -231,7 +215,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Розміри - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Розміри (см)</h3>
         <div className="filter-section__chips filter-section__chips--grid">
@@ -254,7 +237,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Висота */}
       <div className="filter-section">
         <h3 className="filter-section__title">
           Висота матрацу: {heightRange[0]} - {heightRange[1]} см
@@ -275,7 +257,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Тип блоку - CHECKBOXES */}
       <div className="filter-section">
         <h3 className="filter-section__title">Тип блоку</h3>
         <div className="filter-section__checkboxes">
@@ -297,7 +278,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Наповнювачі - CHECKBOXES */}
       <div className="filter-section">
         <h3 className="filter-section__title">Наповнювачі</h3>
         <div className="filter-section__checkboxes">
@@ -319,7 +299,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Чохол - CHIPS */}
       <div className="filter-section">
         <h3 className="filter-section__title">Чохол</h3>
         <div className="filter-section__chips">
@@ -345,7 +324,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Максимальне навантаження */}
       <div className="filter-section">
         <h3 className="filter-section__title">
           Максимальне навантаження: до {maxWeightValue} кг
@@ -366,7 +344,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
         </div>
       </div>
 
-      {/* Ціна з інпутами */}
       <div className="filter-section">
         <h3 className="filter-section__title">Ціна</h3>
         <div className="filter-section__slider">
@@ -385,7 +362,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
           </div>
         </div>
 
-        {/* Інпути для введення ціни */}
         <div className="filter-section__price-inputs">
           <div className="filter-section__price-input-group">
             <label>Від</label>
@@ -422,7 +398,6 @@ const CatalogFilters = ({ params, onApply, onClearAll, onClose, filterOptions, m
       </div>
       </div>
 
-      {/* Кнопка застосувати */}
       <button className="catalog-filters__apply" onClick={handleApply}>
         Застосувати фільтри
       </button>

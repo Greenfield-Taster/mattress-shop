@@ -22,7 +22,6 @@ import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
 import "../styles/pages/_checkout.scss";
 
-// Import icons (lucide-react)
 import {
   User,
   Phone,
@@ -51,7 +50,6 @@ const Checkout = () => {
     }
   }, [items.length, orderPlaced, navigate]);
 
-  // Contact form state
   const [contactData, setContactData] = useState({
     fullName: user?.firstName && user?.lastName
       ? `${user.firstName} ${user.lastName}`.trim()
@@ -62,7 +60,6 @@ const Checkout = () => {
     createAccount: false,
   });
 
-  // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const [deliveryCity, setDeliveryCity] = useState("");
   const [deliveryCityRef, setDeliveryCityRef] = useState("");
@@ -134,7 +131,6 @@ const Checkout = () => {
     },
   ];
 
-  // Payment options
   const paymentOptions = [
     {
       id: "cash-on-delivery",
@@ -162,7 +158,6 @@ const Checkout = () => {
     },
   ];
 
-  // Clear error when field is changed
   const clearError = (fieldName) => {
     setErrors((prev) => clearFieldError(prev, fieldName));
   };
@@ -183,37 +178,31 @@ const Checkout = () => {
     clearError(name);
   };
 
-  // Handle card number change with formatting
   const handleCardNumberChange = (e) => {
     const formatted = formatCardNumber(e.target.value);
     setCardNumber(formatted);
     clearError("cardNumber");
   };
 
-  // Handle card expiry change with formatting
   const handleCardExpiryChange = (e) => {
     const formatted = formatCardExpiry(e.target.value);
     setCardExpiry(formatted);
     clearError("cardExpiry");
   };
 
-  // Handle CVV change with formatting
   const handleCVVChange = (e) => {
     const formatted = formatCVV(e.target.value);
     setCardCvv(formatted);
     clearError("cardCvv");
   };
 
-  // Handle EDRPOU change with formatting
   const handleEDRPOUChange = (e) => {
     const formatted = formatEDRPOU(e.target.value);
     setEdrpou(formatted);
     clearError("edrpou");
   };
 
-  // Handle Google/Apple Pay
   const handleGoogleApplePay = (paymentType) => {
-    // Validate all required fields
     const formData = {
       contactData,
       deliveryMethod,
@@ -228,9 +217,7 @@ const Checkout = () => {
     const newErrors = validateCheckoutForm(formData);
     setErrors(newErrors);
 
-    // If there are errors, don't proceed
     if (Object.keys(newErrors).length > 0) {
-      // Scroll to first error
       const firstErrorField = Object.keys(newErrors)[0];
       const element =
         document.querySelector(`[name="${firstErrorField}"]`) ||
@@ -242,14 +229,12 @@ const Checkout = () => {
     }
 
     alert(`🔄 Перенаправлення на ${paymentType}...\n(це тестовий режим)`);
-    // Here would be Google/Apple Pay integration
   };
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
     setSubmitError("");
 
-    // Prepare form data for validation
     const formData = {
       contactData,
       deliveryMethod,
@@ -270,11 +255,9 @@ const Checkout = () => {
       agreeToTerms,
     };
 
-    // Validate all form data
     const newErrors = validateCheckoutForm(formData);
     setErrors(newErrors);
 
-    // If there are errors, scroll to first error
     if (Object.keys(newErrors).length > 0) {
       const firstErrorField = Object.keys(newErrors)[0];
       const element =
@@ -286,20 +269,16 @@ const Checkout = () => {
       return;
     }
 
-    // Відправка замовлення на сервер
     setIsSubmitting(true);
 
     try {
       const orderData = formatOrderData(formData, items, totals, promoCode, deliveryInfo);
       const result = await createOrder(orderData);
 
-      // Позначаємо що замовлення оформлено (щоб useEffect не редіректив на каталог)
       setOrderPlaced(true);
 
-      // Очищуємо кошик
       clearCart();
 
-      // Зберігаємо дані замовлення в localStorage для сторінки успіху
       const lastOrderData = {
         ...result.order,
         delivery_method: deliveryMethod,
@@ -309,7 +288,6 @@ const Checkout = () => {
       };
       localStorage.setItem("lastOrder", JSON.stringify(lastOrderData));
 
-      // Відправляємо email з підтвердженням (fire-and-forget)
       sendOrderConfirmationEmail({
         orderNumber: result.order.order_number,
         email: formData.contactData.email,
@@ -324,7 +302,6 @@ const Checkout = () => {
         deliveryPriceType: deliveryInfo?.type || "free",
       });
 
-      // Перенаправляємо на сторінку успіху
       navigate(`/order-success/${result.order.order_number}`);
     } catch (error) {
       console.error("❌ Помилка створення замовлення:", error);
@@ -336,7 +313,6 @@ const Checkout = () => {
     }
   };
 
-  // Функції для пошуку міст та відділень
   const handleCitySearch = async (query) => {
     const api = getDeliveryAPI(deliveryMethod);
     if (!api) return [];
@@ -354,13 +330,11 @@ const Checkout = () => {
     if (!api || !effectiveCityRef) return [];
 
     try {
-      // Завантажуємо відділення і поштомати паралельно
       const [warehouses, postomats] = await Promise.all([
         api.getWarehouses(effectiveCityRef, query),
         api.getPostomats ? api.getPostomats(effectiveCityRef) : [],
       ]);
 
-      // Якщо є пошуковий запит — фільтруємо поштомати теж
       const filteredPostomats = query
         ? postomats.filter((p) =>
             p.label.toLowerCase().includes(query.toLowerCase()) ||
@@ -368,11 +342,9 @@ const Checkout = () => {
           )
         : postomats;
 
-      // Видаляємо дублікати (та ж локація може бути і відділенням, і поштоматом)
       const warehouseRefs = new Set(warehouses.map((w) => w.value));
       const uniquePostomats = filteredPostomats.filter((p) => !warehouseRefs.has(p.value));
 
-      // Відділення першими, потім поштомати
       return [...warehouses, ...uniquePostomats];
     } catch (error) {
       console.error("Помилка пошуку відділень:", error);
@@ -383,7 +355,6 @@ const Checkout = () => {
   const handleCityChange = (city) => {
     setDeliveryCity(city.label);
     setDeliveryCityRef(city.value);
-    // Скидання відділення при зміні міста
     setDeliveryWarehouse("");
     clearError("deliveryCity");
   };
@@ -393,7 +364,6 @@ const Checkout = () => {
     clearError("deliveryWarehouse");
   };
 
-  // Скидаємо дані доставки при зміні способу
   useEffect(() => {
     if (!deliveryMethod) return;
 
@@ -408,11 +378,6 @@ const Checkout = () => {
     }
   }, [deliveryMethod]);
 
-  // Логіка ціни доставки на основі FAQ:
-  // - Самовивіз: безкоштовно
-  // - Кур'єр (Київ): безкоштовно від 8000 грн, інакше 500 грн
-  // - Нова Пошта: безкоштовно від 8000 грн, інакше за тарифами
-  // - Delivery / SAT: безкоштовно від 13000 грн, інакше за тарифами
   const getDeliveryPrice = () => {
     if (!deliveryMethod || deliveryMethod === "pickup") {
       return { price: 0, type: "free" };
@@ -427,7 +392,6 @@ const Checkout = () => {
         ? { price: 0, type: "free" }
         : { price: null, type: "carrier" };
     }
-    // delivery, cat (SAT)
     return totals.subtotal >= 13000
       ? { price: 0, type: "free" }
       : { price: null, type: "carrier" };
@@ -442,9 +406,7 @@ const Checkout = () => {
         <h1 className="checkout__title">Оформлення замовлення</h1>
 
         <div className="checkout__layout">
-          {/* Left side - Forms */}
           <div className="checkout__forms">
-            {/* Contact Data Block */}
             <section className="checkout__section">
               <h2 className="checkout__section-title">Контактні дані</h2>
               <p className="checkout__section-subtitle">
@@ -543,7 +505,6 @@ const Checkout = () => {
               </div>
             </section>
 
-            {/* Delivery Block */}
             <section className="checkout__section">
               <h2 className="checkout__section-title">Доставка</h2>
               <p className="checkout__section-subtitle">
@@ -581,10 +542,8 @@ const Checkout = () => {
                 ))}
               </div>
 
-              {/* Delivery details based on selection */}
               {deliveryMethod && deliveryMethod !== "pickup" && (
                 <div className="checkout__delivery-details">
-                  {/* Повідомлення для кур'єрської доставки */}
                   {deliveryMethod === "courier" && (
                     <div className="checkout__delivery-info-box">
                       <p className="checkout__delivery-info-text">
@@ -593,7 +552,6 @@ const Checkout = () => {
                     </div>
                   )}
 
-                  {/* Для кур'єрської доставки не показуємо поле вибору міста */}
                   {deliveryMethod !== "courier" && (
                     <div className="checkout__form-group">
                       <label htmlFor="deliveryCity" className="checkout__label">
@@ -689,7 +647,6 @@ const Checkout = () => {
               )}
             </section>
 
-            {/* Payment Block */}
             <section className="checkout__section">
               <h2 className="checkout__section-title">Оплата</h2>
               <p className="checkout__section-subtitle">
@@ -727,7 +684,6 @@ const Checkout = () => {
                 ))}
               </div>
 
-              {/* Dynamic payment forms based on selected method */}
               {paymentMethod === "cash-on-delivery" && (
                 <div className="checkout__payment-details">
                   <div className="checkout__payment-info-box">
@@ -1012,7 +968,6 @@ const Checkout = () => {
             </section>
           </div>
 
-          {/* Right side - Order Summary (Sticky) */}
           <aside className="checkout__sidebar">
             <div className="checkout__summary">
               <h2 className="checkout__summary-title">Підсумок замовлення</h2>

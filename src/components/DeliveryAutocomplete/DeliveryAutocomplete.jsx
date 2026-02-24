@@ -3,7 +3,7 @@ import { Search, MapPin, X } from 'lucide-react';
 import './DeliveryAutocomplete.scss';
 
 const DeliveryAutocomplete = ({
-  type = 'city', // 'city' or 'warehouse'
+  type = 'city',
   value,
   onChange,
   onSearch,
@@ -21,7 +21,6 @@ const DeliveryAutocomplete = ({
   const wrapperRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
-  // Закриття випадаючого списку при кліку поза компонентом
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -33,13 +32,11 @@ const DeliveryAutocomplete = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Пошук з debounce
   useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    // Для міст — мінімум 2 символи, для відділень — дозволяємо фільтрацію від 1 символу
     const minLength = type === 'city' ? 2 : 1;
 
     if (query.length >= minLength) {
@@ -70,7 +67,6 @@ const DeliveryAutocomplete = ({
     };
   }, [query, onSearch, cityRef, type]);
 
-  // При зміні cityRef: скидаємо вибір і автоматично завантажуємо відділення
   useEffect(() => {
     if (type === 'warehouse') {
       setQuery('');
@@ -108,7 +104,6 @@ const DeliveryAutocomplete = ({
   const handleInputChange = (e) => {
     const newQuery = e.target.value;
 
-    // Якщо було вибрано значення і користувач почав друкувати/видаляти — скидаємо вибір
     if (selectedLabel) {
       setSelectedLabel('');
       onChange({ value: '', label: '' });

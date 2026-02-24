@@ -22,7 +22,6 @@ const Contacts = () => {
       ]),
     ],
   });
-  // Scroll to FAQ section if hash is present
   useEffect(() => {
     if (window.location.hash === "#faq") {
       setTimeout(() => {
@@ -65,7 +64,6 @@ const Contacts = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  // Валідація окремого поля
   const validateField = (name, value) => {
     let error = "";
 
@@ -83,7 +81,6 @@ const Contacts = () => {
         break;
 
       case "phone": {
-        // Видаляємо всі символи крім цифр і +
         const phoneDigits = value.replace(/[^\d+]/g, "");
         if (!value.trim()) {
           error = "Будь ласка, введіть номер телефону";
@@ -124,7 +121,6 @@ const Contacts = () => {
     return error;
   };
 
-  // Форматування телефону
   const formatPhone = (value) => {
     const phoneDigits = value.replace(/\D/g, "");
     let formatted = "";
@@ -169,7 +165,6 @@ const Contacts = () => {
 
     let processedValue = value;
 
-    // Форматування телефону
     if (name === "phone") {
       processedValue = formatPhone(value);
     }
@@ -179,7 +174,6 @@ const Contacts = () => {
       [name]: processedValue,
     }));
 
-    // Валідація в реальному часі якщо поле вже було touched
     if (touched[name]) {
       const error = validateField(name, processedValue);
       setErrors((prev) => ({
@@ -207,7 +201,6 @@ const Contacts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Позначаємо всі поля як touched
     setTouched({
       name: true,
       phone: true,
@@ -215,7 +208,6 @@ const Contacts = () => {
       message: true,
     });
 
-    // Валідуємо всі поля
     const newErrors = {
       name: validateField("name", formData.name),
       phone: validateField("phone", formData.phone),
@@ -225,7 +217,6 @@ const Contacts = () => {
 
     setErrors(newErrors);
 
-    // Перевіряємо чи є помилки
     const hasErrors = Object.values(newErrors).some((error) => error !== "");
 
     if (!hasErrors) {
@@ -255,7 +246,6 @@ const Contacts = () => {
 
         setSubmitSuccess(true);
 
-        // Очищення форми
         setFormData({
           name: "",
           phone: "",
@@ -270,7 +260,6 @@ const Contacts = () => {
           message: false,
         });
 
-        // Сховати повідомлення успіху через 5 секунд
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
@@ -297,7 +286,6 @@ const Contacts = () => {
         </p>
 
         <div className="contacts__content">
-          {/* Форма зв'язку */}
           <div className="contacts__form-section">
             <div className="contacts__card">
               <h2 className="contacts__card-title">Зв'язатися з нами</h2>
@@ -542,7 +530,6 @@ const Contacts = () => {
               </div>
             </div>
 
-            {/* Карта */}
             <div className="contacts__card contacts__map-card">
               <h2 className="contacts__card-title">Наш магазин / Самовивіз</h2>
               <p className="contacts__map-address">{STORE_INFO.address}</p>

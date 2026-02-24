@@ -49,7 +49,6 @@ const Catalog = () => {
 
   const params = parseParams();
 
-  // Завантаження продуктів при зміні параметрів
   const loadProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -77,11 +76,9 @@ const Catalog = () => {
 
     Object.entries(newParams).forEach(([key, value]) => {
       if (value !== null && value !== undefined && value !== "") {
-        // Для масивів
         if (Array.isArray(value) && value.length > 0) {
           query.set(key, value.join(","));
         }
-        // Для дефолтних значень - не додаємо в URL
         else if (
           (key === "height" && value === "3-45") ||
           (key === "maxWeight" && value === "<=250") ||
@@ -90,9 +87,7 @@ const Catalog = () => {
           (key === "page" && value === 1) ||
           (key === "limit" && value === 12)
         ) {
-          // Пропускаємо дефолтні значення
         }
-        // Для всіх інших
         else {
           query.set(key, value);
         }
@@ -105,12 +100,12 @@ const Catalog = () => {
   const handleApplyFilters = (newFilters) => {
     updateURL({
       ...newFilters,
-      page: 1, // Скидаємо на першу сторінку при зміні фільтрів
+      page: 1,
     });
   };
 
   const handleClearAll = () => {
-    setSearchParams({}); // Повністю очищаємо URL
+    setSearchParams({});
   };
 
   const handleSortChange = (sortValue) => {
@@ -127,7 +122,6 @@ const Catalog = () => {
       page: newPage,
     });
 
-    // Прокрутка до початку каталогу
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -155,12 +149,9 @@ const Catalog = () => {
       label,
     })),
     sizes: [
-      // King Size XL
       "200х200",
-      // King Size
       "180х200",
       "180х190",
-      // Двоспальні
       "170х200",
       "170х190",
       "160х200",
@@ -169,10 +160,8 @@ const Catalog = () => {
       "150х190",
       "140х200",
       "140х190",
-      // Полуторні
       "120х200",
       "120х190",
-      // Односпальні
       "90х200",
       "90х190",
       "80х200",
@@ -181,7 +170,6 @@ const Catalog = () => {
       "80х170",
       "80х160",
       "80х150",
-      // Дитячі
       "70х200",
       "70х190",
       "70х180",
@@ -190,7 +178,6 @@ const Catalog = () => {
       "70х150",
       "70х140",
       "60х120",
-      // Нестандартний
       "нестандартний розмір",
     ],
     blockTypes: [
@@ -284,7 +271,6 @@ const Catalog = () => {
                   ))}
                 </div>
 
-                {/* Пагінація */}
                 {totalPages > 1 && (
                   <div className="catalog__pagination">
                     <button
@@ -297,7 +283,6 @@ const Catalog = () => {
 
                     {[...Array(totalPages)].map((_, index) => {
                       const pageNum = index + 1;
-                      // Показуємо тільки деякі сторінки
                       if (
                         pageNum === 1 ||
                         pageNum === totalPages ||
@@ -351,7 +336,6 @@ const Catalog = () => {
           </div>
         </div>
 
-        {/* Фіксована кнопка фільтрів для мобільних */}
         <button
           className="catalog__filters-toggle"
           onClick={() => setFiltersOpen(true)}
