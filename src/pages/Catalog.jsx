@@ -7,6 +7,7 @@ import CustomSelect from "../components/CustomSelect/CustomSelect";
 import { fetchProducts } from "../api/fetchProducts";
 import { HARDNESS_LABELS } from "../utils/productLabels";
 import usePageMeta from "../hooks/usePageMeta";
+import useScrollLock from "../hooks/useScrollLock";
 import { PAGE_SEO, buildBreadcrumbJsonLd } from "../utils/seoData";
 import "../styles/pages/_catalog.scss";
 
@@ -68,20 +69,7 @@ const Catalog = () => {
     loadProducts();
   }, [loadProducts]);
 
-  // Блокування скролу при відкритій панелі фільтрів
-  useEffect(() => {
-    if (filtersOpen) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [filtersOpen]);
+  useScrollLock(filtersOpen);
 
   const updateURL = (newParams) => {
     const query = new URLSearchParams();

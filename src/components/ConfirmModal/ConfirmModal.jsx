@@ -1,27 +1,17 @@
 import { useEffect, useRef } from "react";
+import useScrollLock from "../../hooks/useScrollLock";
 import "./ConfirmModal.scss";
 
 const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, confirmText = "Так", cancelText = "Скасувати" }) => {
   const containerRef = useRef(null);
   const previousFocusRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      previousFocusRef.current = document.activeElement;
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [isOpen]);
+  useScrollLock(isOpen);
 
   useEffect(() => {
     if (!isOpen) return;
+
+    previousFocusRef.current = document.activeElement;
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {

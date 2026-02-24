@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
+import useScrollLock from "../../hooks/useScrollLock";
 import CartItemCompact from "./CartItemCompact";
 import "./CartSidePanel.scss";
 
@@ -55,23 +56,15 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Блокування скролу body + html
+  useScrollLock(isOpen);
+
+  // Фокус на кнопку закриття при відкритті
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 100);
-    } else {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
     }
-
-    return () => {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-    };
   }, [isOpen]);
 
   const handleOverlayClick = (e) => {

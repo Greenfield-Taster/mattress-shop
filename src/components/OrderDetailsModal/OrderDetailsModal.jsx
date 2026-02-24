@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   Package,
   Calendar,
@@ -13,6 +12,7 @@ import {
   Banknote,
 } from "lucide-react";
 import { STORE_INFO, DELIVERY_METHOD_LABELS } from "../../utils/storeInfo";
+import useScrollLock from "../../hooks/useScrollLock";
 
 const PAYMENT_METHOD_LABELS = {
   "cash-on-delivery": "Накладений платіж",
@@ -30,20 +30,7 @@ const PAYMENT_STATUS_CONFIG = {
 import "./OrderDetailsModal.scss";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
-  // Блокування скролу body коли модальне вікно відкрите
-  useEffect(() => {
-    if (isOpen) {
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  useScrollLock(isOpen);
 
   if (!isOpen || !order) return null;
 

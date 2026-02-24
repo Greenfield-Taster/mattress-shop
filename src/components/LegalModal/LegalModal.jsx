@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { X, FileText, Shield } from "lucide-react";
 import { STORE_INFO } from "../../utils/storeInfo";
+import useScrollLock from "../../hooks/useScrollLock";
 import "./LegalModal.scss";
 
 const termsContent = (
@@ -367,23 +368,12 @@ const LegalModal = ({ isOpen, onClose, type = "terms" }) => {
   const containerRef = useRef(null);
   const previousFocusRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      previousFocusRef.current = document.activeElement;
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [isOpen]);
+  useScrollLock(isOpen);
 
   useEffect(() => {
     if (!isOpen) return;
+
+    previousFocusRef.current = document.activeElement;
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {

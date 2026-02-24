@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import useScrollLock from '../../hooks/useScrollLock';
 import LegalModal from '../LegalModal/LegalModal';
 import './SideAuthPanel.scss';
 
@@ -189,13 +190,13 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     onClose();
   };
 
-  // Focus trap + Escape + scroll lock
+  useScrollLock(isOpen);
+
+  // Focus trap + Escape
   useEffect(() => {
     if (!isOpen) return;
 
     previousFocusRef.current = document.activeElement;
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
 
     setTimeout(() => {
       closeButtonRef.current?.focus();
@@ -226,8 +227,6 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
       previousFocusRef.current?.focus();
     };
   }, [isOpen]);
