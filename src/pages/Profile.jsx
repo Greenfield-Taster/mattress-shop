@@ -20,13 +20,14 @@ import {
   XCircle,
   ChevronRight,
   AlertCircle,
-  Loader,
+
   RefreshCw,
   Banknote,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import OrderDetailsModal from "../components/OrderDetailsModal/OrderDetailsModal";
 import { DELIVERY_METHOD_LABELS } from "../utils/storeInfo";
+import { SkeletonProfile } from "../components/Skeleton/Skeleton";
 import "../styles/pages/_profile.scss";
 
 const PAYMENT_METHOD_LABELS = {
@@ -249,10 +250,7 @@ const Profile = () => {
   if (isLoading) {
     return (
       <div className="profile-page">
-        <div className="profile-loading">
-          <Loader size={32} className="spinner" />
-          <p>Завантаження профілю...</p>
-        </div>
+        <SkeletonProfile />
       </div>
     );
   }
@@ -462,9 +460,41 @@ const Profile = () => {
           </div>
 
           {ordersLoading ? (
-            <div className="profile-orders-loading">
-              <Loader size={32} className="spinner" />
-              <p>Завантаження замовлень...</p>
+            <div className="profile-orders-list">
+              {Array.from({ length: 2 }, (_, i) => (
+                <div key={i} className="order-card">
+                  <div className="order-card__header">
+                    <div className="order-card__header-left">
+                      <div className="skeleton" style={{ height: 18, width: 180, borderRadius: 4 }} />
+                      <div className="skeleton" style={{ height: 14, width: 140, borderRadius: 4 }} />
+                    </div>
+                    <div className="skeleton" style={{ height: 32, width: 130, borderRadius: 20 }} />
+                  </div>
+                  <div className="order-card__items">
+                    <div className="order-item">
+                      <div className="order-item__image">
+                        <div className="skeleton" style={{ width: "100%", height: "100%", borderRadius: 8 }} />
+                      </div>
+                      <div className="order-item__details" style={{ flex: 1 }}>
+                        <div className="skeleton" style={{ height: 16, width: "70%", borderRadius: 4 }} />
+                        <div className="skeleton" style={{ height: 14, width: "35%", borderRadius: 4, marginTop: 6 }} />
+                      </div>
+                      <div className="order-item__pricing">
+                        <div className="skeleton" style={{ height: 14, width: 80, borderRadius: 4 }} />
+                        <div className="skeleton" style={{ height: 16, width: 70, borderRadius: 4, marginTop: 4 }} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="order-card__footer">
+                    <div className="order-card__info">
+                      <div className="skeleton" style={{ height: 14, width: 180, borderRadius: 4 }} />
+                      <div className="skeleton" style={{ height: 14, width: 150, borderRadius: 4 }} />
+                      <div className="skeleton" style={{ height: 16, width: 200, borderRadius: 4 }} />
+                    </div>
+                    <div className="skeleton" style={{ height: 36, width: 100, borderRadius: 8 }} />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : ordersError ? (
             <div className="profile-orders-error">

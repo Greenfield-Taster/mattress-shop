@@ -385,9 +385,7 @@
   }
 }
 
-.profile-loading,
 .profile-orders-empty,
-.profile-orders-loading,
 .profile-orders-error {
   display: flex;
   flex-direction: column;
@@ -418,13 +416,6 @@
     p {
       font-size: v.$font-size-sm;
     }
-  }
-}
-
-.profile-loading,
-.profile-orders-loading {
-  .spinner {
-    animation: spin 1s linear infinite;
   }
 }
 

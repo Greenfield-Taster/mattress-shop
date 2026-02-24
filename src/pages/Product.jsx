@@ -13,6 +13,7 @@ import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO, buildProductJsonLd, buildBreadcrumbJsonLd } from "../utils/seoData";
 import { STORE_INFO } from "../utils/storeInfo";
 import { normalizeError } from "../utils/errorMessages";
+import { SkeletonProductDetail } from "../components/Skeleton/Skeleton";
 import "../styles/pages/_product.scss";
 
 import {
@@ -340,16 +341,7 @@ const Product = () => {
 
   // Loading state
   if (loading) {
-    return (
-      <div className="product-loading">
-        <div className="container">
-          <div className="product-loading__spinner">
-            <div className="spinner"></div>
-            <p>Завантаження...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <SkeletonProductDetail />;
   }
 
   // Error state

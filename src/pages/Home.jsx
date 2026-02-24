@@ -6,6 +6,7 @@ import { useQuiz } from "../hooks/useQuiz";
 import { fetchPopularProducts } from "../api/fetchProducts";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO, buildOrganizationJsonLd, buildLocalBusinessJsonLd, buildWebSiteJsonLd } from "../utils/seoData";
+import { SkeletonCarousel } from "../components/Skeleton/Skeleton";
 import "../styles/pages/_home.scss";
 
 import heroCatImage from "/heero-cat.png";
@@ -172,14 +173,23 @@ const Home = () => {
         </div>
       </section>
 
-      {!loading && popularProducts.length > 0 && (
+      {loading ? (
+        <section className="carousel">
+          <div className="container">
+            <div className="carousel__header">
+              <h2 className="carousel__title">Популярні товари</h2>
+            </div>
+            <SkeletonCarousel />
+          </div>
+        </section>
+      ) : popularProducts.length > 0 ? (
         <Carousel
           products={popularProducts}
           title="Популярні товари"
           showTitle={true}
           showControls={true}
         />
-      )}
+      ) : null}
 
       <section className="benefits">
         <div className="container">

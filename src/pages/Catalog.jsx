@@ -9,6 +9,7 @@ import { HARDNESS_LABELS } from "../utils/productLabels";
 import usePageMeta from "../hooks/usePageMeta";
 import useScrollLock from "../hooks/useScrollLock";
 import { PAGE_SEO, buildBreadcrumbJsonLd } from "../utils/seoData";
+import { SkeletonProductGrid } from "../components/Skeleton/Skeleton";
 import "../styles/pages/_catalog.scss";
 
 const Catalog = () => {
@@ -23,7 +24,7 @@ const Catalog = () => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [maxPrice, setMaxPrice] = useState(50000);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -260,10 +261,7 @@ const Catalog = () => {
 
           <div className="catalog__products">
             {loading ? (
-              <div className="catalog__loader">
-                <div className="loader-spinner"></div>
-                <p>Завантаження товарів...</p>
-              </div>
+              <SkeletonProductGrid count={params.limit} />
             ) : error ? (
               <div className="catalog__error">
                 <AlertCircle size={48} />
