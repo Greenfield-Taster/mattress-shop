@@ -585,19 +585,40 @@
   &__item-image {
     width: 60px;
     height: 60px;
-    object-fit: contain;
     border-radius: v.$radius-base;
     flex-shrink: 0;
+    background: v.$neutral-200;
+    overflow: hidden;
+    position: relative;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    &--loading::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 100%
+      );
+      animation: checkout-shimmer 1.5s infinite;
     }
 
     @media (max-width: v.$breakpoint-sm) {
       width: 65px;
       height: 55px;
+    }
+  }
+
+  &__item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &--loaded {
+      opacity: 1;
     }
   }
 
@@ -1003,5 +1024,14 @@
     position: sticky;
     top: v.$spacing-6;
     width: 100%;
+  }
+}
+
+@keyframes checkout-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

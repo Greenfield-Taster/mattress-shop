@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
@@ -35,6 +35,22 @@ import {
   CheckCircle,
   HelpCircle,
 } from "lucide-react";
+
+const CheckoutItemImage = ({ src, alt }) => {
+  const [loaded, setLoaded] = useState(false);
+  const handleLoad = useCallback(() => setLoaded(true), []);
+  return (
+    <div className={`checkout__item-image ${!loaded ? "checkout__item-image--loading" : ""}`}>
+      <img
+        src={src}
+        alt={alt}
+        className={`checkout__item-img ${loaded ? "checkout__item-img--loaded" : ""}`}
+        onLoad={handleLoad}
+        onError={handleLoad}
+      />
+    </div>
+  );
+};
 
 const Checkout = () => {
   usePageMeta(PAGE_SEO.checkout);
@@ -1020,11 +1036,7 @@ const Checkout = () => {
               <div className="checkout__items">
                 {items.map((item, index) => (
                   <div key={index} className="checkout__item">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="checkout__item-image"
-                    />
+                    <CheckoutItemImage src={item.image} alt={item.title} />
                     <div className="checkout__item-info">
                       <h3 className="checkout__item-title">{item.title}</h3>
                       <p className="checkout__item-specs">
