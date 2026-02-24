@@ -30,7 +30,7 @@ function App() {
       <WishlistProvider>
         <CartProvider currency="₴">
           <QuizProvider>
-            <Router basename={basename}>
+            <Router basename={basename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <ScrollToTop />
               <Layout>
                 <ErrorBoundary>
