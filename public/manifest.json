@@ -9,9 +9,9 @@
   "lang": "uk",
   "icons": [
     {
-      "src": "/heero-cat.png",
+      "src": "/heero-cat.webp",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/webp"
     }
   ]
 }
