@@ -37,7 +37,7 @@ import {
 const Checkout = () => {
   usePageMeta(PAGE_SEO.checkout);
   const { items, totals, currency, promoCode, clearCart } = useCart();
-  const { user } = useAuth();
+  const { user, isAuthenticated, loginWithToken } = useAuth();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -64,8 +64,6 @@ const Checkout = () => {
   const [deliveryCityRef, setDeliveryCityRef] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryWarehouse, setDeliveryWarehouse] = useState("");
-  const [saveDeliveryInfo, setSaveDeliveryInfo] = useState(false);
-
   const [paymentMethod, setPaymentMethod] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
@@ -274,6 +272,10 @@ const Checkout = () => {
       const orderData = formatOrderData(formData, items, totals, promoCode, deliveryInfo);
       const result = await createOrder(orderData);
 
+      if (result.token && result.user) {
+        loginWithToken(result.token, result.user);
+      }
+
       setOrderPlaced(true);
 
       clearCart();
@@ -476,18 +478,20 @@ const Checkout = () => {
                 />
               </div>
 
-              <div className="checkout__checkbox">
-                <input
-                  type="checkbox"
-                  id="createAccount"
-                  name="createAccount"
-                  checked={contactData.createAccount}
-                  onChange={handleContactChange}
-                />
-                <label htmlFor="createAccount">
-                  Створити акаунт та зберегти дані
-                </label>
-              </div>
+              {!isAuthenticated && (
+                <div className="checkout__checkbox">
+                  <input
+                    type="checkbox"
+                    id="createAccount"
+                    name="createAccount"
+                    checked={contactData.createAccount}
+                    onChange={handleContactChange}
+                  />
+                  <label htmlFor="createAccount">
+                    Створити акаунт та зберегти дані
+                  </label>
+                </div>
+              )}
             </section>
 
             <section className="checkout__section">
@@ -597,17 +601,6 @@ const Checkout = () => {
                     </div>
                   )}
 
-                  <div className="checkout__checkbox">
-                    <input
-                      type="checkbox"
-                      id="saveDelivery"
-                      checked={saveDeliveryInfo}
-                      onChange={(e) => setSaveDeliveryInfo(e.target.checked)}
-                    />
-                    <label htmlFor="saveDelivery">
-                      Запам'ятати інформацію про доставку
-                    </label>
-                  </div>
                 </div>
               )}
 

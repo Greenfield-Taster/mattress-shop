@@ -141,6 +141,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const loginWithToken = useCallback((token, userData) => {
+    localStorage.setItem("authToken", token);
+    setUser(userData);
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem("authToken");
     setUser(null);
@@ -182,10 +187,11 @@ export const AuthProvider = ({ children }) => {
       sendCode,
       login,
       loginWithGoogle,
+      loginWithToken,
       logout,
       updateUser,
     }),
-    [user, isLoading, sendCode, login, loginWithGoogle, logout, updateUser]
+    [user, isLoading, sendCode, login, loginWithGoogle, loginWithToken, logout, updateUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
