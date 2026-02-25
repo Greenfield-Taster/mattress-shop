@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
 import FAQ from "../components/FAQ/FAQ";
 import { faqData } from "../data/faqData";
 import { STORE_INFO } from "../utils/storeInfo";
@@ -224,25 +223,26 @@ const Contacts = () => {
       setSubmitError("");
 
       try {
-        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:9000";
 
-        if (!serviceId || !templateId || !publicKey) {
-          throw new Error("EmailJS не налаштовано");
-        }
-
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
-            from_name: formData.name,
-            from_phone: formData.phone,
-            from_email: formData.email,
-            message: formData.message,
+        const response = await fetch(`${API_URL}/store/contact`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-publishable-api-key": import.meta.env.VITE_PUBLISHABLE_API_KEY,
           },
-          publicKey
-        );
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            message: formData.message,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          throw new Error(errorData?.error || "Помилка відправки");
+        }
 
         setSubmitSuccess(true);
 
@@ -266,9 +266,7 @@ const Contacts = () => {
       } catch (error) {
         console.error("Error submitting form:", error);
         setSubmitError(
-          error.message === "EmailJS не налаштовано"
-            ? "Сервіс тимчасово недоступний. Зв'яжіться з нами за телефоном."
-            : "Помилка при відправці форми. Спробуйте ще раз."
+          "Помилка при відправці форми. Спробуйте ще раз."
         );
       } finally {
         setIsSubmitting(false);
