@@ -27,9 +27,14 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
   const handleCodeChange = (index, value) => {
     const digits = value.replace(/\D/g, '');
-    if (!digits) return;
-
     setError('');
+
+    if (!digits) {
+      const newCode = [...code];
+      newCode[index] = '';
+      setCode(newCode);
+      return;
+    }
 
     if (digits.length > 1) {
       const newCode = [...code];
@@ -86,13 +91,17 @@ const SideAuthPanel = ({ isOpen = false, onClose }) => {
 
   const handleResendCode = async () => {
     setError('');
+    setCode(['', '', '', '', '', '']);
     setIsSubmitting(true);
 
     const result = await sendCode('0' + phoneNumber);
 
     setIsSubmitting(false);
 
-    if (!result.success) {
+    if (result.success) {
+      const firstInput = document.getElementById('code-0');
+      if (firstInput) firstInput.focus();
+    } else {
       setError(result.error || 'Помилка відправки коду');
     }
   };
