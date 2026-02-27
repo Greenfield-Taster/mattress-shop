@@ -289,5 +289,63 @@
         box-shadow: v.$shadow-lg;
       }
     }
+
+    &--pay {
+      display: inline-flex;
+      align-items: center;
+      gap: v.$spacing-2;
+      background-color: v.$brand-primary-500;
+      color: v.$neutral-0;
+      border: none;
+      border-radius: v.$radius-base;
+      padding: v.$spacing-3 v.$spacing-6;
+      font-size: v.$font-size-base;
+      font-weight: v.$font-weight-semibold;
+      cursor: pointer;
+      transition: background-color v.$transition-base v.$transition-timing;
+
+      &:hover {
+        background-color: v.$brand-primary-600;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__payment-pending {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$spacing-3;
+    background-color: v.$warning-light;
+    border: 1px solid v.$warning;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-6;
+    color: v.$warning-dark;
+
+    p {
+      margin: v.$spacing-1 0 0;
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  &__payment-success {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-3;
+    background-color: v.$success-light;
+    border: 1px solid v.$success;
+    border-radius: v.$radius-base;
+    padding: v.$spacing-4;
+    margin-bottom: v.$spacing-6;
+    color: v.$success-dark;
+  }
+
+  &__retry-payment {
+    margin: v.$spacing-6 0;
+    text-align: center;
   }
 }

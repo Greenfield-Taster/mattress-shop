@@ -32,74 +32,6 @@ export const validatePhone = (phone) => {
   return digits.length === 10 && digits[0] === "0";
 };
 
-export const formatCardNumber = (value) => {
-  const digits = value.replace(/\D/g, "");
-
-  const limitedDigits = digits.slice(0, 16);
-
-  const formatted = limitedDigits.match(/.{1,4}/g)?.join(" ") || "";
-
-  return formatted;
-};
-
-export const validateCardNumber = (cardNumber) => {
-  const digits = cardNumber.replace(/\D/g, "");
-  return digits.length === 16;
-};
-
-export const formatCardExpiry = (value) => {
-  const digits = value.replace(/\D/g, "");
-
-  const limitedDigits = digits.slice(0, 4);
-
-  let formatted = "";
-  if (limitedDigits.length > 0) {
-    formatted = limitedDigits.slice(0, 2);  }
-  if (limitedDigits.length > 2) {
-    formatted += "/" + limitedDigits.slice(2, 4);  }
-
-  return formatted;
-};
-
-export const validateCardExpiry = (expiry) => {
-  const digits = expiry.replace(/\D/g, "");
-
-  if (digits.length !== 4) {
-    return { valid: false, error: "Формат: MM/YY" };
-  }
-
-  const month = parseInt(digits.slice(0, 2), 10);
-  const year = parseInt(digits.slice(2, 4), 10);
-
-  if (month < 1 || month > 12) {
-    return { valid: false, error: "Невірний місяць (01-12)" };
-  }
-
-  const now = new Date();
-  const currentYear = now.getFullYear() % 100;
-  const currentMonth = now.getMonth() + 1;
-
-  if (year < currentYear || (year === currentYear && month < currentMonth)) {
-    return { valid: false, error: "Картка прострочена" };
-  }
-
-  return { valid: true, error: "" };
-};
-
-export const formatCVV = (value) => {
-  const digits = value.replace(/\D/g, "");
-  return digits.slice(0, 3);
-};
-
-export const validateCVV = (cvv) => {
-  const digits = cvv.replace(/\D/g, "");
-  return digits.length === 3;
-};
-
-export const validateCardHolder = (name) => {
-  return name.trim().length >= 2;
-};
-
 export const formatEDRPOU = (value) => {
   const digits = value.replace(/\D/g, "");
   return digits.slice(0, 8);
@@ -199,32 +131,7 @@ export const validatePaymentData = (paymentMethod, paymentData) => {
   }
 
   if (paymentMethod === "card-online") {
-    if (!paymentData.cardNumber.trim()) {
-      errors.cardNumber = "Введіть номер картки";
-    } else if (!validateCardNumber(paymentData.cardNumber)) {
-      errors.cardNumber = "Картка має містити 16 цифр";
-    }
-
-    if (!paymentData.cardExpiry.trim()) {
-      errors.cardExpiry = "Введіть термін дії";
-    } else {
-      const expiryValidation = validateCardExpiry(paymentData.cardExpiry);
-      if (!expiryValidation.valid) {
-        errors.cardExpiry = expiryValidation.error;
-      }
-    }
-
-    if (!paymentData.cardCvv.trim()) {
-      errors.cardCvv = "Введіть CVV код";
-    } else if (!validateCVV(paymentData.cardCvv)) {
-      errors.cardCvv = "CVV має містити 3 цифри";
-    }
-
-    if (!paymentData.cardHolder.trim()) {
-      errors.cardHolder = "Введіть ім'я власника картки";
-    } else if (!validateCardHolder(paymentData.cardHolder)) {
-      errors.cardHolder = "Введіть повне ім'я (мінімум 2 символи)";
-    }
+    return {};
   }
 
   if (paymentMethod === "invoice") {
