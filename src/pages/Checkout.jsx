@@ -631,9 +631,15 @@ const Checkout = () => {
               )}
 
               {paymentMethod === "card-online" && (
-                <div className="checkout__payment-info">
-                  <p>Після оформлення замовлення відкриється безпечне вікно оплати WayForPay.</p>
-                  <p>Підтримуються: Visa, Mastercard, Google Pay, Apple Pay</p>
+                <div className="checkout__payment-details">
+                  <div className="checkout__payment-info-box">
+                    <p className="checkout__payment-info-text">
+                      💳 Після оформлення замовлення відкриється безпечне вікно оплати WayForPay.
+                    </p>
+                    <p className="checkout__payment-info-note">
+                      Підтримуються: Visa, Mastercard, Google Pay, Apple Pay
+                    </p>
+                  </div>
                 </div>
               )}
 

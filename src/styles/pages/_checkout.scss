@@ -1001,21 +1001,4 @@
     width: 100%;
   }
 
-  &__payment-info {
-    background-color: v.$info-light;
-    border: 1px solid #bfdbfe;
-    border-radius: v.$radius-base;
-    padding: v.$spacing-4;
-    margin-top: v.$spacing-3;
-
-    p {
-      margin: 0 0 v.$spacing-1;
-      font-size: v.$font-size-sm;
-      color: v.$color-text-secondary;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
 }
