@@ -63,6 +63,7 @@ const STATUS_STEPS = [
 
 const PAYMENT_STATUS_LABELS = {
   pending: "Очікує оплати",
+  pending_payment: "Очікує оплати онлайн",
   paid: "Оплачено",
   failed: "Помилка оплати",
   refunded: "Повернено",
@@ -71,7 +72,7 @@ const PAYMENT_STATUS_LABELS = {
 const PAYMENT_METHOD_LABELS = {
   "cash-on-delivery": "При отриманні",
   "card-online": "Картка онлайн",
-  "google-apple-pay": "Google/Apple Pay",
+  "google-apple-pay": "Google/Apple Pay", // Legacy: kept for existing orders
   invoice: "Рахунок",
 };
 

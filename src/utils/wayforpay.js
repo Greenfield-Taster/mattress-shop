@@ -49,32 +49,36 @@ export async function openPayment(paymentData) {
   await loadWayForPayScript()
 
   return new Promise((resolve) => {
+    let resolved = false
     const wayforpay = new window.Wayforpay()
+
+    function handler(event) {
+      if (
+        event.data === "WfpWidgetEventClose" ||
+        event.data?.type === "WfpWidgetEventClose"
+      ) {
+        if (!resolved) {
+          resolved = true
+          resolve({ status: "closed" })
+        }
+        window.removeEventListener("message", handler)
+      }
+    }
+    window.addEventListener("message", handler)
+
+    function done(status, response) {
+      if (!resolved) {
+        resolved = true
+        window.removeEventListener("message", handler)
+        resolve({ status, response })
+      }
+    }
 
     wayforpay.run(
       paymentData,
-      function (response) {
-        resolve({ status: "approved", response })
-      },
-      function (response) {
-        resolve({ status: "declined", response })
-      },
-      function (response) {
-        resolve({ status: "pending", response })
-      }
-    )
-
-    window.addEventListener(
-      "message",
-      function handler(event) {
-        if (
-          event.data === "WfpWidgetEventClose" ||
-          event.data?.type === "WfpWidgetEventClose"
-        ) {
-          window.removeEventListener("message", handler)
-          resolve({ status: "closed" })
-        }
-      }
+      (response) => done("approved", response),
+      (response) => done("declined", response),
+      (response) => done("pending", response)
     )
   })
 }

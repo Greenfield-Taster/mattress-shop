@@ -33,12 +33,13 @@ import "../styles/pages/_profile.scss";
 const PAYMENT_METHOD_LABELS = {
   "cash-on-delivery": "Накладений платіж",
   "card-online": "Карткою онлайн",
-  "google-apple-pay": "Google/Apple Pay",
+  "google-apple-pay": "Google/Apple Pay", // Legacy: kept for existing orders
   invoice: "Рахунок (юр. особа)",
 };
 
 const PAYMENT_STATUS_LABELS = {
   pending: { label: "Очікує", color: "warning" },
+  pending_payment: { label: "Очікує оплати", color: "warning" },
   paid: { label: "Оплачено", color: "success" },
   failed: { label: "Помилка", color: "error" },
   refunded: { label: "Повернено", color: "neutral" },

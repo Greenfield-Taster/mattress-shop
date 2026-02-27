@@ -17,12 +17,13 @@ import useScrollLock from "../../hooks/useScrollLock";
 const PAYMENT_METHOD_LABELS = {
   "cash-on-delivery": "Накладений платіж",
   "card-online": "Карткою онлайн",
-  "google-apple-pay": "Google/Apple Pay",
+  "google-apple-pay": "Google/Apple Pay", // Legacy: kept for existing orders
   invoice: "Рахунок (юр. особа)",
 };
 
 const PAYMENT_STATUS_CONFIG = {
   pending: { label: "Очікує оплати", color: "warning" },
+  pending_payment: { label: "Очікує оплати онлайн", color: "warning" },
   paid: { label: "Оплачено", color: "success" },
   failed: { label: "Помилка оплати", color: "error" },
   refunded: { label: "Повернено", color: "neutral" },
