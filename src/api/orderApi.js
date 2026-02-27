@@ -100,7 +100,13 @@ export function formatOrderData(formData, items, totals, promoCode = null, deliv
     deliveryPriceType: deliveryInfo?.type || "free",
 
     paymentMethod: formData.paymentMethod,
-    paymentData: formData.paymentData || null,
+    paymentData: formData.paymentMethod === "invoice"
+      ? {
+          companyName: formData.paymentData?.companyName || null,
+          edrpou: formData.paymentData?.edrpou || null,
+          companyAddress: formData.paymentData?.companyAddress || null,
+        }
+      : null,
 
     items: items.map((item) => ({
       id: item.id,
