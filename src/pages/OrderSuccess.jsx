@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin, Truck, Clock } from "lucide-react";
+import { CheckCircle, Package, Phone, Mail, ArrowLeft, MapPin, Truck, Clock, CreditCard, AlertCircle } from "lucide-react";
+import { openPayment } from "../utils/wayforpay";
 import { STORE_INFO, DELIVERY_METHOD_LABELS, getDeliveryDestination } from "../utils/storeInfo";
 import usePageMeta from "../hooks/usePageMeta";
 import { PAGE_SEO } from "../utils/seoData";
@@ -26,6 +27,42 @@ const OrderSuccess = () => {
   usePageMeta(PAGE_SEO.orderSuccess);
   const { orderNumber } = useParams();
   const [order, setOrder] = useState(null);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  const handleRetryPayment = async () => {
+    if (!order?.id || paymentLoading) return;
+
+    setPaymentLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/store/payments/initiate/${order.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-publishable-api-key": import.meta.env.VITE_PUBLISHABLE_API_KEY,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to initiate payment");
+
+      const { paymentData } = await response.json();
+      const result = await openPayment(paymentData);
+
+      if (result.status === "approved") {
+        setOrder((prev) => ({ ...prev, payment_status: "paid" }));
+        localStorage.setItem("lastOrder", JSON.stringify({
+          ...order,
+          payment_status: "paid",
+        }));
+      }
+    } catch (error) {
+      console.error("Payment retry error:", error);
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   useEffect(() => {
     let parsed = null;
@@ -52,7 +89,11 @@ const OrderSuccess = () => {
             <CheckCircle size={64} />
           </div>
 
-          <h1 className="order-success__title">Замовлення успішно оформлено!</h1>
+          <h1 className="order-success__title">
+            {order?.payment_status === "pending_payment"
+              ? "Замовлення створено"
+              : "Замовлення успішно оформлено!"}
+          </h1>
 
           <div className="order-success__order-number">
             <Package size={24} />
@@ -60,9 +101,27 @@ const OrderSuccess = () => {
             <strong>{orderNumber || order?.order_number}</strong>
           </div>
 
+          {order?.payment_status === "pending_payment" && (
+            <div className="order-success__payment-pending">
+              <AlertCircle size={24} />
+              <div>
+                <strong>Очікує оплати</strong>
+                <p>Замовлення створено, але оплата ще не завершена.</p>
+              </div>
+            </div>
+          )}
+
+          {order?.payment_status === "paid" && (
+            <div className="order-success__payment-success">
+              <CreditCard size={24} />
+              <strong>Оплата пройшла успішно!</strong>
+            </div>
+          )}
+
           <p className="order-success__message">
-            Дякуємо за ваше замовлення! Ми зв'яжемося з вами найближчим часом для
-            підтвердження.
+            {order?.payment_status === "pending_payment"
+              ? "Ваше замовлення збережено. Натисніть кнопку нижче, щоб завершити оплату."
+              : "Дякуємо за ваше замовлення! Ми зв'яжемося з вами найближчим часом для підтвердження."}
           </p>
 
           {order && (
@@ -130,6 +189,19 @@ const OrderSuccess = () => {
                   ) : null;
                 })()
               )}
+            </div>
+          )}
+
+          {order?.payment_status === "pending_payment" && (
+            <div className="order-success__retry-payment">
+              <button
+                className="order-success__btn order-success__btn--pay"
+                onClick={handleRetryPayment}
+                disabled={paymentLoading}
+              >
+                <CreditCard size={18} />
+                {paymentLoading ? "Обробка..." : "Оплатити замовлення"}
+              </button>
             </div>
           )}
 
