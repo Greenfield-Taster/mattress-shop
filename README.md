@@ -1,10 +1,6 @@
 # Mattress Shop
 
-Магазин матраців - веб-додаток для продажу матраців.
-
-## 🌐 Live Demo
-
-Переглянути сайт: [https://greenfield-taster.github.io/mattress-shop/](https://greenfield-taster.github.io/mattress-shop/)
+Магазин матраців — веб-додаток для продажу матраців.
 
 ## 🚀 Технології
 
@@ -12,7 +8,6 @@
 - React Router DOM
 - Vite
 - Sass
-- GitHub Pages
 
 ## 📦 Встановлення
 
@@ -32,28 +27,28 @@ npm run dev
 
 ## 🛠️ Скрипти
 
-- `npm run dev` - запуск сервера розробки
-- `npm run build` - збірка для продакшену
-- `npm run preview` - попередній перегляд збірки
-- `npm run lint` - перевірка коду ESLint
+- `npm run dev` — запуск сервера розробки
+- `npm run build` — збірка для продакшену
+- `npm run preview` — попередній перегляд збірки
+- `npm run lint` — перевірка коду ESLint
 
 ## 📁 Структура проекту
 
 ```
 mattress-shop/
 ├── src/
+│   ├── api/
 │   ├── components/
+│   ├── contexts/
+│   ├── hooks/
+│   ├── layout/
 │   ├── pages/
 │   ├── styles/
-│   └── main.jsx
+│   └── utils/
 ├── public/
 ├── dist/
 └── package.json
 ```
-
-## 🚀 Деплой
-
-Проект автоматично деплоїться на GitHub Pages при пуші в гілку `main` через GitHub Actions.
 
 ## 📄 Ліцензія
 
