@@ -104,7 +104,7 @@ export const CartProvider = ({ children, currency = "₴" }) => {
         },
         body: JSON.stringify({
           code: code.trim().toUpperCase(),
-          order_amount: subtotal,
+          order_amount: Math.round(subtotal * 100),
         }),
       });
 
