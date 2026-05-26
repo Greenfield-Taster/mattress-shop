@@ -426,6 +426,14 @@
       padding: 0 !important;
       white-space: nowrap !important;
     }
+
+    .MuiChip-deleteIcon {
+      margin: 0 0 0 v.$spacing-2 !important;
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 16px !important;
+      flex-shrink: 0 !important;
+    }
   }
 }
 
