@@ -435,6 +435,7 @@
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-16 0;
   }
@@ -443,107 +444,195 @@
   }
 
   &__grid {
+    counter-reset: category-counter;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); // 5 в один ряд
-    gap: v.$spacing-5;
+    grid-template-columns: repeat(5, 1fr);
+    gap: v.$spacing-4;
 
-    @media (max-width: 1200px) {
-      grid-template-columns: repeat(3, 1fr); // 3 в ряд
-      gap: v.$spacing-5;
+    @media (max-width: v.$breakpoint-xl) {
+      grid-template-columns: repeat(3, 1fr);
     }
-
     @media (max-width: v.$breakpoint-md) {
-      grid-template-columns: repeat(2, 1fr); // 2 в ряд
-      gap: v.$spacing-4;
-    }
-
-    @media (max-width: 480px) {
-      grid-template-columns: 1fr; // 1 в ряд
-      gap: v.$spacing-4;
+      grid-template-columns: 1fr;
+      gap: v.$spacing-3;
     }
   }
 }
 
 .category-card {
-  background: v.$neutral-100;
-  border-radius: v.$radius-card;
+  counter-increment: category-counter;
+  position: relative;
+  background: v.$neutral-0;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  transition: v.$transition-card;
-  border: 1px solid v.$color-border;
+  transition:
+    transform 240ms v.$transition-timing,
+    box-shadow 240ms v.$transition-timing,
+    border-color 240ms v.$transition-timing;
+
+  &::before {
+    content: counter(category-counter, decimal-leading-zero);
+    position: absolute;
+    top: v.$spacing-3;
+    left: v.$spacing-4;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: v.$font-weight-bold;
+    letter-spacing: 0.18em;
+    color: v.$brand-primary-300;
+    transition: color 240ms v.$transition-timing;
+  }
 
   &:hover {
-    box-shadow: v.$shadow-card-hover;
-    transform: translateY(-4px);
-    border-color: v.$color-border-dark;
+    transform: translateY(-3px);
+    border-color: v.$brand-primary-300;
+    box-shadow: 0 14px 28px -14px rgba(30, 58, 95, 0.22);
+
+    &::before {
+      color: v.$brand-secondary-500;
+    }
+
     .category-card__image img {
       transform: scale(1.05);
     }
+
     .category-card__button {
-      background: v.$brand-primary-600;
+      color: v.$brand-primary-600;
+
+      &::after {
+        transform: translateX(4px);
+      }
     }
   }
 
   &__image {
     width: 100%;
-    aspect-ratio: 3 / 2; // Более компактное соотношение сторон
-    background: v.$neutral-100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    aspect-ratio: 5 / 4;
+    background: linear-gradient(180deg, v.$brand-primary-50 0%, v.$neutral-0 70%);
     overflow: hidden;
-    padding: v.$spacing-4; // Уменьшен padding
-    @media (max-width: v.$breakpoint-sm) {
-      padding: v.$spacing-3;
-    }
+    padding: v.$spacing-6 v.$spacing-4 v.$spacing-2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
     img {
       width: 100%;
-      height: 100%;
+      max-height: 100%;
       object-fit: contain;
-      transition: transform v.$transition-slow v.$transition-timing;
+      transition: transform 400ms v.$transition-timing;
     }
   }
 
   &__content {
-    padding: v.$spacing-5; // Уменьшен padding
+    padding: v.$spacing-4 v.$spacing-5 v.$spacing-5;
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-2; // Уменьшен gap
+    gap: 4px;
     flex: 1;
   }
 
   &__title {
-    font-size: v.$font-size-lg;
+    font-size: v.$font-size-base;
     font-weight: v.$font-weight-bold;
     color: v.$color-text-primary;
     margin: 0;
-    line-height: v.$line-height-tight;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
   &__subtitle {
     font-size: v.$font-size-xs;
     color: v.$color-text-secondary;
     margin: 0;
-    line-height: v.$line-height-normal;
+    line-height: 1.45;
     flex: 1;
   }
 
   &__button {
-    padding: v.$spacing-3 v.$spacing-3;
-    background: v.$brand-primary-500;
-    color: v.$neutral-0;
-    font-size: v.$font-size-base;
-    font-weight: v.$font-weight-semibold;
+    margin-top: v.$spacing-3;
+    padding: 0;
+    background: transparent;
     border: none;
-    border-radius: v.$radius-button;
-    cursor: pointer;
-    transition: v.$transition-button;
-    font-family: v.$font-family-base;
-    text-align: center;
-    display: inline-block;
-    margin-top: v.$spacing-2;
+    color: v.$brand-primary-500;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    text-align: left;
+    display: inline-flex;
+    align-items: center;
+    transition: color 240ms v.$transition-timing;
+
+    &::after {
+      content: "→";
+      display: inline-block;
+      margin-left: 6px;
+      transition: transform 240ms v.$transition-timing;
+    }
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    flex-direction: row;
+    align-items: stretch;
+
+    &::before {
+      top: v.$spacing-2;
+      left: auto;
+      right: v.$spacing-4;
+    }
+
+    &::after {
+      content: "→";
+      position: absolute;
+      right: v.$spacing-5;
+      top: 50%;
+      transform: translateY(-50%);
+      color: v.$brand-primary-400;
+      font-size: 22px;
+      font-weight: v.$font-weight-bold;
+      transition:
+        transform 240ms v.$transition-timing,
+        color 240ms v.$transition-timing;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+
+      &::after {
+        transform: translateY(-50%) translateX(4px);
+        color: v.$brand-primary-600;
+      }
+    }
+
+    &__image {
+      width: 108px;
+      flex-shrink: 0;
+      aspect-ratio: 1;
+      padding: v.$spacing-3;
+      background: linear-gradient(135deg, v.$brand-primary-50 0%, v.$neutral-0 100%);
+      align-items: center;
+
+      @media (max-width: v.$breakpoint-sm) {
+        width: 92px;
+      }
+    }
+
+    &__content {
+      flex: 1;
+      padding: v.$spacing-3 v.$spacing-12 v.$spacing-3 v.$spacing-4;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    &__subtitle {
+      flex: 0;
+    }
+
+    &__button {
+      display: none;
+    }
   }
 }
 
