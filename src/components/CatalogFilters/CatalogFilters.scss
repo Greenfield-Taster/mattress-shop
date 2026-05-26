@@ -104,17 +104,17 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: v.$neutral-100;
+      background: v.$neutral-200;
       border-radius: v.$radius-full;
       margin-right: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: v.$brand-primary-200;
+      background: v.$brand-primary-400;
       border-radius: v.$radius-full;
 
       &:hover {
-        background: v.$brand-primary-300;
+        background: v.$brand-primary-600;
       }
     }
   }
@@ -181,8 +181,8 @@
     gap: v.$spacing-2;
 
     &--grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: v.$spacing-2;
       max-height: 300px;
       overflow-y: auto;
@@ -193,16 +193,16 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: v.$brand-primary-50;
+        background: v.$neutral-200;
         border-radius: v.$radius-full;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$brand-primary-200;
+        background: v.$brand-primary-400;
         border-radius: v.$radius-full;
 
         &:hover {
-          background: v.$brand-primary-300;
+          background: v.$brand-primary-600;
         }
       }
     }
@@ -397,13 +397,13 @@
   }
 
   &.MuiChip-outlined {
-    background: v.$brand-primary-50 !important;
-    border-color: v.$brand-primary-100 !important;
+    background: v.$brand-primary-100 !important;
+    border-color: v.$brand-primary-200 !important;
     color: v.$color-text-primary !important;
 
     &:hover {
-      background: v.$brand-primary-100 !important;
-      border-color: v.$brand-primary-300 !important;
+      background: v.$brand-primary-200 !important;
+      border-color: v.$brand-primary-400 !important;
     }
   }
 
@@ -432,6 +432,17 @@
     padding: v.$spacing-2 v.$spacing-3 !important;
     min-height: 34px !important;
     height: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    .MuiChip-label {
+      text-align: center !important;
+      padding: 0 !important;
+      white-space: nowrap !important;
+    }
   }
 }
 
@@ -583,16 +594,16 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: v.$neutral-100;
+        background: v.$neutral-200;
         border-radius: v.$radius-full;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$brand-primary-200;
+        background: v.$brand-primary-400;
         border-radius: v.$radius-full;
 
         &:hover {
-          background: v.$brand-primary-300;
+          background: v.$brand-primary-600;
         }
       }
     }
@@ -631,12 +642,12 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: v.$neutral-100;
+        background: v.$neutral-200;
         border-radius: v.$radius-full;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: v.$brand-primary-200;
+        background: v.$brand-primary-400;
         border-radius: v.$radius-full;
       }
     }
