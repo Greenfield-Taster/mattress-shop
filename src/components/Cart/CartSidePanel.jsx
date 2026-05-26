@@ -64,6 +64,12 @@ const CartSidePanel = ({ isOpen, onClose }) => {
     setPromoMessage({ text: "", type: "" });
   };
 
+  const handleClearCart = () => {
+    clearCart();
+    setPromoMessage({ text: "", type: "" });
+    setPromoInput("");
+  };
+
   if (!isOpen) return null;
 
   return createPortal(
@@ -308,7 +314,7 @@ const CartSidePanel = ({ isOpen, onClose }) => {
 
             <button
               className="cart-side-panel__clear-button"
-              onClick={clearCart}
+              onClick={handleClearCart}
               type="button"
             >
               Очистити кошик
