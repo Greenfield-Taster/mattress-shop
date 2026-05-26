@@ -444,7 +444,6 @@
   }
 
   &__grid {
-    counter-reset: category-counter;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: v.$spacing-4;
@@ -460,7 +459,6 @@
 }
 
 .category-card {
-  counter-increment: category-counter;
   position: relative;
   background: v.$neutral-0;
   border: 1px solid v.$color-border;
@@ -474,27 +472,10 @@
     box-shadow 240ms v.$transition-timing,
     border-color 240ms v.$transition-timing;
 
-  &::before {
-    content: counter(category-counter, decimal-leading-zero);
-    position: absolute;
-    top: v.$spacing-3;
-    left: v.$spacing-4;
-    z-index: 2;
-    font-size: 10px;
-    font-weight: v.$font-weight-bold;
-    letter-spacing: 0.18em;
-    color: v.$brand-primary-300;
-    transition: color 240ms v.$transition-timing;
-  }
-
   &:hover {
     transform: translateY(-3px);
     border-color: v.$brand-primary-300;
     box-shadow: 0 14px 28px -14px rgba(30, 58, 95, 0.22);
-
-    &::before {
-      color: v.$brand-secondary-500;
-    }
 
     .category-card__image img {
       transform: scale(1.05);
@@ -576,12 +557,6 @@
   @media (max-width: v.$breakpoint-md) {
     flex-direction: row;
     align-items: stretch;
-
-    &::before {
-      top: v.$spacing-2;
-      left: auto;
-      right: v.$spacing-4;
-    }
 
     &::after {
       content: "→";
