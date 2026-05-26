@@ -184,26 +184,9 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: v.$spacing-2;
-      max-height: 300px;
-      overflow-y: auto;
-      padding-right: v.$spacing-2;
 
-      &::-webkit-scrollbar {
-        width: 4px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: v.$neutral-200;
-        border-radius: v.$radius-full;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: v.$brand-primary-400;
-        border-radius: v.$radius-full;
-
-        &:hover {
-          background: v.$brand-primary-600;
-        }
+      .filter-chip--size:last-child {
+        grid-column: span 2;
       }
     }
   }
@@ -380,7 +363,7 @@
 .filter-chip {
   transition: all v.$transition-fast !important;
   font-size: v.$font-size-sm !important;
-  font-weight: v.$font-weight-medium !important;
+  font-weight: v.$font-weight-semibold !important;
   border-radius: v.$radius-button !important;
   padding: v.$spacing-2 v.$spacing-4 !important;
   height: auto !important;
@@ -397,28 +380,29 @@
   }
 
   &.MuiChip-outlined {
-    background: v.$brand-primary-100 !important;
-    border-color: v.$brand-primary-200 !important;
-    color: v.$color-text-primary !important;
+    background: v.$brand-primary-500 !important;
+    border-color: v.$brand-primary-500 !important;
+    color: v.$neutral-0 !important;
 
     &:hover {
-      background: v.$brand-primary-200 !important;
-      border-color: v.$brand-primary-400 !important;
+      background: v.$brand-primary-600 !important;
+      border-color: v.$brand-primary-600 !important;
     }
   }
 
   &.MuiChip-filled {
-    background: v.$brand-primary-500 !important;
-    color: v.$color-text-inverse !important;
-    border: 1px solid v.$brand-primary-500 !important;
+    background: v.$brand-secondary-500 !important;
+    color: v.$neutral-0 !important;
+    border: 1px solid v.$brand-secondary-500 !important;
 
     &:hover {
-      background: v.$brand-primary-600 !important;
+      background: v.$brand-secondary-600 !important;
+      border-color: v.$brand-secondary-600 !important;
     }
 
     .MuiChip-deleteIcon {
-      color: v.$color-text-inverse !important;
-      opacity: 0.8;
+      color: v.$neutral-0 !important;
+      opacity: 0.85;
       transition: opacity v.$transition-fast;
 
       &:hover {
@@ -633,23 +617,7 @@
     }
 
     &__chips--grid {
-      max-height: 200px;
-      overflow-y: auto;
-      padding-right: v.$spacing-2;
-
-      &::-webkit-scrollbar {
-        width: 4px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: v.$neutral-200;
-        border-radius: v.$radius-full;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: v.$brand-primary-400;
-        border-radius: v.$radius-full;
-      }
+      padding-right: 0;
     }
 
     &__slider {
