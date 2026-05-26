@@ -319,7 +319,10 @@ const Checkout = () => {
   }, [deliveryMethod]);
 
   const getDeliveryPrice = () => {
-    if (!deliveryMethod || deliveryMethod === "pickup") {
+    if (!deliveryMethod) {
+      return { price: null, type: "carrier" };
+    }
+    if (deliveryMethod === "pickup") {
       return { price: 0, type: "free" };
     }
     if (deliveryMethod === "courier") {
@@ -814,9 +817,7 @@ const Checkout = () => {
                       ? "Безкоштовно"
                       : deliveryInfo.type === "fixed"
                         ? `${deliveryPrice} ${currency}`
-                        : !deliveryMethod
-                          ? "Оберіть спосіб доставки"
-                          : "За тарифами перевізника"}
+                        : "За тарифами перевізника"}
                   </span>
                 </div>
                 <div className="checkout__total-row checkout__total-final">
