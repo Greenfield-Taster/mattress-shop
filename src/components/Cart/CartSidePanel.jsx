@@ -255,7 +255,7 @@ const CartSidePanel = ({ isOpen, onClose }) => {
                     </button>
                   </div>
                 )}
-                {promoMessage.text && (
+                {!promoCode && promoMessage.text && (
                   <p
                     className={`cart-side-panel__promo-message cart-side-panel__promo-message--${promoMessage.type}`}
                   >
