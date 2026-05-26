@@ -380,29 +380,28 @@
   }
 
   &.MuiChip-outlined {
-    background: v.$brand-primary-500 !important;
-    border-color: v.$brand-primary-500 !important;
-    color: v.$neutral-0 !important;
+    background: v.$brand-primary-50 !important;
+    border-color: v.$brand-primary-100 !important;
+    color: v.$color-text-primary !important;
 
     &:hover {
-      background: v.$brand-primary-600 !important;
-      border-color: v.$brand-primary-600 !important;
+      background: v.$brand-primary-100 !important;
+      border-color: v.$brand-primary-300 !important;
     }
   }
 
   &.MuiChip-filled {
-    background: v.$brand-secondary-500 !important;
-    color: v.$neutral-0 !important;
-    border: 1px solid v.$brand-secondary-500 !important;
+    background: v.$brand-primary-500 !important;
+    color: v.$color-text-inverse !important;
+    border: 1px solid v.$brand-primary-500 !important;
 
     &:hover {
-      background: v.$brand-secondary-600 !important;
-      border-color: v.$brand-secondary-600 !important;
+      background: v.$brand-primary-600 !important;
     }
 
     .MuiChip-deleteIcon {
-      color: v.$neutral-0 !important;
-      opacity: 0.85;
+      color: v.$color-text-inverse !important;
+      opacity: 0.8;
       transition: opacity v.$transition-fast;
 
       &:hover {
