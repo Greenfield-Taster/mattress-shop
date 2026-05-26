@@ -68,6 +68,15 @@ const DeliveryAutocomplete = ({
   }, [query, onSearch, cityRef, type]);
 
   useEffect(() => {
+    if (!value) {
+      setSelectedLabel('');
+      setQuery('');
+      setResults([]);
+      setIsOpen(false);
+    }
+  }, [value]);
+
+  useEffect(() => {
     if (type === 'warehouse') {
       setQuery('');
       setSelectedLabel('');
