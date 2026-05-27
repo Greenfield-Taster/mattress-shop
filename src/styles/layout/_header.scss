@@ -22,37 +22,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 88px;
 
   @media (min-width: v.$breakpoint-md) {
     padding-inline: v.$spacing-6;
   }
 
   @media (max-width: #{v.$breakpoint-md - 1px}) {
-    height: 56px;
+    height: 68px;
     padding-inline: v.$spacing-3;
   }
 }
 
 .header__logo {
-  font-family: v.$font-family-base;
-  font-size: v.$font-size-2xl;
-  font-weight: v.$font-weight-bold;
-  color: v.$brand-primary-500;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
-  white-space: nowrap;
-  transition: color v.$transition-fast v.$transition-timing;
+  transition: opacity v.$transition-fast v.$transition-timing;
 
   &:hover {
-    color: v.$brand-primary-600;
+    opacity: 0.8;
   }
+}
+
+.header__logo-img {
+  display: block;
+  height: 76px;
+  width: auto;
 
   @media (max-width: v.$breakpoint-lg) {
-    font-size: v.$font-size-xl;
+    height: 64px;
   }
 
   @media (max-width: #{v.$breakpoint-md - 1px}) {
-    font-size: v.$font-size-lg;
+    height: 56px;
   }
 }
 

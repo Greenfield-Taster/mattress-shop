@@ -75,8 +75,12 @@ const Header = () => {
     <>
       <header className="header">
         <div className="header__container">
-          <Link to="/" className="header__logo">
-            JUST SLEEP
+          <Link to="/" className="header__logo" aria-label="Just Sleep — головна">
+            <img
+              src="/js-logo-dark.png"
+              alt="Just Sleep"
+              className="header__logo-img"
+            />
           </Link>
 
           <nav className="header__nav">

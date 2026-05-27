@@ -24,7 +24,13 @@ const Footer = () => {
       <div className="footer__container">
         <div className="footer__content">
           <div className="footer__brand">
-            <div className="footer__brand-logo">JUST SLEEP</div>
+            <div className="footer__brand-logo">
+              <img
+                src="/js-logo-light.png"
+                alt="Just Sleep"
+                className="footer__brand-logo-img"
+              />
+            </div>
 
             <div className="footer__brand-social">
               <a

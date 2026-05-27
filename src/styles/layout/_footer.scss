@@ -70,18 +70,22 @@
 }
 
 .footer__brand-logo {
-  font-family: v.$font-family-base;
-  font-size: v.$font-size-4xl;
-  font-weight: v.$font-weight-bold;
-  color: v.$neutral-0;
   margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.footer__brand-logo-img {
+  display: block;
+  height: 170px;
+  width: auto;
 
   @media (max-width: #{v.$breakpoint-lg - 1px}) {
-    font-size: v.$font-size-3xl;
+    height: 140px;
   }
 
   @media (max-width: #{v.$breakpoint-md - 1px}) {
-    font-size: v.$font-size-2xl;
+    height: 115px;
   }
 }
 
@@ -319,8 +323,8 @@
     gap: v.$spacing-6;
   }
 
-  .footer__brand-logo {
-    font-size: v.$font-size-xl;
+  .footer__brand-logo-img {
+    height: 90px;
   }
 
   .social-link {
